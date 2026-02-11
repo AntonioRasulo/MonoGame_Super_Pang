@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
@@ -24,6 +25,11 @@ public class Game1 : Core
     protected override void Initialize()
     {
         base.Initialize();
+
+        _characterPosition = new Vector2(    // position
+            Window.ClientBounds.Width* 0.5f, 
+            Window.ClientBounds.Height-_character.Height);
+
     }
 
     protected override void LoadContent()
@@ -35,10 +41,6 @@ public class Game1 : Core
         // retrieve the slime region from the atlas.
         _character = characterAtlas.CreateSprite("characterShootingUp");
         _character.Scale = new Vector2(4.0f, 4.0f);
-
-        _characterPosition = new Vector2(    // position
-            Window.ClientBounds.Width* 0.5f, 
-            Window.ClientBounds.Height-_character.Height);
 
     }
 
@@ -52,6 +54,35 @@ public class Game1 : Core
 
         // Check for gamepad input and handle it.
         CheckGamePadInput();
+
+
+        // Create a bounding rectangle for the screen.
+        Rectangle screenBounds = new Rectangle(
+            0,
+            0,
+            GraphicsDevice.PresentationParameters.BackBufferWidth,
+            GraphicsDevice.PresentationParameters.BackBufferHeight
+        );
+
+        // Creating a bounding rectangle for the character
+        Rectangle characterBounds = new Rectangle(
+            (int)(_characterPosition.X),
+            (int)(_characterPosition.Y + (_character.Height * 0.5f)),
+            (int)(_character.Width),
+            (int)(_character.Height * 0.5f)
+        );
+
+        // Use distance based checks to determine if the character is within the
+        // bounds of the game screen, and if it is outside that screen edge,
+        // move it back inside.
+        if (characterBounds.Left < screenBounds.Left)
+        {
+            _characterPosition.X = screenBounds.Left;
+        }
+        else if (characterBounds.Right > screenBounds.Right)
+        {
+            _characterPosition.X = screenBounds.Right - _character.Width;
+        }
 
         base.Update(gameTime);
     }
