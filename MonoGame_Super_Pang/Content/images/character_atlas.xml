@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas>
+    <Texture>images/character</Texture>
+    <Regions>
+        <Region name="characterShootingUp" x="128" y="0" width="25" height="33" />
+    </Regions>
+    <Animations>
+    </Animations>
+</TextureAtlas>

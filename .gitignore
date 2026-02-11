@@ -2,3 +2,5 @@ MonoGameLibrary/bin/*
 MonoGameLibrary/obj/*
 MonoGame_Super_Pang/bin/*
 MonoGame_Super_Pang/obj/*
+MonoGame_Super_Pang/Content/obj/*
+MonoGame_Super_Pang/Content/bin/*
