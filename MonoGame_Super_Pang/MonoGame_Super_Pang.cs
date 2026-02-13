@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -9,10 +10,13 @@ namespace MonoGame_Super_Pang;
 
 public class Game1 : Core
 {
-    private Sprite _character;
+    //private Sprite _character;
+    private AnimatedSprite _character;
 
     // Tracks the position of the character.
     private Vector2 _characterPosition;
+
+    private Sprite standingChar;
 
     // Speed multiplier when moving.
     private const float MOVEMENT_SPEED = 5.0f;
@@ -38,8 +42,10 @@ public class Game1 : Core
         // Create the texture atlas from the XML configuration file
         TextureAtlas characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
 
+        standingChar = characterAtlas.CreateSprite("characterStanding");
+
         // retrieve the slime region from the atlas.
-        _character = characterAtlas.CreateSprite("characterShootingUp");
+        _character = characterAtlas.CreateAnimatedSprite("walk-animation");
         _character.Scale = new Vector2(4.0f, 4.0f);
 
     }
@@ -50,12 +56,18 @@ public class Game1 : Core
             Exit();
 
         // Check for keyboard input and handle it.
-        CheckKeyboardInput();
+        bool move = CheckKeyboardInput();
 
         // Check for gamepad input and handle it.
         CheckGamePadInput();
 
-
+        if (move){
+            _character.Update(gameTime);
+        }
+        else
+        {
+            _character.Region = standingChar.Region;
+        }
         // Create a bounding rectangle for the screen.
         Rectangle screenBounds = new Rectangle(
             0,
@@ -87,10 +99,12 @@ public class Game1 : Core
         base.Update(gameTime);
     }
 
-    private void CheckKeyboardInput()
+    private bool CheckKeyboardInput()
     {
         // Get the state of keyboard input
         KeyboardState keyboardState = Keyboard.GetState();
+
+        bool doesCharMove = false;
 
         // If the space key is held down, the movement speed increases by 1.5
         float speed = MOVEMENT_SPEED;
@@ -103,18 +117,26 @@ public class Game1 : Core
         if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
         {
             _characterPosition.X -= speed;
+            _character.Effects = SpriteEffects.None;
+            doesCharMove = true;
         }
 
         // If the D or Right keys are down, move the character right on the screen.
         if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
         {
             _characterPosition.X += speed;
+            _character.Effects = SpriteEffects.FlipHorizontally;
+            doesCharMove = true;
         }
+
+        return doesCharMove;
+
     }
 
-    private void CheckGamePadInput()
+    private bool CheckGamePadInput()
     {
         GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+        bool doesCharMove = false;
 
         // If the A button is held down, the movement speed increases by 1.5
         // and the gamepad vibrates as feedback to the player.
@@ -135,6 +157,7 @@ public class Game1 : Core
         if (gamePadState.ThumbSticks.Left != Vector2.Zero)
         {
             _characterPosition.X += gamePadState.ThumbSticks.Left.X * speed;
+            doesCharMove = true;
         }
         else
         {
@@ -143,14 +166,19 @@ public class Game1 : Core
             if (gamePadState.IsButtonDown(Buttons.DPadLeft))
             {
                 _characterPosition.X -= speed;
+                _character.Effects = SpriteEffects.None;
+                doesCharMove = true;
             }
 
             // If DPadRight is down, move the character right on the screen.
             if (gamePadState.IsButtonDown(Buttons.DPadRight))
             {
                 _characterPosition.X += speed;
+                _character.Effects = SpriteEffects.FlipHorizontally;
+                doesCharMove = true;
             }
         }
+        return doesCharMove;
     }
 
     protected override void Draw(GameTime gameTime)
@@ -160,12 +188,7 @@ public class Game1 : Core
         // Begin the sprite batch to prepare for rendering.
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-        Vector2 initialPosition = new Vector2(    // position
-            Window.ClientBounds.Width* 0.5f, 
-            Window.ClientBounds.Height-_character.Height);
-
         // Draw the slime texture region at a scale of 4.0
-        //_character.Draw(SpriteBatch, initialPosition);
         _character.Draw(SpriteBatch, _characterPosition);
 
         // Always end the sprite batch when finished.
