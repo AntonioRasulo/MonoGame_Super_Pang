@@ -8,7 +8,6 @@ namespace MonoGameLibrary.Graphics;
 /// </summary>
 public class TextureRegion
 {
-
     /// <summary>
     /// Creates a new texture region.
     /// </summary>

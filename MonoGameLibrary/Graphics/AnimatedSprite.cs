@@ -58,5 +58,12 @@ public class AnimatedSprite : Sprite
         }
     }
 
+    public void Reset()
+    {
+        _currentFrame = 0;
+        _elapsed = TimeSpan.Zero;
+    }
+
+    public bool IsComplete => _currentFrame >= _animation.Frames.Count - 1;
 
 }
