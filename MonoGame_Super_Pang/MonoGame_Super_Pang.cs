@@ -5,22 +5,16 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
+using MonoGame_Super_Pang.GameObjects;
 
 namespace MonoGame_Super_Pang;
 
 public class Game1 : Core
 {
-    //private Sprite _character;
-    private AnimatedSprite _character;
 
-    // Tracks the position of the character.
-    private Vector2 _characterPosition;
+    TextureAtlas characterAtlas;
 
-    private Sprite standingChar;
-
-    // Speed multiplier when moving.
-    private const float MOVEMENT_SPEED = 5.0f;
-
+    private Character _character;
     public Game1() : base("Monogame Super Pang", 1280, 720, false)
     {
 
@@ -30,9 +24,7 @@ public class Game1 : Core
     {
         base.Initialize();
 
-        _characterPosition = new Vector2(    // position
-            Window.ClientBounds.Width* 0.5f, 
-            Window.ClientBounds.Height-_character.Height);
+        _character.Initialize(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
     }
 
@@ -40,13 +32,14 @@ public class Game1 : Core
     {
 
         // Create the texture atlas from the XML configuration file
-        TextureAtlas characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
+        characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
 
-        standingChar = characterAtlas.CreateSprite("characterStanding");
+        // Retrieve regions and animations from the atlas
+        Sprite idleRegion = characterAtlas.CreateSprite("characterStanding");
+        AnimatedSprite walkAnimation = characterAtlas.CreateAnimatedSprite("walk-animation");
+        AnimatedSprite shootAnimation = characterAtlas.CreateAnimatedSprite("shooting-animation");
 
-        // retrieve the slime region from the atlas.
-        _character = characterAtlas.CreateAnimatedSprite("walk-animation");
-        _character.Scale = new Vector2(4.0f, 4.0f);
+        _character = new Character(idleRegion, walkAnimation, shootAnimation);
 
     }
 
@@ -55,19 +48,8 @@ public class Game1 : Core
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        // Check for keyboard input and handle it.
-        bool move = CheckKeyboardInput();
+        _character.Update(gameTime);
 
-        // Check for gamepad input and handle it.
-        CheckGamePadInput();
-
-        if (move){
-            _character.Update(gameTime);
-        }
-        else
-        {
-            _character.Region = standingChar.Region;
-        }
         // Create a bounding rectangle for the screen.
         Rectangle screenBounds = new Rectangle(
             0,
@@ -76,109 +58,26 @@ public class Game1 : Core
             GraphicsDevice.PresentationParameters.BackBufferHeight
         );
 
-        // Creating a bounding rectangle for the character
-        Rectangle characterBounds = new Rectangle(
-            (int)(_characterPosition.X),
-            (int)(_characterPosition.Y + (_character.Height * 0.5f)),
-            (int)(_character.Width),
-            (int)(_character.Height * 0.5f)
-        );
+        // Getting the bounding rectangle for the character
+        Rectangle characterBounds = _character.getBounds();
+
+        Vector2 newCharPosition = _character._characterPosition;
 
         // Use distance based checks to determine if the character is within the
         // bounds of the game screen, and if it is outside that screen edge,
         // move it back inside.
         if (characterBounds.Left < screenBounds.Left)
         {
-            _characterPosition.X = screenBounds.Left;
+            newCharPosition.X = screenBounds.Left;
+            _character._characterPosition = newCharPosition;
         }
         else if (characterBounds.Right > screenBounds.Right)
         {
-            _characterPosition.X = screenBounds.Right - _character.Width;
+            newCharPosition.X = screenBounds.Right - _character.getWidth();
+            _character._characterPosition = newCharPosition;
         }
 
         base.Update(gameTime);
-    }
-
-    private bool CheckKeyboardInput()
-    {
-        // Get the state of keyboard input
-        KeyboardState keyboardState = Keyboard.GetState();
-
-        bool doesCharMove = false;
-
-        // If the space key is held down, the movement speed increases by 1.5
-        float speed = MOVEMENT_SPEED;
-        if (keyboardState.IsKeyDown(Keys.Space))
-        {
-            speed *= 1.5f;
-        }
-
-        // If the A or Left keys are down, move the character left on the screen.
-        if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
-        {
-            _characterPosition.X -= speed;
-            _character.Effects = SpriteEffects.None;
-            doesCharMove = true;
-        }
-
-        // If the D or Right keys are down, move the character right on the screen.
-        if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
-        {
-            _characterPosition.X += speed;
-            _character.Effects = SpriteEffects.FlipHorizontally;
-            doesCharMove = true;
-        }
-
-        return doesCharMove;
-
-    }
-
-    private bool CheckGamePadInput()
-    {
-        GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
-        bool doesCharMove = false;
-
-        // If the A button is held down, the movement speed increases by 1.5
-        // and the gamepad vibrates as feedback to the player.
-        float speed = MOVEMENT_SPEED;
-        if (gamePadState.IsButtonDown(Buttons.A))
-        {
-            speed *= 1.5f;
-            GamePad.SetVibration(PlayerIndex.One, 1.0f, 1.0f);
-        }
-        else
-        {
-            GamePad.SetVibration(PlayerIndex.One, 0.0f, 0.0f);
-        }
-
-        // Check thumbstick first since it has priority over which gamepad input
-        // is movement.  It has priority since the thumbstick values provide a
-        // more granular analog value that can be used for movement.
-        if (gamePadState.ThumbSticks.Left != Vector2.Zero)
-        {
-            _characterPosition.X += gamePadState.ThumbSticks.Left.X * speed;
-            doesCharMove = true;
-        }
-        else
-        {
-
-            // If DPapLeft is down, move the character left on the screen.
-            if (gamePadState.IsButtonDown(Buttons.DPadLeft))
-            {
-                _characterPosition.X -= speed;
-                _character.Effects = SpriteEffects.None;
-                doesCharMove = true;
-            }
-
-            // If DPadRight is down, move the character right on the screen.
-            if (gamePadState.IsButtonDown(Buttons.DPadRight))
-            {
-                _characterPosition.X += speed;
-                _character.Effects = SpriteEffects.FlipHorizontally;
-                doesCharMove = true;
-            }
-        }
-        return doesCharMove;
     }
 
     protected override void Draw(GameTime gameTime)
@@ -188,8 +87,8 @@ public class Game1 : Core
         // Begin the sprite batch to prepare for rendering.
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-        // Draw the slime texture region at a scale of 4.0
-        _character.Draw(SpriteBatch, _characterPosition);
+        // Draw the character
+        _character.Draw(SpriteBatch);
 
         // Always end the sprite batch when finished.
         SpriteBatch.End();
