@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -27,15 +28,21 @@ public class Character
     private AnimatedSprite _walkAnimation;
     private AnimatedSprite _shootAnimation;
 
+    private Animation _harpoonAnimation;
+
+    private List<Harpoon> _harpoons;
+
     private float _speed = 5.0f;
 
     private const float SCALE = 4.0f;
 
-    public Character(Sprite idleSprite, AnimatedSprite walkAnimation, AnimatedSprite shootAnimation)
+    public Character(Sprite idleSprite, AnimatedSprite walkAnimation, AnimatedSprite shootAnimation, Animation harpoonAnimation)
     {
         _idleSprite = idleSprite;
         _walkAnimation = walkAnimation;
         _shootAnimation = shootAnimation;
+        _harpoonAnimation = harpoonAnimation;
+        _harpoons = new List<Harpoon>();
     }
 
     public void Initialize(float windowWidth, float windowHeight)
@@ -66,6 +73,8 @@ public class Character
 
                 if (_shootAnimation.IsComplete)
                 {
+
+                    shootBullet();
 
                     // After shooting, check if moving
                     if (currentKeyboardState.IsKeyDown(Keys.A) ||
@@ -133,6 +142,14 @@ public class Character
             break;
         }
         previousKeyboardState = currentKeyboardState;
+
+        foreach(Harpoon bullet in _harpoons)
+        {
+            bullet.Update(gameTime);
+        }
+
+        _harpoons.RemoveAll(bullet => bullet.IsAnimationComplete);
+
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -149,6 +166,11 @@ public class Character
         {
             currentAnimation.Scale = new Vector2(SCALE, SCALE);;
             currentAnimation.Draw(spriteBatch, _characterPosition);
+        }
+
+        foreach(Harpoon bullet in _harpoons)
+        {
+            bullet.Draw();
         }
 
     }
@@ -179,6 +201,13 @@ public class Character
     public float getHeight()
     {
         return _idleSprite.Height;
+    }
+
+    private void shootBullet()
+    {
+        AnimatedSprite newHarpoon = new AnimatedSprite(_harpoonAnimation);
+
+        _harpoons.Add(new Harpoon(newHarpoon, _characterPosition.X + (_shootAnimation.Width*0.5f), 720));
     }
 
 }
