@@ -6,13 +6,12 @@ using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using MonoGame_Super_Pang.GameObjects;
+using System.Collections.Generic;
 
 namespace MonoGame_Super_Pang;
 
 public class Game1 : Core
 {
-
-    TextureAtlas characterAtlas;
 
     private Character _character;
     public Game1() : base("Monogame Super Pang", 1280, 720, false)
@@ -32,14 +31,26 @@ public class Game1 : Core
     {
 
         // Create the texture atlas from the XML configuration file
-        characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
+        TextureAtlas characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
 
         // Retrieve regions and animations from the atlas
         Sprite idleRegion = characterAtlas.CreateSprite("characterStanding");
         AnimatedSprite walkAnimation = characterAtlas.CreateAnimatedSprite("walk-animation");
         AnimatedSprite shootAnimation = characterAtlas.CreateAnimatedSprite("shooting-animation");
 
-        _character = new Character(idleRegion, walkAnimation, shootAnimation);
+        // Retrieve harpoons frames
+        List<TextureRegion> harpoonFrames = new List<TextureRegion>();
+        for (int harpoonIndex = 100; harpoonIndex <= 170; harpoonIndex++)
+        {
+            String harpoonImagePath = "images/items_" + harpoonIndex;
+            Texture2D harpoon2DTexture = Content.Load<Texture2D>(harpoonImagePath);
+            TextureRegion harpoonRegion = new TextureRegion(harpoon2DTexture, 0, 0, harpoon2DTexture.Width, harpoon2DTexture.Height);
+            harpoonFrames.Add(harpoonRegion);
+        }
+
+        Animation harpoonAnimation = new Animation(harpoonFrames, TimeSpan.FromMilliseconds(50));
+
+        _character = new Character(idleRegion, walkAnimation, shootAnimation, harpoonAnimation);
 
     }
 
@@ -82,7 +93,7 @@ public class Game1 : Core
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.Brown);
 
         // Begin the sprite batch to prepare for rendering.
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
