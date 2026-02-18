@@ -162,15 +162,15 @@ public class Character
             _ => null
         };
 
+        foreach(Harpoon bullet in _harpoons)
+        {
+            bullet.Draw();
+        }
+
         if (currentAnimation != null)
         {
             currentAnimation.Scale = new Vector2(SCALE, SCALE);;
             currentAnimation.Draw(spriteBatch, _characterPosition);
-        }
-
-        foreach(Harpoon bullet in _harpoons)
-        {
-            bullet.Draw();
         }
 
     }
