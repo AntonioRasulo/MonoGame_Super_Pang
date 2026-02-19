@@ -169,7 +169,7 @@ public class Character
 
         if (currentAnimation != null)
         {
-            currentAnimation.Scale = new Vector2(SCALE, SCALE);;
+            currentAnimation.Scale = new Vector2(SCALE, SCALE);
             currentAnimation.Draw(spriteBatch, _characterPosition);
         }
 
@@ -208,6 +208,18 @@ public class Character
         AnimatedSprite newHarpoon = new AnimatedSprite(_harpoonAnimation);
 
         _harpoons.Add(new Harpoon(newHarpoon, _characterPosition.X + (_shootAnimation.Width*0.5f), 720));
+    }
+
+    public List<Rectangle> getHarpoonBounds()
+    {
+        List<Rectangle> harpoonBounds = new List<Rectangle>();
+
+        foreach(Harpoon harpoon in _harpoons)
+        {
+            harpoonBounds.Add(harpoon.getBounds());
+        }
+
+        return harpoonBounds;
     }
 
 }
