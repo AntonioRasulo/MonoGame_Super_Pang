@@ -12,19 +12,34 @@ namespace MonoGame_Super_Pang;
 
 public class Game1 : Core
 {
-
     private Character _character;
+
+    private List<Ball> _balls;
+
+    private Rectangle _roomBounds;
+
     public Game1() : base("Monogame Super Pang", 1280, 720, false)
     {
-
+        _balls = new List<Ball>();
     }
 
     protected override void Initialize()
     {
         base.Initialize();
 
-        _character.Initialize(Window.ClientBounds.Width, Window.ClientBounds.Height);
+        _roomBounds = Core.GraphicsDevice.PresentationParameters.Bounds;
 
+        _character.Initialize(Window.ClientBounds.Width, Window.ClientBounds.Height);
+        
+        foreach(Ball ball in _balls)
+        {
+            ball.RandomizeVelocity();
+            // at the moment, set ball position in the centre of screen
+            float roomCenterX = _roomBounds.X + _roomBounds.Width * 0.5f;
+            float roomCenterY = _roomBounds.Y + _roomBounds.Height * 0.5f;
+            Vector2 roomCenter = new Vector2(roomCenterX, roomCenterY);
+            ball.Position = roomCenter;
+        }
     }
 
     protected override void LoadContent()
@@ -32,11 +47,17 @@ public class Game1 : Core
 
         // Create the texture atlas from the XML configuration file
         TextureAtlas characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
+        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Content, "images/items-atlas.xml");
 
         // Retrieve regions and animations from the atlas
         Sprite idleRegion = characterAtlas.CreateSprite("characterStanding");
         AnimatedSprite walkAnimation = characterAtlas.CreateAnimatedSprite("walk-animation");
         AnimatedSprite shootAnimation = characterAtlas.CreateAnimatedSprite("shooting-animation");
+
+        // Retrieve balls sprites
+        Sprite redBallSprite = itemsAtlas.CreateSprite("redBall");
+        Sprite blueBallSprite = itemsAtlas.CreateSprite("blueBall");
+        Sprite greenBallSprite = itemsAtlas.CreateSprite("greenBall");
 
         // Retrieve harpoons frames
         List<TextureRegion> harpoonFrames = new List<TextureRegion>();
@@ -51,7 +72,12 @@ public class Game1 : Core
         Animation harpoonAnimation = new Animation(harpoonFrames, TimeSpan.FromMilliseconds(50));
 
         _character = new Character(idleRegion, walkAnimation, shootAnimation, harpoonAnimation);
-
+        _balls.Add(new Ball(redBallSprite));
+        _balls.Add(new Ball(blueBallSprite));
+        _balls.Add(new Ball(greenBallSprite));
+        _balls.Add(new Ball(redBallSprite));
+        _balls.Add(new Ball(blueBallSprite));
+        _balls.Add(new Ball(greenBallSprite));
     }
 
     protected override void Update(GameTime gameTime)
@@ -88,9 +114,77 @@ public class Game1 : Core
             _character._characterPosition = newCharPosition;
         }
 
+        foreach(Ball ball in _balls)
+        {
+            ball.Update();
+        }
+
+        CollisionChecks();
+
         base.Update(gameTime);
     }
 
+    private void CollisionChecks()
+    {
+        List<Rectangle> harpoonBounds = _character.getHarpoonBounds();
+        Rectangle characterBounds = _character.getBounds();
+
+        foreach(Rectangle harpoonBound in harpoonBounds)
+        {
+            _balls.RemoveAll(ball => areIntersecting(ball.GetBounds(), harpoonBound));
+        }
+
+        // Finally, check if the ball is colliding with a wall by validating if
+        // it is within the bounds of the room.  If it is outside the room
+        // bounds, then it collided with a wall, and the ball should bounce
+        // off of that wall.
+        foreach(Ball ball in _balls)
+        {
+            Circle ballBounds = ball.GetBounds();
+            if (ballBounds.Top < _roomBounds.Top)
+            {
+                ball.Bounce(Vector2.UnitY);
+            }
+            else if (ballBounds.Bottom > _roomBounds.Bottom)
+            {
+                ball.Bounce(-Vector2.UnitY);
+            }
+
+            if (ballBounds.Left < _roomBounds.Left)
+            {
+                ball.Bounce(Vector2.UnitX);
+            }
+            else if (ballBounds.Right > _roomBounds.Right)
+            {
+                ball.Bounce(-Vector2.UnitX);
+            }
+        }
+    }
+
+    private bool areIntersecting(Circle circle, Rectangle rectangle)
+    {
+        int circleDistanceX = Math.Abs(circle.X - rectangle.Center.X);
+        int circleDistanceY = Math.Abs(circle.Y - rectangle.Center.Y);
+
+        float rectWidth = rectangle.Width * 0.5f;
+        float rectHeight = rectangle.Height * 0.5f;
+
+        if((circleDistanceX > (rectWidth + circle.Radius)) ||
+           (circleDistanceY > (rectHeight + circle.Radius)))
+        {
+            return false;
+        }
+
+        if(circleDistanceX <= rectWidth ||
+           circleDistanceY <= rectHeight)
+        {
+            return true;
+        }
+
+        double cornerDistanceSquare = Math.Pow(circleDistanceX-rectWidth, 2) + Math.Pow(circleDistanceY-rectHeight, 2);
+
+        return cornerDistanceSquare <= Math.Pow(circle.Radius, 2);
+    }
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.Brown);
@@ -100,6 +194,11 @@ public class Game1 : Core
 
         // Draw the character
         _character.Draw(SpriteBatch);
+
+        foreach(Ball ball in _balls)
+        {
+            ball.Draw();
+        }
 
         // Always end the sprite batch when finished.
         SpriteBatch.End();

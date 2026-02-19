@@ -66,8 +66,4 @@ public class AnimatedSprite : Sprite
 
     public bool IsComplete => _currentFrame >= _animation.Frames.Count - 1;
 
-    public float Width => _animation.Frames[_currentFrame].Width * Scale.X;
-
-    public float Height => _animation.Frames[_currentFrame].Height * Scale.X;
-
 }
