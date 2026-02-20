@@ -18,6 +18,8 @@ public class Game1 : Core
 
     private Rectangle _roomBounds;
 
+    private const int HARPOON_DELAY = 25;
+
     public Game1() : base("Monogame Super Pang", 1280, 720, false)
     {
         _balls = new List<Ball>();
@@ -69,7 +71,7 @@ public class Game1 : Core
             harpoonFrames.Add(harpoonRegion);
         }
 
-        Animation harpoonAnimation = new Animation(harpoonFrames, TimeSpan.FromMilliseconds(50));
+        Animation harpoonAnimation = new Animation(harpoonFrames, TimeSpan.FromMilliseconds(HARPOON_DELAY));
 
         _character = new Character(idleRegion, walkAnimation, shootAnimation, harpoonAnimation);
         _balls.Add(new Ball(redBallSprite));
