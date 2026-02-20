@@ -20,6 +20,8 @@ public class Game1 : Core
 
     private const int HARPOON_DELAY = 25;
 
+    private int _score = 0;
+
     public Game1() : base("Monogame Super Pang", 1280, 720, false)
     {
         _balls = new List<Ball>();
@@ -133,7 +135,16 @@ public class Game1 : Core
 
         foreach(Rectangle harpoonBound in harpoonBounds)
         {
-            _balls.RemoveAll(ball => areIntersecting(ball.GetBounds(), harpoonBound));
+            _score += _balls.RemoveAll(ball => areIntersecting(ball.GetBounds(), harpoonBound));
+        }
+
+        foreach(Ball ball in _balls)
+        {
+            if(areIntersecting(ball.GetBounds(), characterBounds) && (_character.IsImmune == false))
+            {
+                _score--;
+                _character.TakeHit();
+            }
         }
 
         // Finally, check if the ball is colliding with a wall by validating if

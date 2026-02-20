@@ -36,6 +36,13 @@ public class Character
 
     private const float SCALE = 4.0f;
 
+    private float _immunityDuration = 3.0f; // seconds of immunity
+    private float _immunityTimer = 0f;
+    private float _blinkInterval = 0.1f;    // how fast it blinks
+    private float _blinkTimer = 0f;
+    private bool _isVisible = true;
+
+    public bool IsImmune => _immunityTimer > 0f;
     public Character(Sprite idleSprite, AnimatedSprite walkAnimation, AnimatedSprite shootAnimation, Animation harpoonAnimation)
     {
         _idleSprite = idleSprite;
@@ -64,6 +71,26 @@ public class Character
         {
             currentState = CharacterState.Shooting;
             _shootAnimation.Reset();
+        }
+
+        float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        if (_immunityTimer > 0f)
+        {
+            _immunityTimer -= delta;
+
+            _blinkTimer += delta;
+            if (_blinkTimer >= _blinkInterval)
+            {
+                _blinkTimer = 0f;
+                _isVisible = !_isVisible; // toggle visibility
+            }
+
+            if (_immunityTimer <= 0f)
+            {
+                _immunityTimer = 0f;
+                _isVisible = true; // ensure visible when immunity ends
+            }
         }
 
         switch (currentState)
@@ -154,6 +181,9 @@ public class Character
 
     public void Draw(SpriteBatch spriteBatch)
     {
+
+        if (!_isVisible) return;
+
         Sprite currentAnimation = currentState switch
         {
             CharacterState.Shooting => _shootAnimation,
@@ -220,6 +250,13 @@ public class Character
         }
 
         return harpoonBounds;
+    }
+
+    public void TakeHit()
+    {
+        _immunityTimer = _immunityDuration;
+        _blinkTimer = 0f;
+        _isVisible = true;
     }
 
 }
