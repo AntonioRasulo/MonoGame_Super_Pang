@@ -44,16 +44,16 @@ public class Harpoon
     }
 
     public Rectangle getBounds()
-    {   // Probably wrong
-        // Creating a bounding rectangle for the character
-        Rectangle characterBounds = new Rectangle(
-            (int)(_position.X),
-            (int)(_position.Y + (_harpoonAnimation.Height * 0.5f)),
-            (int)(_harpoonAnimation.Width),
-            (int)(_harpoonAnimation.Height * 0.5f)
-        );
+    {
+        int scaledWidth  = (int)(_harpoonAnimation.Region.Width  * SCALE);
+        int scaledHeight = (int)(_harpoonAnimation.Region.Height * SCALE);
 
-        return characterBounds;
+        return new Rectangle(
+            (int)(_position.X - scaledWidth * 0.5f),  // centered horizontally
+            (int)(_position.Y - scaledHeight),         // extends upward
+            scaledWidth,
+            scaledHeight
+        );
     }
 
     public bool IsAnimationComplete => _harpoonAnimation.IsComplete;
