@@ -16,7 +16,7 @@
             <Frame region="characterStep2" />
             <Frame region="characterStep3" />
         </Animation>
-        <Animation name="shooting-animation" delay="300">
+        <Animation name="shooting-animation" delay="75">
             <Frame region="characterShootingUp1" />
             <Frame region="characterShootingUp2" />
             <Frame region="characterShootingUp2" />
