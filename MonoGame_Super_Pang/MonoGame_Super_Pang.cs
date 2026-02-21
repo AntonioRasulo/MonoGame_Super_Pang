@@ -20,6 +20,18 @@ public class Game1 : Core
 
     private const int HARPOON_DELAY = 25;
 
+    // The SpriteFont Description used to draw text.
+    private SpriteFont _font;
+
+    // Tracks the players score.
+    private int _score;
+
+    // Defines the position to draw the score text at.
+    private Vector2 _scoreTextPosition;
+
+    // Defines the origin used when drawing the score text.
+    private Vector2 _scoreTextOrigin;
+
     public Game1() : base("Monogame Super Pang", 1280, 720, false)
     {
         _balls = new List<Ball>();
@@ -42,6 +54,16 @@ public class Game1 : Core
             Vector2 roomCenter = new Vector2(roomCenterX, roomCenterY);
             ball.Position = roomCenter;
         }
+
+        // Set the position of the score text to align to the left edge of the
+        // room bounds, and to vertically be at the center of the first tile.
+        //_scoreTextPosition = new Vector2(_roomBounds.Left, _tilemap.TileHeight * 0.5f); TODO: implement tilemap
+        _scoreTextPosition = new Vector2(_roomBounds.Left, 10);
+
+        // Set the origin of the text so it is left-centered.
+        float scoreTextYOrigin = _font.MeasureString("Score").Y * 0.5f;
+        _scoreTextOrigin = new Vector2(0, scoreTextYOrigin);
+
     }
 
     protected override void LoadContent()
@@ -80,6 +102,9 @@ public class Game1 : Core
         _balls.Add(new Ball(redBallSprite));
         _balls.Add(new Ball(blueBallSprite));
         _balls.Add(new Ball(greenBallSprite));
+
+        // Load the font
+        _font = Content.Load<SpriteFont>("fonts/04B_30");
     }
 
     protected override void Update(GameTime gameTime)
@@ -133,7 +158,16 @@ public class Game1 : Core
 
         foreach(Rectangle harpoonBound in harpoonBounds)
         {
-            _balls.RemoveAll(ball => areIntersecting(ball.GetBounds(), harpoonBound));
+            _score += _balls.RemoveAll(ball => areIntersecting(ball.GetBounds(), harpoonBound));
+        }
+
+        foreach(Ball ball in _balls)
+        {
+            if(areIntersecting(ball.GetBounds(), characterBounds) && (_character.IsImmune == false))
+            {
+                _score--;
+                _character.TakeHit();
+            }
         }
 
         // Finally, check if the ball is colliding with a wall by validating if
@@ -201,6 +235,19 @@ public class Game1 : Core
         {
             ball.Draw();
         }
+
+        // Draw the score
+        SpriteBatch.DrawString(
+            _font,              // spriteFont
+            $"Score: {_score}", // text
+            _scoreTextPosition, // position
+            Color.White,        // color
+            0.0f,               // rotation
+            _scoreTextOrigin,   // origin
+            1.0f,               // scale
+            SpriteEffects.None, // effects
+            0.0f                // layerDepth
+        );
 
         // Always end the sprite batch when finished.
         SpriteBatch.End();
