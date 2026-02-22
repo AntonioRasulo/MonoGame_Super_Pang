@@ -7,6 +7,13 @@ using System.Collections.Generic;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
+public enum BallType
+{
+    SMALL,
+    MEDIUM,
+    LARGE
+}
+
 public class Ball
 {
     private Sprite _ballSprite;
@@ -15,17 +22,47 @@ public class Ball
 
     private const float MOVEMENT_SPEED = 5.0f;
 
-    private const float SCALE = 4.0f;
+    private float _scale;
+
+    private BallType _ballType; 
 
     /// <summary>
     /// Gets or Sets the position of the ball.
     /// </summary>
     public Vector2 Position { get; set; }
 
-    public Ball(Sprite ballSprite)
+    public Ball(Sprite ballSprite, BallType ballType, Vector2 ballInitialPosition = default)
     {
         _ballSprite = ballSprite;
-        _ballSprite.Scale = new Vector2(SCALE, SCALE);
+
+        _ballType = ballType;
+
+        _scale = _ballType switch
+        {
+            BallType.LARGE => 4.0f,
+            BallType.MEDIUM => 2.0f,
+            BallType.SMALL => 1.0f,
+            _ => 0.0f
+        };
+
+        _ballSprite.Scale = new Vector2(_scale, _scale);
+
+        RandomizeVelocity();
+
+        if(ballInitialPosition == default)
+        {
+            Rectangle roomBounds = Core.GraphicsDevice.PresentationParameters.Bounds;
+            // at the moment, set ball position in the centre of screen
+            float roomCenterX = roomBounds.X + roomBounds.Width * 0.5f;
+            float roomCenterY = roomBounds.Y + roomBounds.Height * 0.5f;
+            Vector2 roomCenter = new Vector2(roomCenterX, roomCenterY);
+            Position = roomCenter;
+        }
+        else
+        {
+            Position = ballInitialPosition;
+        }
+        
     }
 
     /// <summary>
@@ -93,19 +130,6 @@ public class Ball
         return new Circle(x, y, radius);
     }
 
-    public Rectangle GetRectangleBounds()
-    {
-        // Creating a bounding rectangle for the character
-        Rectangle characterBounds = new Rectangle(
-            (int)(Position.X),
-            (int)(Position.Y + (_ballSprite.Height * 0.5f)),
-            (int)(_ballSprite.Width),
-            (int)(_ballSprite.Height * 0.5f *SCALE)
-        );
-
-        return characterBounds;
-    }
-
     /// <summary>
     /// Updates the ball.
     /// </summary>
@@ -121,6 +145,16 @@ public class Ball
     public void Draw()
     {
         _ballSprite.Draw(Core.SpriteBatch, Position);
+    }
+
+    public Sprite GetSprite()
+    {
+        return new Sprite(_ballSprite.Region);
+    }
+
+    public BallType GetBallType()
+    {
+        return _ballType;
     }
 
 }
