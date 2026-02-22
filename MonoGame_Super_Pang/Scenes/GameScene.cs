@@ -44,16 +44,6 @@ public class GameScene : Scene
         _roomBounds = Core.GraphicsDevice.PresentationParameters.Bounds;
 
         _character.Initialize(_roomBounds.Width, _roomBounds.Height);
-        
-        foreach(Ball ball in _balls)
-        {
-            ball.RandomizeVelocity();
-            // at the moment, set ball position in the centre of screen
-            float roomCenterX = _roomBounds.X + _roomBounds.Width * 0.5f;
-            float roomCenterY = _roomBounds.Y + _roomBounds.Height * 0.5f;
-            Vector2 roomCenter = new Vector2(roomCenterX, roomCenterY);
-            ball.Position = roomCenter;
-        }
 
         // Set the position of the score text to align to the left edge of the
         // room bounds, and to vertically be at the center of the first tile.
@@ -96,12 +86,12 @@ public class GameScene : Scene
         _character = new Character(idleRegion, walkAnimation, shootAnimation, harpoonAnimation);
 
         _balls = new List<Ball>();
-        _balls.Add(new Ball(redBallSprite));
-        _balls.Add(new Ball(blueBallSprite));
-        _balls.Add(new Ball(greenBallSprite));
-        _balls.Add(new Ball(redBallSprite));
-        _balls.Add(new Ball(blueBallSprite));
-        _balls.Add(new Ball(greenBallSprite));
+        _balls.Add(new Ball(redBallSprite, BallType.LARGE));
+        _balls.Add(new Ball(blueBallSprite, BallType.LARGE));
+        _balls.Add(new Ball(greenBallSprite, BallType.LARGE));
+        _balls.Add(new Ball(redBallSprite, BallType.LARGE));
+        _balls.Add(new Ball(blueBallSprite, BallType.LARGE));
+        _balls.Add(new Ball(greenBallSprite, BallType.LARGE));
 
         // Load the font
         _font = Content.Load<SpriteFont>("fonts/04B_30");
@@ -158,10 +148,29 @@ public class GameScene : Scene
         List<Rectangle> harpoonBounds = _character.getHarpoonBounds();
         Rectangle characterBounds = _character.getBounds();
 
+        var toAdd = new List<Ball>();
+        var toRemove = new List<Ball>();
+
         foreach(Rectangle harpoonBound in harpoonBounds)
         {
-            _score += _balls.RemoveAll(ball => areIntersecting(ball.GetBounds(), harpoonBound));
+            foreach(Ball ball in _balls)
+            {
+                if(areIntersecting(ball.GetBounds(), harpoonBound))
+                {
+                    _score++;
+                    BallType ballType = ball.GetBallType();
+                    if(ballType == BallType.LARGE || ballType == BallType.MEDIUM)
+                    {
+                        toAdd.Add(new Ball(ball.GetSprite(), ballType-1, ball.Position));
+                        toAdd.Add(new Ball(ball.GetSprite(), ballType-1, ball.Position));
+                    }
+                    toRemove.Add(ball);
+                }
+            }
         }
+
+        _balls.RemoveAll(ball => toRemove.Contains(ball));
+        _balls.AddRange(toAdd);
 
         foreach(Ball ball in _balls)
         {
