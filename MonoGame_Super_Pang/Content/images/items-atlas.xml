@@ -4,7 +4,7 @@
     <Regions>
         <Region name="redBall" x="264" y="797" width="32" height="26" />
         <Region name="blueBall" x="303" y="797" width="32" height="26" />
-        <Region name="greenBall" x="342" y="797" width="32" height="26" />
+        <Region name="greenBall" x="344" y="797" width="32" height="26" />
     </Regions>
     <Animations>
     </Animations>
