@@ -182,6 +182,11 @@ public class Character
     public void Draw(SpriteBatch spriteBatch)
     {
 
+        foreach(Harpoon bullet in _harpoons)
+        {
+            bullet.Draw();
+        }
+
         if (!_isVisible) return;
 
         Sprite currentAnimation = currentState switch
@@ -191,11 +196,6 @@ public class Character
             CharacterState.Idle => _idleSprite,
             _ => null
         };
-
-        foreach(Harpoon bullet in _harpoons)
-        {
-            bullet.Draw();
-        }
 
         if (currentAnimation != null)
         {
