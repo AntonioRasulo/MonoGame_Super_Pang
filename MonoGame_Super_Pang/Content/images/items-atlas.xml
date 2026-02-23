@@ -5,6 +5,7 @@
         <Region name="redBall" x="264" y="797" width="32" height="26" />
         <Region name="blueBall" x="303" y="797" width="32" height="26" />
         <Region name="greenBall" x="344" y="797" width="32" height="26" />
+        <Region name="livesSprite" x="8" y="197" width="16" height="17" />
     </Regions>
     <Animations>
     </Animations>
