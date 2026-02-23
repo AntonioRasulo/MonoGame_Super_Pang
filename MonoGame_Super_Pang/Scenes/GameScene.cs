@@ -142,18 +142,25 @@ public class GameScene : Scene
 
     private void CollisionChecks()
     {
-        List<Rectangle> harpoonBounds = _character.getHarpoonBounds();
+        //List<Rectangle> harpoonBounds = _character.getHarpoonBounds();
         Rectangle characterBounds = _character.getBounds();
 
-        var toAdd = new List<Ball>();
-        var toRemove = new List<Ball>();
+        var toAddBall = new List<Ball>();
+        var toRemoveBall = new List<Ball>();
+        var toRemoveHarpoon = new List<Harpoon>();
 
-        foreach(Rectangle harpoonBound in harpoonBounds)
+        foreach(Harpoon harpoon in _character.getHarpoons())
         {
+
+            // If the harpoon is on the remove list
+            if(toRemoveHarpoon.Contains(harpoon)) continue;
+
+            Rectangle harpoonBound = harpoon.getBounds();
+
             foreach(Ball ball in _balls)
             {
                 // If the ball has been already hit in this frame skip
-                if(toRemove.Contains(ball)) continue;
+                if(toRemoveBall.Contains(ball)) continue;
 
                 if(areIntersecting(ball.GetBounds(), harpoonBound))
                 {
@@ -161,16 +168,18 @@ public class GameScene : Scene
                     BallType ballType = ball.GetBallType();
                     if(ballType == BallType.LARGE || ballType == BallType.MEDIUM)
                     {
-                        toAdd.Add(new Ball(ball.GetSprite(), ballType-1, 1f, ball.Position));
-                        toAdd.Add(new Ball(ball.GetSprite(), ballType-1, -1f, ball.Position));
+                        toAddBall.Add(new Ball(ball.GetSprite(), ballType-1, 1f, ball.Position));
+                        toAddBall.Add(new Ball(ball.GetSprite(), ballType-1, -1f, ball.Position));
                     }
-                    toRemove.Add(ball);
+                    toRemoveBall.Add(ball);
+                    toRemoveHarpoon.Add(harpoon);
                 }
             }
         }
 
-        _balls.RemoveAll(ball => toRemove.Contains(ball));
-        _balls.AddRange(toAdd);
+        _balls.RemoveAll(ball => toRemoveBall.Contains(ball));
+        _balls.AddRange(toAddBall);
+        _character.removeHarpoons(toRemoveHarpoon);
 
         foreach(Ball ball in _balls)
         {
