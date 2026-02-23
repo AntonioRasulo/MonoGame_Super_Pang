@@ -32,6 +32,10 @@ public class GameScene : Scene
     // Defines the origin used when drawing the score text.
     private Vector2 _scoreTextOrigin;
 
+    private int _lives = 3;
+
+    private Sprite livesSprite;
+
     public override void Initialize()
     {
 
@@ -70,6 +74,9 @@ public class GameScene : Scene
         Sprite redBallSprite = itemsAtlas.CreateSprite("redBall");
         Sprite blueBallSprite = itemsAtlas.CreateSprite("blueBall");
         Sprite greenBallSprite = itemsAtlas.CreateSprite("greenBall");
+
+        livesSprite = itemsAtlas.CreateSprite("livesSprite");
+        livesSprite.Scale = new Vector2(4.0f, 4.0f);
 
         // Retrieve harpoons frames
         List<TextureRegion> harpoonFrames = new List<TextureRegion>();
@@ -142,7 +149,6 @@ public class GameScene : Scene
 
     private void CollisionChecks()
     {
-        //List<Rectangle> harpoonBounds = _character.getHarpoonBounds();
         Rectangle characterBounds = _character.getBounds();
 
         var toAddBall = new List<Ball>();
@@ -186,6 +192,7 @@ public class GameScene : Scene
             if(areIntersecting(ball.GetBounds(), characterBounds) && (_character.IsImmune == false))
             {
                 _score--;
+                _lives--;
                 _character.TakeHit();
             }
         }
@@ -269,6 +276,14 @@ public class GameScene : Scene
         foreach(Ball ball in _balls)
         {
             ball.Draw();
+        }
+
+        for(int livesIndex = 1; livesIndex <= _lives; livesIndex++)
+        {
+            Rectangle roomBounds = Core.GraphicsDevice.PresentationParameters.Bounds;
+            float distanceFromLeftWall = 5.0f;
+            Vector2 livesSpritePosition = new Vector2((livesSprite.Width * 0.5f + distanceFromLeftWall) * livesIndex, roomBounds.Height - livesSprite.Height);
+            livesSprite.Draw(Core.SpriteBatch, livesSpritePosition);
         }
 
         // Draw the score
