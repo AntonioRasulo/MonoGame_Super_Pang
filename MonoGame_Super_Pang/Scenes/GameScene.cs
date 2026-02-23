@@ -86,12 +86,9 @@ public class GameScene : Scene
         _character = new Character(idleRegion, walkAnimation, shootAnimation, harpoonAnimation);
 
         _balls = new List<Ball>();
-        _balls.Add(new Ball(redBallSprite, BallType.LARGE));
-        _balls.Add(new Ball(blueBallSprite, BallType.LARGE));
-        _balls.Add(new Ball(greenBallSprite, BallType.LARGE));
-        _balls.Add(new Ball(redBallSprite, BallType.LARGE));
-        _balls.Add(new Ball(blueBallSprite, BallType.LARGE));
-        _balls.Add(new Ball(greenBallSprite, BallType.LARGE));
+        _balls.Add(new Ball(redBallSprite, BallType.LARGE, 1f));
+
+        _balls.Add(new Ball(redBallSprite, BallType.LARGE, -1f));
 
         // Load the font
         _font = Content.Load<SpriteFont>("fonts/04B_30");
@@ -155,14 +152,17 @@ public class GameScene : Scene
         {
             foreach(Ball ball in _balls)
             {
+                // If the ball has been already hit in this frame skip
+                if(toRemove.Contains(ball)) continue;
+
                 if(areIntersecting(ball.GetBounds(), harpoonBound))
                 {
                     _score++;
                     BallType ballType = ball.GetBallType();
                     if(ballType == BallType.LARGE || ballType == BallType.MEDIUM)
                     {
-                        toAdd.Add(new Ball(ball.GetSprite(), ballType-1, ball.Position));
-                        toAdd.Add(new Ball(ball.GetSprite(), ballType-1, ball.Position));
+                        toAdd.Add(new Ball(ball.GetSprite(), ballType-1, 1f, ball.Position));
+                        toAdd.Add(new Ball(ball.GetSprite(), ballType-1, -1f, ball.Position));
                     }
                     toRemove.Add(ball);
                 }
@@ -188,22 +188,36 @@ public class GameScene : Scene
         foreach(Ball ball in _balls)
         {
             Circle ballBounds = ball.GetBounds();
+            Vector2 pos = ball.Position;
+
             if (ballBounds.Top < _roomBounds.Top)
             {
                 ball.Bounce(Vector2.UnitY);
+                // Clamp to ceiling
+                pos.Y = _roomBounds.Top;
+                ball.Position = pos;
             }
             else if (ballBounds.Bottom > _roomBounds.Bottom)
             {
                 ball.Bounce(-Vector2.UnitY);
+                // Clamp to floor
+                pos.Y = _roomBounds.Bottom - ball.spriteHeight;
+                ball.Position = pos;
             }
 
             if (ballBounds.Left < _roomBounds.Left)
             {
                 ball.Bounce(Vector2.UnitX);
+                // Clamp to left wall
+                pos.X = _roomBounds.Left;
+                ball.Position = pos;
             }
             else if (ballBounds.Right > _roomBounds.Right)
             {
                 ball.Bounce(-Vector2.UnitX);
+                // Clamp to right wall
+                pos.X = _roomBounds.Right - ball.spriteWidth;
+                ball.Position = pos;
             }
         }
     }
