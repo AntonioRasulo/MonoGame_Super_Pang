@@ -240,23 +240,21 @@ public class Character
         _harpoons.Add(new Harpoon(newHarpoon, _characterPosition.X + (_shootAnimation.Width*0.5f), 720));
     }
 
-    public List<Rectangle> getHarpoonBounds()
-    {
-        List<Rectangle> harpoonBounds = new List<Rectangle>();
-
-        foreach(Harpoon harpoon in _harpoons)
-        {
-            harpoonBounds.Add(harpoon.getBounds());
-        }
-
-        return harpoonBounds;
-    }
-
     public void TakeHit()
     {
         _immunityTimer = _immunityDuration;
         _blinkTimer = 0f;
         _isVisible = true;
+    }
+
+    public void removeHarpoons(List<Harpoon> toRemoveHarpoons)
+    {
+        _harpoons.RemoveAll(harpoon => toRemoveHarpoons.Contains(harpoon));
+    }
+
+    public List<Harpoon> getHarpoons()
+    {
+        return _harpoons;
     }
 
 }
