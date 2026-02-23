@@ -18,7 +18,7 @@ public class GameScene : Scene
 
     private Rectangle _roomBounds;
 
-    private const int HARPOON_DELAY = 25;
+    private const int HARPOON_DELAY = 5;
 
     // The SpriteFont Description used to draw text.
     private SpriteFont _font;
