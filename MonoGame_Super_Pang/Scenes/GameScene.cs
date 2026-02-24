@@ -187,6 +187,11 @@ public class GameScene : Scene
         _balls.AddRange(toAddBall);
         _character.removeHarpoons(toRemoveHarpoon);
 
+        if(_balls.Count == 0)
+        {
+            Core.ChangeScene(new GameOver(_score));
+        }
+
         foreach(Ball ball in _balls)
         {
             if(areIntersecting(ball.GetBounds(), characterBounds) && (_character.IsImmune == false))
@@ -194,6 +199,10 @@ public class GameScene : Scene
                 _score--;
                 _lives--;
                 _character.TakeHit();
+                if(_lives == 0)
+                {
+                    Core.ChangeScene(new GameOver(_score));
+                }
             }
         }
 
