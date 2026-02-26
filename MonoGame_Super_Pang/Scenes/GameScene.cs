@@ -192,11 +192,10 @@ public class GameScene : Scene
                 if(areIntersecting(ball.GetBounds(), harpoonBound))
                 {
                     _score++;
-                    BallSize ballType = ball.GetBallType();
+                    BallSize ballType = ball.GetBallSize();
                     if(ballType == BallSize.LARGE || ballType == BallSize.MEDIUM)
                     {
-                        toAddBall.Add(new Ball(ball.GetSprite(), ballType-1, 1f, ball.Position));
-                        toAddBall.Add(new Ball(ball.GetSprite(), ballType-1, -1f, ball.Position));
+                        toAddBall.AddRange(splitBall(ball));
                     }
                     toRemoveBall.Add(ball);
                     toRemoveHarpoon.Add(harpoon);
@@ -357,17 +356,51 @@ public class GameScene : Scene
         _balls.Clear();
         foreach (var spawnConfig in config.Balls)
         {
-            Sprite ballSprite = spawnConfig.BallType switch
+            BallType ballType = spawnConfig.BallType;
+            switch(spawnConfig.BallType)
             {
-                BallType.GREEN_ROUND => _greenBallRoundSprite,
-                BallType.RED_ROUND => _redBallRoundSprite,
-                BallType.BLUE_ROUND => _blueBallRoundSprite,
-                BallType.GREEN_SQUARED => _greenBallSquaredSprite,
-                _ => _blueBallRoundSprite
-            };
-
-            _balls.Add(new Ball(ballSprite, spawnConfig.Size, spawnConfig.DirectionX, spawnConfig.Position));
+                case BallType.GREEN_ROUND:
+                    _balls.Add(new BouncingBall(_greenBallRoundSprite, spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
+                break;
+                case BallType.RED_ROUND:
+                    _balls.Add(new BouncingBall(_redBallRoundSprite, spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
+                break;
+                case BallType.BLUE_ROUND:
+                    _balls.Add(new BouncingBall(_blueBallRoundSprite, spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
+                break;
+                case BallType.GREEN_SQUARED:
+                    _balls.Add(new BouncingBall(_greenBallSquaredSprite, spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
+                break;
+            }
         }
+    }
+
+    private List<Ball> splitBall(Ball ball)
+    {
+        List <Ball> toAddBall = new List<Ball>();
+
+        BallSize ballSize = ball.GetBallSize();
+
+        if(ballSize == BallSize.LARGE || ballSize == BallSize.MEDIUM)
+        {
+            BallType ballType = ball.GetBallType();
+
+            switch(ballType)
+            {
+                case BallType.GREEN_ROUND:
+                case BallType.RED_ROUND:
+                case BallType.BLUE_ROUND:
+                    toAddBall.Add(new BouncingBall(ball.GetSprite(), ballSize-1, 1f, ballType, ball.Position));
+                    toAddBall.Add(new BouncingBall(ball.GetSprite(), ballSize-1, -1f, ballType, ball.Position));
+                break;
+                case BallType.GREEN_SQUARED:
+                    toAddBall.Add(new BouncingBall(ball.GetSprite(), ballSize-1, 1f, ballType, ball.Position));
+                    toAddBall.Add(new BouncingBall(ball.GetSprite(), ballSize-1, -1f, ballType, ball.Position));
+                break;
+            }
+        }
+
+        return toAddBall;
     }
 
 }
