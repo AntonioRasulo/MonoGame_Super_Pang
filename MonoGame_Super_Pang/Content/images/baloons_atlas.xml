@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas>
+    <Texture>images/baloons</Texture>
+        <Regions>
+        <Region name="greenBall" x="339" y="75" width="33" height="23" />
+    </Regions>
+    <Animations>
+
+    </Animations>
+</TextureAtlas>

@@ -7,11 +7,19 @@ using System.Collections.Generic;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
-public enum BallType
+public enum BallSize
 {
     SMALL,
     MEDIUM,
     LARGE
+}
+
+public enum BallType
+{
+    GREEN_ROUND,
+    RED_ROUND,
+    BLUE_ROUND,
+    GREEN_SQUARED
 }
 
 public class Ball
@@ -25,7 +33,7 @@ public class Ball
 
     private float _scale;
 
-    private BallType _ballType; 
+    private BallSize _ballSize; 
 
     private float _jumpStrength;
 
@@ -36,17 +44,17 @@ public class Ball
     /// </summary>
     public Vector2 Position { get; set; }
 
-    public Ball(Sprite ballSprite, BallType ballType, float dirX, Vector2 ballInitialPosition = default)
+    public Ball(Sprite ballSprite, BallSize ballType, float dirX, Vector2 ballInitialPosition = default)
     {
         _ballSprite = ballSprite;
 
-        _ballType = ballType;
+        _ballSize = ballType;
 
-        (_scale, _jumpStrength, _speedX) = _ballType switch
+        (_scale, _jumpStrength, _speedX) = _ballSize switch
         {
-            BallType.LARGE => (4.0f, 10f, 1.5f),
-            BallType.MEDIUM => (2.0f, 9f, 2.0f),
-            BallType.SMALL => (1.0f, 8.0f, 2.5f),
+            BallSize.LARGE => (4.0f, 10f, 1.5f),
+            BallSize.MEDIUM => (2.0f, 9f, 2.0f),
+            BallSize.SMALL => (1.0f, 8.0f, 2.5f),
             _ => (1.0f, 8.0f, 2.5f)
         };
 
@@ -134,12 +142,30 @@ public class Ball
         return new Sprite(_ballSprite.Region);
     }
 
-    public BallType GetBallType()
+    public BallSize GetBallType()
     {
-        return _ballType;
+        return _ballSize;
     }
 
     public int spriteWidth => (int)(_ballSprite.Width);
     public int spriteHeight => (int)(_ballSprite.Height);
+
+    /// <summary>
+    /// Randomizes the velocity of the ball.
+    /// </summary>
+    public void RandomizeVelocity()
+    {
+        // Generate a random angle
+        float angle = (float)(Random.Shared.NextDouble() * MathHelper.TwoPi);
+
+        // Convert the angle to a direction vector
+        float x = (float)Math.Cos(angle);
+        float y = (float)Math.Sin(angle);
+        Vector2 direction = new Vector2(x, y);
+
+        // Multiply the direction vector by the movement speed to get the
+        // final velocity
+        _velocity = direction * MOVEMENT_SPEED;
+    }
 
 }

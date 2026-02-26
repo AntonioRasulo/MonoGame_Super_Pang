@@ -27,6 +27,21 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/04B_30.spritefont
 
+#begin images/baloons_atlas.xml
+/copy:images/baloons_atlas.xml
+
+#begin images/baloons.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=128,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/baloons.png
+
 #begin images/character_atlas.xml
 /copy:images/character_atlas.xml
 
