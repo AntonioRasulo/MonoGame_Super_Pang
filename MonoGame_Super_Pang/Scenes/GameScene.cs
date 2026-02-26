@@ -6,6 +6,7 @@ using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using MonoGameLibrary.Scenes;
 using MonoGame_Super_Pang.GameObjects;
+using MonoGame_Super_Pang.Config;
 using System.Collections.Generic;
 
 namespace MonoGame_Super_Pang.Scenes;
@@ -34,7 +35,20 @@ public class GameScene : Scene
 
     private int _lives = 3;
 
-    private Sprite livesSprite;
+    private Sprite _livesSprite;
+
+    private Sprite _redBallRoundSprite;
+    private Sprite _blueBallRoundSprite;
+    private Sprite _greenBallRoundSprite;
+
+    private Sprite _greenBallSquaredSprite;
+
+    private int _currentLevelIndex;
+
+    public GameScene(int startingLevel)
+    {
+        _currentLevelIndex = startingLevel;
+    }
 
     public override void Initialize()
     {
@@ -64,6 +78,7 @@ public class GameScene : Scene
         // Create the texture atlas from the XML configuration file
         TextureAtlas characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Content, "images/items-atlas.xml");
+        TextureAtlas baloonsAtlas = TextureAtlas.FromFile(Content, "images/baloons_atlas.xml");
 
         // Retrieve regions and animations from the atlas
         Sprite idleRegion = characterAtlas.CreateSprite("characterStanding");
@@ -71,12 +86,13 @@ public class GameScene : Scene
         AnimatedSprite shootAnimation = characterAtlas.CreateAnimatedSprite("shooting-animation");
 
         // Retrieve balls sprites
-        Sprite redBallSprite = itemsAtlas.CreateSprite("redBall");
-        Sprite blueBallSprite = itemsAtlas.CreateSprite("blueBall");
-        Sprite greenBallSprite = itemsAtlas.CreateSprite("greenBall");
+        _redBallRoundSprite = itemsAtlas.CreateSprite("redBall");
+        _blueBallRoundSprite = itemsAtlas.CreateSprite("blueBall");
+        _greenBallRoundSprite = itemsAtlas.CreateSprite("greenBall");
+        _greenBallSquaredSprite = baloonsAtlas.CreateSprite("greenBall");
 
-        livesSprite = itemsAtlas.CreateSprite("livesSprite");
-        livesSprite.Scale = new Vector2(4.0f, 4.0f);
+        _livesSprite = itemsAtlas.CreateSprite("livesSprite");
+        _livesSprite.Scale = new Vector2(4.0f, 4.0f);
 
         // Retrieve harpoons frames
         List<TextureRegion> harpoonFrames = new List<TextureRegion>();
@@ -93,12 +109,15 @@ public class GameScene : Scene
         _character = new Character(idleRegion, walkAnimation, shootAnimation, harpoonAnimation);
 
         _balls = new List<Ball>();
-        _balls.Add(new Ball(redBallSprite, BallType.LARGE, 1f));
 
-        _balls.Add(new Ball(redBallSprite, BallType.LARGE, -1f));
+        //_balls.Add(new Ball(redBallSprite, BallSize.LARGE, 1f));
+
+        //_balls.Add(new Ball(redBallSprite, BallSize.LARGE, -1f));
 
         // Load the font
         _font = Content.Load<SpriteFont>("fonts/04B_30");
+
+        LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
     }
 
     public override void Update(GameTime gameTime)
@@ -145,6 +164,8 @@ public class GameScene : Scene
 
         CollisionChecks();
 
+        checkChangeScene();
+
     }
 
     private void CollisionChecks()
@@ -171,8 +192,8 @@ public class GameScene : Scene
                 if(areIntersecting(ball.GetBounds(), harpoonBound))
                 {
                     _score++;
-                    BallType ballType = ball.GetBallType();
-                    if(ballType == BallType.LARGE || ballType == BallType.MEDIUM)
+                    BallSize ballType = ball.GetBallType();
+                    if(ballType == BallSize.LARGE || ballType == BallSize.MEDIUM)
                     {
                         toAddBall.Add(new Ball(ball.GetSprite(), ballType-1, 1f, ball.Position));
                         toAddBall.Add(new Ball(ball.GetSprite(), ballType-1, -1f, ball.Position));
@@ -187,11 +208,6 @@ public class GameScene : Scene
         _balls.AddRange(toAddBall);
         _character.removeHarpoons(toRemoveHarpoon);
 
-        if(_balls.Count == 0)
-        {
-            Core.ChangeScene(new GameOver(_score));
-        }
-
         foreach(Ball ball in _balls)
         {
             if(areIntersecting(ball.GetBounds(), characterBounds) && (_character.IsImmune == false))
@@ -200,9 +216,7 @@ public class GameScene : Scene
                 _lives--;
                 _character.TakeHit();
                 if(_lives == 0)
-                {
-                    Core.ChangeScene(new GameOver(_score));
-                }
+                    return;
             }
         }
 
@@ -246,6 +260,30 @@ public class GameScene : Scene
             }
         }
     }
+
+    private void checkChangeScene()
+    {
+        if(_balls.Count == 0)
+        {
+            _currentLevelIndex++;
+            if(_currentLevelIndex >= LevelRegistry.AllLevels.Count)
+            {
+                Core.ChangeScene(new GameOver(_score));
+            }
+            else
+            {
+                LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
+            }
+            return;
+        }
+
+        if(_lives == 0)
+        {
+            Core.ChangeScene(new GameOver(_score));
+            return;
+        }
+    }
+
 
     private bool areIntersecting(Circle circle, Rectangle rectangle)
     {
@@ -291,8 +329,8 @@ public class GameScene : Scene
         {
             Rectangle roomBounds = Core.GraphicsDevice.PresentationParameters.Bounds;
             float distanceFromLeftWall = 5.0f;
-            Vector2 livesSpritePosition = new Vector2((livesSprite.Width * 0.5f + distanceFromLeftWall) * livesIndex, roomBounds.Height - livesSprite.Height);
-            livesSprite.Draw(Core.SpriteBatch, livesSpritePosition);
+            Vector2 livesSpritePosition = new Vector2((_livesSprite.Width * 0.5f + distanceFromLeftWall) * livesIndex, roomBounds.Height - _livesSprite.Height);
+            _livesSprite.Draw(Core.SpriteBatch, livesSpritePosition);
         }
 
         // Draw the score
@@ -312,6 +350,24 @@ public class GameScene : Scene
         Core.SpriteBatch.End();
 
         base.Draw(gameTime);
+    }
+
+    private void LoadLevel(LevelConfig config)
+    {
+        _balls.Clear();
+        foreach (var spawnConfig in config.Balls)
+        {
+            Sprite ballSprite = spawnConfig.BallType switch
+            {
+                BallType.GREEN_ROUND => _greenBallRoundSprite,
+                BallType.RED_ROUND => _redBallRoundSprite,
+                BallType.BLUE_ROUND => _blueBallRoundSprite,
+                BallType.GREEN_SQUARED => _greenBallSquaredSprite,
+                _ => _blueBallRoundSprite
+            };
+
+            _balls.Add(new Ball(ballSprite, spawnConfig.Size, spawnConfig.DirectionX, spawnConfig.Position));
+        }
     }
 
 }

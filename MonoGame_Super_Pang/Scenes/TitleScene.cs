@@ -12,6 +12,8 @@ public class TitleScene : Scene
     private const string SUPER_PANG_TEXT = "Super Pang";
     private const string PRESS_ENTER_TEXT = "Press Enter To Start";
 
+    private const int STARTING_LEVEL = 0;
+
     // The font to use to render normal text.
     private SpriteFont _font;
 
@@ -75,7 +77,7 @@ public class TitleScene : Scene
         // If the user presses enter, switch to the game scene.
         if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Enter))
         {
-            Core.ChangeScene(new GameScene());
+            Core.ChangeScene(new GameScene(STARTING_LEVEL));
         }
     }
 
