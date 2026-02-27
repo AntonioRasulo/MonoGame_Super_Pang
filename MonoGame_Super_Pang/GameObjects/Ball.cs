@@ -24,11 +24,11 @@ public enum BallType
 
 abstract public class Ball
 {
-    private Sprite _ballSprite;
+    protected Sprite _ballSprite;
 
     protected Vector2 _velocity;
 
-    private const float MOVEMENT_SPEED = 5.0f;
+    protected const float MOVEMENT_SPEED = 5.0f;
 
     private float _scale;
 
@@ -47,7 +47,9 @@ abstract public class Ball
 
         _ballSize = ballsize;
 
-        (_scale) = _ballSize switch
+        _ballType = ballType;
+
+        _scale = _ballSize switch
         {
             BallSize.LARGE => 4.0f,
             BallSize.MEDIUM => 2.0f,
@@ -70,7 +72,7 @@ abstract public class Ball
         {
             Position = ballInitialPosition;
         }
-        
+
     }
 
     /// <summary>
@@ -107,7 +109,9 @@ abstract public class Ball
 
     public Sprite GetSprite()
     {
-        return new Sprite(_ballSprite.Region);
+        var copy = new Sprite(_ballSprite.Region);
+        copy.Scale = _ballSprite.Scale; // copy current scale explicitly
+        return copy;
     }
 
     public BallSize GetBallSize()
@@ -122,24 +126,5 @@ abstract public class Ball
 
     public int spriteWidth => (int)(_ballSprite.Width);
     public int spriteHeight => (int)(_ballSprite.Height);
-
-    /// <summary>
-    /// Randomizes the velocity of the ball.
-    /// </summary>
-    /// TODO: move this in ReflectiveBall class
-    public void RandomizeVelocity()
-    {
-        // Generate a random angle
-        float angle = (float)(Random.Shared.NextDouble() * MathHelper.TwoPi);
-
-        // Convert the angle to a direction vector
-        float x = (float)Math.Cos(angle);
-        float y = (float)Math.Sin(angle);
-        Vector2 direction = new Vector2(x, y);
-
-        // Multiply the direction vector by the movement speed to get the
-        // final velocity
-        _velocity = direction * MOVEMENT_SPEED;
-    }
 
 }

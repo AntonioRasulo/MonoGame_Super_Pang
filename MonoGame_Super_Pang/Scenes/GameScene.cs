@@ -192,11 +192,7 @@ public class GameScene : Scene
                 if(areIntersecting(ball.GetBounds(), harpoonBound))
                 {
                     _score++;
-                    BallSize ballType = ball.GetBallSize();
-                    if(ballType == BallSize.LARGE || ballType == BallSize.MEDIUM)
-                    {
-                        toAddBall.AddRange(splitBall(ball));
-                    }
+                    toAddBall.AddRange(splitBall(ball));
                     toRemoveBall.Add(ball);
                     toRemoveHarpoon.Add(harpoon);
                 }
@@ -232,14 +228,15 @@ public class GameScene : Scene
             {
                 ball.Bounce(Vector2.UnitY);
                 // Clamp to ceiling
-                pos.Y = _roomBounds.Top;
+                pos.Y = _roomBounds.Top + (pos.Y - (ballBounds.Y - ballBounds.Radius));
                 ball.Position = pos;
             }
             else if (ballBounds.Bottom > _roomBounds.Bottom)
             {
                 ball.Bounce(-Vector2.UnitY);
                 // Clamp to floor
-                pos.Y = _roomBounds.Bottom - ball.spriteHeight;
+                pos.Y = _roomBounds.Bottom - ball.spriteHeight
+                        - (ballBounds.Bottom - _roomBounds.Bottom);
                 ball.Position = pos;
             }
 
@@ -247,14 +244,15 @@ public class GameScene : Scene
             {
                 ball.Bounce(Vector2.UnitX);
                 // Clamp to left wall
-                pos.X = _roomBounds.Left;
+                pos.X = _roomBounds.Left + (pos.X - (ballBounds.X - ballBounds.Radius));
                 ball.Position = pos;
             }
             else if (ballBounds.Right > _roomBounds.Right)
             {
                 ball.Bounce(-Vector2.UnitX);
                 // Clamp to right wall
-                pos.X = _roomBounds.Right - ball.spriteWidth;
+                pos.X = _roomBounds.Right - ball.spriteWidth
+                        - (ballBounds.Right - _roomBounds.Right);
                 ball.Position = pos;
             }
         }
@@ -360,16 +358,16 @@ public class GameScene : Scene
             switch(spawnConfig.BallType)
             {
                 case BallType.GREEN_ROUND:
-                    _balls.Add(new BouncingBall(_greenBallRoundSprite, spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
+                    _balls.Add(new BouncingBall(new Sprite(_greenBallRoundSprite.Region), spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
                 break;
                 case BallType.RED_ROUND:
-                    _balls.Add(new BouncingBall(_redBallRoundSprite, spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
+                    _balls.Add(new BouncingBall(new Sprite(_redBallRoundSprite.Region), spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
                 break;
                 case BallType.BLUE_ROUND:
-                    _balls.Add(new BouncingBall(_blueBallRoundSprite, spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
+                    _balls.Add(new BouncingBall(new Sprite(_blueBallRoundSprite.Region), spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
                 break;
                 case BallType.GREEN_SQUARED:
-                    _balls.Add(new BouncingBall(_greenBallSquaredSprite, spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
+                    _balls.Add(new ReflectiveBall(new Sprite(_greenBallSquaredSprite.Region), spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
                 break;
             }
         }
@@ -394,8 +392,8 @@ public class GameScene : Scene
                     toAddBall.Add(new BouncingBall(ball.GetSprite(), ballSize-1, -1f, ballType, ball.Position));
                 break;
                 case BallType.GREEN_SQUARED:
-                    toAddBall.Add(new BouncingBall(ball.GetSprite(), ballSize-1, 1f, ballType, ball.Position));
-                    toAddBall.Add(new BouncingBall(ball.GetSprite(), ballSize-1, -1f, ballType, ball.Position));
+                    toAddBall.Add(new ReflectiveBall(ball.GetSprite(), ballSize-1, 1f, ballType, ball.Position));
+                    toAddBall.Add(new ReflectiveBall(ball.GetSprite(), ballSize-1, -1f, ballType, ball.Position));
                 break;
             }
         }
