@@ -924,3 +924,18 @@
 /processorParam:TextureFormat=Color
 /build:images/items.png
 
+#begin images/Terrain (16x16).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,255,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/Terrain (16x16).png
+
+#begin images/terrain_atlas.xml
+/copy:images/terrain_atlas.xml
+
