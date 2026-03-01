@@ -17,6 +17,8 @@ public class GameScene : Scene
 
     private List<Ball> _balls;
 
+    private List<Platform> _platforms;
+
     private Rectangle _roomBounds;
 
     private const int HARPOON_DELAY = 5;
@@ -42,6 +44,8 @@ public class GameScene : Scene
     private Sprite _greenBallRoundSprite;
 
     private Sprite _greenBallSquaredSprite;
+
+    private Sprite _grayHorizontalPlatform;
 
     private int _currentLevelIndex;
 
@@ -79,6 +83,7 @@ public class GameScene : Scene
         TextureAtlas characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Content, "images/items-atlas.xml");
         TextureAtlas baloonsAtlas = TextureAtlas.FromFile(Content, "images/baloons_atlas.xml");
+        TextureAtlas platformAtlas = TextureAtlas.FromFile(Content, "images/terrain_atlas.xml");
 
         // Retrieve regions and animations from the atlas
         Sprite idleRegion = characterAtlas.CreateSprite("characterStanding");
@@ -90,6 +95,9 @@ public class GameScene : Scene
         _blueBallRoundSprite = itemsAtlas.CreateSprite("blueBall");
         _greenBallRoundSprite = itemsAtlas.CreateSprite("greenBall");
         _greenBallSquaredSprite = baloonsAtlas.CreateSprite("greenBall");
+
+        // Retrieve platforms sprites
+        _grayHorizontalPlatform = platformAtlas.CreateSprite("horizontalGrayPlatform");
 
         _livesSprite = itemsAtlas.CreateSprite("livesSprite");
         _livesSprite.Scale = new Vector2(4.0f, 4.0f);
@@ -109,6 +117,8 @@ public class GameScene : Scene
         _character = new Character(idleRegion, walkAnimation, shootAnimation, harpoonAnimation);
 
         _balls = new List<Ball>();
+
+        _platforms = new List<Platform>();
 
         //_balls.Add(new Ball(redBallSprite, BallSize.LARGE, 1f));
 
@@ -322,6 +332,11 @@ public class GameScene : Scene
             ball.Draw();
         }
 
+        foreach(Platform platform in _platforms)
+        {
+            platform.Draw();
+        }
+
         for(int livesIndex = 1; livesIndex <= _lives; livesIndex++)
         {
             Rectangle roomBounds = Core.GraphicsDevice.PresentationParameters.Bounds;
@@ -368,6 +383,17 @@ public class GameScene : Scene
                 break;
                 case BallType.GREEN_SQUARED:
                     _balls.Add(new ReflectiveBall(new Sprite(_greenBallSquaredSprite.Region), spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
+                break;
+            }
+        }
+
+        foreach(var platformSpawn in config.Platforms)
+        {
+            PlatformType platformType = platformSpawn.platformType;
+            switch (platformType)
+            {
+                case PlatformType.HORIZONTAL_GREEN:
+                    _platforms.Add(new Platform(new Sprite(_grayHorizontalPlatform.Region), platformSpawn.Position, platformType));
                 break;
             }
         }

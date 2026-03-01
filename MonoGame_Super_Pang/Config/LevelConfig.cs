@@ -10,6 +10,8 @@ public class LevelConfig
 {
     public List<BallSpawnConfig> Balls { get; set; }
     public Color BackgroundColor { get; set; }
+
+    public List<PlatformConfig> Platforms{ get; set;}
     // later: tilemap, time limit, etc.
 }
 
@@ -22,4 +24,11 @@ public class BallSpawnConfig
 
     public Vector2 Position { get; set; }
 
+}
+
+public class PlatformConfig
+{
+    public Vector2 Position {get; set;}
+
+    public PlatformType platformType{get; set;}
 }

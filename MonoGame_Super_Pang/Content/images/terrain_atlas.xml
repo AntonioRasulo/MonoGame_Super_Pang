@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas>
+    <Texture>images/Terrain (16x16)</Texture>
+        <Regions>
+        <Region name="horizontalGrayPlatform" x="192" y="64" width="48" height="16" />
+    </Regions>
+    <Animations>
+
+    </Animations>
+</TextureAtlas>
