@@ -94,7 +94,7 @@ public class GameScene : Scene
         _redBallRoundSprite = itemsAtlas.CreateSprite("redBall");
         _blueBallRoundSprite = itemsAtlas.CreateSprite("blueBall");
         _greenBallRoundSprite = itemsAtlas.CreateSprite("greenBall");
-        _greenBallSquaredSprite = baloonsAtlas.CreateSprite("greenBall");
+        _greenBallSquaredSprite = baloonsAtlas.CreateSprite("greenHexagonBall");
 
         // Retrieve platforms sprites
         _grayHorizontalPlatform = platformAtlas.CreateSprite("horizontalGrayPlatform");
