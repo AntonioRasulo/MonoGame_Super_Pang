@@ -120,10 +120,6 @@ public class GameScene : Scene
 
         _platforms = new List<Platform>();
 
-        //_balls.Add(new Ball(redBallSprite, BallSize.LARGE, 1f));
-
-        //_balls.Add(new Ball(redBallSprite, BallSize.LARGE, -1f));
-
         // Load the font
         _font = Content.Load<SpriteFont>("fonts/04B_30");
 

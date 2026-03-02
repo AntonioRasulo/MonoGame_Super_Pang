@@ -73,6 +73,8 @@ abstract public class Ball
             Position = ballInitialPosition;
         }
 
+        _ballSprite.Origin = new Vector2(_ballSprite.Region.Width, _ballSprite.Region.Height) * 0.5f;
+
     }
 
     /// <summary>
@@ -104,7 +106,8 @@ abstract public class Ball
     /// </summary>
     public void Draw()
     {
-        _ballSprite.Draw(Core.SpriteBatch, Position);
+        Vector2 centeredPosition = Position + new Vector2(_ballSprite.Width * 0.5f, _ballSprite.Height * 0.5f);
+        _ballSprite.Draw(Core.SpriteBatch, centeredPosition);
     }
 
     public Sprite GetSprite()
