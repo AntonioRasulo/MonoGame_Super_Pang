@@ -94,7 +94,9 @@ public class GameScene : Scene
         _redBallRoundSprite = itemsAtlas.CreateSprite("redBall");
         _blueBallRoundSprite = itemsAtlas.CreateSprite("blueBall");
         _greenBallRoundSprite = itemsAtlas.CreateSprite("greenBall");
-        _greenBallSquaredSprite = baloonsAtlas.CreateSprite("greenHexagonBall");
+
+        Texture2D greenSquaredTexture = Content.Load<Texture2D>("images/HexagonGreenBall");
+        _greenBallSquaredSprite = new Sprite(greenSquaredTexture);
 
         // Retrieve platforms sprites
         _grayHorizontalPlatform = platformAtlas.CreateSprite("horizontalGrayPlatform");

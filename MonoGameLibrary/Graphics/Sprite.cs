@@ -20,6 +20,12 @@ public class Sprite
         Region = region;
     }
 
+    public Sprite(Texture2D texture)
+    {
+        TextureRegion textureRegion = new TextureRegion(texture, 0, 0, texture.Width, texture.Height);
+        Region = textureRegion;
+    }
+
     /// <summary>
     /// Gets or Sets the source texture region represented by this sprite.
     /// </summary>

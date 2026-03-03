@@ -57,6 +57,18 @@
 /processorParam:TextureFormat=Color
 /build:images/character.png
 
+#begin images/HexagonGreenBall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=128,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/HexagonGreenBall.png
+
 #begin images/items_100.png
 /importer:TextureImporter
 /processor:TextureProcessor
