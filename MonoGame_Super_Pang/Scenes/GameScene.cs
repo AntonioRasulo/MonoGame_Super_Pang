@@ -49,6 +49,12 @@ public class GameScene : Scene
 
     private int _currentLevelIndex;
 
+    private Random _powerUpRand;
+
+    private List<PowerUp> _powerUps;
+
+    private const int LIVES_POWERUP_PROB = 5;
+
     public GameScene(int startingLevel)
     {
         _currentLevelIndex = startingLevel;
@@ -72,9 +78,12 @@ public class GameScene : Scene
         //_scoreTextPosition = new Vector2(_roomBounds.Left, _tilemap.TileHeight * 0.5f); TODO: implement tilemap
         _scoreTextPosition = new Vector2(_roomBounds.Left, 10);
 
-        // // Set the origin of the text so it is left-centered.
+        // Set the origin of the text so it is left-centered.
         float scoreTextYOrigin = _font.MeasureString("Score").Y * 0.5f;
         _scoreTextOrigin = new Vector2(0, scoreTextYOrigin);
+
+        _powerUpRand = new Random();
+        _powerUps = new List<PowerUp>();
     }
 
     public override void LoadContent()
@@ -170,6 +179,11 @@ public class GameScene : Scene
             ball.Update();
         }
 
+        foreach(PowerUp powerUp in _powerUps)
+        {
+            powerUp.Update();
+        }
+
         CollisionChecks();
 
         checkChangeScene();
@@ -180,9 +194,25 @@ public class GameScene : Scene
     {
         Rectangle characterBounds = _character.getBounds();
 
+        var toRemovePowerUps = new List<PowerUp>();
+
+        /* Character - PowerUp collision */
+        foreach(PowerUp powerUp in _powerUps)
+        {
+            Rectangle powerUpBounds = powerUp.getBounds();
+            if (powerUpBounds.Intersects(characterBounds))
+            {
+                _lives++;
+                toRemovePowerUps.Add(powerUp);
+            }
+        }
+
+        _powerUps.RemoveAll(powerUp => toRemovePowerUps.Contains(powerUp));
+
         var toAddBall = new List<Ball>();
         var toRemoveBall = new List<Ball>();
         var toRemoveHarpoon = new List<Harpoon>();
+        var toAddPowerUps = new List<PowerUp>();
 
         /* Harpoon - Ball collision check */
         foreach(Harpoon harpoon in _character.getHarpoons())
@@ -204,6 +234,11 @@ public class GameScene : Scene
                     toAddBall.AddRange(splitBall(ball));
                     toRemoveBall.Add(ball);
                     toRemoveHarpoon.Add(harpoon);
+                    int rand = _powerUpRand.Next(0, 100);
+                    if(rand<LIVES_POWERUP_PROB)
+                    {
+                        toAddPowerUps.Add(new PowerUp(_livesSprite, ball.Position));
+                    }
                 }
             }
         }
@@ -211,6 +246,7 @@ public class GameScene : Scene
         _balls.RemoveAll(ball => toRemoveBall.Contains(ball));
         _balls.AddRange(toAddBall);
         _character.removeHarpoons(toRemoveHarpoon);
+        _powerUps.AddRange(toAddPowerUps);
 
         /* Platform - Ball collision check */
         foreach(Platform platform in _platforms)
@@ -403,11 +439,20 @@ public class GameScene : Scene
             platform.Draw();
         }
 
+        foreach(PowerUp powerUp in _powerUps)
+        {
+            powerUp.Draw();
+        }
+
         for(int livesIndex = 1; livesIndex <= _lives; livesIndex++)
         {
-            Rectangle roomBounds = Core.GraphicsDevice.PresentationParameters.Bounds;
-            float distanceFromLeftWall = 5.0f;
-            Vector2 livesSpritePosition = new Vector2((_livesSprite.Width * 0.5f + distanceFromLeftWall) * livesIndex, roomBounds.Height - _livesSprite.Height);
+            int roomWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
+            float distanceFromRightWall = 5.0f;
+            float distanceFromTopWall = 2.0f;
+            float spaceBetweenSprites = 2.0f;
+
+            Vector2 livesSpritePosition = new Vector2(roomWidth - (distanceFromRightWall + _livesSprite.Width + spaceBetweenSprites) * livesIndex, distanceFromTopWall);
+
             _livesSprite.Draw(Core.SpriteBatch, livesSpritePosition);
         }
 

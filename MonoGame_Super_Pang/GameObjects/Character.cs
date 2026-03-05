@@ -209,10 +209,10 @@ public class Character
     {
         // Creating a bounding rectangle for the character
         Rectangle characterBounds = new Rectangle(
-            (int)(_characterPosition.X),
-            (int)(_characterPosition.Y + (_idleSprite.Height * 0.5f)),
-            (int)(_idleSprite.Width),
-            (int)(_idleSprite.Height * 0.5f *SCALE)
+            (int)_characterPosition.X,
+            (int)_characterPosition.Y,
+            (int)_idleSprite.Width,
+            (int)_idleSprite.Height
         );
 
         return characterBounds;
