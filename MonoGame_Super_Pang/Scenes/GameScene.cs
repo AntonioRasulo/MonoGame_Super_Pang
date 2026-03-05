@@ -184,6 +184,7 @@ public class GameScene : Scene
         var toRemoveBall = new List<Ball>();
         var toRemoveHarpoon = new List<Harpoon>();
 
+        /* Harpoon - Ball collision check */
         foreach(Harpoon harpoon in _character.getHarpoons())
         {
 
@@ -211,6 +212,7 @@ public class GameScene : Scene
         _balls.AddRange(toAddBall);
         _character.removeHarpoons(toRemoveHarpoon);
 
+        /* Platform - Ball collision check */
         foreach(Platform platform in _platforms)
         {
             Rectangle platformBounds = platform.getBounds();
@@ -259,6 +261,7 @@ public class GameScene : Scene
             }
         }
 
+        /* Character - Ball collision check */
         foreach(Ball ball in _balls)
         {
             if(areIntersecting(ball.GetBounds(), characterBounds) && (_character.IsImmune == false))
@@ -270,6 +273,23 @@ public class GameScene : Scene
                     return;
             }
         }
+
+        toRemoveHarpoon = new List<Harpoon>();
+        foreach(Harpoon harpoon in _character.getHarpoons())
+        {
+            Rectangle harpoonBounds = harpoon.getBounds();
+            foreach(Platform platform in _platforms)
+            {
+                Rectangle platformBounds = platform.getBounds();
+
+                if (harpoonBounds.Intersects(platformBounds))
+                {
+                    toRemoveHarpoon.Add(harpoon);
+                }
+            }
+        }
+
+        _character.removeHarpoons(toRemoveHarpoon);
 
         // Finally, check if the ball is colliding with a wall by validating if
         // it is within the bounds of the room.  If it is outside the room
