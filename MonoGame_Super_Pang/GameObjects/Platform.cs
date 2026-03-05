@@ -32,4 +32,18 @@ public class Platform
     {
         _sprite.Draw(Core.SpriteBatch, _position);
     }
+
+    public Rectangle getBounds()
+    {
+        // Creating a bounding rectangle for the platform
+        Rectangle platformBounds = new Rectangle(
+            (int)_position.X,
+            (int)_position.Y,
+            (int)_sprite.Width,
+            (int)_sprite.Height
+        );
+
+        return platformBounds;
+    }
+
 }

@@ -91,7 +91,7 @@ abstract public class Ball
     {
         int x = (int)(Position.X + _ballSprite.Width * 0.5f);
         int y = (int)(Position.Y + _ballSprite.Height * 0.5f);
-        int radius = (int)(_ballSprite.Width * 0.4f);
+        int radius = (int)(_ballSprite.Width * 0.5f);
 
         return new Circle(x, y, radius);
     }

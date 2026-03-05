@@ -211,6 +211,54 @@ public class GameScene : Scene
         _balls.AddRange(toAddBall);
         _character.removeHarpoons(toRemoveHarpoon);
 
+        foreach(Platform platform in _platforms)
+        {
+            Rectangle platformBounds = platform.getBounds();
+            foreach(Ball ball in _balls)
+            {
+                Circle ballBounds = ball.GetBounds();
+
+                if(areIntersecting(ballBounds, platformBounds))
+                {
+                    Vector2 pos = ball.Position;
+                    
+                    int []distances =
+                    {
+                        Math.Abs(ballBounds.Top - platformBounds.Bottom), // From bottom
+                        Math.Abs(ballBounds.Bottom -  platformBounds.Top), // From top
+                        Math.Abs(ballBounds.Right - platformBounds.Left), // From Left
+                        Math.Abs(ballBounds.Left - platformBounds.Right), // From right
+                    };
+                    int indexMin = 0;
+                    int min = distances[0];
+                    for (int i = 1; i < distances.Length; i++)
+                    {
+                        if (distances[i] < min)
+                        {
+                            min = distances[i];
+                            indexMin = i;
+                        }
+                    }
+
+                    switch (indexMin)
+                    {
+                        case 0:
+                        ball.Bounce(Vector2.UnitY);
+                        break;
+                        case 1:
+                        ball.Bounce(-Vector2.UnitY);
+                        break;
+                        case 2:
+                        ball.Bounce(-Vector2.UnitX);
+                        break;
+                        case 3:
+                        ball.Bounce(Vector2.UnitX);
+                        break;
+                    }
+                }
+            }
+        }
+
         foreach(Ball ball in _balls)
         {
             if(areIntersecting(ball.GetBounds(), characterBounds) && (_character.IsImmune == false))
@@ -292,25 +340,25 @@ public class GameScene : Scene
 
     private bool areIntersecting(Circle circle, Rectangle rectangle)
     {
-        int circleDistanceX = Math.Abs(circle.X - rectangle.Center.X);
-        int circleDistanceY = Math.Abs(circle.Y - rectangle.Center.Y);
+        int distanceX = Math.Abs(circle.X - rectangle.Center.X);
+        int distanceY = Math.Abs(circle.Y - rectangle.Center.Y);
 
-        float rectWidth = rectangle.Width * 0.5f;
-        float rectHeight = rectangle.Height * 0.5f;
+        float halfRectWidth = rectangle.Width * 0.5f;
+        float halfRectHeight = rectangle.Height * 0.5f;
 
-        if((circleDistanceX > (rectWidth + circle.Radius)) ||
-           (circleDistanceY > (rectHeight + circle.Radius)))
+        if((distanceX > (halfRectWidth + circle.Radius)) ||
+           (distanceY > (halfRectHeight + circle.Radius)))
         {
             return false;
         }
 
-        if(circleDistanceX <= rectWidth ||
-           circleDistanceY <= rectHeight)
+        if(distanceX <= halfRectWidth ||
+           distanceY <= halfRectHeight)
         {
             return true;
         }
 
-        double cornerDistanceSquare = Math.Pow(circleDistanceX-rectWidth, 2) + Math.Pow(circleDistanceY-rectHeight, 2);
+        double cornerDistanceSquare = Math.Pow(distanceX-halfRectWidth, 2) + Math.Pow(distanceY-halfRectHeight, 2);
 
         return cornerDistanceSquare <= Math.Pow(circle.Radius, 2);
     }
@@ -365,6 +413,7 @@ public class GameScene : Scene
     private void LoadLevel(LevelConfig config)
     {
         _balls.Clear();
+        _platforms.Clear();
         foreach (var spawnConfig in config.Balls)
         {
             BallType ballType = spawnConfig.BallType;
