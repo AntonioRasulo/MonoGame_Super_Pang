@@ -47,6 +47,8 @@ public class GameScene : Scene
 
     private Sprite _grayHorizontalPlatform;
 
+    private List<Sprite> _horizontalBreakableBlueSprites;
+
     private int _currentLevelIndex;
 
     private Random _powerUpRand;
@@ -103,6 +105,13 @@ public class GameScene : Scene
         _redBallRoundSprite = itemsAtlas.CreateSprite("redBall");
         _blueBallRoundSprite = itemsAtlas.CreateSprite("blueBall");
         _greenBallRoundSprite = itemsAtlas.CreateSprite("greenBall");
+
+        _horizontalBreakableBlueSprites = new List<Sprite>();
+        for(int indexPlatform = 1; indexPlatform<=5; indexPlatform++)
+        {
+            String spriteName = "largeBreakableBluePlatform"+indexPlatform;
+            _horizontalBreakableBlueSprites.Add(itemsAtlas.CreateSprite(spriteName));
+        }
 
         Texture2D greenSquaredTexture = Content.Load<Texture2D>("images/HexagonGreenBall");
         _greenBallSquaredSprite = new Sprite(greenSquaredTexture);
@@ -310,6 +319,8 @@ public class GameScene : Scene
             }
         }
 
+        /* Harpoon - Platform collision check */
+        var toRemovePlatform = new List<Platform>();
         toRemoveHarpoon = new List<Harpoon>();
         foreach(Harpoon harpoon in _character.getHarpoons())
         {
@@ -321,10 +332,19 @@ public class GameScene : Scene
                 if (harpoonBounds.Intersects(platformBounds))
                 {
                     toRemoveHarpoon.Add(harpoon);
+                    if(platform.isBreakable() == true)
+                    {
+                        ((BreakablePlatform)platform).hitPlatform();
+                        if(((BreakablePlatform)platform).getState() == PlatformState.Delete)
+                        {
+                            toRemovePlatform.Add(platform);
+                        }
+                    }
                 }
             }
         }
 
+        _platforms.RemoveAll(platform => toRemovePlatform.Contains(platform));
         _character.removeHarpoons(toRemoveHarpoon);
 
         // Finally, check if the ball is colliding with a wall by validating if
@@ -504,8 +524,11 @@ public class GameScene : Scene
             PlatformType platformType = platformSpawn.platformType;
             switch (platformType)
             {
-                case PlatformType.HORIZONTAL_GREEN:
-                    _platforms.Add(new Platform(new Sprite(_grayHorizontalPlatform.Region), platformSpawn.Position, platformType));
+                case PlatformType.HORIZONTAL_GRAY:
+                    _platforms.Add(new UnbreakablePlatform(new Sprite(_grayHorizontalPlatform.Region), platformSpawn.Position, platformType));
+                break;
+                case PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE:
+                    _platforms.Add(new BreakablePlatform(_horizontalBreakableBlueSprites, platformSpawn.Position, platformType, platformSpawn.platformState));
                 break;
             }
         }

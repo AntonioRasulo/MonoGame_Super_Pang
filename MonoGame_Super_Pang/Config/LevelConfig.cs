@@ -31,4 +31,6 @@ public class PlatformConfig
     public Vector2 Position {get; set;}
 
     public PlatformType platformType{get; set;}
+
+    public PlatformState platformState{get; set;}
 }

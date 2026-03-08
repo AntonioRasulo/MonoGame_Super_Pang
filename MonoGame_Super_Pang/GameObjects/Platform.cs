@@ -1,4 +1,3 @@
-//using System.Numerics;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework;
@@ -7,43 +6,35 @@ namespace MonoGame_Super_Pang.GameObjects;
 
 public enum PlatformType
 {
-    HORIZONTAL_GREEN
+    HORIZONTAL_GRAY,
+    BREAKABLE_LARGE_HORIZONTAL_BLUE
 };
 
-public class Platform
+abstract public class Platform
 {
-    private Sprite _sprite;
+    //private Sprite _sprite;
 
-    private Vector2 _position;
+    protected Vector2 _position;
 
     private PlatformType _platformType;
 
-    private const float SCALE = 4f;
+    protected const float SCALE = 4f;
 
-    public Platform(Sprite sprite, Vector2 position, PlatformType platformType)
+    protected bool _breakable;
+
+    public Platform(Vector2 position, PlatformType platformType)
     {
-        _sprite = sprite;
-        _sprite.Scale = new Vector2(SCALE, SCALE);
         _position = position;
         _platformType = platformType;
     }
 
-    public void Draw()
-    {
-        _sprite.Draw(Core.SpriteBatch, _position);
-    }
+    public abstract void Draw();
 
-    public Rectangle getBounds()
-    {
-        // Creating a bounding rectangle for the platform
-        Rectangle platformBounds = new Rectangle(
-            (int)_position.X,
-            (int)_position.Y,
-            (int)_sprite.Width,
-            (int)_sprite.Height
-        );
+    public abstract Rectangle getBounds();
 
-        return platformBounds;
+    public bool isBreakable()
+    {
+        return _breakable;
     }
 
 }

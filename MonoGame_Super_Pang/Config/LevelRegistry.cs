@@ -33,7 +33,7 @@ public static class LevelRegistry
                 new PlatformConfig
                 {
                     Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.60f),
-                    platformType = PlatformType.HORIZONTAL_GREEN
+                    platformType = PlatformType.HORIZONTAL_GRAY
                 }
             }
         },
@@ -86,7 +86,37 @@ public static class LevelRegistry
                 new PlatformConfig
                 {
                     Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.65f),
-                    platformType = PlatformType.HORIZONTAL_GREEN
+                    platformType = PlatformType.HORIZONTAL_GRAY
+                }
+            }
+        },
+        new LevelConfig // Level 4
+        {
+            Balls = new List<BallSpawnConfig>
+            {
+                new BallSpawnConfig
+                {
+                    Size = BallSize.MEDIUM,
+                    DirectionX = -1f,
+                    BallType = BallType.RED_ROUND,
+                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
+                },
+                new BallSpawnConfig 
+                { 
+                    Size = BallSize.MEDIUM,
+                    DirectionX = 1f,
+                    BallType = BallType.RED_ROUND,
+                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.75f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
+                }
+            },
+
+            Platforms = new List<PlatformConfig>
+            {
+                new PlatformConfig
+                {
+                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.65f),
+                    platformType = PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE,
+                    platformState = PlatformState.Stage1
                 }
             }
         }
