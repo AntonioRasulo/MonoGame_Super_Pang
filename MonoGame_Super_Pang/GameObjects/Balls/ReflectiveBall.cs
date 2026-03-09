@@ -21,6 +21,18 @@ public class ReflectiveBall : Ball
         _rotationSpeed = _rotationSpeed * dirX;
     }
 
+    public ReflectiveBall(Sprite ballSprite, BallSize ballSize, float dirX, BallType ballType, bool isFreezed)
+                        :base(ballSprite, ballSize, dirX, ballType, isFreezed)
+    {
+        Vector2 direction = new Vector2(dirX, -1);
+
+        // Multiply the direction vector by the movement speed to get the
+        // final velocity
+        _velocity = direction * MOVEMENT_SPEED;
+
+        _rotationSpeed = _rotationSpeed * dirX;
+    }
+
     public override void Bounce(Vector2 normal)
     {
         Vector2 newPosition = Position;
@@ -51,12 +63,19 @@ public class ReflectiveBall : Ball
 
     }
 
-    public override void Update()
+    public override void Update(GameTime gameTime)
     {
-        // Update the position of the ball based on the velocity.
-        Position += _velocity;
+        if(!_isFreezed)
+        {
+            // Update the position of the ball based on the velocity.
+            Position += _velocity;
 
-        _ballSprite.Rotation += _rotationSpeed;
+            _ballSprite.Rotation += _rotationSpeed;
+        }
+        else
+        {
+            updateFreeze(gameTime);
+        }
     }
 
 }

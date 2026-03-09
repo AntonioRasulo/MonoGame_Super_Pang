@@ -30,11 +30,16 @@ abstract public class Ball
 
     protected const float MOVEMENT_SPEED = 5.0f;
 
+    private float _freezeDuration = 4.0f;
+    private float _freezeTimer = 0f;
+
     private float _scale;
 
     protected BallSize _ballSize;
 
     protected BallType _ballType;
+
+    protected Boolean _isFreezed {get; set;}
 
     /// <summary>
     /// Gets or Sets the position of the ball.
@@ -75,6 +80,13 @@ abstract public class Ball
 
         _ballSprite.Origin = new Vector2(_ballSprite.Region.Width, _ballSprite.Region.Height) * 0.5f;
 
+        _isFreezed = false;
+
+    }
+
+    public Ball(Sprite ballSprite, BallSize ballsize, float dirX, BallType ballType, bool isFreezed) : this(ballSprite, ballsize, dirX, ballType)
+    {
+        _isFreezed = isFreezed;
     }
 
     /// <summary>
@@ -99,7 +111,7 @@ abstract public class Ball
     /// <summary>
     /// Updates the ball.
     /// </summary>
-    public abstract void Update();
+    public abstract void Update(GameTime gameTime);
 
     /// <summary>
     /// Draws the ball.
@@ -127,7 +139,39 @@ abstract public class Ball
         return _ballType;
     }
 
+    protected void updateFreeze(GameTime gameTime)
+    {
+        float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        if (_freezeTimer > 0f)
+        {
+            _freezeTimer -= delta;
+
+            if (_freezeTimer <= 0f)
+            {
+                _freezeTimer = 0f;
+                _isFreezed = false;
+            }
+        }
+    }
+
+    public void Freeze()
+    {
+        _freezeTimer = _freezeDuration;
+        _isFreezed = true;
+    }
+
+    public bool isFreezed()
+    {
+        return _isFreezed;
+    }
+
     public int spriteWidth => (int)(_ballSprite.Width);
     public int spriteHeight => (int)(_ballSprite.Height);
+
+    public float getRadius()
+    {
+        return _ballSprite.Width * 0.5f;
+    }
 
 }

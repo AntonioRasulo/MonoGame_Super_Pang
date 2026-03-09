@@ -38,6 +38,7 @@ public class GameScene : Scene
     private int _lives = 3;
 
     private Sprite _livesSprite;
+    private Sprite _freezeSprite;
 
     private Sprite _redBallRoundSprite;
     private Sprite _blueBallRoundSprite;
@@ -56,6 +57,7 @@ public class GameScene : Scene
     private List<PowerUp> _powerUps;
 
     private const int LIVES_POWERUP_PROB = 5;
+    private const int FREEZE_POWERUP_PROB = 10;
 
     public GameScene(int startingLevel)
     {
@@ -122,6 +124,9 @@ public class GameScene : Scene
         _livesSprite = itemsAtlas.CreateSprite("livesSprite");
         _livesSprite.Scale = new Vector2(4.0f, 4.0f);
 
+        _freezeSprite = itemsAtlas.CreateSprite("freezeSprite");
+        _freezeSprite.Scale = new Vector2(4.0f, 4.0f);
+
         // Retrieve harpoons frames
         List<TextureRegion> harpoonFrames = new List<TextureRegion>();
         for (int harpoonIndex = 100; harpoonIndex <= 170; harpoonIndex++)
@@ -185,7 +190,7 @@ public class GameScene : Scene
 
         foreach(Ball ball in _balls)
         {
-            ball.Update();
+            ball.Update(gameTime);
         }
 
         foreach(PowerUp powerUp in _powerUps)
@@ -211,7 +216,18 @@ public class GameScene : Scene
             Rectangle powerUpBounds = powerUp.getBounds();
             if (powerUpBounds.Intersects(characterBounds))
             {
-                _lives++;
+                switch (powerUp.GetPowerUpType())
+                {
+                    case powerUpType.LIVES:
+                        _lives++;
+                    break;
+                    case powerUpType.CLOCK:
+                        foreach(Ball ball in _balls)
+                        {
+                            ball.Freeze();
+                        }
+                    break;
+                }
                 toRemovePowerUps.Add(powerUp);
             }
         }
@@ -246,7 +262,11 @@ public class GameScene : Scene
                     int rand = _powerUpRand.Next(0, 100);
                     if(rand<LIVES_POWERUP_PROB)
                     {
-                        toAddPowerUps.Add(new PowerUp(_livesSprite, ball.Position));
+                        toAddPowerUps.Add(new PowerUp(_livesSprite, ball.Position, powerUpType.LIVES));
+                    }
+                    else if (rand < FREEZE_POWERUP_PROB)
+                    {
+                        toAddPowerUps.Add(new PowerUp(_freezeSprite, ball.Position, powerUpType.CLOCK));
                     }
                 }
             }
@@ -543,18 +563,31 @@ public class GameScene : Scene
         if(ballSize == BallSize.LARGE || ballSize == BallSize.MEDIUM)
         {
             BallType ballType = ball.GetBallType();
+            float ballPositionX = ball.Position.X;
 
             switch(ballType)
             {
                 case BallType.GREEN_ROUND:
                 case BallType.RED_ROUND:
                 case BallType.BLUE_ROUND:
-                    toAddBall.Add(new BouncingBall(ball.GetSprite(), ballSize-1, 1f, ballType, ball.Position));
-                    toAddBall.Add(new BouncingBall(ball.GetSprite(), ballSize-1, -1f, ballType, ball.Position));
+                {    
+                    Ball leftBall = new BouncingBall(ball.GetSprite(), ballSize-1, -1f, ballType, ball.isFreezed());
+                    Ball rightBall = new BouncingBall(ball.GetSprite(), ballSize-1, 1f, ballType, ball.isFreezed());
+                    leftBall.Position = new Vector2(ballPositionX - leftBall.getRadius(), ball.Position.Y);
+                    rightBall.Position = new Vector2(ballPositionX + leftBall.getRadius(), ball.Position.Y);
+                    toAddBall.Add(rightBall);
+                    toAddBall.Add(leftBall);
+                }
                 break;
                 case BallType.GREEN_SQUARED:
-                    toAddBall.Add(new ReflectiveBall(ball.GetSprite(), ballSize-1, 1f, ballType, ball.Position));
-                    toAddBall.Add(new ReflectiveBall(ball.GetSprite(), ballSize-1, -1f, ballType, ball.Position));
+                {
+                    Ball leftBall = new ReflectiveBall(ball.GetSprite(), ballSize-1, -1f, ballType, ball.isFreezed());
+                    Ball rightBall = new ReflectiveBall(ball.GetSprite(), ballSize-1, 1f, ballType, ball.isFreezed());
+                    leftBall.Position = new Vector2(ballPositionX - leftBall.getRadius(), ball.Position.Y);
+                    rightBall.Position = new Vector2(ballPositionX + leftBall.getRadius(), ball.Position.Y);
+                    toAddBall.Add(leftBall);
+                    toAddBall.Add(rightBall);
+                }
                 break;
             }
         }

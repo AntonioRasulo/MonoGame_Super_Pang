@@ -6,6 +6,7 @@
         <Region name="blueBall" x="303" y="797" width="32" height="26" />
         <Region name="greenBall" x="344" y="797" width="32" height="26" />
         <Region name="livesSprite" x="8" y="197" width="16" height="17" />
+        <Region name="freezeSprite" x="8" y="102" width="16" height="16"/>
         <Region name="largeBreakableBluePlatform1" x="8" y="618" width="32" height="9" />
         <Region name="largeBreakableBluePlatform2" x="48" y="618" width="32" height="9" />
         <Region name="largeBreakableBluePlatform3" x="88" y="618" width="32" height="9" />

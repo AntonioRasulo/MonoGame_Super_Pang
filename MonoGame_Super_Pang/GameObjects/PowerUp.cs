@@ -2,6 +2,12 @@ using MonoGameLibrary.Graphics;
 using MonoGameLibrary;
 using Microsoft.Xna.Framework;
 
+public enum powerUpType
+{
+    LIVES,
+    CLOCK
+}
+
 public class PowerUp
 {
     private Sprite _sprite;
@@ -9,11 +15,14 @@ public class PowerUp
     private const float SCALE = 4.0f;
     private Vector2 VELOCITY_Y = new Vector2 (0f, 4.0f);
 
-    public PowerUp(Sprite sprite, Vector2 position)
+    private powerUpType _type;
+
+    public PowerUp(Sprite sprite, Vector2 position, powerUpType type)
     {
         _sprite = sprite;
         _sprite.Scale = new Vector2(SCALE, SCALE);
         _position = position;
+        _type = type;
     }
 
     public void Update()
@@ -46,6 +55,11 @@ public class PowerUp
 
         return bounds;
 
+    }
+
+    public powerUpType GetPowerUpType()
+    {
+        return _type;
     }
 
 }

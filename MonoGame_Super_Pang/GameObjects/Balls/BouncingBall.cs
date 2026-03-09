@@ -28,6 +28,21 @@ public class BouncingBall : Ball
 
     }
 
+    public BouncingBall(Sprite ballSprite, BallSize ballSize, float dirX, BallType ballType, bool isFreezed)
+                        :base(ballSprite, ballSize, dirX, ballType, isFreezed)
+    {
+        (_jumpStrength, _speedX) = _ballSize switch
+        {
+            BallSize.LARGE => (10f, 1.5f),
+            BallSize.MEDIUM => (9f, 2.0f),
+            BallSize.SMALL => (8f, 2.5f),
+            _ => (8f, 2.5f)
+        };
+
+        // Start moving upward
+        _velocity = new Vector2(_speedX * dirX, -_jumpStrength);
+    }
+
     public override void Bounce(Vector2 normal)
     {
         if (normal.X != 0)
@@ -48,14 +63,20 @@ public class BouncingBall : Ball
 
     }
 
-    public override void Update()
+    public override void Update(GameTime gameTime)
     {
-        // Apply gravity each frame
-        _velocity.Y += GRAVITY;
+        if(!_isFreezed)
+        {
+            // Apply gravity each frame
+            _velocity.Y += GRAVITY;
 
-        // Update the position of the ball based on the velocity.
-        Position += _velocity;
-
+            // Update the position of the ball based on the velocity.
+            Position += _velocity;
+        }
+        else
+        {
+            updateFreeze(gameTime);
+        }
     }
 
 }
