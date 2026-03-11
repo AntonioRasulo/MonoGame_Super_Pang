@@ -42,14 +42,17 @@ public class Character
     private float _blinkTimer = 0f;
     private bool _isVisible = true;
 
+   private Invicible _invinciblePowerUp;
+
     public bool IsImmune => _immunityTimer > 0f;
-    public Character(Sprite idleSprite, AnimatedSprite walkAnimation, AnimatedSprite shootAnimation, Animation harpoonAnimation)
+    public Character(Sprite idleSprite, AnimatedSprite walkAnimation, AnimatedSprite shootAnimation, Animation harpoonAnimation, TextureRegion invincibleRegion)
     {
         _idleSprite = idleSprite;
         _walkAnimation = walkAnimation;
         _shootAnimation = shootAnimation;
         _harpoonAnimation = harpoonAnimation;
         _harpoons = new List<Harpoon>();
+        _invinciblePowerUp = new Invicible(invincibleRegion);
     }
 
     public void Initialize(float windowWidth, float windowHeight)
@@ -90,6 +93,7 @@ public class Character
             {
                 _immunityTimer = 0f;
                 _isVisible = true; // ensure visible when immunity ends
+                _invinciblePowerUp.isActive = false;
             }
         }
 
@@ -187,7 +191,13 @@ public class Character
             bullet.Draw();
         }
 
-        if (!_isVisible) return;
+        if (!_isVisible && !_invinciblePowerUp.isActive) return;
+
+        if(_invinciblePowerUp.isActive && _isVisible)
+        {
+            Vector2 invinciblePowerUpPos = new Vector2(_characterPosition.X, _characterPosition.Y - 20.0f);
+            _invinciblePowerUp.Draw(Core.SpriteBatch, invinciblePowerUpPos);
+        }
 
         Sprite currentAnimation = currentState switch
         {
@@ -242,7 +252,18 @@ public class Character
 
     public void TakeHit()
     {
+        activateImmunity();
+        _blinkTimer = 0f;
+        _isVisible = true;
+    }
+
+    public void activateImmunity(bool fromPowerUp = false)
+    {
         _immunityTimer = _immunityDuration;
+        if (fromPowerUp)
+        {
+            _invinciblePowerUp.isActive = true;
+        }
         _blinkTimer = 0f;
         _isVisible = true;
     }

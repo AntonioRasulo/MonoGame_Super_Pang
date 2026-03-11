@@ -39,6 +39,7 @@ public class GameScene : Scene
 
     private Sprite _livesSprite;
     private Sprite _freezeSprite;
+    private Sprite _invincibilitySprite; 
 
     private Sprite _redBallRoundSprite;
     private Sprite _blueBallRoundSprite;
@@ -56,8 +57,9 @@ public class GameScene : Scene
 
     private List<PowerUp> _powerUps;
 
-    private const int LIVES_POWERUP_PROB = 5;
-    private const int FREEZE_POWERUP_PROB = 10;
+    private const int LIVES_PROB = 5;
+    private const int FREEZE_PROB = 10;
+    private const int INVINCIBILITY_PROB = 15;
 
     public GameScene(int startingLevel)
     {
@@ -127,6 +129,9 @@ public class GameScene : Scene
         _freezeSprite = itemsAtlas.CreateSprite("freezeSprite");
         _freezeSprite.Scale = new Vector2(4.0f, 4.0f);
 
+        _invincibilitySprite = itemsAtlas.CreateSprite("invincibilitySprite");
+        _invincibilitySprite.Scale = new Vector2(1.5f, 1.5f);
+
         // Retrieve harpoons frames
         List<TextureRegion> harpoonFrames = new List<TextureRegion>();
         for (int harpoonIndex = 100; harpoonIndex <= 170; harpoonIndex++)
@@ -139,7 +144,7 @@ public class GameScene : Scene
 
         Animation harpoonAnimation = new Animation(harpoonFrames, TimeSpan.FromMilliseconds(HARPOON_DELAY));
 
-        _character = new Character(idleRegion, walkAnimation, shootAnimation, harpoonAnimation);
+        _character = new Character(idleRegion, walkAnimation, shootAnimation, harpoonAnimation, itemsAtlas.GetRegion("invincibilitySprite"));
 
         _balls = new List<Ball>();
 
@@ -227,6 +232,11 @@ public class GameScene : Scene
                             ball.Freeze();
                         }
                     break;
+                    case powerUpType.INVINCIBILITY:
+                        {
+                            _character.activateImmunity(true);
+                        }
+                    break;
                 }
                 toRemovePowerUps.Add(powerUp);
             }
@@ -260,13 +270,17 @@ public class GameScene : Scene
                     toRemoveBall.Add(ball);
                     toRemoveHarpoon.Add(harpoon);
                     int rand = _powerUpRand.Next(0, 100);
-                    if(rand<LIVES_POWERUP_PROB)
+                    if(rand<LIVES_PROB)
                     {
                         toAddPowerUps.Add(new PowerUp(_livesSprite, ball.Position, powerUpType.LIVES));
                     }
-                    else if (rand < FREEZE_POWERUP_PROB)
+                    else if (rand < FREEZE_PROB)
                     {
                         toAddPowerUps.Add(new PowerUp(_freezeSprite, ball.Position, powerUpType.CLOCK));
+                    }
+                    else if(rand < INVINCIBILITY_PROB)
+                    {
+                        toAddPowerUps.Add(new PowerUp(_invincibilitySprite, ball.Position, powerUpType.INVINCIBILITY));
                     }
                 }
             }
@@ -333,7 +347,7 @@ public class GameScene : Scene
             {
                 _score--;
                 _lives--;
-                _character.TakeHit();
+                _character.activateImmunity();
                 if(_lives == 0)
                     return;
             }

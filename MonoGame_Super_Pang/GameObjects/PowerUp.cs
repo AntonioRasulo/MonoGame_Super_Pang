@@ -5,14 +5,14 @@ using Microsoft.Xna.Framework;
 public enum powerUpType
 {
     LIVES,
-    CLOCK
+    CLOCK,
+    INVINCIBILITY
 }
 
 public class PowerUp
 {
     private Sprite _sprite;
     private Vector2 _position;
-    private const float SCALE = 4.0f;
     private Vector2 VELOCITY_Y = new Vector2 (0f, 4.0f);
 
     private powerUpType _type;
@@ -20,7 +20,6 @@ public class PowerUp
     public PowerUp(Sprite sprite, Vector2 position, powerUpType type)
     {
         _sprite = sprite;
-        _sprite.Scale = new Vector2(SCALE, SCALE);
         _position = position;
         _type = type;
     }
