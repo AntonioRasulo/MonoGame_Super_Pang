@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
 using MonoGameLibrary.Scenes;
+using Microsoft.Xna.Framework.Media;
 
 namespace MonoGame_Super_Pang.Scenes;
 
@@ -70,6 +71,21 @@ public class TitleScene : Scene
 
         // Load the font for the title text.
         _font5x = Content.Load<SpriteFont>("fonts/04B_30_5x");
+
+        // Load the background theme music
+        Song theme = Content.Load<Song>("audio/14. Traveling the Sky");
+
+        // Ensure media player is not already playing on device, if so, stop it
+        if (MediaPlayer.State == MediaState.Playing)
+        {
+            MediaPlayer.Stop();
+        }
+
+        // Play the background theme music.
+        MediaPlayer.Play(theme);
+
+        // Set the theme music to repeat.
+        MediaPlayer.IsRepeating = true;
     }
 
     public override void Update(GameTime gameTime)
