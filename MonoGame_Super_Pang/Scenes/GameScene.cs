@@ -8,6 +8,7 @@ using MonoGameLibrary.Scenes;
 using MonoGame_Super_Pang.GameObjects;
 using MonoGame_Super_Pang.Config;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Media;
 
 namespace MonoGame_Super_Pang.Scenes;
 
@@ -94,6 +95,21 @@ public class GameScene : Scene
 
     public override void LoadContent()
     {
+        // Load the background theme music
+        Song theme = Content.Load<Song>("audio/16. Battle Theme III (loop)");
+
+        // Ensure media player is not already playing on device, if so, stop it
+        if (MediaPlayer.State == MediaState.Playing)
+        {
+            MediaPlayer.Stop();
+        }
+
+        // Play the background theme music.
+        MediaPlayer.Play(theme);
+
+        // Set the theme music to repeat.
+        MediaPlayer.IsRepeating = true;
+
         // Create the texture atlas from the XML configuration file
         TextureAtlas characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Content, "images/items-atlas.xml");
