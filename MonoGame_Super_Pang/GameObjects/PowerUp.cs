@@ -6,7 +6,8 @@ public enum powerUpType
 {
     LIVES,
     CLOCK,
-    INVINCIBILITY
+    INVINCIBILITY,
+    BOMB
 }
 
 public class PowerUp

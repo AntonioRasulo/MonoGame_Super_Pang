@@ -40,6 +40,7 @@ public class GameScene : Scene
     private Sprite _livesSprite;
     private Sprite _freezeSprite;
     private Sprite _invincibilitySprite; 
+    private Sprite _bombSprite;
 
     private Sprite _redBallRoundSprite;
     private Sprite _blueBallRoundSprite;
@@ -60,6 +61,7 @@ public class GameScene : Scene
     private const int LIVES_PROB = 5;
     private const int FREEZE_PROB = 10;
     private const int INVINCIBILITY_PROB = 15;
+    private const int BOMB_PROB = 20;
 
     public GameScene(int startingLevel)
     {
@@ -131,6 +133,9 @@ public class GameScene : Scene
 
         _invincibilitySprite = itemsAtlas.CreateSprite("invincibilitySprite");
         _invincibilitySprite.Scale = new Vector2(1.5f, 1.5f);
+
+        _bombSprite = itemsAtlas.CreateSprite("bombSprite");
+        _bombSprite.Scale = new Vector2(4.0f, 4.0f);
 
         // Retrieve harpoons frames
         List<TextureRegion> harpoonFrames = new List<TextureRegion>();
@@ -237,6 +242,11 @@ public class GameScene : Scene
                             _character.activateImmunity(true);
                         }
                     break;
+                    case powerUpType.BOMB:
+                        {
+                            
+                        }
+                        break;
                 }
                 toRemovePowerUps.Add(powerUp);
             }
@@ -281,6 +291,10 @@ public class GameScene : Scene
                     else if(rand < INVINCIBILITY_PROB)
                     {
                         toAddPowerUps.Add(new PowerUp(_invincibilitySprite, ball.Position, powerUpType.INVINCIBILITY));
+                    }
+                    else if(rand < BOMB_PROB)
+                    {
+                        toAddPowerUps.Add(new PowerUp(_bombSprite, ball.Position, powerUpType.BOMB));
                     }
                 }
             }
