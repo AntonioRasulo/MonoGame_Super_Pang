@@ -219,6 +219,9 @@ public class GameScene : Scene
         Rectangle characterBounds = _character.getBounds();
 
         var toRemovePowerUps = new List<PowerUp>();
+        var toAddBall = new List<Ball>();
+        var toRemoveBall = new List<Ball>();
+        var toAddPowerUps = new List<PowerUp>();
 
         /* Character - PowerUp collision */
         foreach(PowerUp powerUp in _powerUps)
@@ -244,7 +247,12 @@ public class GameScene : Scene
                     break;
                     case powerUpType.BOMB:
                         {
-                            
+                            foreach(Ball ball in _balls)
+                            {
+                                handleBallHit(ball, ref toAddBall, ref toRemoveBall, ref toAddPowerUps);
+                            }
+                            _balls.AddRange(toAddBall);
+                            _balls.RemoveAll(ball => toRemoveBall.Contains(ball));
                         }
                         break;
                 }
@@ -252,17 +260,17 @@ public class GameScene : Scene
             }
         }
 
+        _powerUps.AddRange(toAddPowerUps);
         _powerUps.RemoveAll(powerUp => toRemovePowerUps.Contains(powerUp));
 
-        var toAddBall = new List<Ball>();
-        var toRemoveBall = new List<Ball>();
+        toAddBall.Clear();
+        toRemoveBall.Clear();
         var toRemoveHarpoon = new List<Harpoon>();
-        var toAddPowerUps = new List<PowerUp>();
+        toAddPowerUps.Clear(); 
 
         /* Harpoon - Ball collision check */
         foreach(Harpoon harpoon in _character.getHarpoons())
         {
-
             // If the harpoon is on the remove list
             if(toRemoveHarpoon.Contains(harpoon)) continue;
 
@@ -275,27 +283,29 @@ public class GameScene : Scene
 
                 if(areIntersecting(ball.GetBounds(), harpoonBound))
                 {
-                    _score++;
-                    toAddBall.AddRange(splitBall(ball));
-                    toRemoveBall.Add(ball);
+                    handleBallHit(ball, ref toAddBall, ref toRemoveBall, ref toAddPowerUps);
                     toRemoveHarpoon.Add(harpoon);
-                    int rand = _powerUpRand.Next(0, 100);
-                    if(rand<LIVES_PROB)
-                    {
-                        toAddPowerUps.Add(new PowerUp(_livesSprite, ball.Position, powerUpType.LIVES));
-                    }
-                    else if (rand < FREEZE_PROB)
-                    {
-                        toAddPowerUps.Add(new PowerUp(_freezeSprite, ball.Position, powerUpType.CLOCK));
-                    }
-                    else if(rand < INVINCIBILITY_PROB)
-                    {
-                        toAddPowerUps.Add(new PowerUp(_invincibilitySprite, ball.Position, powerUpType.INVINCIBILITY));
-                    }
-                    else if(rand < BOMB_PROB)
-                    {
-                        toAddPowerUps.Add(new PowerUp(_bombSprite, ball.Position, powerUpType.BOMB));
-                    }
+                    // _score++;
+                    // toAddBall.AddRange(splitBall(ball));
+                    // toRemoveBall.Add(ball);
+                    // toRemoveHarpoon.Add(harpoon);
+                    // int rand = _powerUpRand.Next(0, 100);
+                    // if(rand<LIVES_PROB)
+                    // {
+                    //     toAddPowerUps.Add(new PowerUp(_livesSprite, ball.Position, powerUpType.LIVES));
+                    // }
+                    // else if (rand < FREEZE_PROB)
+                    // {
+                    //     toAddPowerUps.Add(new PowerUp(_freezeSprite, ball.Position, powerUpType.CLOCK));
+                    // }
+                    // else if(rand < INVINCIBILITY_PROB)
+                    // {
+                    //     toAddPowerUps.Add(new PowerUp(_invincibilitySprite, ball.Position, powerUpType.INVINCIBILITY));
+                    // }
+                    // else if(rand < BOMB_PROB)
+                    // {
+                    //     toAddPowerUps.Add(new PowerUp(_bombSprite, ball.Position, powerUpType.BOMB));
+                    // }
                 }
             }
         }
@@ -461,6 +471,30 @@ public class GameScene : Scene
         }
     }
 
+    private void handleBallHit(Ball ball, ref List<Ball> toAddBall, ref List<Ball> toRemoveBall, ref List<PowerUp> toAddPowerUps)
+    {
+        _score++;
+        toAddBall.AddRange(splitBall(ball));
+        toRemoveBall.Add(ball);
+        int rand = _powerUpRand.Next(0, 100);
+        if (rand < LIVES_PROB)
+        {
+            toAddPowerUps.Add(new PowerUp(_livesSprite, ball.Position, powerUpType.LIVES));
+        }
+        else if (rand < FREEZE_PROB)
+        {
+            toAddPowerUps.Add(new PowerUp(_freezeSprite, ball.Position, powerUpType.CLOCK));
+        }
+        else if (rand < INVINCIBILITY_PROB)
+        {
+            toAddPowerUps.Add(new PowerUp(_invincibilitySprite, ball.Position, powerUpType.INVINCIBILITY));
+        }
+        else if (rand < BOMB_PROB)
+        {
+            toAddPowerUps.Add(new PowerUp(_bombSprite, ball.Position, powerUpType.BOMB));
+        }
+
+    }
 
     private bool areIntersecting(Circle circle, Rectangle rectangle)
     {
