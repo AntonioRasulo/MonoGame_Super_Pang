@@ -19,6 +19,12 @@
 /processorParam:Quality=Best
 /build:audio/14. Traveling the Sky.mp3
 
+#begin audio/15. Volcanic Crater.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:audio/15. Volcanic Crater.mp3
+
 #begin audio/16. Battle Theme III (loop).mp3
 /importer:Mp3Importer
 /processor:SongProcessor
