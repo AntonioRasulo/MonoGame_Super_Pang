@@ -100,18 +100,7 @@ public class GameScene : Scene
     {
         // Load the background theme music
         Song theme = Content.Load<Song>("audio/16. Battle Theme III (loop)");
-
-        // Ensure media player is not already playing on device, if so, stop it
-        if (MediaPlayer.State == MediaState.Playing)
-        {
-            MediaPlayer.Stop();
-        }
-
-        // Play the background theme music.
-        MediaPlayer.Play(theme);
-
-        // Set the theme music to repeat.
-        MediaPlayer.IsRepeating = true;
+        Core.Audio.PlaySong(theme);
 
         // Load bouncing sound
         Ball.loadPopSound(Content.Load<SoundEffect>("audio/Balloon Pop 1"));

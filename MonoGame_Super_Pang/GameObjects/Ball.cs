@@ -99,7 +99,7 @@ abstract public class Ball
     /// <param name="normal">The normal vector of the surface the ball is bouncing against.</param>
     public virtual void Bounce(Vector2 normal)
     {
-        _bounceSoundEffect.Play();
+        Core.Audio.PlaySoundEffect(_bounceSoundEffect);
     }
 
     /// <summary>
@@ -193,7 +193,7 @@ abstract public class Ball
 
     public static void playPopSound()
     {
-        _popSoundEffect.Play();
+        Core.Audio.PlaySoundEffect(_popSoundEffect);
     }
 
 }

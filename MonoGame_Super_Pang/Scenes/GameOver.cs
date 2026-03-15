@@ -69,18 +69,7 @@ public class GameOver : Scene
     {
         // Load the background theme music
         Song theme = Content.Load<Song>("audio/15. Volcanic Crater");
-
-        // Ensure media player is not already playing on device, if so, stop it
-        if (MediaPlayer.State == MediaState.Playing)
-        {
-            MediaPlayer.Stop();
-        }
-
-        // Play the background theme music.
-        MediaPlayer.Play(theme);
-
-        // Set the theme music to repeat.
-        MediaPlayer.IsRepeating = true;
+        Core.Audio.PlaySong(theme);
 
         // Load the font for the standard text.
         _font = Core.Content.Load<SpriteFont>("fonts/04B_30");

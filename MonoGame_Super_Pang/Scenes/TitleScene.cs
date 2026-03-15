@@ -74,18 +74,7 @@ public class TitleScene : Scene
 
         // Load the background theme music
         Song theme = Content.Load<Song>("audio/14. Traveling the Sky");
-
-        // Ensure media player is not already playing on device, if so, stop it
-        if (MediaPlayer.State == MediaState.Playing)
-        {
-            MediaPlayer.Stop();
-        }
-
-        // Play the background theme music.
-        MediaPlayer.Play(theme);
-
-        // Set the theme music to repeat.
-        MediaPlayer.IsRepeating = true;
+        Core.Audio.PlaySong(theme);
     }
 
     public override void Update(GameTime gameTime)
