@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -45,6 +46,9 @@ abstract public class Ball
     /// Gets or Sets the position of the ball.
     /// </summary>
     public Vector2 Position { get; set; }
+
+    private static SoundEffect _bounceSoundEffect;
+    private static SoundEffect _popSoundEffect;
 
     public Ball(Sprite ballSprite, BallSize ballsize, float dirX, BallType ballType, Vector2 ballInitialPosition = default)
     {
@@ -93,7 +97,10 @@ abstract public class Ball
     /// Handles a bounce event when the ball collides with a wall or boundary.
     /// </summary>
     /// <param name="normal">The normal vector of the surface the ball is bouncing against.</param>
-    public abstract void Bounce(Vector2 normal);
+    public virtual void Bounce(Vector2 normal)
+    {
+        _bounceSoundEffect.Play();
+    }
 
     /// <summary>
     /// Returns a Circle value that represents collision bounds of the ball.
@@ -172,6 +179,21 @@ abstract public class Ball
     public float getRadius()
     {
         return _ballSprite.Width * 0.5f;
+    }
+
+    public static void loadBounceSound(SoundEffect bounceSoundEffect)
+    {
+        _bounceSoundEffect = bounceSoundEffect;
+    }
+
+    public static void loadPopSound(SoundEffect popSoundEffect)
+    {
+        _popSoundEffect = popSoundEffect;
+    }
+
+    public static void playPopSound()
+    {
+        _popSoundEffect.Play();
     }
 
 }

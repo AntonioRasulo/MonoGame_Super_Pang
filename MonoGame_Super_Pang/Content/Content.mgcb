@@ -31,6 +31,18 @@
 /processorParam:Quality=Best
 /build:audio/16. Battle Theme III (loop).mp3
 
+#begin audio/Balloon Pop 1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/Balloon Pop 1.wav
+
+#begin audio/bounce.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/bounce.wav
+
 #begin fonts/04B_30_5x.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

@@ -35,6 +35,7 @@ public class ReflectiveBall : Ball
 
     public override void Bounce(Vector2 normal)
     {
+        base.Bounce(normal);
         Vector2 newPosition = Position;
 
         // Adjust the position based on the normal to prevent sticking to walls.

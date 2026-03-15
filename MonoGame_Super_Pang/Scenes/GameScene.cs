@@ -9,6 +9,7 @@ using MonoGame_Super_Pang.GameObjects;
 using MonoGame_Super_Pang.Config;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace MonoGame_Super_Pang.Scenes;
 
@@ -111,6 +112,10 @@ public class GameScene : Scene
 
         // Set the theme music to repeat.
         MediaPlayer.IsRepeating = true;
+
+        // Load bouncing sound
+        Ball.loadPopSound(Content.Load<SoundEffect>("audio/Balloon Pop 1"));
+        Ball.loadBounceSound(Content.Load<SoundEffect>("audio/bounce"));
 
         // Create the texture atlas from the XML configuration file
         TextureAtlas characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
@@ -301,27 +306,6 @@ public class GameScene : Scene
                 {
                     handleBallHit(ball, ref toAddBall, ref toRemoveBall, ref toAddPowerUps);
                     toRemoveHarpoon.Add(harpoon);
-                    // _score++;
-                    // toAddBall.AddRange(splitBall(ball));
-                    // toRemoveBall.Add(ball);
-                    // toRemoveHarpoon.Add(harpoon);
-                    // int rand = _powerUpRand.Next(0, 100);
-                    // if(rand<LIVES_PROB)
-                    // {
-                    //     toAddPowerUps.Add(new PowerUp(_livesSprite, ball.Position, powerUpType.LIVES));
-                    // }
-                    // else if (rand < FREEZE_PROB)
-                    // {
-                    //     toAddPowerUps.Add(new PowerUp(_freezeSprite, ball.Position, powerUpType.CLOCK));
-                    // }
-                    // else if(rand < INVINCIBILITY_PROB)
-                    // {
-                    //     toAddPowerUps.Add(new PowerUp(_invincibilitySprite, ball.Position, powerUpType.INVINCIBILITY));
-                    // }
-                    // else if(rand < BOMB_PROB)
-                    // {
-                    //     toAddPowerUps.Add(new PowerUp(_bombSprite, ball.Position, powerUpType.BOMB));
-                    // }
                 }
             }
         }
@@ -492,6 +476,7 @@ public class GameScene : Scene
         _score++;
         toAddBall.AddRange(splitBall(ball));
         toRemoveBall.Add(ball);
+        Ball.playPopSound();
         int rand = _powerUpRand.Next(0, 100);
         if (rand < LIVES_PROB)
         {

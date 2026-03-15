@@ -45,6 +45,7 @@ public class BouncingBall : Ball
 
     public override void Bounce(Vector2 normal)
     {
+        base.Bounce(normal);
         if (normal.X != 0)
         {
             // normal.X is +1 or -1, directly sets correct direction
