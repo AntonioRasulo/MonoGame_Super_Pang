@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin atlas.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:atlas.png
+
 #begin audio/14. Traveling the Sky.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
@@ -43,6 +55,12 @@
 /processorParam:Quality=Best
 /build:audio/bounce.wav
 
+#begin audio/Confirm 1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/Confirm 1.wav
+
 #begin fonts/04B_30_5x.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -56,6 +74,18 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:fonts/04B_30.spritefont
+
+#begin images/atlas.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/atlas.png
 
 #begin images/baloons_atlas.xml
 /copy:images/baloons_atlas.xml
@@ -86,6 +116,9 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:images/character.png
+
+#begin images/GUI_atlas.xml
+/copy:images/GUI_atlas.xml
 
 #begin images/HexagonGreenBall.png
 /importer:TextureImporter
