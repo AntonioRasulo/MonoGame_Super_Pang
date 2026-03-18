@@ -10,11 +10,19 @@ using MonoGame_Super_Pang.Config;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
+using MonoGame_Super_Pang.UI;
+using MonoGameGum;
 
 namespace MonoGame_Super_Pang.Scenes;
 
 public class GameScene : Scene
 {
+    private enum GameState
+    {
+        Playing,
+        Paused
+    }
+
     private Character _character;
 
     private List<Ball> _balls;
@@ -32,10 +40,10 @@ public class GameScene : Scene
     private int _score;
 
     // Defines the position to draw the score text at.
-    private Vector2 _scoreTextPosition;
+    //private Vector2 _scoreTextPosition;
 
     // Defines the origin used when drawing the score text.
-    private Vector2 _scoreTextOrigin;
+    //private Vector2 _scoreTextOrigin;
 
     private int _lives = 3;
 
@@ -65,6 +73,19 @@ public class GameScene : Scene
     private const int INVINCIBILITY_PROB = 15;
     private const int BOMB_PROB = 20;
 
+    private GameSceneUI _ui;
+
+    private GameState _state;
+
+    // The grayscale shader effect.
+    private Effect _grayscaleEffect;
+
+    // The amount of saturation to provide the grayscale shader effect.
+    private float _saturation = 1.0f;
+
+    // The speed of the fade to grayscale effect.
+    private const float FADE_SPEED = 0.02f;
+
     public GameScene(int startingLevel)
     {
         _currentLevelIndex = startingLevel;
@@ -86,14 +107,63 @@ public class GameScene : Scene
         // Set the position of the score text to align to the left edge of the
         // room bounds, and to vertically be at the center of the first tile.
         //_scoreTextPosition = new Vector2(_roomBounds.Left, _tilemap.TileHeight * 0.5f); TODO: implement tilemap
-        _scoreTextPosition = new Vector2(_roomBounds.Left, 10);
+        //_scoreTextPosition = new Vector2(_roomBounds.Left, 10);
 
         // Set the origin of the text so it is left-centered.
-        float scoreTextYOrigin = _font.MeasureString("Score").Y * 0.5f;
-        _scoreTextOrigin = new Vector2(0, scoreTextYOrigin);
+        //float scoreTextYOrigin = _font.MeasureString("Score").Y * 0.5f;
+        //_scoreTextOrigin = new Vector2(0, scoreTextYOrigin);
+
+        // Create any UI elements from the root element created in previous
+        // scenes.
+        GumService.Default.Root.Children.Clear();
+
+        // Initialize the user interface for the game scene.
+        InitializeUI();
+
+        // Initialize a new game to be played.
+        InitializeNewGame();
 
         _powerUpRand = new Random();
         _powerUps = new List<PowerUp>();
+    }
+
+    private void InitializeUI()
+    {
+        // Clear out any previous UI element incase we came here
+        // from a different scene.
+        GumService.Default.Root.Children.Clear();
+
+        // Create the game scene ui instance.
+        _ui = new GameSceneUI();
+
+        // Subscribe to the events from the game scene ui.
+        _ui.ResumeButtonClick += OnResumeButtonClicked;
+        _ui.RetryButtonClick += OnRetryButtonClicked;
+        _ui.QuitButtonClick += OnQuitButtonClicked;
+    }
+
+    // TODO complete implementation
+    private void InitializeNewGame()
+    {
+        _state = GameState.Playing;
+    }
+
+    private void OnResumeButtonClicked(object sender, EventArgs args)
+    {
+        // Change the game state back to playing.
+        _state = GameState.Playing;
+    }
+
+    private void OnRetryButtonClicked(object sender, EventArgs args)
+    {
+        // Player has chosen to retry, so initialize a new game.
+        //InitializeNewGame(); TODO
+    }
+
+    private void OnQuitButtonClicked(object sender, EventArgs args)
+    {
+        // Player has chosen to quit, so return back to the title scene.
+        Core.ChangeScene(new TitleScene());
     }
 
     public override void LoadContent()
@@ -169,17 +239,47 @@ public class GameScene : Scene
         _font = Content.Load<SpriteFont>("fonts/04B_30");
 
         LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
+
+        // Load the grayscale effect.
+        _grayscaleEffect = Content.Load<Effect>("effects/grayscaleEffect");
     }
 
     public override void Update(GameTime gameTime)
     {
+        // Ensure the UI is always updated.
+        _ui.Update(gameTime);
+
+        if (_state != GameState.Playing)
+        {
+            // The game is in either a paused or game over state, so
+            // gradually decrease the saturation to create the fading grayscale.
+            _saturation = Math.Max(0.0f, _saturation - FADE_SPEED);
+
+        }
+
+        // If the pause button is pressed, toggle the pause state. TODO implement GameController
+        // if (GameController.Pause())
+        // {
+        //     TogglePause();
+        // }
+        if(Core.Input.Keyboard.WasKeyJustPressed(Keys.Escape))
+        {
+            TogglePause();
+        }
+
+        // At this point, if the game is paused, just return back early.
+        if (_state == GameState.Paused)
+        {
+            return;
+        }
+
         _character.Update(gameTime);
 
         // If the escape key is pressed, return to the title screen.
-        if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Escape))
-        {
-            Core.ChangeScene(new TitleScene());
-        }
+        // if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Escape))
+        // {
+        //     Core.ChangeScene(new TitleScene());
+        // }
 
         // Create a bounding rectangle for the screen.
         Rectangle screenBounds = new Rectangle(
@@ -222,6 +322,29 @@ public class GameScene : Scene
 
         checkChangeScene();
 
+    }
+
+    private void TogglePause()
+    {
+        if (_state == GameState.Paused)
+        {
+            // We're now unpausing the game, so hide the pause panel.
+            _ui.HidePausePanel();
+
+            // And set the state back to playing.
+            _state = GameState.Playing;
+        }
+        else
+        {
+            // We're now pausing the game, so show the pause panel.
+            _ui.ShowPausePanel();
+
+            // And set the state to paused.
+            _state = GameState.Paused;
+
+            // Set the grayscale effect saturation to 1.0f
+            _saturation = 1.0f;
+        }
     }
 
     private void CollisionChecks()
@@ -361,6 +484,8 @@ public class GameScene : Scene
                 _score--;
                 _lives--;
                 _character.activateImmunity();
+                // Update the score display on the UI.
+                _ui.UpdateScoreText(_score);
                 if(_lives == 0)
                     return;
             }
@@ -463,6 +588,7 @@ public class GameScene : Scene
     private void handleBallHit(Ball ball, ref List<Ball> toAddBall, ref List<Ball> toRemoveBall, ref List<PowerUp> toAddPowerUps)
     {
         _score++;
+        _ui.UpdateScoreText(_score);
         toAddBall.AddRange(splitBall(ball));
         toRemoveBall.Add(ball);
         Ball.playPopSound();
@@ -515,8 +641,19 @@ public class GameScene : Scene
     {
         Core.GraphicsDevice.Clear(Color.Brown);
 
-        // Begin the sprite batch to prepare for rendering.
-        Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        if (_state != GameState.Playing)
+        {
+            // We are in a game over state, so apply the saturation parameter.
+            _grayscaleEffect.Parameters["Saturation"].SetValue(_saturation);
+
+            // And begin the sprite batch using the grayscale effect.
+            Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp, effect: _grayscaleEffect);
+        }
+        else
+        {
+            // Begin the sprite batch to prepare for rendering.
+            Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        }
 
         // Draw the character
         _character.Draw(Core.SpriteBatch);
@@ -549,20 +686,23 @@ public class GameScene : Scene
         }
 
         // Draw the score
-        Core.SpriteBatch.DrawString(
-            _font,              // spriteFont
-            $"Score: {_score}", // text
-            _scoreTextPosition, // position
-            Color.White,        // color
-            0.0f,               // rotation
-            _scoreTextOrigin,   // origin
-            1.0f,               // scale
-            SpriteEffects.None, // effects
-            0.0f                // layerDepth
-        );
+        // Core.SpriteBatch.DrawString(
+        //     _font,              // spriteFont
+        //     $"Score: {_score}", // text
+        //     _scoreTextPosition, // position
+        //     Color.White,        // color
+        //     0.0f,               // rotation
+        //     _scoreTextOrigin,   // origin
+        //     1.0f,               // scale
+        //     SpriteEffects.None, // effects
+        //     0.0f                // layerDepth
+        // );
 
         // Always end the sprite batch when finished.
         Core.SpriteBatch.End();
+
+        // Draw the UI.
+        _ui.Draw();
 
         base.Draw(gameTime);
     }
