@@ -39,19 +39,12 @@ public class GameScene : Scene
     // Tracks the players score.
     private int _score;
 
-    // Defines the position to draw the score text at.
-    //private Vector2 _scoreTextPosition;
-
-    // Defines the origin used when drawing the score text.
-    //private Vector2 _scoreTextOrigin;
-
     private int _lives = 3;
 
     private Sprite _livesSprite;
     private Sprite _freezeSprite;
     private Sprite _invincibilitySprite; 
     private Sprite _bombSprite;
-
     private Sprite _redBallRoundSprite;
     private Sprite _blueBallRoundSprite;
     private Sprite _greenBallRoundSprite;
@@ -230,6 +223,8 @@ public class GameScene : Scene
         Animation harpoonAnimation = new Animation(harpoonFrames, TimeSpan.FromMilliseconds(HARPOON_DELAY));
 
         _character = new Character(idleRegion, walkAnimation, shootAnimation, harpoonAnimation, itemsAtlas.GetRegion("invincibilitySprite"));
+
+        _character.loadHitSound(Content.Load<SoundEffect>("audio/Boss hit 1"));
 
         _balls = new List<Ball>();
 
@@ -684,19 +679,6 @@ public class GameScene : Scene
 
             _livesSprite.Draw(Core.SpriteBatch, livesSpritePosition);
         }
-
-        // Draw the score
-        // Core.SpriteBatch.DrawString(
-        //     _font,              // spriteFont
-        //     $"Score: {_score}", // text
-        //     _scoreTextPosition, // position
-        //     Color.White,        // color
-        //     0.0f,               // rotation
-        //     _scoreTextOrigin,   // origin
-        //     1.0f,               // scale
-        //     SpriteEffects.None, // effects
-        //     0.0f                // layerDepth
-        // );
 
         // Always end the sprite batch when finished.
         Core.SpriteBatch.End();

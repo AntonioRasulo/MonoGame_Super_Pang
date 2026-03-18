@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -42,9 +43,12 @@ public class Character
     private float _blinkTimer = 0f;
     private bool _isVisible = true;
 
-   private Invicible _invinciblePowerUp;
+    private Invicible _invinciblePowerUp;
 
     public bool IsImmune => _immunityTimer > 0f;
+
+    private SoundEffect _hitSoundEffect;
+
     public Character(Sprite idleSprite, AnimatedSprite walkAnimation, AnimatedSprite shootAnimation, Animation harpoonAnimation, TextureRegion invincibleRegion)
     {
         _idleSprite = idleSprite;
@@ -250,19 +254,16 @@ public class Character
         _harpoons.Add(new Harpoon(newHarpoon, _characterPosition.X + (_shootAnimation.Width*0.5f), 720));
     }
 
-    public void TakeHit()
-    {
-        activateImmunity();
-        _blinkTimer = 0f;
-        _isVisible = true;
-    }
-
     public void activateImmunity(bool fromPowerUp = false)
     {
         _immunityTimer = _immunityDuration;
         if (fromPowerUp)
         {
             _invinciblePowerUp.isActive = true;
+        }
+        else
+        {
+            Core.Audio.PlaySoundEffect(_hitSoundEffect);
         }
         _blinkTimer = 0f;
         _isVisible = true;
@@ -276,6 +277,11 @@ public class Character
     public List<Harpoon> getHarpoons()
     {
         return _harpoons;
+    }
+
+    public void loadHitSound(SoundEffect hitSoundEffect)
+    {
+        _hitSoundEffect = hitSoundEffect;
     }
 
 }
