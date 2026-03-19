@@ -357,10 +357,7 @@ public class GameScene : Scene
                         _lives++;
                     break;
                     case powerUpType.CLOCK:
-                        foreach(Ball ball in _balls)
-                        {
-                            ball.Freeze();
-                        }
+                        Ball.Freeze();        
                     break;
                     case powerUpType.INVINCIBILITY:
                         {
@@ -688,6 +685,7 @@ public class GameScene : Scene
     {
         _balls.Clear();
         _platforms.Clear();
+        Ball.resetFreeze();
         foreach (var spawnConfig in config.Balls)
         {
             BallType ballType = spawnConfig.BallType;
@@ -741,8 +739,8 @@ public class GameScene : Scene
                 case BallType.RED_ROUND:
                 case BallType.BLUE_ROUND:
                 {    
-                    Ball leftBall = new BouncingBall(ball.GetSprite(), ballSize-1, -1f, ballType, ball.isFreezed());
-                    Ball rightBall = new BouncingBall(ball.GetSprite(), ballSize-1, 1f, ballType, ball.isFreezed());
+                    Ball leftBall = new BouncingBall(ball.GetSprite(), ballSize-1, -1f, ballType);
+                    Ball rightBall = new BouncingBall(ball.GetSprite(), ballSize-1, 1f, ballType);
                     leftBall.Position = new Vector2(ballPositionX - leftBall.getRadius(), ball.Position.Y);
                     rightBall.Position = new Vector2(ballPositionX + leftBall.getRadius(), ball.Position.Y);
                     toAddBall.Add(rightBall);
@@ -751,8 +749,8 @@ public class GameScene : Scene
                 break;
                 case BallType.GREEN_SQUARED:
                 {
-                    Ball leftBall = new ReflectiveBall(ball.GetSprite(), ballSize-1, -1f, ballType, ball.isFreezed());
-                    Ball rightBall = new ReflectiveBall(ball.GetSprite(), ballSize-1, 1f, ballType, ball.isFreezed());
+                    Ball leftBall = new ReflectiveBall(ball.GetSprite(), ballSize-1, -1f, ballType);
+                    Ball rightBall = new ReflectiveBall(ball.GetSprite(), ballSize-1, 1f, ballType);
                     leftBall.Position = new Vector2(ballPositionX - leftBall.getRadius(), ball.Position.Y);
                     rightBall.Position = new Vector2(ballPositionX + leftBall.getRadius(), ball.Position.Y);
                     toAddBall.Add(leftBall);

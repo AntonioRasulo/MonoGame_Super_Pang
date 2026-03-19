@@ -31,16 +31,14 @@ abstract public class Ball
 
     protected const float MOVEMENT_SPEED = 5.0f;
 
-    private float _freezeDuration = 4.0f;
-    private float _freezeTimer = 0f;
+    private static float _freezeDuration = 4.0f;
+    protected static float _freezeTimer = 0f;
 
     private float _scale;
 
     protected BallSize _ballSize;
 
     protected BallType _ballType;
-
-    protected Boolean _isFreezed {get; set;}
 
     /// <summary>
     /// Gets or Sets the position of the ball.
@@ -84,13 +82,6 @@ abstract public class Ball
 
         _ballSprite.Origin = new Vector2(_ballSprite.Region.Width, _ballSprite.Region.Height) * 0.5f;
 
-        _isFreezed = false;
-
-    }
-
-    public Ball(Sprite ballSprite, BallSize ballsize, float dirX, BallType ballType, bool isFreezed) : this(ballSprite, ballsize, dirX, ballType)
-    {
-        _isFreezed = isFreezed;
     }
 
     /// <summary>
@@ -146,7 +137,7 @@ abstract public class Ball
         return _ballType;
     }
 
-    protected void updateFreeze(GameTime gameTime)
+    protected static void updateFreeze(GameTime gameTime)
     {
         float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -157,20 +148,13 @@ abstract public class Ball
             if (_freezeTimer <= 0f)
             {
                 _freezeTimer = 0f;
-                _isFreezed = false;
             }
         }
     }
 
-    public void Freeze()
+    public static void Freeze()
     {
         _freezeTimer = _freezeDuration;
-        _isFreezed = true;
-    }
-
-    public bool isFreezed()
-    {
-        return _isFreezed;
     }
 
     public int spriteWidth => (int)(_ballSprite.Width);
@@ -194,6 +178,11 @@ abstract public class Ball
     public static void playPopSound()
     {
         Core.Audio.PlaySoundEffect(_popSoundEffect);
+    }
+
+    public static void resetFreeze()
+    {
+        _freezeTimer = 0f;
     }
 
 }
