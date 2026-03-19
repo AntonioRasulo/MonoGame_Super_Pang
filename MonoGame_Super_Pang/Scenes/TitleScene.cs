@@ -77,6 +77,9 @@ public class TitleScene : Scene
         _superpangTextPos = new Vector2(757, 207);
         _superpangTextOrigin = size * 0.5f;
 
+        Core.Audio.SongVolume = 0.5f;
+        Core.Audio.SoundEffectVolume = 0.5f;
+
         InitializeUI();
     }
 
