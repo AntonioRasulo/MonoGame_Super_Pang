@@ -49,6 +49,12 @@
 /processorParam:Quality=Best
 /build:audio/Balloon Pop 1.wav
 
+#begin audio/Block Break 1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/Block Break 1.wav
+
 #begin audio/Boss hit 1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

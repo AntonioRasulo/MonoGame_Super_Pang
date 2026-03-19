@@ -3,6 +3,7 @@ using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -18,11 +19,12 @@ public enum PlatformState
 
 public class BreakablePlatform : Platform
 {
-
     private List<Sprite> _sprites;
     private PlatformState _platformState;
 
-    public BreakablePlatform(List<Sprite> sprites, Vector2 position, PlatformType platformType, PlatformState platformState) : base(position, platformType)
+    private SoundEffect _breakPlatformEffect;
+
+    public BreakablePlatform(List<Sprite> sprites, Vector2 position, PlatformType platformType, PlatformState platformState, SoundEffect breakPlatformEffect) : base(position, platformType)
     {
         _sprites = sprites;
         foreach(Sprite sprite in _sprites)
@@ -33,6 +35,7 @@ public class BreakablePlatform : Platform
 
         _breakable = true;
 
+        _breakPlatformEffect = breakPlatformEffect;
     }
 
     public override void Draw()
@@ -116,6 +119,7 @@ public class BreakablePlatform : Platform
 
     public void hitPlatform()
     {
+        Core.Audio.PlaySoundEffect(_breakPlatformEffect);
         switch (_platformState)
         {
             case PlatformState.Stage1:

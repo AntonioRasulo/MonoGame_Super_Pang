@@ -81,6 +81,8 @@ public class GameScene : Scene
 
     private SoundEffect _collectPowerUp;
 
+    private SoundEffect _blockBreakEffect;
+
     public GameScene(int startingLevel)
     {
         _currentLevelIndex = startingLevel;
@@ -225,6 +227,8 @@ public class GameScene : Scene
 
         // Load the font
         _font = Content.Load<SpriteFont>("fonts/04B_30");
+
+        _blockBreakEffect = Content.Load<SoundEffect>("audio/Block Break 1");
 
         LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
 
@@ -712,7 +716,8 @@ public class GameScene : Scene
                     _platforms.Add(new UnbreakablePlatform(new Sprite(_grayHorizontalPlatform.Region), platformSpawn.Position, platformType));
                 break;
                 case PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE:
-                    _platforms.Add(new BreakablePlatform(_horizontalBreakableBlueSprites, platformSpawn.Position, platformType, platformSpawn.platformState));
+                    _platforms.Add(new BreakablePlatform(_horizontalBreakableBlueSprites, platformSpawn.Position, platformType, platformSpawn.platformState, _blockBreakEffect));
+                    
                 break;
             }
         }
