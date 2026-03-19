@@ -562,6 +562,7 @@ public class GameScene : Scene
             }
             else
             {
+                _ui.resetTimer();
                 LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
             }
             return;

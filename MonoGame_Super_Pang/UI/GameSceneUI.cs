@@ -18,6 +18,9 @@ public class GameSceneUI : ContainerRuntime
     // The string format to use when updating the text for the score display.
     private static readonly string s_scoreFormat = "SCORE: {0:D6}";
 
+    // The string format to use when updating the text for the time display.
+    private static readonly string s_timeFormat = "TIME: {0:D3}";
+
     // The sound effect to play for auditory feedback of the user interface.
     private SoundEffect _uiSoundEffect;
 
@@ -37,6 +40,12 @@ public class GameSceneUI : ContainerRuntime
 
     // The text runtime used to display the players score on the game screen.
     private TextRuntime _scoreText;
+
+    // The text runtime used to display the timer on the game screen.
+    private TextRuntime _timerText;
+
+    // Number of seconds on the current level.
+    private double _timer;
 
     /// <summary>
     /// Event invoked when the Resume button on the Pause panel is clicked.
@@ -77,6 +86,11 @@ public class GameSceneUI : ContainerRuntime
         _scoreText = CreateScoreText();
         AddChild(_scoreText);
 
+        // Create the text that will display the timer and add it as
+        // a child to this container.
+        _timerText = CreateTimerText();
+        AddChild(_timerText);
+
         // Create the Pause panel that is displayed when the game is paused and
         // add it as a child to this container
         _pausePanel = CreatePausePanel(atlas);
@@ -99,6 +113,23 @@ public class GameSceneUI : ContainerRuntime
         text.CustomFontFile = @"fonts/04b_30.fnt";
         text.FontScale = 0.25f;
         text.Text = string.Format(s_scoreFormat, 0);
+
+        return text;
+    }
+
+    private TextRuntime CreateTimerText()
+    {   
+        var screenWidth = GumService.Default.CanvasWidth;
+        _timer = 0f;
+        TextRuntime text = new TextRuntime();
+        text.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        text.WidthUnits = DimensionUnitType.RelativeToChildren;
+        text.X = GumService.Default.CanvasWidth * 0.5f;
+        text.Y = 5.0f;
+        text.UseCustomFont = true;
+        text.CustomFontFile = @"fonts/04b_30.fnt";
+        text.FontScale = 0.25f;
+        text.Text = string.Format(s_timeFormat, (int)_timer);
 
         return text;
     }
@@ -279,6 +310,27 @@ public class GameSceneUI : ContainerRuntime
     }
 
     /// <summary>
+    /// Updates the text on the timer display.
+    /// </summary>
+    /// <param name="gametime">A snapshot of the timing values for the current update cycle..</param>
+    private void UpdateTimerText(GameTime gameTime)
+    {
+        if(_pausePanel.IsVisible == false)
+        {
+            _timer += gameTime.ElapsedGameTime.TotalSeconds;
+            _timerText.Text = string.Format(s_timeFormat, (int)_timer);
+        }
+    }
+
+    /// <summary>
+    /// Reset the timer.
+    /// </summary>
+    public void resetTimer()
+    {
+        _timer = 0f;
+    }
+
+    /// <summary>
     /// Tells the game scene ui to show the pause panel.
     /// </summary>
     public void ShowPausePanel()
@@ -328,6 +380,7 @@ public class GameSceneUI : ContainerRuntime
     /// <param name="gameTime">A snapshot of the timing values for the current update cycle.</param>
     public void Update(GameTime gameTime)
     {
+        UpdateTimerText(gameTime);
         GumService.Default.Update(gameTime);
     }
 
