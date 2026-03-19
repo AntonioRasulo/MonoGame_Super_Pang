@@ -79,6 +79,8 @@ public class GameScene : Scene
     // The speed of the fade to grayscale effect.
     private const float FADE_SPEED = 0.02f;
 
+    private SoundEffect _collectPowerUp;
+
     public GameScene(int startingLevel)
     {
         _currentLevelIndex = startingLevel;
@@ -96,15 +98,6 @@ public class GameScene : Scene
         _roomBounds = Core.GraphicsDevice.PresentationParameters.Bounds;
 
         _character.Initialize(_roomBounds.Width, _roomBounds.Height);
-
-        // Set the position of the score text to align to the left edge of the
-        // room bounds, and to vertically be at the center of the first tile.
-        //_scoreTextPosition = new Vector2(_roomBounds.Left, _tilemap.TileHeight * 0.5f); TODO: implement tilemap
-        //_scoreTextPosition = new Vector2(_roomBounds.Left, 10);
-
-        // Set the origin of the text so it is left-centered.
-        //float scoreTextYOrigin = _font.MeasureString("Score").Y * 0.5f;
-        //_scoreTextOrigin = new Vector2(0, scoreTextYOrigin);
 
         // Create any UI elements from the root element created in previous
         // scenes.
@@ -237,6 +230,8 @@ public class GameScene : Scene
 
         // Load the grayscale effect.
         _grayscaleEffect = Content.Load<Effect>("effects/grayscaleEffect");
+
+        _collectPowerUp = Content.Load<SoundEffect>("audio/Fruit collect 1");
     }
 
     public override void Update(GameTime gameTime)
@@ -269,12 +264,6 @@ public class GameScene : Scene
         }
 
         _character.Update(gameTime);
-
-        // If the escape key is pressed, return to the title screen.
-        // if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Escape))
-        // {
-        //     Core.ChangeScene(new TitleScene());
-        // }
 
         // Create a bounding rectangle for the screen.
         Rectangle screenBounds = new Rectangle(
@@ -357,6 +346,7 @@ public class GameScene : Scene
             Rectangle powerUpBounds = powerUp.getBounds();
             if (powerUpBounds.Intersects(characterBounds))
             {
+                Core.Audio.PlaySoundEffect(_collectPowerUp);
                 switch (powerUp.GetPowerUpType())
                 {
                     case powerUpType.LIVES:
