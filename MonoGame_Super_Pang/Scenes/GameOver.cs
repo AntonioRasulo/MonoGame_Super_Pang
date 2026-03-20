@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using MonoGameLibrary.Scenes;
 using Microsoft.Xna.Framework.Media;
+using System.Collections.Generic;
+using MonoGame_Super_Pang.Config;
+using MonoGame_Super_Pang.Backgrounds;
 
 namespace MonoGame_Super_Pang.Scenes;
 
@@ -33,6 +36,10 @@ public class GameOver : Scene
     private Vector2 _pressEnterPosition;
 
     private Vector2 _pressEnterOrigin;
+
+    private Background _levelBackground;
+
+    private Random _backgroundRand;
 
     public GameOver(int score)
     {
@@ -76,23 +83,37 @@ public class GameOver : Scene
 
         // Load the font for the title text.
         _font5x = Content.Load<SpriteFont>("fonts/04B_30_5x");
+
+        _backgroundRand = new Random();
+        int backgroundIndex = _backgroundRand.Next(0, LevelRegistry.AllLevels.Count);
+
+        List<string> backgroundList = LevelRegistry.AllLevels[backgroundIndex].backgroundStr;
+        List<Texture2D> clouds = new List<Texture2D>();
+
+        foreach(string backgroundStr in backgroundList)
+        {
+            clouds.Add(Content.Load<Texture2D>(backgroundStr));
+        }
+
+        _levelBackground = new Background(clouds);
+
     }
 
     public override void Update(GameTime gameTime)
     {
-        //base.Update(gameTime);
-
         // If the user presses enter, switch to the game scene.
         if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Enter))
         {
             Core.ChangeScene(new TitleScene());
         }
+        _levelBackground.Update(gameTime);
     }
 
-    public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+    public override void Draw(GameTime gameTime)
     {
-        //base.Draw(gameTime);
         Core.GraphicsDevice.Clear(new Color(32, 40, 78, 255));
+
+        _levelBackground.Draw();
 
         // Begin the sprite batch to prepare for rendering.
         Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
