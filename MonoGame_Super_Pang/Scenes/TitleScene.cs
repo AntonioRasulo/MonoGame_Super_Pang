@@ -11,6 +11,9 @@ using MonoGameGum.GueDeriving;
 using MonoGame_Super_Pang.UI;
 using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Audio;
+using MonoGame_Super_Pang.Backgrounds;
+using MonoGame_Super_Pang.Config;
+using System.Collections.Generic;
 
 namespace MonoGame_Super_Pang.Scenes;
 
@@ -58,6 +61,10 @@ public class TitleScene : Scene
 
     bool _isLastFocusedBackButton = false;
 
+    private Background _levelBackground;
+
+    private Random _backgroundRand;
+
     public override void Initialize()
     {
         // LoadContent is called during base.Initialize().
@@ -100,11 +107,26 @@ public class TitleScene : Scene
 
         // Load the texture atlas from the xml configuration file.
         _GUIatlas = TextureAtlas.FromFile(Content, "images/GUI_atlas.xml");
+
+        _backgroundRand = new Random();
+        int backgroundIndex = _backgroundRand.Next(0, LevelRegistry.AllLevels.Count);
+
+        List<string> backgroundList = LevelRegistry.AllLevels[backgroundIndex].backgroundStr;
+        List<Texture2D> clouds = new List<Texture2D>();
+
+        foreach(string backgroundStr in backgroundList)
+        {
+            clouds.Add(Content.Load<Texture2D>(backgroundStr));
+        }
+
+        _levelBackground = new Background(clouds);
     }
 
     public override void Update(GameTime gameTime)
     {
         GumService.Default.Update(gameTime);
+
+        _levelBackground.Update(gameTime);
 
         if(_optionsBackButton.IsFocused == false &&
         sfxSlider.IsFocused == false &&
@@ -127,6 +149,9 @@ public class TitleScene : Scene
 
         if (_titleScreenButtonsPanel.IsVisible)
         {
+            // Draw the background
+            _levelBackground.Draw();
+
             // Begin the sprite batch to prepare for rendering.
             Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
 

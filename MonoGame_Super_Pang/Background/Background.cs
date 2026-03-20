@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace MonoGame_Super_Pang.Backgrounds;
 
