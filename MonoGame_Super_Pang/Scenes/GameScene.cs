@@ -240,15 +240,6 @@ public class GameScene : Scene
 
         _collectPowerUp = Content.Load<SoundEffect>("audio/Fruit collect 1");
 
-        List<Texture2D> clouds = new List<Texture2D>
-        {
-            Content.Load<Texture2D>("images/backgrounds/clouds2/1"),
-            Content.Load<Texture2D>("images/backgrounds/clouds2/2"),
-            Content.Load<Texture2D>("images/backgrounds/clouds2/3"),
-            Content.Load<Texture2D>("images/backgrounds/clouds2/4")
-        };
-
-        _levelBackground = new Background(clouds);
     }
 
     public override void Update(GameTime gameTime)
@@ -738,6 +729,15 @@ public class GameScene : Scene
                 break;
             }
         }
+
+        List<Texture2D> clouds = new List<Texture2D>();
+
+        foreach(string backgroundStr in config.backgroundStr)
+        {
+            clouds.Add(Content.Load<Texture2D>(backgroundStr));
+        }
+
+        _levelBackground = new Background(clouds);
     }
 
     private List<Ball> splitBall(Ball ball)

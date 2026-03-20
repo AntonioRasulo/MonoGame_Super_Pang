@@ -19,6 +19,13 @@ public static class LevelRegistry
             Platforms = new List<PlatformConfig>
             {
 
+            },
+            backgroundStr = new List<string>
+            {
+                "images/backgrounds/clouds1/1",
+                "images/backgrounds/clouds1/2",
+                "images/backgrounds/clouds1/3",
+                "images/backgrounds/clouds1/4"
             }
         },
         new LevelConfig // Level 1
@@ -35,6 +42,13 @@ public static class LevelRegistry
                     Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.60f),
                     platformType = PlatformType.HORIZONTAL_GRAY
                 }
+            },
+            backgroundStr = new List<string>
+            {
+                "images/backgrounds/clouds2/1",
+                "images/backgrounds/clouds2/2",
+                "images/backgrounds/clouds2/3",
+                "images/backgrounds/clouds2/4"
             }
         },
         new LevelConfig // Level 2
@@ -59,6 +73,13 @@ public static class LevelRegistry
             Platforms = new List<PlatformConfig>
             {
 
+            },
+            backgroundStr = new List<string>
+            {
+                "images/backgrounds/clouds3/1",
+                "images/backgrounds/clouds3/2",
+                "images/backgrounds/clouds3/3",
+                "images/backgrounds/clouds3/4"
             }
         },
         new LevelConfig // Level 3
@@ -88,6 +109,13 @@ public static class LevelRegistry
                     Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.65f),
                     platformType = PlatformType.HORIZONTAL_GRAY
                 }
+            },
+            backgroundStr = new List<string>
+            {
+                "images/backgrounds/clouds4/1",
+                "images/backgrounds/clouds4/2",
+                "images/backgrounds/clouds4/3",
+                "images/backgrounds/clouds4/4"
             }
         },
         new LevelConfig // Level 4
@@ -118,6 +146,14 @@ public static class LevelRegistry
                     platformType = PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE,
                     platformState = PlatformState.Stage1
                 }
+            },
+            backgroundStr = new List<string>
+            {
+                "images/backgrounds/clouds5/1",
+                "images/backgrounds/clouds5/2",
+                "images/backgrounds/clouds5/3",
+                "images/backgrounds/clouds5/4",
+                "images/backgrounds/clouds5/5",
             }
         }
     };

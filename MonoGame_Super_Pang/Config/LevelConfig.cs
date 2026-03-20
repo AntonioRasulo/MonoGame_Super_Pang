@@ -2,16 +2,16 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using MonoGame_Super_Pang.GameObjects;
 using MonoGameLibrary.Graphics;
-using System;
 
 namespace MonoGame_Super_Pang.Config;
 
 public class LevelConfig
 {
     public List<BallSpawnConfig> Balls { get; set; }
-    public Color BackgroundColor { get; set; }
 
     public List<PlatformConfig> Platforms{ get; set;}
+
+    public List<string> backgroundStr;
     // later: tilemap, time limit, etc.
 }
 

@@ -2,16 +2,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace MonoGame_Super_Pang.Backgrounds;
 
 public class Background
 {
     // The textures used for the background pattern.
-    private Texture2D _cloud1;
-    private Texture2D _cloud2;
-    private Texture2D _cloud3;
-    private Texture2D _cloud4;
+    private List<Texture2D> _clouds;
 
     private float _backgroundWidth;
     private float _backgroundHeight; 
@@ -29,13 +27,10 @@ public class Background
 
     public Background(List<Texture2D> clouds)
     {
-        _cloud1 = clouds[0];
-        _cloud2 = clouds[1];
-        _cloud3 = clouds[2];
-        _cloud4 = clouds[3];
+        _clouds = clouds;
 
-        _backgroundWidth = _cloud1.Width;
-        _backgroundHeight = _cloud1.Height;
+        _backgroundWidth = _clouds[0].Width;
+        _backgroundHeight = _clouds[0].Height;
 
         // Set the background pattern destination rectangle to fill the entire
         // screen background.
@@ -68,7 +63,7 @@ public class Background
     {
 
         Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
-        Core.SpriteBatch.Draw(_cloud1, _backgroundDestination, _cloud1.Bounds, Color.White * 0.5f);
+        Core.SpriteBatch.Draw(_clouds[0], _backgroundDestination, _clouds[0].Bounds, Color.White * 0.5f);
         Core.SpriteBatch.End();
 
         Rectangle cloudSource = new Rectangle(
@@ -84,9 +79,10 @@ public class Background
         samplerStateBackground.Filter = TextureFilter.Point;
         Core.SpriteBatch.Begin(samplerState: samplerStateBackground);
 
-        Core.SpriteBatch.Draw(_cloud2, _cloudsDestination, cloudSource, Color.White * 0.5f);
-        Core.SpriteBatch.Draw(_cloud3, _cloudsDestination, cloudSource, Color.White * 0.5f);
-        Core.SpriteBatch.Draw(_cloud4, _cloudsDestination, cloudSource, Color.White * 0.5f);
+        for(int cloudIndex = 1; cloudIndex < _clouds.Count; cloudIndex++)
+        {
+            Core.SpriteBatch.Draw(_clouds[cloudIndex], _cloudsDestination, cloudSource, Color.White * 0.5f);
+        }
 
         Core.SpriteBatch.End();
     }
