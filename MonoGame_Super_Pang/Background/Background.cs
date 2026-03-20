@@ -1,0 +1,94 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGameLibrary;
+using System.Collections.Generic;
+
+namespace MonoGame_Super_Pang.Backgrounds;
+
+public class Background
+{
+    // The textures used for the background pattern.
+    private Texture2D _cloud1;
+    private Texture2D _cloud2;
+    private Texture2D _cloud3;
+    private Texture2D _cloud4;
+
+    private float _backgroundWidth;
+    private float _backgroundHeight; 
+
+    // The destination rectangle for the background pattern to fill.
+    private Rectangle _backgroundDestination;
+    private Rectangle _cloudsDestination;
+
+    // The offset to apply when drawing the background pattern so it appears to
+    // be scrolling.
+    private Vector2 _backgroundOffset;
+
+    // The speed that the background pattern scrolls.
+    private float _scrollSpeed = 25.0f;
+
+    public Background(List<Texture2D> clouds)
+    {
+        _cloud1 = clouds[0];
+        _cloud2 = clouds[1];
+        _cloud3 = clouds[2];
+        _cloud4 = clouds[3];
+
+        _backgroundWidth = _cloud1.Width;
+        _backgroundHeight = _cloud1.Height;
+
+        // Set the background pattern destination rectangle to fill the entire
+        // screen background.
+        _backgroundDestination = Core.GraphicsDevice.PresentationParameters.Bounds;
+
+        float screenHeight = Core.GraphicsDevice.PresentationParameters.BackBufferHeight;
+
+        _cloudsDestination= new Rectangle(
+            0,
+            (int)(screenHeight - _backgroundHeight),  // Y position on screen
+            _backgroundDestination.Width,
+            (int)_backgroundHeight
+        );
+
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        // Update the offsets for the background pattern wrapping so that it
+        // scrolls down and to the right.
+        float offset = _scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        _backgroundOffset.X -= offset;
+
+        // Ensure that the offsets do not go beyond the texture bounds so it is
+        // a seamless wrap.
+        _backgroundOffset.X %= _backgroundWidth;
+    }
+
+    public void Draw()
+    {
+
+        Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        Core.SpriteBatch.Draw(_cloud1, _backgroundDestination, _cloud1.Bounds, Color.White * 0.5f);
+        Core.SpriteBatch.End();
+
+        Rectangle cloudSource = new Rectangle(
+            (int)_backgroundOffset.X,
+            0,
+            _backgroundDestination.Width,
+            (int)_backgroundHeight
+        );
+
+        SamplerState samplerStateBackground = new SamplerState();
+        samplerStateBackground.AddressU = TextureAddressMode.Wrap;
+        samplerStateBackground.AddressV = TextureAddressMode.Clamp;
+        samplerStateBackground.Filter = TextureFilter.Point;
+        Core.SpriteBatch.Begin(samplerState: samplerStateBackground);
+
+        Core.SpriteBatch.Draw(_cloud2, _cloudsDestination, cloudSource, Color.White * 0.5f);
+        Core.SpriteBatch.Draw(_cloud3, _cloudsDestination, cloudSource, Color.White * 0.5f);
+        Core.SpriteBatch.Draw(_cloud4, _cloudsDestination, cloudSource, Color.White * 0.5f);
+
+        Core.SpriteBatch.End();
+    }
+
+}

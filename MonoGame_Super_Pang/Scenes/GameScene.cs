@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 using MonoGame_Super_Pang.UI;
 using MonoGameGum;
+using MonoGame_Super_Pang.Backgrounds;
 
 namespace MonoGame_Super_Pang.Scenes;
 
@@ -82,6 +83,8 @@ public class GameScene : Scene
     private SoundEffect _collectPowerUp;
 
     private SoundEffect _blockBreakEffect;
+
+    private Background _levelBackground;
 
     public GameScene(int startingLevel)
     {
@@ -236,6 +239,16 @@ public class GameScene : Scene
         _grayscaleEffect = Content.Load<Effect>("effects/grayscaleEffect");
 
         _collectPowerUp = Content.Load<SoundEffect>("audio/Fruit collect 1");
+
+        List<Texture2D> clouds = new List<Texture2D>
+        {
+            Content.Load<Texture2D>("images/backgrounds/clouds2/1"),
+            Content.Load<Texture2D>("images/backgrounds/clouds2/2"),
+            Content.Load<Texture2D>("images/backgrounds/clouds2/3"),
+            Content.Load<Texture2D>("images/backgrounds/clouds2/4")
+        };
+
+        _levelBackground = new Background(clouds);
     }
 
     public override void Update(GameTime gameTime)
@@ -309,6 +322,8 @@ public class GameScene : Scene
         CollisionChecks();
 
         checkChangeScene();
+
+        _levelBackground.Update(gameTime);
 
     }
 
@@ -626,7 +641,10 @@ public class GameScene : Scene
 
     public override void Draw(GameTime gameTime)
     {
-        Core.GraphicsDevice.Clear(Color.Brown);
+        Core.GraphicsDevice.Clear(Color.White);
+
+        // Draw the background
+        _levelBackground.Draw();
 
         if (_state != GameState.Playing)
         {
