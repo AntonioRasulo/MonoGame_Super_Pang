@@ -558,6 +558,10 @@ public class GameScene : Scene
     {
         if(_balls.Count == 0)
         {
+            _score -= _ui.getTimer();
+            if(_score < 0)
+                _score = 0;
+            _ui.UpdateScoreText(_score);
             _currentLevelIndex++;
             if(_currentLevelIndex >= LevelRegistry.AllLevels.Count)
             {
@@ -568,19 +572,20 @@ public class GameScene : Scene
                 _ui.resetTimer();
                 LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
             }
-            return;
         }
-
-        if(_lives == 0)
+        else if(_lives == 0)
         {
+            _score -= _ui.getTimer();
+            if(_score < 0)
+                _score = 0;
+            _ui.UpdateScoreText(_score);
             Core.ChangeScene(new GameOver(_score));
-            return;
         }
     }
 
     private void handleBallHit(Ball ball, ref List<Ball> toAddBall, ref List<Ball> toRemoveBall, ref List<PowerUp> toAddPowerUps)
     {
-        _score++;
+        _score += ball.getScore();
         _ui.UpdateScoreText(_score);
         toAddBall.AddRange(splitBall(ball));
         toRemoveBall.Add(ball);

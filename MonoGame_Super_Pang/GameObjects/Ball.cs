@@ -185,4 +185,15 @@ abstract public class Ball
         _freezeTimer = 0f;
     }
 
+    public int getScore()
+    {
+        return _ballSize switch
+        {
+            BallSize.LARGE => 1,
+            BallSize.MEDIUM => 2,
+            BallSize.SMALL => 3,
+            _ => 0
+        };
+    }
+
 }

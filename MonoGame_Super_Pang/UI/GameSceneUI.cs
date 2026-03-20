@@ -330,6 +330,11 @@ public class GameSceneUI : ContainerRuntime
         _timer = 0f;
     }
 
+    public int getTimer()
+    {
+        return (int)_timer;
+    }
+
     /// <summary>
     /// Tells the game scene ui to show the pause panel.
     /// </summary>
