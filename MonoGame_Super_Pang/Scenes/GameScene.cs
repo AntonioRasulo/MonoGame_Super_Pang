@@ -30,6 +30,8 @@ public class GameScene : Scene
 
     private List<Platform> _platforms;
 
+    private List<Enemy> _enemies;
+
     private Rectangle _roomBounds;
 
     private const int HARPOON_DELAY = 5;
@@ -85,6 +87,13 @@ public class GameScene : Scene
     private SoundEffect _blockBreakEffect;
 
     private Background _levelBackground;
+
+    private AnimatedSprite _batIdleAnimation;
+    private AnimatedSprite _batHurtAnimation;
+    private AnimatedSprite _batFallAnimation;
+    private AnimatedSprite _batLandAnimation;
+
+    private Sprite _batDeathSprite;
 
     public GameScene(int startingLevel)
     {
@@ -172,6 +181,13 @@ public class GameScene : Scene
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Content, "images/items-atlas.xml");
         TextureAtlas baloonsAtlas = TextureAtlas.FromFile(Content, "images/baloons_atlas.xml");
         TextureAtlas platformAtlas = TextureAtlas.FromFile(Content, "images/terrain_atlas.xml");
+        TextureAtlas batAtlas = TextureAtlas.FromFile(Content, "images/enemies/bat_atlas.xml");
+
+        _batIdleAnimation = batAtlas.CreateAnimatedSprite("idle-animation");
+        _batHurtAnimation = batAtlas.CreateAnimatedSprite("hurt-animation");
+        _batFallAnimation = batAtlas.CreateAnimatedSprite("fall-animation");
+        _batLandAnimation = batAtlas.CreateAnimatedSprite("land-animation");
+        _batDeathSprite = batAtlas.CreateSprite("land5");
 
         // Retrieve regions and animations from the atlas
         Sprite idleRegion = characterAtlas.CreateSprite("characterStanding");
@@ -227,6 +243,8 @@ public class GameScene : Scene
         _balls = new List<Ball>();
 
         _platforms = new List<Platform>();
+
+        _enemies = new List<Enemy>();
 
         // Load the font
         _font = Content.Load<SpriteFont>("fonts/04B_30");
@@ -310,9 +328,24 @@ public class GameScene : Scene
             powerUp.Update();
         }
 
+        foreach(Enemy enemy in _enemies)
+        {
+            enemy.Update(gameTime);
+        }
+
         CollisionChecks();
 
         checkChangeScene();
+
+        List<Enemy> toRemoveEnemies = new List<Enemy>();
+        foreach(Enemy enemy in _enemies)
+        {
+            if (enemy.isToRemove())
+            {
+                toRemoveEnemies.Add(enemy);
+            }
+        }
+        _enemies.RemoveAll(enemy => toRemoveEnemies.Contains(enemy));
 
         _levelBackground.Update(gameTime);
 
@@ -418,6 +451,44 @@ public class GameScene : Scene
         _balls.AddRange(toAddBall);
         _character.removeHarpoons(toRemoveHarpoon);
         _powerUps.AddRange(toAddPowerUps);
+
+        /* Harpoon - Enemies collision check */
+        toRemoveHarpoon.Clear();
+
+        foreach(Harpoon harpoon in _character.getHarpoons())
+        {
+            // If the harpoon is on the remove list
+            if(toRemoveHarpoon.Contains(harpoon)) continue;
+            Rectangle harpoonBounds = harpoon.getBounds();
+            foreach(Enemy enemy in _enemies)
+            {
+                Rectangle enemyBounds = enemy.GetBounds();
+                if(harpoonBounds.Intersects(enemyBounds))
+                {
+                    _score += enemy.TakeHit();
+                    _ui.UpdateScoreText(_score);
+                    toRemoveHarpoon.Add(harpoon);
+                }
+            }
+        }
+
+        _character.removeHarpoons(toRemoveHarpoon);
+
+        /* Enemies character collision */
+        foreach(Enemy enemy in _enemies)
+        {
+            Rectangle enemyBounds = enemy.GetBounds();
+            if (characterBounds.Intersects(enemyBounds) && (_character.IsImmune == false))
+            {
+                _score--;
+                _lives--;
+                _character.activateImmunity();
+                // Update the score display on the UI.
+                _ui.UpdateScoreText(_score);
+                if(_lives == 0)
+                    return;
+            }
+        }
 
         /* Platform - Ball collision check */
         foreach(Platform platform in _platforms)
@@ -674,6 +745,11 @@ public class GameScene : Scene
             powerUp.Draw();
         }
 
+        foreach(Enemy enemy in _enemies)
+        {
+            enemy.Draw();
+        }
+
         for(int livesIndex = 1; livesIndex <= _lives; livesIndex++)
         {
             int roomWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
@@ -699,6 +775,7 @@ public class GameScene : Scene
     {
         _balls.Clear();
         _platforms.Clear();
+        _enemies.Clear();
         Ball.resetFreeze();
         foreach (var spawnConfig in config.Balls)
         {
@@ -743,6 +820,16 @@ public class GameScene : Scene
         }
 
         _levelBackground = new Background(clouds);
+
+        foreach (EnemyConfig enemyConfig in config.Enemies)
+        {
+            switch (enemyConfig.EnemyType)
+            {
+            case EnemyType.BAT:
+                _enemies.Add(new Bat(_batIdleAnimation, _batHurtAnimation, _batFallAnimation, _batLandAnimation, _batDeathSprite, enemyConfig.Position));
+            break;
+            }
+        }
     }
 
     private List<Ball> splitBall(Ball ball)
