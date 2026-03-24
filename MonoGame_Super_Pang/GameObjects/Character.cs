@@ -49,6 +49,8 @@ public class Character
 
     private SoundEffect _hitSoundEffect;
 
+    private int _lives = 3;
+
     public Character(Sprite idleSprite, AnimatedSprite walkAnimation, AnimatedSprite shootAnimation, Animation harpoonAnimation, TextureRegion invincibleRegion)
     {
         _idleSprite = idleSprite;
@@ -263,6 +265,7 @@ public class Character
         }
         else
         {
+            _lives--;
             Core.Audio.PlaySoundEffect(_hitSoundEffect);
         }
         _blinkTimer = 0f;
@@ -282,6 +285,21 @@ public class Character
     public void loadHitSound(SoundEffect hitSoundEffect)
     {
         _hitSoundEffect = hitSoundEffect;
+    }
+
+    public bool isAlive()
+    {
+        return _lives > 0;
+    }
+
+    public void increaseLives()
+    {
+        _lives++;
+    }
+
+    public int getLives()
+    {
+        return _lives;
     }
 
 }

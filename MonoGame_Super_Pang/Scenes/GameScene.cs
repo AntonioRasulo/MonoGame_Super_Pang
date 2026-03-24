@@ -42,8 +42,6 @@ public class GameScene : Scene
     // Tracks the players score.
     private int _score;
 
-    private int _lives = 3;
-
     private Sprite _livesSprite;
     private Sprite _freezeSprite;
     private Sprite _invincibilitySprite; 
@@ -393,7 +391,7 @@ public class GameScene : Scene
                 switch (powerUp.GetPowerUpType())
                 {
                     case powerUpType.LIVES:
-                        _lives++;
+                        _character.increaseLives();
                     break;
                     case powerUpType.CLOCK:
                         Ball.Freeze();        
@@ -481,11 +479,10 @@ public class GameScene : Scene
             if (characterBounds.Intersects(enemyBounds) && (_character.IsImmune == false))
             {
                 _score--;
-                _lives--;
                 _character.activateImmunity();
                 // Update the score display on the UI.
                 _ui.UpdateScoreText(_score);
-                if(_lives == 0)
+                if(_character.isAlive() == false)
                     return;
             }
         }
@@ -545,11 +542,10 @@ public class GameScene : Scene
             if(areIntersecting(ball.GetBounds(), characterBounds) && (_character.IsImmune == false))
             {
                 _score--;
-                _lives--;
                 _character.activateImmunity();
                 // Update the score display on the UI.
                 _ui.UpdateScoreText(_score);
-                if(_lives == 0)
+                if(_character.isAlive() == false)
                     return;
             }
         }
@@ -644,7 +640,7 @@ public class GameScene : Scene
                 LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
             }
         }
-        else if(_lives == 0)
+        else if(_character.isAlive() == false)
         {
             _score -= _ui.getTimer();
             if(_score < 0)
@@ -750,7 +746,7 @@ public class GameScene : Scene
             enemy.Draw();
         }
 
-        for(int livesIndex = 1; livesIndex <= _lives; livesIndex++)
+        for(int livesIndex = 1; livesIndex <= _character.getLives(); livesIndex++)
         {
             int roomWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
             float distanceFromRightWall = 5.0f;
