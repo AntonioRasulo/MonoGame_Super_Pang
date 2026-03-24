@@ -133,6 +133,7 @@ public class GameScene : Scene
 
         // Create the game scene ui instance.
         _ui = new GameSceneUI();
+        _ui.UpdateLivesText(_character.getLives());
 
         // Subscribe to the events from the game scene ui.
         _ui.ResumeButtonClick += OnResumeButtonClicked;
@@ -392,6 +393,7 @@ public class GameScene : Scene
                 {
                     case powerUpType.LIVES:
                         _character.increaseLives();
+                        _ui.UpdateLivesText(_character.getLives());
                     break;
                     case powerUpType.CLOCK:
                         Ball.Freeze();        
@@ -480,6 +482,7 @@ public class GameScene : Scene
             {
                 _score--;
                 _character.activateImmunity();
+                _ui.UpdateLivesText(_character.getLives());
                 // Update the score display on the UI.
                 _ui.UpdateScoreText(_score);
                 if(_character.isAlive() == false)
@@ -543,6 +546,7 @@ public class GameScene : Scene
             {
                 _score--;
                 _character.activateImmunity();
+                _ui.UpdateLivesText(_character.getLives());
                 // Update the score display on the UI.
                 _ui.UpdateScoreText(_score);
                 if(_character.isAlive() == false)
@@ -746,17 +750,11 @@ public class GameScene : Scene
             enemy.Draw();
         }
 
-        for(int livesIndex = 1; livesIndex <= _character.getLives(); livesIndex++)
-        {
-            int roomWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
-            float distanceFromRightWall = 5.0f;
-            float distanceFromTopWall = 2.0f;
-            float spaceBetweenSprites = 2.0f;
-
-            Vector2 livesSpritePosition = new Vector2(roomWidth - (distanceFromRightWall + _livesSprite.Width + spaceBetweenSprites) * livesIndex, distanceFromTopWall);
-
-            _livesSprite.Draw(Core.SpriteBatch, livesSpritePosition);
-        }
+        float distanceFromTopWall = 2.0f;
+        float livesIndex = 2.5f;
+        int roomWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
+        Vector2 livesSpritePosition = new Vector2(roomWidth - _livesSprite.Width * livesIndex, distanceFromTopWall);
+        _livesSprite.Draw(Core.SpriteBatch, livesSpritePosition);
 
         // Always end the sprite batch when finished.
         Core.SpriteBatch.End();

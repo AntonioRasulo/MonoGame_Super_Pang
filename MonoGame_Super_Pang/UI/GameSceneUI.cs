@@ -21,6 +21,9 @@ public class GameSceneUI : ContainerRuntime
     // The string format to use when updating the text for the time display.
     private static readonly string s_timeFormat = "TIME: {0:D3}";
 
+    // The string format to use when updating the text for the lives display.
+    private static readonly string s_livesFormat = "X{0:D2}";
+
     // The sound effect to play for auditory feedback of the user interface.
     private SoundEffect _uiSoundEffect;
 
@@ -43,6 +46,9 @@ public class GameSceneUI : ContainerRuntime
 
     // The text runtime used to display the timer on the game screen.
     private TextRuntime _timerText;
+
+    // The text runtime used to display the lives on the game screen.
+    private TextRuntime _livesText;
 
     // Number of seconds on the current level.
     private double _timer;
@@ -91,6 +97,11 @@ public class GameSceneUI : ContainerRuntime
         _timerText = CreateTimerText();
         AddChild(_timerText);
 
+        // Create the text that will display the lives and add it as
+        // a child to this container.
+        _livesText = CreateLivesText();
+        AddChild(_livesText);
+
         // Create the Pause panel that is displayed when the game is paused and
         // add it as a child to this container
         _pausePanel = CreatePausePanel(atlas);
@@ -130,6 +141,21 @@ public class GameSceneUI : ContainerRuntime
         text.CustomFontFile = @"fonts/04b_30.fnt";
         text.FontScale = 0.25f;
         text.Text = string.Format(s_timeFormat, (int)_timer);
+
+        return text;
+    }
+
+    private TextRuntime CreateLivesText()
+    {
+        var screenWidth = GumService.Default.CanvasWidth;
+        TextRuntime text = new TextRuntime();
+        text.Anchor(Gum.Wireframe.Anchor.TopRight);
+        text.WidthUnits = DimensionUnitType.RelativeToChildren;
+        text.Y = 5.0f;
+        text.UseCustomFont = true;
+        text.CustomFontFile = @"fonts/04b_30.fnt";
+        text.FontScale = 0.25f;
+        text.Text = string.Format(s_livesFormat, 0);
 
         return text;
     }
@@ -312,13 +338,25 @@ public class GameSceneUI : ContainerRuntime
     /// <summary>
     /// Updates the text on the timer display.
     /// </summary>
-    /// <param name="gametime">A snapshot of the timing values for the current update cycle..</param>
+    /// <param name="gametime">A snapshot of the timing values for the current update cycle.</param>
     private void UpdateTimerText(GameTime gameTime)
     {
         if(_pausePanel.IsVisible == false)
         {
             _timer += gameTime.ElapsedGameTime.TotalSeconds;
             _timerText.Text = string.Format(s_timeFormat, (int)_timer);
+        }
+    }
+
+    /// <summary>
+    /// Updates the text on the lives display.
+    /// </summary>
+    /// <param name="lives">Number of lives of the character.</param>
+    public void UpdateLivesText(int lives)
+    {
+        if(_pausePanel.IsVisible == false)
+        {
+            _livesText.Text = string.Format(s_livesFormat, lives);
         }
     }
 
