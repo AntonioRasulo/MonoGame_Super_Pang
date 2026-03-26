@@ -115,8 +115,6 @@ public class GameScene : Scene
 
         _roomBounds = Core.GraphicsDevice.PresentationParameters.Bounds;
 
-        _character.Initialize(_roomBounds.Width, _roomBounds.Height);
-
         // Create any UI elements from the root element created in previous
         // scenes.
         GumService.Default.Root.Children.Clear();

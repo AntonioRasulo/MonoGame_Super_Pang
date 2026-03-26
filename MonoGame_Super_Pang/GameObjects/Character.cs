@@ -1,4 +1,3 @@
-using System;
 using MonoGameLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -35,7 +34,7 @@ public class Character
 
     private float _speed = 5.0f;
 
-    private const float SCALE = 4.0f;
+    private readonly Vector2 SCALE = new Vector2(4.0f, 4.0f);
 
     private float _immunityDuration = 3.0f; // seconds of immunity
     private float _immunityTimer = 0f;
@@ -56,16 +55,23 @@ public class Character
         _idleSprite = idleSprite;
         _walkAnimation = walkAnimation;
         _shootAnimation = shootAnimation;
+
+        _idleSprite.Scale = SCALE;
+        _walkAnimation.Scale = SCALE;
+        _shootAnimation.Scale = SCALE;
+
         _harpoonAnimation = harpoonAnimation;
+
         _harpoons = new List<Harpoon>();
         _invinciblePowerUp = new Invicible(invincibleRegion);
-    }
 
-    public void Initialize(float windowWidth, float windowHeight)
-    {
-        _characterPosition = new Vector2(    // position
-            (windowWidth)*0.5f, 
-            windowHeight-_idleSprite.Height*4);
+        float windowWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
+        float windowHeight = Core.GraphicsDevice.PresentationParameters.BackBufferHeight;
+
+        _characterPosition = new Vector2(
+            windowWidth*0.5f, 
+            windowHeight-_idleSprite.Height);
+
         previousKeyboardState = Keyboard.GetState();
     }
 
@@ -215,7 +221,6 @@ public class Character
 
         if (currentAnimation != null)
         {
-            currentAnimation.Scale = new Vector2(SCALE, SCALE);
             currentAnimation.Draw(spriteBatch, _characterPosition);
         }
 
@@ -237,16 +242,6 @@ public class Character
     public float getWidth()
     {
         return _idleSprite.Width;
-    }
-
-    public float getScaledWidth()
-    {
-        return _idleSprite.Width * SCALE;
-    }
-
-    public float getHeight()
-    {
-        return _idleSprite.Height;
     }
 
     private void shootBullet()
