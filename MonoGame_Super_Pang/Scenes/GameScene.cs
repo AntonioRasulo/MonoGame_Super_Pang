@@ -34,8 +34,6 @@ public class GameScene : Scene
 
     private Rectangle _roomBounds;
 
-    private const int HARPOON_DELAY = 5;
-
     // The SpriteFont Description used to draw text.
     private SpriteFont _font;
 
@@ -180,7 +178,6 @@ public class GameScene : Scene
         Ball.loadBounceSound(Content.Load<SoundEffect>("audio/bounce"));
 
         // Create the texture atlas from the XML configuration file
-        TextureAtlas characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Content, "images/items-atlas.xml");
         TextureAtlas baloonsAtlas = TextureAtlas.FromFile(Content, "images/baloons_atlas.xml");
         TextureAtlas platformAtlas = TextureAtlas.FromFile(Content, "images/terrain_atlas.xml");
@@ -197,11 +194,6 @@ public class GameScene : Scene
         _miniBatFallAnimation = miniBatAtlas.CreateAnimatedSprite("fall-animation");
         _miniBatLandAnimation = miniBatAtlas.CreateAnimatedSprite("land-animation");
         _miniBatDeathSprite = miniBatAtlas.CreateSprite("land7");
-
-        // Retrieve regions and animations from the atlas
-        Sprite idleRegion = characterAtlas.CreateSprite("characterStanding");
-        AnimatedSprite walkAnimation = characterAtlas.CreateAnimatedSprite("walk-animation");
-        AnimatedSprite shootAnimation = characterAtlas.CreateAnimatedSprite("shooting-animation");
 
         // Retrieve balls sprites
         _redBallRoundSprite = itemsAtlas.CreateSprite("redBall");
@@ -233,19 +225,7 @@ public class GameScene : Scene
         _bombSprite = itemsAtlas.CreateSprite("bombSprite");
         _bombSprite.Scale = new Vector2(4.0f, 4.0f);
 
-        // Retrieve harpoons frames
-        List<TextureRegion> harpoonFrames = new List<TextureRegion>();
-        for (int harpoonIndex = 100; harpoonIndex <= 170; harpoonIndex++)
-        {
-            String harpoonImagePath = "images/items_" + harpoonIndex;
-            Texture2D harpoon2DTexture = Content.Load<Texture2D>(harpoonImagePath);
-            TextureRegion harpoonRegion = new TextureRegion(harpoon2DTexture, 0, 0, harpoon2DTexture.Width, harpoon2DTexture.Height);
-            harpoonFrames.Add(harpoonRegion);
-        }
-
-        Animation harpoonAnimation = new Animation(harpoonFrames, TimeSpan.FromMilliseconds(HARPOON_DELAY));
-
-        _character = new Character(idleRegion, walkAnimation, shootAnimation, harpoonAnimation, itemsAtlas.GetRegion("invincibilitySprite"));
+        _character = new Character(Content);
 
         _character.loadHitSound(Content.Load<SoundEffect>("audio/Boss hit 1"));
 

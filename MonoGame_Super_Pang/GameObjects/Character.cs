@@ -1,3 +1,4 @@
+using System;
 using MonoGameLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -5,6 +6,7 @@ using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -36,6 +38,8 @@ public class Character
 
     private readonly Vector2 SCALE = new Vector2(4.0f, 4.0f);
 
+    private const int HARPOON_DELAY = 5;
+
     private float _immunityDuration = 3.0f; // seconds of immunity
     private float _immunityTimer = 0f;
     private float _blinkInterval = 0.1f;    // how fast it blinks
@@ -50,20 +54,11 @@ public class Character
 
     private int _lives = 3;
 
-    public Character(Sprite idleSprite, AnimatedSprite walkAnimation, AnimatedSprite shootAnimation, Animation harpoonAnimation, TextureRegion invincibleRegion)
+    public Character(ContentManager Content)
     {
-        _idleSprite = idleSprite;
-        _walkAnimation = walkAnimation;
-        _shootAnimation = shootAnimation;
-
-        _idleSprite.Scale = SCALE;
-        _walkAnimation.Scale = SCALE;
-        _shootAnimation.Scale = SCALE;
-
-        _harpoonAnimation = harpoonAnimation;
+        LoadContent(Content);
 
         _harpoons = new List<Harpoon>();
-        _invinciblePowerUp = new Invicible(invincibleRegion);
 
         float windowWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
         float windowHeight = Core.GraphicsDevice.PresentationParameters.BackBufferHeight;
@@ -73,6 +68,36 @@ public class Character
             windowHeight-_idleSprite.Height);
 
         previousKeyboardState = Keyboard.GetState();
+    }
+
+    private void LoadContent(ContentManager Content)
+    {
+        TextureAtlas characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
+        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Content, "images/items-atlas.xml");
+
+        _idleSprite = characterAtlas.CreateSprite("characterStanding");
+        _idleSprite.Scale = SCALE;
+
+        _walkAnimation = characterAtlas.CreateAnimatedSprite("walk-animation");
+        _walkAnimation.Scale = SCALE;
+
+        _shootAnimation = characterAtlas.CreateAnimatedSprite("shooting-animation");
+        _shootAnimation.Scale = SCALE;
+
+        // Retrieve harpoons frames
+        List<TextureRegion> harpoonFrames = new List<TextureRegion>();
+        for (int harpoonIndex = 100; harpoonIndex <= 170; harpoonIndex++)
+        {
+            String harpoonImagePath = "images/items_" + harpoonIndex;
+            Texture2D harpoon2DTexture = Content.Load<Texture2D>(harpoonImagePath);
+            TextureRegion harpoonRegion = new TextureRegion(harpoon2DTexture, 0, 0, harpoon2DTexture.Width, harpoon2DTexture.Height);
+            harpoonFrames.Add(harpoonRegion);
+        }
+
+        _harpoonAnimation = new Animation(harpoonFrames, TimeSpan.FromMilliseconds(HARPOON_DELAY));
+
+        _invinciblePowerUp = new Invicible(itemsAtlas.GetRegion("invincibilitySprite"));
+
     }
 
     public void Update(GameTime gameTime)
