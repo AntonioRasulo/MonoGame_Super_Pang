@@ -7,7 +7,8 @@ namespace MonoGame_Super_Pang.GameObjects;
 
 public enum EnemyType
 {
-    BAT
+    BIG_BAT,
+    MINI_BAT
 }
 
 abstract public class Enemy
@@ -21,7 +22,7 @@ abstract public class Enemy
 
     // The velocity of the bat that defines the direction and how much in that
     // direction to update the bats position each update cycle.
-    private Vector2 _velocity;
+    protected Vector2 _velocity;
 
     protected int _lives;
 
@@ -36,24 +37,6 @@ abstract public class Enemy
     public Enemy(Vector2 position)
     {
         _position = position;
-    }
-
-    /// <summary>
-    /// Randomizes the velocity of the bat.
-    /// </summary>
-    public void RandomizeVelocity()
-    {
-        // Generate a random angle
-        float angle = (float)(Random.Shared.NextDouble() * MathHelper.TwoPi);
-
-        // Convert the angle to a direction vector
-        float x = (float)Math.Cos(angle);
-        float y = (float)Math.Sin(angle);
-        Vector2 direction = new Vector2(x, y);
-
-        // Multiply the direction vector by the movement speed to get the
-        // final velocity
-        _velocity = direction * _movementSpeed;
     }
 
     /// <summary>

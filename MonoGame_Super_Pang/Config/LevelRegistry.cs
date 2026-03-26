@@ -31,7 +31,7 @@ public static class LevelRegistry
             {
                 new EnemyConfig
                 {
-                    EnemyType = EnemyType.BAT,
+                    EnemyType = EnemyType.BIG_BAT,
                     Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.60f)
                 }
             }
@@ -60,7 +60,16 @@ public static class LevelRegistry
             },
             Enemies = new List<EnemyConfig>
             {
-
+                new EnemyConfig
+                {
+                    EnemyType = EnemyType.MINI_BAT,
+                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.60f)
+                },
+                new EnemyConfig
+                {
+                    EnemyType = EnemyType.MINI_BAT,
+                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.75f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.60f)
+                }
             }
         },
         new LevelConfig // Level 2

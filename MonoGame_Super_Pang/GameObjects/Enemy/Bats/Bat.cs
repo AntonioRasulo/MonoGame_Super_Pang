@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using MonoGameLibrary.Graphics;
 using MonoGameLibrary;
-using System;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -14,44 +13,28 @@ public enum BatState
     Death
 }
 
-public class Bat : Enemy
+abstract public class Bat : Enemy
 {
-    private AnimatedSprite _idleAnimation;
-    private AnimatedSprite _hurtAnimation;
-    private AnimatedSprite _fallAnimation;
-    private AnimatedSprite _landAnimation;
-    private Sprite _deathSprite;
+    protected AnimatedSprite _idleAnimation;
+    protected AnimatedSprite _hurtAnimation;
+    protected AnimatedSprite _fallAnimation;
+    protected AnimatedSprite _landAnimation;
+    protected Sprite _deathSprite;
 
-    private BatState _state;
+    protected BatState _state;
 
     private const float FALL_SPEED = 5.0f;
-    private const int NUM_LIVES = 3;
-
-    private const int ENEMY_SCORE = 7;
 
     private const int DEATH_TIME = 5;
 
-    private Vector2 _target;
-
     private float _deathTimer = 0f;
 
-    private Random _positionRand;
-
-    private readonly int minPosX;
-    private readonly int maxPosX;
-    private readonly int minPosY;
-    private readonly int maxPosY;
-
-    public Bat(AnimatedSprite idleAnimation, AnimatedSprite hurtAnimation, AnimatedSprite fallAnimation, AnimatedSprite landAnimation, Sprite deathSprite, Vector2 position):
+    public Bat(AnimatedSprite idleAnimation, AnimatedSprite fallAnimation, AnimatedSprite landAnimation, Sprite deathSprite, Vector2 position):
     base(position)
     {
         _idleAnimation = idleAnimation;
         _idleAnimation.Scale = new Vector2(SCALE, SCALE);
         _idleAnimation.CenterOrigin();
-
-        _hurtAnimation = hurtAnimation;
-        _hurtAnimation.Scale = new Vector2(SCALE, SCALE);
-        _hurtAnimation.CenterOrigin();
 
         _fallAnimation = fallAnimation;
         _fallAnimation.Scale = new Vector2(SCALE, SCALE);
@@ -66,30 +49,6 @@ public class Bat : Enemy
         _deathSprite.CenterOrigin();
 
         _state = BatState.Idle;
-        _positionRand = new Random();
-        _lives = NUM_LIVES;
-        _movementSpeed = 200f;
-        _score = ENEMY_SCORE;
-
-        minPosX = (int)(_idleAnimation.Width * 0.5f);
-        minPosY = (int)(_idleAnimation.Height * 0.5f);
-        maxPosX = Core.GraphicsDevice.PresentationParameters.BackBufferWidth - (int)(_idleAnimation.Width * 0.5f);
-        maxPosY = Core.GraphicsDevice.PresentationParameters.BackBufferHeight - (int)(_idleAnimation.Height * 0.5f);
-
-        UpdateTargetPosition();
-    }
-
-    private void UpdateTargetPosition()
-    {
-        int targetY = (int)_position.Y;
-        while(!(targetY > _position.Y + _landAnimation.Height*0.5f || targetY < _position.Y - _landAnimation.Height*0.5f))
-        {
-            targetY = _positionRand.Next(minPosY, maxPosY);
-        }
-
-        int targetX = _positionRand.Next(minPosX, maxPosX);
-        
-        _target = new Vector2(targetX, targetY);
     }
 
     public override void Update(GameTime gameTime)
@@ -101,11 +60,14 @@ public class Bat : Enemy
                 UpdateMovement(gameTime);
             break;
             case BatState.Hurt:
-                _hurtAnimation.Update(gameTime);
-                if (_hurtAnimation.IsComplete)
+                if(_hurtAnimation != null)
                 {
-                    _state = BatState.Idle;
-                    _hurtAnimation.Reset();
+                    _hurtAnimation.Update(gameTime);
+                    if (_hurtAnimation.IsComplete)
+                    {
+                        _state = BatState.Idle;
+                        _hurtAnimation.Reset();
+                    }
                 }
             break;
             case BatState.Fall:
@@ -137,26 +99,7 @@ public class Bat : Enemy
 
     }
 
-    private void UpdateMovement(GameTime gameTime)
-    {
-        float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-        Vector2 direction = _target - _position;
-        float distance = direction.Length();
-
-        if(distance <= _movementSpeed * delta)
-        {
-            _position = _target;
-            UpdateTargetPosition();
-            // UpdatePositionIndex();
-            // _target = positions[_positionIndex];
-        }
-        else
-        {
-            direction.Normalize();
-            _position += direction * _movementSpeed * delta;
-        }
-    }
+    protected abstract void UpdateMovement(GameTime gameTime);
 
     private void UpdateDisappear(GameTime gameTime)
     {
@@ -193,7 +136,14 @@ public class Bat : Enemy
             currentSprite = _idleAnimation;
             break;
             case BatState.Hurt:
-            currentSprite = _hurtAnimation;
+            if(_hurtAnimation != null)
+            {
+                currentSprite = _hurtAnimation;        
+            }
+            else
+            {
+                return new Rectangle(0, 0, 0, 0);
+            }
             break;
             case BatState.Fall:
             case BatState.Land:
@@ -225,7 +175,7 @@ public class Bat : Enemy
             _idleAnimation.Draw(Core.SpriteBatch, _position);
             break;
             case BatState.Hurt:
-            _hurtAnimation.Draw(Core.SpriteBatch, _position);
+            _hurtAnimation?.Draw(Core.SpriteBatch, _position);
             break;
             case BatState.Fall:
             _fallAnimation.Draw(Core.SpriteBatch, _position);
