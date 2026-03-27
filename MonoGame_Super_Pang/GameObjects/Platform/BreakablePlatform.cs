@@ -24,9 +24,8 @@ public class BreakablePlatform : Platform
 
     private SoundEffect _breakPlatformEffect;
 
-    public BreakablePlatform(List<Sprite> sprites, Vector2 position, PlatformType platformType, PlatformState platformState, SoundEffect breakPlatformEffect) : base(position, platformType)
+    public BreakablePlatform(Vector2 position, PlatformType platformType, PlatformState platformState, SoundEffect breakPlatformEffect) : base(position, platformType)
     {
-        _sprites = sprites;
         foreach(Sprite sprite in _sprites)
         {
             sprite.Scale = new Vector2(SCALE, SCALE);
@@ -146,6 +145,27 @@ public class BreakablePlatform : Platform
     public PlatformState getState()
     {
         return _platformState;
+    }
+
+    protected override void LoadSprite()
+    {
+        _sprites = _platformType switch
+        {
+            PlatformType.HORIZONTAL_GRAY => LoadHorizontalGraySprite(),
+            _ => LoadHorizontalGraySprite()
+        };
+    }
+
+    List<Sprite> LoadHorizontalGraySprite()
+    {
+        List<Sprite> returnList = new List<Sprite>();
+
+        foreach(TextureRegion region in _horizontalBreakableBlueSprites)
+        {
+            returnList.Add(new Sprite(region));
+        }
+
+        return returnList;
     }
 
 }

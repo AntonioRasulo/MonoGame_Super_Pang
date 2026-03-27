@@ -1,6 +1,8 @@
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -12,18 +14,21 @@ public enum PlatformType
 
 abstract public class Platform
 {
-    //private Sprite _sprite;
-
     protected Vector2 _position;
 
-    private PlatformType _platformType;
+    protected PlatformType _platformType;
 
     protected const float SCALE = 4f;
 
     protected bool _breakable;
 
+    protected static TextureRegion _grayHorizontalPlatform;
+
+    protected static List<TextureRegion> _horizontalBreakableBlueSprites;
+
     public Platform(Vector2 position, PlatformType platformType)
     {
+        LoadSprite();
         _position = position;
         _platformType = platformType;
     }
@@ -36,5 +41,23 @@ abstract public class Platform
     {
         return _breakable;
     }
+
+    public static void LoadContent()
+    {
+        TextureAtlas platformAtlas = TextureAtlas.FromFile(Core.Content, "images/terrain_atlas.xml");
+        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/items-atlas.xml");
+
+        _grayHorizontalPlatform = platformAtlas.GetRegion("horizontalGrayPlatform");
+
+        _horizontalBreakableBlueSprites = new List<TextureRegion>();
+        for(int indexPlatform = 1; indexPlatform<=5; indexPlatform++)
+        {
+            String spriteName = "largeBreakableBluePlatform"+indexPlatform;
+            _horizontalBreakableBlueSprites.Add(itemsAtlas.GetRegion(spriteName));
+        }
+
+    }
+
+    protected abstract void LoadSprite();
 
 }

@@ -8,9 +8,8 @@ public class UnbreakablePlatform : Platform
 {
     private Sprite _sprite;
 
-    public UnbreakablePlatform(Sprite sprite, Vector2 position, PlatformType platformType) : base(position, platformType)
+    public UnbreakablePlatform(Vector2 position, PlatformType platformType) : base(position, platformType)
     {
-        _sprite = sprite;
         _sprite.Scale = new Vector2(SCALE, SCALE);
         _breakable = false;
     }
@@ -31,5 +30,14 @@ public class UnbreakablePlatform : Platform
         );
 
         return platformBounds;
+    }
+
+    protected override void LoadSprite()
+    {
+        _sprite = _platformType switch
+        {
+            PlatformType.HORIZONTAL_GRAY => new Sprite(_grayHorizontalPlatform),
+            _ => new Sprite(_grayHorizontalPlatform)
+        };
     }
 }

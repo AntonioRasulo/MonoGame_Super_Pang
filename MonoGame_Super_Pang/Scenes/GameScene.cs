@@ -45,10 +45,6 @@ public class GameScene : Scene
     private Sprite _invincibilitySprite; 
     private Sprite _bombSprite;
 
-    private Sprite _grayHorizontalPlatform;
-
-    private List<Sprite> _horizontalBreakableBlueSprites;
-
     private int _currentLevelIndex;
 
     private Random _powerUpRand;
@@ -157,20 +153,12 @@ public class GameScene : Scene
 
         // Create the texture atlas from the XML configuration file
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Content, "images/items-atlas.xml");
-        TextureAtlas platformAtlas = TextureAtlas.FromFile(Content, "images/terrain_atlas.xml");
 
         // Load ball content
         Ball.LoadContent();
 
-        _horizontalBreakableBlueSprites = new List<Sprite>();
-        for(int indexPlatform = 1; indexPlatform<=5; indexPlatform++)
-        {
-            String spriteName = "largeBreakableBluePlatform"+indexPlatform;
-            _horizontalBreakableBlueSprites.Add(itemsAtlas.CreateSprite(spriteName));
-        }
-
-        // Retrieve platforms sprites
-        _grayHorizontalPlatform = platformAtlas.CreateSprite("horizontalGrayPlatform");
+        // Load platform content
+        Platform.LoadContent();
 
         _livesSprite = itemsAtlas.CreateSprite("livesSprite");
         _livesSprite.Scale = new Vector2(4.0f, 4.0f);
@@ -740,10 +728,10 @@ public class GameScene : Scene
             switch (platformType)
             {
                 case PlatformType.HORIZONTAL_GRAY:
-                    _platforms.Add(new UnbreakablePlatform(new Sprite(_grayHorizontalPlatform.Region), platformSpawn.Position, platformType));
+                    _platforms.Add(new UnbreakablePlatform(platformSpawn.Position, platformType));
                 break;
                 case PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE:
-                    _platforms.Add(new BreakablePlatform(_horizontalBreakableBlueSprites, platformSpawn.Position, platformType, platformSpawn.platformState, _blockBreakEffect));
+                    _platforms.Add(new BreakablePlatform(platformSpawn.Position, platformType, platformSpawn.platformState, _blockBreakEffect));
                     
                 break;
             }
