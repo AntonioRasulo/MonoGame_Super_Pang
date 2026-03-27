@@ -84,19 +84,6 @@ public class GameScene : Scene
 
     private Background _levelBackground;
 
-    private AnimatedSprite _bigBatIdleAnimation;
-    private AnimatedSprite _bigBatHurtAnimation;
-    private AnimatedSprite _bigBatFallAnimation;
-    private AnimatedSprite _bigBatLandAnimation;
-
-    private Sprite _bigBatDeathSprite;
-
-    private AnimatedSprite _miniBatIdleAnimation;
-    private AnimatedSprite _miniBatFallAnimation;
-    private AnimatedSprite _miniBatLandAnimation;
-
-    private Sprite _miniBatDeathSprite;
-
     public GameScene(int startingLevel)
     {
         _currentLevelIndex = startingLevel;
@@ -181,19 +168,6 @@ public class GameScene : Scene
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Content, "images/items-atlas.xml");
         TextureAtlas baloonsAtlas = TextureAtlas.FromFile(Content, "images/baloons_atlas.xml");
         TextureAtlas platformAtlas = TextureAtlas.FromFile(Content, "images/terrain_atlas.xml");
-        TextureAtlas bigBatAtlas = TextureAtlas.FromFile(Content, "images/enemies/bat_atlas.xml");
-        TextureAtlas miniBatAtlas = TextureAtlas.FromFile(Content, "images/enemies/mini_bats/mini_bat.xml");
-
-        _bigBatIdleAnimation = bigBatAtlas.CreateAnimatedSprite("idle-animation");
-        _bigBatHurtAnimation = bigBatAtlas.CreateAnimatedSprite("hurt-animation");
-        _bigBatFallAnimation = bigBatAtlas.CreateAnimatedSprite("fall-animation");
-        _bigBatLandAnimation = bigBatAtlas.CreateAnimatedSprite("land-animation");
-        _bigBatDeathSprite = bigBatAtlas.CreateSprite("land5");
-
-        _miniBatIdleAnimation = miniBatAtlas.CreateAnimatedSprite("idle-animation");
-        _miniBatFallAnimation = miniBatAtlas.CreateAnimatedSprite("fall-animation");
-        _miniBatLandAnimation = miniBatAtlas.CreateAnimatedSprite("land-animation");
-        _miniBatDeathSprite = miniBatAtlas.CreateSprite("land7");
 
         // Retrieve balls sprites
         _redBallRoundSprite = itemsAtlas.CreateSprite("redBall");
@@ -810,10 +784,10 @@ public class GameScene : Scene
             switch (enemyConfig.EnemyType)
             {
             case EnemyType.BIG_BAT:
-                _enemies.Add(new BigBat(_bigBatIdleAnimation, _bigBatHurtAnimation, _bigBatFallAnimation, _bigBatLandAnimation, _bigBatDeathSprite, enemyConfig.Position));
+                _enemies.Add(new BigBat(enemyConfig.Position));
             break;
             case EnemyType.MINI_BAT:
-                _enemies.Add(new MiniBat(_miniBatIdleAnimation, _miniBatFallAnimation, _miniBatLandAnimation, _miniBatDeathSprite, enemyConfig.Position));
+                _enemies.Add(new MiniBat(enemyConfig.Position));
             break;
             }
         }

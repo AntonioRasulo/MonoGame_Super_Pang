@@ -12,8 +12,8 @@ public class MiniBat : Bat
 
     private const float MOVEMENT_SPEED = 5.0f;
 
-    public MiniBat(AnimatedSprite idleAnimation, AnimatedSprite fallAnimation, AnimatedSprite landAnimation, Sprite deathSprite, Vector2 position):
-    base(idleAnimation, fallAnimation, landAnimation, deathSprite, position)
+    public MiniBat(Vector2 position):
+    base(position)
     {
         _lives = NUM_LIVES;
         _score = ENEMY_SCORE;
@@ -97,6 +97,16 @@ public class MiniBat : Bat
         // Apply reflection based on the normal.
         _velocity = Vector2.Reflect(_velocity, normal);
 
+    }
+
+    protected override void LoadContent()
+    {
+        TextureAtlas miniBatAtlas = TextureAtlas.FromFile(Core.Content, "images/enemies/mini_bats/mini_bat.xml");
+
+        _idleAnimation = miniBatAtlas.CreateAnimatedSprite("idle-animation");
+        _fallAnimation = miniBatAtlas.CreateAnimatedSprite("fall-animation");
+        _landAnimation = miniBatAtlas.CreateAnimatedSprite("land-animation");
+        _deathSprite = miniBatAtlas.CreateSprite("land7");
     }
 
 }

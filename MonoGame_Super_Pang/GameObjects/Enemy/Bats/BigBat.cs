@@ -20,10 +20,8 @@ public class BigBat : Bat
     private readonly int minPosY;
     private readonly int maxPosY;
 
-    public BigBat(AnimatedSprite idleAnimation, AnimatedSprite hurtAnimation, AnimatedSprite fallAnimation, AnimatedSprite landAnimation, Sprite deathSprite, Vector2 position):
-    base(idleAnimation, fallAnimation, landAnimation, deathSprite, position)
+    public BigBat(Vector2 position): base(position)
     {
-        _hurtAnimation = hurtAnimation;
         _hurtAnimation.Scale = new Vector2(SCALE, SCALE);
         _hurtAnimation.CenterOrigin();
 
@@ -73,4 +71,17 @@ public class BigBat : Bat
             _position += direction * _movementSpeed * delta;
         }
     }
+
+    protected override void LoadContent()
+    {
+        TextureAtlas bigBatAtlas = TextureAtlas.FromFile(Core.Content, "images/enemies/bat_atlas.xml");
+
+        _idleAnimation = bigBatAtlas.CreateAnimatedSprite("idle-animation");
+        _hurtAnimation = bigBatAtlas.CreateAnimatedSprite("hurt-animation");
+        _fallAnimation = bigBatAtlas.CreateAnimatedSprite("fall-animation");
+        _landAnimation = bigBatAtlas.CreateAnimatedSprite("land-animation");
+        _deathSprite = bigBatAtlas.CreateSprite("land5");
+
+    }
+
 }
