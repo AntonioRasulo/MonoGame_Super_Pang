@@ -9,8 +9,8 @@ public class ReflectiveBall : Ball
 
     private float _rotationSpeed = 0.05f;
 
-    public ReflectiveBall(Sprite ballSprite, BallSize ballSize, float dirX, BallType ballType, Vector2 ballInitialPosition = default)
-                        :base(ballSprite, ballSize, dirX, ballType, ballInitialPosition)
+    public ReflectiveBall(BallSize ballSize, float dirX, BallType ballType, Vector2 ballInitialPosition = default)
+                        :base(ballSize, dirX, ballType, ballInitialPosition)
     {
         Vector2 direction = new Vector2(dirX, -1);
 
@@ -65,6 +65,15 @@ public class ReflectiveBall : Ball
         {
             updateFreeze(gameTime);
         }
+    }
+
+    protected override void LoadSprite()
+    {
+        _ballSprite = _ballType switch
+        {
+            BallType.GREEN_SQUARED => new Sprite(_greenBallSquaredRegion),
+            _ => new Sprite(_greenBallSquaredRegion)
+        };
     }
 
 }

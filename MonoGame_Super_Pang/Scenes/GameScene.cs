@@ -44,11 +44,6 @@ public class GameScene : Scene
     private Sprite _freezeSprite;
     private Sprite _invincibilitySprite; 
     private Sprite _bombSprite;
-    private Sprite _redBallRoundSprite;
-    private Sprite _blueBallRoundSprite;
-    private Sprite _greenBallRoundSprite;
-
-    private Sprite _greenBallSquaredSprite;
 
     private Sprite _grayHorizontalPlatform;
 
@@ -160,19 +155,12 @@ public class GameScene : Scene
         Song theme = Content.Load<Song>("audio/16. Battle Theme III (loop)");
         Core.Audio.PlaySong(theme);
 
-        // Load bouncing sound
-        Ball.loadPopSound(Content.Load<SoundEffect>("audio/Balloon Pop 1"));
-        Ball.loadBounceSound(Content.Load<SoundEffect>("audio/bounce"));
-
         // Create the texture atlas from the XML configuration file
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Content, "images/items-atlas.xml");
-        TextureAtlas baloonsAtlas = TextureAtlas.FromFile(Content, "images/baloons_atlas.xml");
         TextureAtlas platformAtlas = TextureAtlas.FromFile(Content, "images/terrain_atlas.xml");
 
-        // Retrieve balls sprites
-        _redBallRoundSprite = itemsAtlas.CreateSprite("redBall");
-        _blueBallRoundSprite = itemsAtlas.CreateSprite("blueBall");
-        _greenBallRoundSprite = itemsAtlas.CreateSprite("greenBall");
+        // Load ball content
+        Ball.LoadContent();
 
         _horizontalBreakableBlueSprites = new List<Sprite>();
         for(int indexPlatform = 1; indexPlatform<=5; indexPlatform++)
@@ -180,9 +168,6 @@ public class GameScene : Scene
             String spriteName = "largeBreakableBluePlatform"+indexPlatform;
             _horizontalBreakableBlueSprites.Add(itemsAtlas.CreateSprite(spriteName));
         }
-
-        Texture2D greenSquaredTexture = Content.Load<Texture2D>("images/HexagonGreenBall");
-        _greenBallSquaredSprite = new Sprite(greenSquaredTexture);
 
         // Retrieve platforms sprites
         _grayHorizontalPlatform = platformAtlas.CreateSprite("horizontalGrayPlatform");
@@ -739,16 +724,12 @@ public class GameScene : Scene
             switch(spawnConfig.BallType)
             {
                 case BallType.GREEN_ROUND:
-                    _balls.Add(new BouncingBall(new Sprite(_greenBallRoundSprite.Region), spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
-                break;
                 case BallType.RED_ROUND:
-                    _balls.Add(new BouncingBall(new Sprite(_redBallRoundSprite.Region), spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
-                break;
                 case BallType.BLUE_ROUND:
-                    _balls.Add(new BouncingBall(new Sprite(_blueBallRoundSprite.Region), spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
+                    _balls.Add(new BouncingBall(spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
                 break;
                 case BallType.GREEN_SQUARED:
-                    _balls.Add(new ReflectiveBall(new Sprite(_greenBallSquaredSprite.Region), spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
+                    _balls.Add(new ReflectiveBall(spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
                 break;
             }
         }
@@ -808,8 +789,8 @@ public class GameScene : Scene
                 case BallType.RED_ROUND:
                 case BallType.BLUE_ROUND:
                 {    
-                    Ball leftBall = new BouncingBall(ball.GetSprite(), ballSize-1, -1f, ballType);
-                    Ball rightBall = new BouncingBall(ball.GetSprite(), ballSize-1, 1f, ballType);
+                    Ball leftBall = new BouncingBall(ballSize-1, -1f, ballType);
+                    Ball rightBall = new BouncingBall(ballSize-1, 1f, ballType);
                     leftBall.Position = new Vector2(ballPositionX - leftBall.getRadius(), ball.Position.Y);
                     rightBall.Position = new Vector2(ballPositionX + leftBall.getRadius(), ball.Position.Y);
                     toAddBall.Add(rightBall);
@@ -818,8 +799,8 @@ public class GameScene : Scene
                 break;
                 case BallType.GREEN_SQUARED:
                 {
-                    Ball leftBall = new ReflectiveBall(ball.GetSprite(), ballSize-1, -1f, ballType);
-                    Ball rightBall = new ReflectiveBall(ball.GetSprite(), ballSize-1, 1f, ballType);
+                    Ball leftBall = new ReflectiveBall(ballSize-1, -1f, ballType);
+                    Ball rightBall = new ReflectiveBall(ballSize-1, 1f, ballType);
                     leftBall.Position = new Vector2(ballPositionX - leftBall.getRadius(), ball.Position.Y);
                     rightBall.Position = new Vector2(ballPositionX + leftBall.getRadius(), ball.Position.Y);
                     toAddBall.Add(leftBall);

@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 
 namespace MonoGame_Super_Pang.GameObjects;
@@ -12,8 +13,8 @@ public class BouncingBall : Ball
 
     private float _speedX;
 
-    public BouncingBall(Sprite ballSprite, BallSize ballSize, float dirX, BallType ballType, Vector2 ballInitialPosition = default)
-                        :base(ballSprite, ballSize, dirX, ballType, ballInitialPosition)
+    public BouncingBall(BallSize ballSize, float dirX, BallType ballType, Vector2 ballInitialPosition = default)
+                        :base(ballSize, dirX, ballType, ballInitialPosition)
     {
         (_jumpStrength, _speedX) = _ballSize switch
         {
@@ -63,6 +64,17 @@ public class BouncingBall : Ball
         {
             updateFreeze(gameTime);
         }
+    }
+
+    protected override void LoadSprite()
+    {
+        _ballSprite = _ballType switch
+        {
+            BallType.RED_ROUND => new Sprite(_redBallRoundRegion),
+            BallType.GREEN_ROUND => new Sprite(_greenBallRoundRegion),
+            BallType.BLUE_ROUND => new Sprite(_blueBallRoundRegion),
+            _ => new Sprite(_blueBallRoundRegion)
+        };
     }
 
 }

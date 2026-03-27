@@ -48,13 +48,19 @@ abstract public class Ball
     private static SoundEffect _bounceSoundEffect;
     private static SoundEffect _popSoundEffect;
 
-    public Ball(Sprite ballSprite, BallSize ballsize, float dirX, BallType ballType, Vector2 ballInitialPosition = default)
-    {
-        _ballSprite = ballSprite;
+    protected static TextureRegion _redBallRoundRegion;
+    protected static TextureRegion _blueBallRoundRegion;
+    protected static TextureRegion _greenBallRoundRegion;
 
+    protected static TextureRegion _greenBallSquaredRegion;
+
+    public Ball(BallSize ballsize, float dirX, BallType ballType, Vector2 ballInitialPosition = default)
+    {
         _ballSize = ballsize;
 
         _ballType = ballType;
+
+        LoadSprite();
 
         _scale = _ballSize switch
         {
@@ -165,16 +171,6 @@ abstract public class Ball
         return _ballSprite.Width * 0.5f;
     }
 
-    public static void loadBounceSound(SoundEffect bounceSoundEffect)
-    {
-        _bounceSoundEffect = bounceSoundEffect;
-    }
-
-    public static void loadPopSound(SoundEffect popSoundEffect)
-    {
-        _popSoundEffect = popSoundEffect;
-    }
-
     public static void playPopSound()
     {
         Core.Audio.PlaySoundEffect(_popSoundEffect);
@@ -195,5 +191,24 @@ abstract public class Ball
             _ => 0
         };
     }
+
+    public static void LoadContent()
+    {
+        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/items-atlas.xml");
+
+        _redBallRoundRegion = itemsAtlas.GetRegion("redBall");
+        _blueBallRoundRegion = itemsAtlas.GetRegion("blueBall");
+        _greenBallRoundRegion = itemsAtlas.GetRegion("greenBall");
+
+        Texture2D greenSquaredTexture = Core.Content.Load<Texture2D>("images/HexagonGreenBall");
+
+        _greenBallSquaredRegion = new TextureRegion(greenSquaredTexture, 0, 0, greenSquaredTexture.Width, greenSquaredTexture.Height);
+
+        _popSoundEffect = Core.Content.Load<SoundEffect>("audio/Balloon Pop 1");
+        _bounceSoundEffect = Core.Content.Load<SoundEffect>("audio/bounce");
+
+    }
+
+    protected abstract void LoadSprite();
 
 }
