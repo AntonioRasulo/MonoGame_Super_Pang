@@ -29,22 +29,18 @@ abstract public class Bat : Enemy
 
     private float _deathTimer = 0f;
 
-    public Bat(AnimatedSprite idleAnimation, AnimatedSprite fallAnimation, AnimatedSprite landAnimation, Sprite deathSprite, Vector2 position):
-    base(position)
+    public Bat(Vector2 position): base(position)
     {
-        _idleAnimation = idleAnimation;
+        LoadContent();
         _idleAnimation.Scale = new Vector2(SCALE, SCALE);
         _idleAnimation.CenterOrigin();
 
-        _fallAnimation = fallAnimation;
         _fallAnimation.Scale = new Vector2(SCALE, SCALE);
         _fallAnimation.CenterOrigin();
 
-        _landAnimation = landAnimation;
         _landAnimation.Scale = new Vector2(SCALE, SCALE);
         _landAnimation.CenterOrigin();
 
-        _deathSprite = deathSprite;
         _deathSprite.Scale = new Vector2(SCALE, SCALE);
         _deathSprite.CenterOrigin();
 
@@ -100,6 +96,8 @@ abstract public class Bat : Enemy
     }
 
     protected abstract void UpdateMovement(GameTime gameTime);
+
+    protected abstract void LoadContent();
 
     private void UpdateDisappear(GameTime gameTime)
     {
