@@ -6,7 +6,6 @@ using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -54,9 +53,9 @@ public class Character
 
     private int _lives = 3;
 
-    public Character(ContentManager Content)
+    public Character()
     {
-        LoadContent(Content);
+        LoadContent();
 
         _harpoons = new List<Harpoon>();
 
@@ -70,10 +69,10 @@ public class Character
         previousKeyboardState = Keyboard.GetState();
     }
 
-    private void LoadContent(ContentManager Content)
+    private void LoadContent()
     {
-        TextureAtlas characterAtlas = TextureAtlas.FromFile(Content, "images/character_atlas.xml");
-        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Content, "images/items-atlas.xml");
+        TextureAtlas characterAtlas = TextureAtlas.FromFile(Core.Content, "images/character_atlas.xml");
+        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/items-atlas.xml");
 
         _idleSprite = characterAtlas.CreateSprite("characterStanding");
         _idleSprite.Scale = SCALE;
@@ -89,7 +88,7 @@ public class Character
         for (int harpoonIndex = 100; harpoonIndex <= 170; harpoonIndex++)
         {
             String harpoonImagePath = "images/items_" + harpoonIndex;
-            Texture2D harpoon2DTexture = Content.Load<Texture2D>(harpoonImagePath);
+            Texture2D harpoon2DTexture = Core.Content.Load<Texture2D>(harpoonImagePath);
             TextureRegion harpoonRegion = new TextureRegion(harpoon2DTexture, 0, 0, harpoon2DTexture.Width, harpoon2DTexture.Height);
             harpoonFrames.Add(harpoonRegion);
         }
@@ -97,6 +96,8 @@ public class Character
         _harpoonAnimation = new Animation(harpoonFrames, TimeSpan.FromMilliseconds(HARPOON_DELAY));
 
         _invinciblePowerUp = new Invicible(itemsAtlas.GetRegion("invincibilitySprite"));
+
+        _hitSoundEffect = Core.Content.Load<SoundEffect>("audio/Boss hit 1");
 
     }
 
@@ -300,11 +301,6 @@ public class Character
     public List<Harpoon> getHarpoons()
     {
         return _harpoons;
-    }
-
-    public void loadHitSound(SoundEffect hitSoundEffect)
-    {
-        _hitSoundEffect = hitSoundEffect;
     }
 
     public bool isAlive()

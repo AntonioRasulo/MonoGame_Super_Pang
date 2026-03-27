@@ -225,9 +225,7 @@ public class GameScene : Scene
         _bombSprite = itemsAtlas.CreateSprite("bombSprite");
         _bombSprite.Scale = new Vector2(4.0f, 4.0f);
 
-        _character = new Character(Content);
-
-        _character.loadHitSound(Content.Load<SoundEffect>("audio/Boss hit 1"));
+        _character = new Character();
 
         _balls = new List<Ball>();
 
