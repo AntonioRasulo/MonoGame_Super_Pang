@@ -39,6 +39,8 @@ public class Character
 
     private const int HARPOON_DELAY = 5;
 
+    private const int MAX_HARPOON = 1;
+
     private float _immunityDuration = 3.0f; // seconds of immunity
     private float _immunityTimer = 0f;
     private float _blinkInterval = 0.1f;    // how fast it blinks
@@ -108,7 +110,8 @@ public class Character
         // Handle shooting (highest priority - interrupts other actions)
         if (currentKeyboardState.IsKeyDown(Keys.Space) &&
             previousKeyboardState.IsKeyUp(Keys.Space) &&
-            currentState != CharacterState.Shooting)
+            currentState != CharacterState.Shooting &&
+            _harpoons.Count < MAX_HARPOON)
         {
             currentState = CharacterState.Shooting;
             _shootAnimation.Reset();
