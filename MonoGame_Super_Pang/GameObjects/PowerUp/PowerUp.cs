@@ -2,8 +2,11 @@ using MonoGameLibrary.Graphics;
 using MonoGameLibrary;
 using Microsoft.Xna.Framework;
 
+namespace MonoGame_Super_Pang.GameObjects;
+
 public enum powerUpType
 {
+    NONE,
     LIVES,
     CLOCK,
     INVINCIBILITY,
@@ -18,9 +21,16 @@ public class PowerUp
 
     private powerUpType _type;
 
-    public PowerUp(Sprite sprite, Vector2 position, powerUpType type)
+    public PowerUp(Vector2 position, powerUpType type)
     {
-        _sprite = sprite;
+        _sprite = type switch
+        {
+            powerUpType.LIVES => PowerUpHandler._livesSprite,
+            powerUpType.BOMB => PowerUpHandler._bombSprite,
+            powerUpType.CLOCK => PowerUpHandler._freezeSprite,
+            powerUpType.INVINCIBILITY => PowerUpHandler._invincibilitySprite,
+            _ => null
+        };
         _position = position;
         _type = type;
     }

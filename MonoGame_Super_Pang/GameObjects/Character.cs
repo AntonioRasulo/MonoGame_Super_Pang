@@ -219,6 +219,32 @@ public class Character
 
         _harpoons.RemoveAll(bullet => bullet.IsAnimationComplete);
 
+        // Create a bounding rectangle for the screen.
+        Rectangle screenBounds = new Rectangle(
+            0,
+            0,
+            Core.GraphicsDevice.PresentationParameters.BackBufferWidth,
+            Core.GraphicsDevice.PresentationParameters.BackBufferHeight
+        );
+
+        // Getting the bounding rectangle for the character
+        Rectangle characterBounds = getBounds();
+
+        Vector2 newCharPosition = _characterPosition;
+
+        // Use distance based checks to determine if the character is within the
+        // bounds of the game screen, and if it is outside that screen edge,
+        // move it back inside.
+        if (characterBounds.Left < screenBounds.Left)
+        {
+            newCharPosition.X = screenBounds.Left;
+            _characterPosition = newCharPosition;
+        }
+        else if (characterBounds.Right > screenBounds.Right)
+        {
+            newCharPosition.X = screenBounds.Right - getWidth();
+            _characterPosition = newCharPosition;
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch)

@@ -40,21 +40,9 @@ public class GameScene : Scene
     // Tracks the players score.
     private int _score;
 
-    private Sprite _livesSprite;
-    private Sprite _freezeSprite;
-    private Sprite _invincibilitySprite; 
-    private Sprite _bombSprite;
-
     private int _currentLevelIndex;
 
-    private Random _powerUpRand;
-
-    private List<PowerUp> _powerUps;
-
-    private const int LIVES_PROB = 5;
-    private const int FREEZE_PROB = 10;
-    private const int INVINCIBILITY_PROB = 15;
-    private const int BOMB_PROB = 20;
+    private PowerUpHandler _powerUpHandler;
 
     private GameSceneUI _ui;
 
@@ -68,8 +56,6 @@ public class GameScene : Scene
 
     // The speed of the fade to grayscale effect.
     private const float FADE_SPEED = 0.02f;
-
-    private SoundEffect _collectPowerUp;
 
     private SoundEffect _blockBreakEffect;
 
@@ -101,8 +87,7 @@ public class GameScene : Scene
         // Initialize a new game to be played.
         InitializeNewGame();
 
-        _powerUpRand = new Random();
-        _powerUps = new List<PowerUp>();
+        _powerUpHandler = new PowerUpHandler();
     }
 
     private void InitializeUI()
@@ -151,26 +136,11 @@ public class GameScene : Scene
         Song theme = Content.Load<Song>("audio/16. Battle Theme III (loop)");
         Core.Audio.PlaySong(theme);
 
-        // Create the texture atlas from the XML configuration file
-        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Content, "images/items-atlas.xml");
-
         // Load ball content
         Ball.LoadContent();
 
         // Load platform content
         Platform.LoadContent();
-
-        _livesSprite = itemsAtlas.CreateSprite("livesSprite");
-        _livesSprite.Scale = new Vector2(4.0f, 4.0f);
-
-        _freezeSprite = itemsAtlas.CreateSprite("freezeSprite");
-        _freezeSprite.Scale = new Vector2(4.0f, 4.0f);
-
-        _invincibilitySprite = itemsAtlas.CreateSprite("invincibilitySprite");
-        _invincibilitySprite.Scale = new Vector2(1.5f, 1.5f);
-
-        _bombSprite = itemsAtlas.CreateSprite("bombSprite");
-        _bombSprite.Scale = new Vector2(4.0f, 4.0f);
 
         _character = new Character();
 
@@ -189,8 +159,6 @@ public class GameScene : Scene
 
         // Load the grayscale effect.
         _grayscaleEffect = Content.Load<Effect>("effects/grayscaleEffect");
-
-        _collectPowerUp = Content.Load<SoundEffect>("audio/Fruit collect 1");
 
     }
 
@@ -225,42 +193,12 @@ public class GameScene : Scene
 
         _character.Update(gameTime);
 
-        // Create a bounding rectangle for the screen.
-        Rectangle screenBounds = new Rectangle(
-            0,
-            0,
-            Core.GraphicsDevice.PresentationParameters.BackBufferWidth,
-            Core.GraphicsDevice.PresentationParameters.BackBufferHeight
-        );
-
-        // Getting the bounding rectangle for the character
-        Rectangle characterBounds = _character.getBounds();
-
-        Vector2 newCharPosition = _character._characterPosition;
-
-        // Use distance based checks to determine if the character is within the
-        // bounds of the game screen, and if it is outside that screen edge,
-        // move it back inside.
-        if (characterBounds.Left < screenBounds.Left)
-        {
-            newCharPosition.X = screenBounds.Left;
-            _character._characterPosition = newCharPosition;
-        }
-        else if (characterBounds.Right > screenBounds.Right)
-        {
-            newCharPosition.X = screenBounds.Right - _character.getWidth();
-            _character._characterPosition = newCharPosition;
-        }
-
         foreach(Ball ball in _balls)
         {
             ball.Update(gameTime);
         }
 
-        foreach(PowerUp powerUp in _powerUps)
-        {
-            powerUp.Update();
-        }
+        _powerUpHandler.Update();
 
         foreach(Enemy enemy in _enemies)
         {
@@ -315,51 +253,39 @@ public class GameScene : Scene
         var toRemovePowerUps = new List<PowerUp>();
         var toAddBall = new List<Ball>();
         var toRemoveBall = new List<Ball>();
-        var toAddPowerUps = new List<PowerUp>();
 
         /* Character - PowerUp collision */
-        foreach(PowerUp powerUp in _powerUps)
-        {
-            Rectangle powerUpBounds = powerUp.getBounds();
-            if (powerUpBounds.Intersects(characterBounds))
-            {
-                Core.Audio.PlaySoundEffect(_collectPowerUp);
-                switch (powerUp.GetPowerUpType())
-                {
-                    case powerUpType.LIVES:
-                        _character.increaseLives();
-                        _ui.UpdateLivesText(_character.getLives());
-                    break;
-                    case powerUpType.CLOCK:
-                        Ball.Freeze();        
-                    break;
-                    case powerUpType.INVINCIBILITY:
-                        {
-                            _character.activateImmunity(true);
-                        }
-                    break;
-                    case powerUpType.BOMB:
-                        {
-                            foreach(Ball ball in _balls)
-                            {
-                                handleBallHit(ball, ref toAddBall, ref toRemoveBall, ref toAddPowerUps);
-                            }
-                            _balls.AddRange(toAddBall);
-                            _balls.RemoveAll(ball => toRemoveBall.Contains(ball));
-                        }
-                        break;
-                }
-                toRemovePowerUps.Add(powerUp);
-            }
-        }
+        powerUpType powerUpCollided = _powerUpHandler.CheckCharacterCollision(characterBounds);
 
-        _powerUps.AddRange(toAddPowerUps);
-        _powerUps.RemoveAll(powerUp => toRemovePowerUps.Contains(powerUp));
+        switch (powerUpCollided)
+        {
+            case powerUpType.LIVES:
+                _character.increaseLives();
+                _ui.UpdateLivesText(_character.getLives());
+                break;
+            case powerUpType.CLOCK:
+                Ball.Freeze();
+                break;
+            case powerUpType.INVINCIBILITY:
+                {
+                    _character.activateImmunity(true);
+                }
+                break;
+            case powerUpType.BOMB:
+                {
+                    foreach(Ball ball in _balls)
+                    {
+                        handleBallHit(ball, ref toAddBall, ref toRemoveBall);
+                    }
+                    _balls.AddRange(toAddBall);
+                    _balls.RemoveAll(ball => toRemoveBall.Contains(ball));
+                }
+                break;
+        }
 
         toAddBall.Clear();
         toRemoveBall.Clear();
         var toRemoveHarpoon = new List<Harpoon>();
-        toAddPowerUps.Clear(); 
 
         /* Harpoon - Ball collision check */
         foreach(Harpoon harpoon in _character.getHarpoons())
@@ -376,7 +302,7 @@ public class GameScene : Scene
 
                 if(areIntersecting(ball.GetBounds(), harpoonBound))
                 {
-                    handleBallHit(ball, ref toAddBall, ref toRemoveBall, ref toAddPowerUps);
+                    handleBallHit(ball, ref toAddBall, ref toRemoveBall);
                     toRemoveHarpoon.Add(harpoon);
                 }
             }
@@ -385,7 +311,6 @@ public class GameScene : Scene
         _balls.RemoveAll(ball => toRemoveBall.Contains(ball));
         _balls.AddRange(toAddBall);
         _character.removeHarpoons(toRemoveHarpoon);
-        _powerUps.AddRange(toAddPowerUps);
 
         /* Harpoon - Enemies collision check */
         toRemoveHarpoon.Clear();
@@ -589,31 +514,14 @@ public class GameScene : Scene
         }
     }
 
-    private void handleBallHit(Ball ball, ref List<Ball> toAddBall, ref List<Ball> toRemoveBall, ref List<PowerUp> toAddPowerUps)
+    private void handleBallHit(Ball ball, ref List<Ball> toAddBall, ref List<Ball> toRemoveBall)
     {
         _score += ball.getScore();
         _ui.UpdateScoreText(_score);
         toAddBall.AddRange(splitBall(ball));
         toRemoveBall.Add(ball);
         Ball.playPopSound();
-        int rand = _powerUpRand.Next(0, 100);
-        if (rand < LIVES_PROB)
-        {
-            toAddPowerUps.Add(new PowerUp(_livesSprite, ball.Position, powerUpType.LIVES));
-        }
-        else if (rand < FREEZE_PROB)
-        {
-            toAddPowerUps.Add(new PowerUp(_freezeSprite, ball.Position, powerUpType.CLOCK));
-        }
-        else if (rand < INVINCIBILITY_PROB)
-        {
-            toAddPowerUps.Add(new PowerUp(_invincibilitySprite, ball.Position, powerUpType.INVINCIBILITY));
-        }
-        else if (rand < BOMB_PROB)
-        {
-            toAddPowerUps.Add(new PowerUp(_bombSprite, ball.Position, powerUpType.BOMB));
-        }
-
+        _powerUpHandler.GeneratePowerUp(ball.Position);
     }
 
     private bool areIntersecting(Circle circle, Rectangle rectangle)
@@ -675,21 +583,12 @@ public class GameScene : Scene
             platform.Draw();
         }
 
-        foreach(PowerUp powerUp in _powerUps)
-        {
-            powerUp.Draw();
-        }
+        _powerUpHandler.Draw();
 
         foreach(Enemy enemy in _enemies)
         {
             enemy.Draw();
         }
-
-        float distanceFromTopWall = 2.0f;
-        float livesIndex = 2.5f;
-        int roomWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
-        Vector2 livesSpritePosition = new Vector2(roomWidth - _livesSprite.Width * livesIndex, distanceFromTopWall);
-        _livesSprite.Draw(Core.SpriteBatch, livesSpritePosition);
 
         // Always end the sprite batch when finished.
         Core.SpriteBatch.End();
