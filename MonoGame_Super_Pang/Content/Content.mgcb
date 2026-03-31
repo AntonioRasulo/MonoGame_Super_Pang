@@ -1338,3 +1338,33 @@
 #begin images/terrain_atlas.xml
 /copy:images/terrain_atlas.xml
 
+#begin images/UI/Book_atlas.xml
+/copy:images/UI/Book_atlas.xml
+
+#begin images/UI/Book.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,255,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/UI/Book.png
+
+#begin images/UI/Book2_atlas.xml
+/copy:images/UI/Book2_atlas.xml
+
+#begin images/UI/UI_books_and_more.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,255,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/UI/UI_books_and_more.png
+
