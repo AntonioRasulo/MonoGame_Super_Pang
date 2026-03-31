@@ -396,6 +396,21 @@
 /processorParam:TextureFormat=Color
 /build:images/character.png
 
+#begin images/Coins/coins_atlas.xml
+/copy:images/Coins/coins_atlas.xml
+
+#begin images/Coins/coins-chests-etc-2-0-noborders.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,255,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/Coins/coins-chests-etc-2-0-noborders.png
+
 #begin images/enemies/bat_atlas.xml
 /copy:images/enemies/bat_atlas.xml
 

@@ -1,41 +1,27 @@
-using MonoGameLibrary.Graphics;
 using MonoGameLibrary;
+using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
-public enum powerUpType
-{
-    NONE,
-    LIVES,
-    CLOCK,
-    INVINCIBILITY,
-    BOMB
-}
-
-public class PowerUp
+public class PowerUp : Collectible
 {
     private Sprite _sprite;
-    private Vector2 _position;
-    private Vector2 VELOCITY_Y = new Vector2 (0f, 4.0f);
 
-    private powerUpType _type;
-
-    public PowerUp(Vector2 position, powerUpType type)
+    public PowerUp(Vector2 position, collectibleType type):
+    base(position, type)
     {
         _sprite = type switch
         {
-            powerUpType.LIVES => PowerUpHandler._livesSprite,
-            powerUpType.BOMB => PowerUpHandler._bombSprite,
-            powerUpType.CLOCK => PowerUpHandler._freezeSprite,
-            powerUpType.INVINCIBILITY => PowerUpHandler._invincibilitySprite,
+            collectibleType.LIVES => CollectibleHandler._livesSprite,
+            collectibleType.BOMB => CollectibleHandler._bombSprite,
+            collectibleType.CLOCK => CollectibleHandler._freezeSprite,
+            collectibleType.INVINCIBILITY => CollectibleHandler._invincibilitySprite,
             _ => null
-        };
-        _position = position;
-        _type = type;
+        };   
     }
 
-    public void Update()
+    public override void Update(GameTime gameTime)
     {
         int screenHeight = Core.GraphicsDevice.PresentationParameters.BackBufferHeight;
         if(_position.Y < screenHeight - _sprite.Height)
@@ -45,16 +31,15 @@ public class PowerUp
         else
         {
             _position.Y = screenHeight - _sprite.Height;
-        }
-        
+        }   
     }
 
-    public void Draw()
+    public override void Draw()
     {
         _sprite.Draw(Core.SpriteBatch, _position);
     }
 
-    public Rectangle getBounds()
+    public override Rectangle getBounds()
     {
         Rectangle bounds = new Rectangle(
             (int)_position.X,
@@ -65,11 +50,6 @@ public class PowerUp
 
         return bounds;
 
-    }
-
-    public powerUpType GetPowerUpType()
-    {
-        return _type;
     }
 
 }

@@ -42,7 +42,7 @@ public class GameScene : Scene
 
     private int _currentLevelIndex;
 
-    private PowerUpHandler _powerUpHandler;
+    private CollectibleHandler _collectibleHandler;
 
     private GameSceneUI _ui;
 
@@ -87,7 +87,7 @@ public class GameScene : Scene
         // Initialize a new game to be played.
         InitializeNewGame();
 
-        _powerUpHandler = new PowerUpHandler();
+        _collectibleHandler = new CollectibleHandler();
     }
 
     private void InitializeUI()
@@ -198,7 +198,7 @@ public class GameScene : Scene
             ball.Update(gameTime);
         }
 
-        _powerUpHandler.Update();
+        _collectibleHandler.Update(gameTime);
 
         foreach(Enemy enemy in _enemies)
         {
@@ -250,28 +250,28 @@ public class GameScene : Scene
     {
         Rectangle characterBounds = _character.getBounds();
 
-        var toRemovePowerUps = new List<PowerUp>();
+        var toRemoveCollectibles = new List<Collectible>();
         var toAddBall = new List<Ball>();
         var toRemoveBall = new List<Ball>();
 
-        /* Character - PowerUp collision */
-        powerUpType powerUpCollided = _powerUpHandler.CheckCharacterCollision(characterBounds);
+        /* Character - Collectible collision */
+        collectibleType collectibleCollided = _collectibleHandler.CheckCharacterCollision(characterBounds);
 
-        switch (powerUpCollided)
+        switch (collectibleCollided)
         {
-            case powerUpType.LIVES:
+            case collectibleType.LIVES:
                 _character.increaseLives();
                 _ui.UpdateLivesText(_character.getLives());
                 break;
-            case powerUpType.CLOCK:
+            case collectibleType.CLOCK:
                 Ball.Freeze();
                 break;
-            case powerUpType.INVINCIBILITY:
+            case collectibleType.INVINCIBILITY:
                 {
                     _character.activateImmunity(true);
                 }
                 break;
-            case powerUpType.BOMB:
+            case collectibleType.BOMB:
                 {
                     foreach(Ball ball in _balls)
                     {
@@ -281,6 +281,11 @@ public class GameScene : Scene
                     _balls.RemoveAll(ball => toRemoveBall.Contains(ball));
                 }
                 break;
+            case collectibleType.GOLD_COIN:
+            case collectibleType.SILVER_COIN:
+            case collectibleType.BRONZE_COIN:
+            // TODO
+            break;
         }
 
         toAddBall.Clear();
@@ -521,7 +526,7 @@ public class GameScene : Scene
         toAddBall.AddRange(splitBall(ball));
         toRemoveBall.Add(ball);
         Ball.playPopSound();
-        _powerUpHandler.GeneratePowerUp(ball.Position);
+        _collectibleHandler.GenerateCollectible(ball.Position);
     }
 
     private bool areIntersecting(Circle circle, Rectangle rectangle)
@@ -583,7 +588,7 @@ public class GameScene : Scene
             platform.Draw();
         }
 
-        _powerUpHandler.Draw();
+        _collectibleHandler.Draw();
 
         foreach(Enemy enemy in _enemies)
         {
