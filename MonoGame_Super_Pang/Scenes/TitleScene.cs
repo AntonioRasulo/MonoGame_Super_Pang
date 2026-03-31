@@ -66,10 +66,6 @@ public class TitleScene : Scene
     // are created.
     private TextureAtlas _GUIatlas;
 
-    private Sprite _bookSprite;
-
-    private Vector2 _bookSpritePosition;
-
     bool _isLastFocusedBackButton = false;
 
     private Background _levelBackground;
@@ -87,16 +83,16 @@ public class TitleScene : Scene
 
         // Set the position and origin for the Monogame text.
         Vector2 size = _font5x.MeasureString(MONOGAME_TEXT);
-        _monogameTextPos = new Vector2(647, 100);
+        _monogameTextPos = new Vector2(640, 100);
         _monogameTextOrigin = size * 0.5f;
 
         // Set the position and origin for the Super Pang text.
         size = _font5x.MeasureString(SUPER_PANG_TEXT);
-        _superpangTextPos = new Vector2(763, 207);
+        _superpangTextPos = new Vector2(757, 207);
         _superpangTextOrigin = size * 0.5f;
 
         size = _font5x.MeasureString(PANG_TEXT);
-        _pangTextPos = new Vector2(879, 314);
+        _pangTextPos = new Vector2(874, 314);
         _pangTextOrigin = size * 0.5f;
 
         Core.Audio.SongVolume = 0.5f;
@@ -122,13 +118,6 @@ public class TitleScene : Scene
 
         // Load the texture atlas from the xml configuration file.
         _GUIatlas = TextureAtlas.FromFile(Content, "images/GUI_atlas.xml");
-
-        TextureAtlas _bookAtlas = TextureAtlas.FromFile(Content, "images/UI/Book2_atlas.xml");
-
-        _bookSprite = _bookAtlas.CreateSprite("closed-book-blue");
-        _bookSprite.Scale = new Vector2(20.0f, 14.0f);
-        _bookSprite.CenterOrigin();
-        _bookSpritePosition = new Vector2(Core.GraphicsDevice.PresentationParameters.BackBufferWidth * 0.5f, Core.GraphicsDevice.PresentationParameters.BackBufferHeight * 0.5f);
 
         _backgroundRand = new Random();
         int backgroundIndex = _backgroundRand.Next(0, LevelRegistry.AllLevels.Count);
@@ -169,18 +158,16 @@ public class TitleScene : Scene
     {
         Core.GraphicsDevice.Clear(new Color(32, 40, 78, 255));
 
+        // Draw the background
+        _levelBackground.Draw();
+
         if (_titleScreenButtonsPanel.IsVisible)
         {
-            // Draw the background
-            _levelBackground.Draw();
-
             // Begin the sprite batch to prepare for rendering.
             Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             // The color to use for the drop shadow text.
             Color dropShadowColor = Color.Black * 0.5f;
-
-            _bookSprite.Draw(Core.SpriteBatch, _bookSpritePosition);
 
             // Draw the MONOGAME_TEXT text slightly offset from it is original position and
             // with a transparent color to give it a drop shadow.
@@ -202,7 +189,6 @@ public class TitleScene : Scene
 
             // Draw the PANG_TEXT text on top of that at its original position.
             Core.SpriteBatch.DrawString(_font5x, PANG_TEXT, _pangTextPos, Color.White, 0.0f, _pangTextOrigin, 1.0f, SpriteEffects.None, 1.0f);
-
 
             // Always end the sprite batch when finished.
             Core.SpriteBatch.End();
@@ -230,18 +216,18 @@ public class TitleScene : Scene
 
         var startButton = new AnimatedButton(_GUIatlas);
         startButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
-        startButton.X = 60;
-        startButton.Y = -40;
-        startButton.Width = 50;
+        startButton.X = 50;
+        startButton.Y = -12;
+        startButton.Width = 70;
         startButton.Text = "Start";
         startButton.Click += HandleStartClicked;
         _titleScreenButtonsPanel.AddChild(startButton);
 
         _optionsButton = new AnimatedButton(_GUIatlas);
         _optionsButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
-        _optionsButton.X = -60;
-        _optionsButton.Y = -40;
-        _optionsButton.Width = 50;
+        _optionsButton.X = -50;
+        _optionsButton.Y = -12;
+        _optionsButton.Width = 70;
         _optionsButton.Text = "Options";
         _optionsButton.Click += HandleOptionsClicked;
         _titleScreenButtonsPanel.AddChild(_optionsButton);
