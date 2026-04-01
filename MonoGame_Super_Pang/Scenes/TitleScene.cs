@@ -342,21 +342,24 @@ public class TitleScene : Scene
         TextureButton loadButton1 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
         loadButton1.Click += HandleLoadButton;
         loadButton1.Anchor(Gum.Wireframe.Anchor.Left);
-        loadButton1.X = 50;
+        loadButton1.X = 25;
         loadButton1.Y = 0;
-        //loadButton1.Height = 100;
+        loadButton1.SetScale(1.8f);
 
         TextureButton loadButton2 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
         loadButton2.Anchor(Gum.Wireframe.Anchor.Center);
         loadButton2.Click += HandleLoadButton;
         loadButton2.X = 0;
         loadButton2.Y = 0;
+        loadButton2.SetScale(1.8f);
 
         TextureButton loadButton3 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
         loadButton3.Anchor(Gum.Wireframe.Anchor.Right);
         loadButton3.Click += HandleLoadButton;
-        loadButton3.X = -50;
+        loadButton3.X = -25;
         loadButton3.Y = 0;
+        loadButton3.SetScale(1.8f);
+
 
         _loadBackButton = new AnimatedButton(_GUIatlas);
         _loadBackButton.Text = "BACK";
@@ -364,7 +367,6 @@ public class TitleScene : Scene
         _loadBackButton.X = -28f;
         _loadBackButton.Y = -10f;
         _loadBackButton.Click += HandleOptionsButtonBack;
-        //_loadBackButton.KeyDown += updateFlagButton;
 
         _loadGamePanel.AddChild(_loadBackButton);
         _loadGamePanel.AddChild(loadButton1);
