@@ -1,0 +1,53 @@
+using Gum.Forms.Controls;
+using Gum.Forms.DefaultVisuals.V3;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGameGum.GueDeriving;
+
+namespace MonoGame_Super_Pang.UI;
+
+public class TextureButton : Button
+{
+    private SpriteRuntime _sprite;
+
+    public TextureButton(Texture2D texture, Rectangle sourceRectangle)
+    {
+        CreateSprite(texture, sourceRectangle);
+    }
+
+    private void CreateSprite(Texture2D texture, Rectangle sourceRectangle)
+    {
+        // Access the visual
+        ButtonVisual visual = (ButtonVisual)this.Visual;
+
+        // Remove default background (NineSlice)
+        if (visual.Background != null)
+        {
+            visual.Children.Remove(visual.Background);
+        }
+
+        // Create sprite
+        _sprite = new SpriteRuntime
+        {
+            Texture = texture,
+            SourceRectangle = sourceRectangle,
+            WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+            HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+            Width = sourceRectangle.Width,
+            Height = sourceRectangle.Height,
+            TextureAddress = Gum.Managers.TextureAddress.Custom
+        };
+
+        this.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+        this.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+
+        this.Width = sourceRectangle.Width;
+        this.Height = sourceRectangle.Height;
+
+        TextRuntime textInstance = visual.TextInstance;
+        textInstance.Text = "";
+
+        visual.Children.Insert(0, _sprite);
+    }
+
+}

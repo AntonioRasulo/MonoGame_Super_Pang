@@ -21,12 +21,14 @@ public class TitleScene : Scene
 {
     private Panel _titleScreenButtonsPanel;
     private Panel _optionsPanel;
+    private Panel _loadGamePanel;
 
     // The options button used to open the options menu.
     private AnimatedButton _optionsButton;
 
     // The back button used to exit the options menu back to the title menu.
     private AnimatedButton _optionsBackButton;
+    private AnimatedButton _loadBackButton;
     private OptionsSlider sfxSlider;
     private OptionsSlider musicSlider;
 
@@ -71,6 +73,8 @@ public class TitleScene : Scene
     private Background _levelBackground;
 
     private Random _backgroundRand;
+
+    private TextureRegion _loadGamePaperRegion;
 
     public override void Initialize()
     {
@@ -119,6 +123,10 @@ public class TitleScene : Scene
         // Load the texture atlas from the xml configuration file.
         _GUIatlas = TextureAtlas.FromFile(Content, "images/GUI_atlas.xml");
 
+        TextureAtlas book2Atlas = TextureAtlas.FromFile(Content, "images/UI/Book2_atlas.xml");
+
+        _loadGamePaperRegion = book2Atlas.GetRegion("paper-tile-9");
+
         _backgroundRand = new Random();
         int backgroundIndex = _backgroundRand.Next(0, LevelRegistry.AllLevels.Count);
 
@@ -141,7 +149,8 @@ public class TitleScene : Scene
 
         if(_optionsBackButton.IsFocused == false &&
         sfxSlider.IsFocused == false &&
-        musicSlider.IsFocused == false && _optionsPanel.IsVisible == true)
+        musicSlider.IsFocused == false &&
+        _optionsPanel.IsVisible == true)
         {
             if (_isLastFocusedBackButton)
             {
@@ -205,6 +214,7 @@ public class TitleScene : Scene
 
         CreateTitlePanel();
         CreateOptionsPanel();
+        CreateLoadGamePanel();
     }
 
     private void CreateTitlePanel()
@@ -235,8 +245,10 @@ public class TitleScene : Scene
         startButton.IsFocused = true;
     }
 
-    private void HandleStartClicked(object sender, EventArgs e)
+    private void HandleLoadButton(object sender, EventArgs e)
     {
+        //TODO load game implementation
+
         // A UI interaction occurred, play the sound effect
         Core.Audio.PlaySoundEffect(_uiSoundEffect);
 
@@ -251,6 +263,8 @@ public class TitleScene : Scene
 
         // Set the title panel to be invisible.
         _titleScreenButtonsPanel.IsVisible = false;
+
+        _loadGamePanel.IsVisible = false;
 
         // Set the options panel to be visible.
         _optionsPanel.IsVisible = true;
@@ -313,6 +327,49 @@ public class TitleScene : Scene
         _optionsBackButton.Click += HandleOptionsButtonBack;
         _optionsBackButton.KeyDown += updateFlagButton;
         _optionsPanel.AddChild(_optionsBackButton);
+    }
+
+    private void CreateLoadGamePanel()
+    {
+        _loadGamePanel = new Panel();
+        _loadGamePanel.Dock(Gum.Wireframe.Dock.Fill);
+        _loadGamePanel.IsVisible = false;
+        _loadGamePanel.AddToRoot();
+
+        float screenHeight = Core.GraphicsDevice.PresentationParameters.BackBufferHeight;
+        float screenWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
+
+        TextureButton loadButton1 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
+        loadButton1.Click += HandleLoadButton;
+        loadButton1.Anchor(Gum.Wireframe.Anchor.Left);
+        loadButton1.X = 50;
+        loadButton1.Y = 0;
+        //loadButton1.Height = 100;
+
+        TextureButton loadButton2 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
+        loadButton2.Anchor(Gum.Wireframe.Anchor.Center);
+        loadButton2.Click += HandleLoadButton;
+        loadButton2.X = 0;
+        loadButton2.Y = 0;
+
+        TextureButton loadButton3 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
+        loadButton3.Anchor(Gum.Wireframe.Anchor.Right);
+        loadButton3.Click += HandleLoadButton;
+        loadButton3.X = -50;
+        loadButton3.Y = 0;
+
+        _loadBackButton = new AnimatedButton(_GUIatlas);
+        _loadBackButton.Text = "BACK";
+        _loadBackButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
+        _loadBackButton.X = -28f;
+        _loadBackButton.Y = -10f;
+        _loadBackButton.Click += HandleOptionsButtonBack;
+        //_loadBackButton.KeyDown += updateFlagButton;
+
+        _loadGamePanel.AddChild(_loadBackButton);
+        _loadGamePanel.AddChild(loadButton1);
+        _loadGamePanel.AddChild(loadButton2);
+        _loadGamePanel.AddChild(loadButton3);
     }
 
     private void updateFlagButton(Object sender, KeyEventArgs e)
@@ -383,9 +440,25 @@ public class TitleScene : Scene
         // Set the options panel to be invisible.
         _optionsPanel.IsVisible = false;
 
+        _loadGamePanel.IsVisible = false;
+
         // Give the options button on the title panel focus since we are coming
         // back from the options screen.
         _optionsButton.IsFocused = true;
+    }
+
+    private void HandleStartClicked(object sender, EventArgs e)
+    {
+        // A UI interaction occurred, play the sound effect
+        Core.Audio.PlaySoundEffect(_uiSoundEffect);
+
+        // Set the title panel to be invisible.
+        _titleScreenButtonsPanel.IsVisible = false;
+
+        _loadGamePanel.IsVisible = true;
+
+        // Set the options panel to be visible.
+        _optionsPanel.IsVisible = false;
     }
 
 }
