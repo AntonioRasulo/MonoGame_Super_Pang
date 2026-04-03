@@ -7,9 +7,9 @@ namespace MonoGame_Super_Pang.GameObjects;
 public class Coin : Collectible
 {
     AnimatedSprite _animatedSprite;
-    private readonly int GOLD_VALUE = 5;
-    private readonly int SILVER_VALUE = 3;
-    private readonly int BRONZE_VALUE = 1;
+    private static int GOLD_VALUE = 5;
+    private static int SILVER_VALUE = 3;
+    private static int BRONZE_VALUE = 1;
 
     public Coin(Vector2 position, collectibleType type):
     base(position, type)
@@ -57,9 +57,9 @@ public class Coin : Collectible
         _animatedSprite.Draw(Core.SpriteBatch, _position);
     }
 
-    public int GetValue()
+    public static int GetValue(collectibleType type)
     {
-        return _type switch
+        return type switch
         {
             collectibleType.GOLD_COIN => GOLD_VALUE,
             collectibleType.SILVER_COIN => SILVER_VALUE,

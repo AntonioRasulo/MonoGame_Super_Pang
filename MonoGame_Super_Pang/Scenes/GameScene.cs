@@ -287,8 +287,8 @@ public class GameScene : Scene
             case collectibleType.GOLD_COIN:
             case collectibleType.SILVER_COIN:
             case collectibleType.BRONZE_COIN:
-            // TODO
-            break;
+                _character._pStats.Money += Coin.GetValue(collectibleCollided);
+                break;
         }
 
         toAddBall.Clear();
