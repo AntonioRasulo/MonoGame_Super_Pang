@@ -129,6 +129,7 @@ public class GameScene : Scene
 
     private void OnQuitButtonClicked(object sender, EventArgs args)
     {
+        PlayerStats.SaveGame(_character._pStats);
         // Player has chosen to quit, so return back to the title scene.
         Core.ChangeScene(new TitleScene());
     }
@@ -511,6 +512,7 @@ public class GameScene : Scene
                 _ui.resetTimer();
                 LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
             }
+            PlayerStats.SaveGame(_character._pStats);
         }
         else if(_character.isAlive() == false)
         {
@@ -519,6 +521,7 @@ public class GameScene : Scene
                 _score = 0;
             _ui.UpdateScoreText(_score);
             Core.ChangeScene(new GameOver(_score));
+            PlayerStats.SaveGame(_character._pStats);
         }
     }
 
