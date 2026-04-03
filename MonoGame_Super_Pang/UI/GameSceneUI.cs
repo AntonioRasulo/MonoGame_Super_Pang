@@ -2,6 +2,7 @@ using System;
 using Gum.DataTypes;
 using Gum.Managers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using MonoGameGum;
@@ -68,6 +69,9 @@ public class GameSceneUI : ContainerRuntime
     /// Event invoked when the Retry button on the Game Over panel is clicked.
     /// </summary>
     public event EventHandler RetryButtonClick;
+
+    private AnimatedSprite _chestAnimation;
+    private Vector2 _chestAnimationPosition;
 
     public GameSceneUI()
     {
@@ -212,6 +216,17 @@ public class GameSceneUI : ContainerRuntime
         quitButton.GotFocus += OnElementGotFocus;
 
         panel.AddChild(quitButton);
+
+        TextureAtlas chestAtlas = TextureAtlas.FromFile(Core.Content, "images/Coins/chest_atlas.xml");
+
+        // Get the multi-frame chest animation from the atlas
+        _chestAnimation = chestAtlas.CreateAnimatedSprite("chest-animation");
+        _chestAnimation.Scale = new Vector2(4.0f, 4.0f);
+
+        float chestAnimationX = Core.GraphicsDevice.PresentationParameters.BackBufferWidth * 0.75f;
+        float chestAnimationY = Core.GraphicsDevice.PresentationParameters.BackBufferHeight *0.37f;
+
+        _chestAnimationPosition = new Vector2(chestAnimationX, chestAnimationY);
 
         return panel;
     }
@@ -424,6 +439,10 @@ public class GameSceneUI : ContainerRuntime
     public void Update(GameTime gameTime)
     {
         UpdateTimerText(gameTime);
+        if (_pausePanel.IsVisible)
+        {
+            _chestAnimation.Update(gameTime);
+        }
         GumService.Default.Update(gameTime);
     }
 
@@ -433,6 +452,12 @@ public class GameSceneUI : ContainerRuntime
     public void Draw()
     {
         GumService.Default.Draw();
+        if (_pausePanel.IsVisible)
+        {
+            Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            _chestAnimation.Draw(Core.SpriteBatch, _chestAnimationPosition);
+            Core.SpriteBatch.End();
+        }
     }
 
 }

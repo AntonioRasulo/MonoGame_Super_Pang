@@ -396,6 +396,9 @@
 /processorParam:TextureFormat=Color
 /build:images/character.png
 
+#begin images/Coins/chest_atlas.xml
+/copy:images/Coins/chest_atlas.xml
+
 #begin images/Coins/coins_atlas.xml
 /copy:images/Coins/coins_atlas.xml
 
