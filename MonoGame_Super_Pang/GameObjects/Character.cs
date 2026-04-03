@@ -6,6 +6,7 @@ using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
+using MonoGame_Super_Pang.Config;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -55,7 +56,9 @@ public class Character
 
     private int _lives = 3;
 
-    public Character()
+    public PlayerStats _pStats{get; set;}
+
+    public Character(PlayerStats pStats)
     {
         LoadContent();
 
@@ -69,6 +72,8 @@ public class Character
             windowHeight-_idleSprite.Height);
 
         previousKeyboardState = Keyboard.GetState();
+
+        _pStats = pStats;
     }
 
     private void LoadContent()

@@ -61,9 +61,12 @@ public class GameScene : Scene
 
     private Background _levelBackground;
 
-    public GameScene(int startingLevel)
+    private PlayerStats _pStats;
+
+    public GameScene(int startingLevel, PlayerStats pStats)
     {
         _currentLevelIndex = startingLevel;
+        _pStats = pStats;
     }
 
     public override void Initialize()
@@ -142,7 +145,7 @@ public class GameScene : Scene
         // Load platform content
         Platform.LoadContent();
 
-        _character = new Character();
+        _character = new Character(_pStats);
 
         _balls = new List<Ball>();
 

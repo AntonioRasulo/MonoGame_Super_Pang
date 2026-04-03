@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -76,6 +77,24 @@ public class TitleScene : Scene
 
     private TextureRegion _loadGamePaperRegion;
 
+    private static string _saveDirectory = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        "MonoGame_Super_Pang",
+        "saves"
+    );
+
+    private readonly string PATH1 = _saveDirectory + "/pStats1.json";
+    private readonly string PATH2 = _saveDirectory + "/pStats2.json";
+    private readonly string PATH3 = _saveDirectory + "/pStats3.json";
+
+    private PlayerStats pStats1;
+    private PlayerStats pStats2;
+    private PlayerStats pStats3;
+
+    TextureButton _loadButton1;
+    TextureButton _loadButton2;
+    TextureButton _loadButton3;
+
     public override void Initialize()
     {
         // LoadContent is called during base.Initialize().
@@ -139,6 +158,10 @@ public class TitleScene : Scene
         }
 
         _levelBackground = new Background(clouds);
+
+        pStats1 = PlayerStats.LoadGame(PATH1);
+        pStats2 = PlayerStats.LoadGame(PATH2);
+        pStats3 = PlayerStats.LoadGame(PATH3);
     }
 
     public override void Update(GameTime gameTime)
@@ -212,6 +235,9 @@ public class TitleScene : Scene
         // a different screen:
         GumService.Default.Root.Children.Clear();
 
+        // Create the directory if it doesn't exist yet
+        Directory.CreateDirectory(_saveDirectory);
+
         CreateTitlePanel();
         CreateOptionsPanel();
         CreateLoadGamePanel();
@@ -247,13 +273,57 @@ public class TitleScene : Scene
 
     private void HandleLoadButton(object sender, EventArgs e)
     {
-        //TODO load game implementation
-
         // A UI interaction occurred, play the sound effect
         Core.Audio.PlaySoundEffect(_uiSoundEffect);
 
+        PlayerStats pStats = null;
+
+        //TODO load game implementation
+        if(sender == _loadButton1)
+        {
+            if(_loadButton1.isNewGame)
+            {
+                pStats1 = new PlayerStats();
+                pStats1.Path = PATH1;
+                //TODO system for typing name
+
+                PlayerStats.SaveGame(pStats1);
+                _loadButton1.isNewGame = false;
+            }
+            
+            pStats = pStats1;
+        }
+
+        if(sender == _loadButton2)
+        {
+            if(_loadButton2.isNewGame)
+            {
+                pStats2 = new PlayerStats();
+                pStats2.Path = PATH2;
+                //TODO system for typing name
+
+                PlayerStats.SaveGame(pStats2);
+                _loadButton2.isNewGame = false;
+            }
+            pStats = pStats2;
+        }
+
+        if(sender == _loadButton3)
+        {
+            if (_loadButton3.isNewGame)
+            {
+                pStats3 = new PlayerStats();
+                pStats3.Path = PATH3;
+                //TODO system for typing name
+
+                PlayerStats.SaveGame(pStats3);
+                _loadButton3.isNewGame = false;
+            }
+            pStats = pStats3;
+        }
+
         // Change to the game scene to start the game.
-        Core.ChangeScene(new GameScene(STARTING_LEVEL));
+        Core.ChangeScene(new GameScene(STARTING_LEVEL, pStats));
     }
 
     private void HandleOptionsClicked(object sender, EventArgs e)
@@ -339,27 +409,47 @@ public class TitleScene : Scene
         float screenHeight = Core.GraphicsDevice.PresentationParameters.BackBufferHeight;
         float screenWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
 
-        TextureButton loadButton1 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
-        loadButton1.Click += HandleLoadButton;
-        loadButton1.Anchor(Gum.Wireframe.Anchor.Left);
-        loadButton1.X = 25;
-        loadButton1.Y = 0;
-        loadButton1.SetScale(1.8f);
+        _loadButton1 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
+        _loadButton1.Click += HandleLoadButton;
+        _loadButton1.Anchor(Gum.Wireframe.Anchor.Left);
+        _loadButton1.X = 25;
+        _loadButton1.Y = 0;
+        _loadButton1.SetScale(1.8f);
 
-        TextureButton loadButton2 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
-        loadButton2.Anchor(Gum.Wireframe.Anchor.Center);
-        loadButton2.Click += HandleLoadButton;
-        loadButton2.X = 0;
-        loadButton2.Y = 0;
-        loadButton2.SetScale(1.8f);
+        if(pStats1 != null)
+        {
+            _loadButton1.Text = pStats1.Name;
+            _loadButton1.setTextMoney(pStats1.Money.ToString());
+            _loadButton1.isNewGame = false;
+        }
 
-        TextureButton loadButton3 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
-        loadButton3.Anchor(Gum.Wireframe.Anchor.Right);
-        loadButton3.Click += HandleLoadButton;
-        loadButton3.X = -25;
-        loadButton3.Y = 0;
-        loadButton3.SetScale(1.8f);
+        _loadButton2 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
+        _loadButton2.Anchor(Gum.Wireframe.Anchor.Center);
+        _loadButton2.Click += HandleLoadButton;
+        _loadButton2.X = 0;
+        _loadButton2.Y = 0;
+        _loadButton2.SetScale(1.8f);
 
+        if(pStats2 != null)
+        {
+            _loadButton2.Text = pStats2.Name;
+            _loadButton2.setTextMoney(pStats2.Money.ToString());
+            _loadButton2.isNewGame = false;
+        }
+
+        _loadButton3 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
+        _loadButton3.Anchor(Gum.Wireframe.Anchor.Right);
+        _loadButton3.Click += HandleLoadButton;
+        _loadButton3.X = -25;
+        _loadButton3.Y = 0;
+        _loadButton3.SetScale(1.8f);
+
+        if(pStats3 != null)
+        {
+            _loadButton3.Text = pStats3.Name;
+            _loadButton3.setTextMoney(pStats3.Money.ToString());
+            _loadButton3.isNewGame = false;
+        }
 
         _loadBackButton = new AnimatedButton(_GUIatlas);
         _loadBackButton.Text = "BACK";
@@ -369,9 +459,9 @@ public class TitleScene : Scene
         _loadBackButton.Click += HandleOptionsButtonBack;
 
         _loadGamePanel.AddChild(_loadBackButton);
-        _loadGamePanel.AddChild(loadButton1);
-        _loadGamePanel.AddChild(loadButton2);
-        _loadGamePanel.AddChild(loadButton3);
+        _loadGamePanel.AddChild(_loadButton1);
+        _loadGamePanel.AddChild(_loadButton2);
+        _loadGamePanel.AddChild(_loadButton3);
     }
 
     private void updateFlagButton(Object sender, KeyEventArgs e)

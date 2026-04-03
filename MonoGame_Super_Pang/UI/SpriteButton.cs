@@ -9,6 +9,9 @@ namespace MonoGame_Super_Pang.UI;
 public class TextureButton : Button
 {
     private SpriteRuntime _sprite;
+    private TextRuntime _textMoney;
+
+    public bool isNewGame{get;set;}
 
     public TextureButton(Texture2D texture, Rectangle sourceRectangle)
     {
@@ -45,9 +48,18 @@ public class TextureButton : Button
         this.Height = sourceRectangle.Height;
 
         TextRuntime textInstance = visual.TextInstance;
-        textInstance.Text = "";
+        textInstance.Text = "NewGame";
+        textInstance.Anchor(Gum.Wireframe.Anchor.Top);
+        textInstance.Y = 10;
+        textInstance.Color = Color.Black;
+        _textMoney = new TextRuntime();
+        _textMoney.Text = "";
+        _textMoney.Anchor(Gum.Wireframe.Anchor.Bottom);
 
         visual.Children.Insert(0, _sprite);
+        visual.Children.Insert(1, _textMoney);
+
+        isNewGame = true;
     }
 
     public void SetScale(float scale)
@@ -71,4 +83,8 @@ public class TextureButton : Button
 
     }
 
+    public void setTextMoney(string textMoney)
+    {
+        _textMoney.Text = textMoney;
+    }
 }
