@@ -70,6 +70,7 @@ public class TitleScene : Scene
     private TextureAtlas _GUIatlas;
 
     bool _isLastFocusedBackButton = false;
+    bool _isLastFocusedLoadBackButton = false;
 
     private Background _levelBackground;
 
@@ -182,6 +183,22 @@ public class TitleScene : Scene
             else
             {
                 _optionsBackButton.IsFocused = true;
+            }
+        }
+
+        if(_loadBackButton.IsFocused == false &&
+        _loadButton1.IsFocused == false &&
+        _loadButton2.IsFocused == false &&
+        _loadButton3.IsFocused == false &&
+        _loadGamePanel.IsVisible == true)
+        {
+            if (_isLastFocusedLoadBackButton)
+            {
+                _loadButton3.IsFocused = true;
+            }
+            else
+            {
+                _loadBackButton.IsFocused = true;
             }
         }
     }
@@ -443,6 +460,7 @@ public class TitleScene : Scene
         _loadButton3.X = -25;
         _loadButton3.Y = 0;
         _loadButton3.SetScale(1.8f);
+        _loadButton3.KeyDown += updateFlagLoadButton;
 
         if(pStats3 != null)
         {
@@ -457,6 +475,7 @@ public class TitleScene : Scene
         _loadBackButton.X = -28f;
         _loadBackButton.Y = -10f;
         _loadBackButton.Click += HandleOptionsButtonBack;
+        _loadBackButton.KeyDown += updateFlagLoadButton;
 
         _loadGamePanel.AddChild(_loadBackButton);
         _loadGamePanel.AddChild(_loadButton1);
@@ -480,7 +499,24 @@ public class TitleScene : Scene
                 _isLastFocusedBackButton = true;
             }
         }
+    }
 
+    private void updateFlagLoadButton(Object sender, KeyEventArgs e)
+    {
+        if(sender == _loadButton3)
+        {
+            if (e.Key == Keys.Down || e.Key == Keys.Right)
+            {
+                _isLastFocusedLoadBackButton = false;
+            }
+        }
+        else if(sender == _loadBackButton)
+        {
+            if (e.Key == Keys.Up || e.Key == Keys.Right)
+            {
+                _isLastFocusedLoadBackButton = true;
+            }
+        }
     }
 
     private void HandleMusicSliderValueChanged(object sender, EventArgs args)

@@ -1,7 +1,9 @@
+using System;
 using Gum.Forms.Controls;
 using Gum.Forms.DefaultVisuals.V3;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGameGum.GueDeriving;
 
 namespace MonoGame_Super_Pang.UI;
@@ -60,6 +62,12 @@ public class TextureButton : Button
         visual.Children.Insert(1, _textMoney);
 
         isNewGame = true;
+
+        // Add event handlers for keyboard input.
+        KeyDown += HandleKeyDown;
+
+        // // Add event handler for mouse hover focus.
+        visual.RollOn += HandleRollOn;
     }
 
     public void SetScale(float scale)
@@ -86,5 +94,30 @@ public class TextureButton : Button
     public void setTextMoney(string textMoney)
     {
         _textMoney.Text = textMoney;
+    }
+
+    /// <summary>
+    /// Handles keyboard input for navigation between buttons using left/right keys.
+    /// </summary>
+    private void HandleKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Keys.Left)
+        {
+            // Left arrow navigates to previous control
+            HandleTab(TabDirection.Up, loop: true);
+        }
+        if (e.Key == Keys.Right)
+        {
+            // Right arrow navigates to next control
+            HandleTab(TabDirection.Down, loop: true);
+        }
+    }
+
+    /// <summary>
+    /// Automatically focuses the button when the mouse hovers over it.
+    /// </summary>
+    private void HandleRollOn(object sender, EventArgs e)
+    {
+        IsFocused = true;
     }
 }
