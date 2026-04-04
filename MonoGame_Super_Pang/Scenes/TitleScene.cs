@@ -23,6 +23,7 @@ public class TitleScene : Scene
     private Panel _titleScreenButtonsPanel;
     private Panel _optionsPanel;
     private Panel _loadGamePanel;
+    private Panel _newGamePanel;
 
     // The options button used to open the options menu.
     private AnimatedButton _optionsButton;
@@ -30,6 +31,7 @@ public class TitleScene : Scene
     // The back button used to exit the options menu back to the title menu.
     private AnimatedButton _optionsBackButton;
     private AnimatedButton _loadBackButton;
+    private AnimatedButton _newGameBackButton;
     private OptionsSlider sfxSlider;
     private OptionsSlider musicSlider;
 
@@ -95,6 +97,9 @@ public class TitleScene : Scene
     TextureButton _loadButton1;
     TextureButton _loadButton2;
     TextureButton _loadButton3;
+    TextureButton _newGameButton;
+
+    TextBox _newGameNametextBox;
 
     public override void Initialize()
     {
@@ -258,6 +263,7 @@ public class TitleScene : Scene
         CreateTitlePanel();
         CreateOptionsPanel();
         CreateLoadGamePanel();
+        CreateNewGamePanel();
     }
 
     private void CreateTitlePanel()
@@ -300,12 +306,8 @@ public class TitleScene : Scene
         {
             if(_loadButton1.isNewGame)
             {
-                pStats1 = new PlayerStats();
-                pStats1.Path = PATH1;
-                //TODO system for typing name
-
-                PlayerStats.SaveGame(pStats1);
-                _loadButton1.isNewGame = false;
+                HandleNewGameClicked(_loadButton1);
+                return;
             }
             
             pStats = pStats1;
@@ -315,12 +317,8 @@ public class TitleScene : Scene
         {
             if(_loadButton2.isNewGame)
             {
-                pStats2 = new PlayerStats();
-                pStats2.Path = PATH2;
-                //TODO system for typing name
-
-                PlayerStats.SaveGame(pStats2);
-                _loadButton2.isNewGame = false;
+                HandleNewGameClicked(_loadButton2);
+                return;
             }
             pStats = pStats2;
         }
@@ -329,12 +327,8 @@ public class TitleScene : Scene
         {
             if (_loadButton3.isNewGame)
             {
-                pStats3 = new PlayerStats();
-                pStats3.Path = PATH3;
-                //TODO system for typing name
-
-                PlayerStats.SaveGame(pStats3);
-                _loadButton3.isNewGame = false;
+                HandleNewGameClicked(_loadButton3);
+                return;
             }
             pStats = pStats3;
         }
@@ -352,6 +346,8 @@ public class TitleScene : Scene
         _titleScreenButtonsPanel.IsVisible = false;
 
         _loadGamePanel.IsVisible = false;
+
+        _newGamePanel.IsVisible = false;
 
         // Set the options panel to be visible.
         _optionsPanel.IsVisible = true;
@@ -414,6 +410,36 @@ public class TitleScene : Scene
         _optionsBackButton.Click += HandleOptionsButtonBack;
         _optionsBackButton.KeyDown += updateFlagButton;
         _optionsPanel.AddChild(_optionsBackButton);
+    }
+
+    private void CreateNewGamePanel()
+    {
+        _newGamePanel = new Panel();
+        _newGamePanel.Dock(Gum.Wireframe.Dock.Fill);
+        _newGamePanel.IsVisible = false;
+        _newGamePanel.AddToRoot();
+
+        _newGameNametextBox = new TextBox();
+        _newGameNametextBox.Width = 200;
+        _newGameNametextBox.Anchor(Gum.Wireframe.Anchor.Center);
+        _newGameNametextBox.Placeholder = "";
+        _newGamePanel.AddChild(_newGameNametextBox);
+
+        AnimatedButton confirmButton = new AnimatedButton(_GUIatlas);
+        confirmButton.Text = "CONFIRM";
+        confirmButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
+        confirmButton.X = 28f;
+        confirmButton.Y = -10f;
+        confirmButton.Click += handleConfirmNameClicked;
+        _newGamePanel.AddChild(confirmButton);
+
+        _newGameBackButton = new AnimatedButton(_GUIatlas);
+        _newGameBackButton.Text = "BACK";
+        _newGameBackButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
+        _newGameBackButton.X = -28f;
+        _newGameBackButton.Y = -10f;
+        _newGameBackButton.Click += HandleStartClicked;
+        _newGamePanel.AddChild(_newGameBackButton);
     }
 
     private void CreateLoadGamePanel()
@@ -570,6 +596,8 @@ public class TitleScene : Scene
 
         _loadGamePanel.IsVisible = false;
 
+        _newGamePanel.IsVisible = false;
+
         // Give the options button on the title panel focus since we are coming
         // back from the options screen.
         _optionsButton.IsFocused = true;
@@ -585,8 +613,71 @@ public class TitleScene : Scene
 
         _loadGamePanel.IsVisible = true;
 
+        _newGamePanel.IsVisible = false;
+
         // Set the options panel to be visible.
         _optionsPanel.IsVisible = false;
+
+        _newGameNametextBox.Text = "";
+    }
+
+    private void HandleNewGameClicked(object sender)
+    {
+        // A UI interaction occurred, play the sound effect
+        Core.Audio.PlaySoundEffect(_uiSoundEffect);
+
+        // Set the title panel to be invisible.
+        _titleScreenButtonsPanel.IsVisible = false;
+
+        _loadGamePanel.IsVisible = false;
+
+        _newGamePanel.IsVisible = true;
+
+        // Set the options panel to be visible.
+        _optionsPanel.IsVisible = false;
+
+        _newGameButton = (TextureButton)sender;
+    }
+
+    private void handleConfirmNameClicked(object sender, EventArgs e)
+    {
+        if(_newGameButton == _loadButton1)
+        {
+            pStats1 = new PlayerStats();
+            pStats1.Name = _newGameNametextBox.Text;
+            pStats1.Money = 0;
+            pStats1.Path = PATH1;
+
+            PlayerStats.SaveGame(pStats1);
+            _loadButton1.isNewGame = false;
+
+            Core.ChangeScene(new GameScene(STARTING_LEVEL, pStats1));
+        }
+        if(_newGameButton == _loadButton2)
+        {
+            pStats2 = new PlayerStats();
+            pStats2.Name = _newGameNametextBox.Text;
+            pStats2.Money = 0;
+            pStats2.Path = PATH2;
+
+            PlayerStats.SaveGame(pStats2);
+            _loadButton2.isNewGame = false;
+
+            Core.ChangeScene(new GameScene(STARTING_LEVEL, pStats2));
+        }
+        if(_newGameButton == _loadButton3)
+        {
+            pStats3 = new PlayerStats();
+            pStats3.Name = _newGameNametextBox.Text;
+            pStats3.Money = 0;
+            pStats3.Path = PATH3;
+
+            PlayerStats.SaveGame(pStats3);
+            _loadButton3.isNewGame = false;
+
+            Core.ChangeScene(new GameScene(STARTING_LEVEL, pStats3));
+        }
+        _newGameNametextBox.Text = "";
     }
 
 }
