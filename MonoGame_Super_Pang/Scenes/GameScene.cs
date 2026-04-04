@@ -102,6 +102,7 @@ public class GameScene : Scene
         // Create the game scene ui instance.
         _ui = new GameSceneUI();
         _ui.UpdateLivesText(_character.getLives());
+        _ui.UpdateMoneyText(_pStats.Money);
 
         // Subscribe to the events from the game scene ui.
         _ui.ResumeButtonClick += OnResumeButtonClicked;
@@ -289,6 +290,7 @@ public class GameScene : Scene
             case collectibleType.SILVER_COIN:
             case collectibleType.BRONZE_COIN:
                 _character._pStats.Money += Coin.GetValue(collectibleCollided);
+                _ui.UpdateMoneyText(_character._pStats.Money);
                 break;
         }
 

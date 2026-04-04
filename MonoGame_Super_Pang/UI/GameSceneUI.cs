@@ -25,6 +25,9 @@ public class GameSceneUI : ContainerRuntime
     // The string format to use when updating the text for the lives display.
     private static readonly string s_livesFormat = "X{0:D2}";
 
+    // The string format to use when updating the text for the lives display.
+    private static readonly string s_moneyFormat = "{0:D5}"; 
+
     // The sound effect to play for auditory feedback of the user interface.
     private SoundEffect _uiSoundEffect;
 
@@ -50,6 +53,9 @@ public class GameSceneUI : ContainerRuntime
 
     // The text runtime used to display the lives on the game screen.
     private TextRuntime _livesText;
+
+    // The text runtime used to display the money amount on the pause screen.
+    private TextRuntime _moneyText;
 
     // Number of seconds on the current level.
     private double _timer;
@@ -217,13 +223,26 @@ public class GameSceneUI : ContainerRuntime
 
         panel.AddChild(quitButton);
 
+        var screenWidth = GumService.Default.CanvasWidth;
+        _moneyText = new TextRuntime();
+        _moneyText.Anchor(Gum.Wireframe.Anchor.TopRight);
+        _moneyText.WidthUnits = DimensionUnitType.RelativeToChildren;
+        _moneyText.Y = 15.0f;
+        _moneyText.X = -10.0f;
+        _moneyText.UseCustomFont = true;
+        _moneyText.CustomFontFile = @"fonts/04b_30.fnt";
+        _moneyText.FontScale = 0.25f;
+        _moneyText.Text = string.Format(s_moneyFormat, 0);
+
+        panel.AddChild(_moneyText);
+
         TextureAtlas chestAtlas = TextureAtlas.FromFile(Core.Content, "images/Coins/chest_atlas.xml");
 
         // Get the multi-frame chest animation from the atlas
         _chestAnimation = chestAtlas.CreateAnimatedSprite("chest-animation");
         _chestAnimation.Scale = new Vector2(4.0f, 4.0f);
 
-        float chestAnimationX = Core.GraphicsDevice.PresentationParameters.BackBufferWidth * 0.75f;
+        float chestAnimationX = Core.GraphicsDevice.PresentationParameters.BackBufferWidth * 0.7f;
         float chestAnimationY = Core.GraphicsDevice.PresentationParameters.BackBufferHeight *0.37f;
 
         _chestAnimationPosition = new Vector2(chestAnimationX, chestAnimationY);
@@ -361,6 +380,11 @@ public class GameSceneUI : ContainerRuntime
             _timer += gameTime.ElapsedGameTime.TotalSeconds;
             _timerText.Text = string.Format(s_timeFormat, (int)_timer);
         }
+    }
+
+    public void UpdateMoneyText(int money)
+    {
+        _moneyText.Text = string.Format(s_moneyFormat, money);
     }
 
     /// <summary>
