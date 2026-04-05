@@ -538,7 +538,7 @@ public class TitleScene : Scene
         }
         else if(sender == _loadBackButton)
         {
-            if (e.Key == Keys.Up || e.Key == Keys.Right)
+            if (e.Key == Keys.Up || e.Key == Keys.Left)
             {
                 _isLastFocusedLoadBackButton = true;
             }
