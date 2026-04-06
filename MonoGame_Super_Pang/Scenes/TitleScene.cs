@@ -24,6 +24,7 @@ public class TitleScene : Scene
     private Panel _optionsPanel;
     private Panel _loadGamePanel;
     private Panel _newGamePanel;
+    private Panel _deleteGamePanel;
 
     // The options button used to open the options menu.
     private AnimatedButton _optionsButton;
@@ -32,6 +33,7 @@ public class TitleScene : Scene
     private AnimatedButton _optionsBackButton;
     private AnimatedButton _loadBackButton;
     private AnimatedButton _newGameBackButton;
+
     private OptionsSlider sfxSlider;
     private OptionsSlider musicSlider;
 
@@ -94,12 +96,15 @@ public class TitleScene : Scene
     private PlayerStats pStats2;
     private PlayerStats pStats3;
 
-    TextureButton _loadButton1;
-    TextureButton _loadButton2;
-    TextureButton _loadButton3;
-    TextureButton _newGameButton;
+    private TextureButton _loadButton1;
+    private TextureButton _loadButton2;
+    private TextureButton _loadButton3;
+    private TextureButton _newGameButton;
+    private TextureButton _gameToDelete;
 
-    TextBox _newGameNametextBox;
+    private string _saveToDelete;
+
+    private TextBox _newGameNametextBox;
 
     public override void Initialize()
     {
@@ -264,6 +269,7 @@ public class TitleScene : Scene
         CreateOptionsPanel();
         CreateLoadGamePanel();
         CreateNewGamePanel();
+        CreateDeleteGamePanel();
     }
 
     private void CreateTitlePanel()
@@ -348,6 +354,8 @@ public class TitleScene : Scene
         _loadGamePanel.IsVisible = false;
 
         _newGamePanel.IsVisible = false;
+
+        _deleteGamePanel.IsVisible = false;
 
         // Set the options panel to be visible.
         _optionsPanel.IsVisible = true;
@@ -442,6 +450,39 @@ public class TitleScene : Scene
         _newGamePanel.AddChild(_newGameBackButton);
     }
 
+    private void CreateDeleteGamePanel()
+    {
+        _deleteGamePanel = new Panel();
+        _deleteGamePanel.Dock(Gum.Wireframe.Dock.Fill);
+        _deleteGamePanel.IsVisible = false;
+        _deleteGamePanel.AddToRoot();
+
+        TextRuntime text = new TextRuntime();
+        text.Anchor(Gum.Wireframe.Anchor.Top);
+        text.Text = "Delete saving?";
+        text.UseCustomFont = true;
+        text.FontScale = 0.25f;
+        text.CustomFontFile = @"fonts/04b_30.fnt";
+        text.IsEnabled = false;
+        _deleteGamePanel.AddChild(text);
+
+        AnimatedButton confirmButton = new AnimatedButton(_GUIatlas);
+        confirmButton.Text = "CONFIRM";
+        confirmButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
+        confirmButton.X = 28f;
+        confirmButton.Y = -10f;
+        confirmButton.Click += handleConfirmDeleteGameClicked;
+        _deleteGamePanel.AddChild(confirmButton);
+
+        AnimatedButton cancelButton = new AnimatedButton(_GUIatlas);
+        cancelButton.Text = "CANCEL";
+        cancelButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
+        cancelButton.X = -28f;
+        cancelButton.Y = -10f;
+        cancelButton.Click += HandleStartClicked;
+        _deleteGamePanel.AddChild(cancelButton);
+    }
+
     private void CreateLoadGamePanel()
     {
         _loadGamePanel = new Panel();
@@ -453,6 +494,9 @@ public class TitleScene : Scene
         float screenWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
 
         _loadButton1 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
+        _loadButton2 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
+        _loadButton3 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
+
         _loadButton1.Click += HandleLoadButton;
         _loadButton1.Anchor(Gum.Wireframe.Anchor.Left);
         _loadButton1.X = 25;
@@ -464,9 +508,14 @@ public class TitleScene : Scene
             _loadButton1.Text = pStats1.Name;
             _loadButton1.setTextMoney(pStats1.Money.ToString());
             _loadButton1.isNewGame = false;
+            _loadButton1._deleteButton.Click += HandleDeleteGameClicked;
+            _loadButton1._deleteButton.Anchor(Gum.Wireframe.Anchor.Left);
+            _loadButton1._deleteButton.Text="";
+            _loadButton1._deleteButton.Y = -58;
+            _loadButton1._deleteButton.X = 90;
+            _loadGamePanel.AddChild(_loadButton1._deleteButton);
         }
 
-        _loadButton2 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
         _loadButton2.Anchor(Gum.Wireframe.Anchor.Center);
         _loadButton2.Click += HandleLoadButton;
         _loadButton2.X = 0;
@@ -478,9 +527,14 @@ public class TitleScene : Scene
             _loadButton2.Text = pStats2.Name;
             _loadButton2.setTextMoney(pStats2.Money.ToString());
             _loadButton2.isNewGame = false;
+            _loadButton2._deleteButton.Click += HandleDeleteGameClicked;
+            _loadButton2._deleteButton.Anchor(Gum.Wireframe.Anchor.Center);
+            _loadButton2._deleteButton.Text = "";
+            _loadButton2._deleteButton.Y = -58;
+            _loadButton2._deleteButton.X = 33;
+            _loadGamePanel.AddChild(_loadButton2._deleteButton);
         }
 
-        _loadButton3 = new(_loadGamePaperRegion.Texture, _loadGamePaperRegion.SourceRectangle);
         _loadButton3.Anchor(Gum.Wireframe.Anchor.Right);
         _loadButton3.Click += HandleLoadButton;
         _loadButton3.X = -25;
@@ -493,6 +547,12 @@ public class TitleScene : Scene
             _loadButton3.Text = pStats3.Name;
             _loadButton3.setTextMoney(pStats3.Money.ToString());
             _loadButton3.isNewGame = false;
+            _loadButton3._deleteButton.Click += HandleDeleteGameClicked;
+            _loadButton3._deleteButton.Anchor(Gum.Wireframe.Anchor.Right);
+            _loadButton3._deleteButton.Text = "";
+            _loadButton3._deleteButton.Y = -58;
+            _loadButton3._deleteButton.X = -24;
+            _loadGamePanel.AddChild(_loadButton3._deleteButton);
         }
 
         _loadBackButton = new AnimatedButton(_GUIatlas);
@@ -598,6 +658,8 @@ public class TitleScene : Scene
 
         _newGamePanel.IsVisible = false;
 
+        _deleteGamePanel.IsVisible = false;
+
         // Give the options button on the title panel focus since we are coming
         // back from the options screen.
         _optionsButton.IsFocused = true;
@@ -618,6 +680,8 @@ public class TitleScene : Scene
         // Set the options panel to be visible.
         _optionsPanel.IsVisible = false;
 
+        _deleteGamePanel.IsVisible = false;
+
         _newGameNametextBox.Text = "";
     }
 
@@ -635,6 +699,8 @@ public class TitleScene : Scene
 
         // Set the options panel to be visible.
         _optionsPanel.IsVisible = false;
+
+        _deleteGamePanel.IsVisible = false;
 
         _newGameButton = (TextureButton)sender;
     }
@@ -680,4 +746,76 @@ public class TitleScene : Scene
         _newGameNametextBox.Text = "";
     }
 
+    private void HandleDeleteGameClicked(object sender, EventArgs e)
+    {
+        // A UI interaction occurred, play the sound effect
+        Core.Audio.PlaySoundEffect(_uiSoundEffect);
+        if(sender == _loadButton1._deleteButton)
+        {
+            _gameToDelete = new TextureButton(_loadButton1);
+            _saveToDelete = pStats1.Path;
+        }
+        if(sender == _loadButton2._deleteButton)
+        {
+            _gameToDelete = new TextureButton(_loadButton2);
+            _saveToDelete = pStats2.Path;
+        }
+        if(sender == _loadButton3._deleteButton)
+        {
+            _gameToDelete = new TextureButton(_loadButton3);
+            _saveToDelete = pStats3.Path;
+        }
+
+        _gameToDelete.Click-=HandleLoadButton;
+        _gameToDelete.Anchor(Gum.Wireframe.Anchor.Center);
+        _deleteGamePanel.AddChild(_gameToDelete);
+
+        // Set the title panel to be visible.
+        _titleScreenButtonsPanel.IsVisible = false;
+
+        // Set the options panel to be invisible.
+        _optionsPanel.IsVisible = false;
+
+        _loadGamePanel.IsVisible = false;
+
+        _newGamePanel.IsVisible = false;
+
+        _deleteGamePanel.IsVisible = true;
+    }
+
+    private void handleConfirmDeleteGameClicked(object sender, EventArgs e)
+    {
+
+        if(pStats1 != null && _saveToDelete == pStats1.Path)
+        {
+            CleanButton(_loadButton1);
+        }
+
+        if(pStats2 != null &&_saveToDelete == pStats2.Path)
+        {
+            CleanButton(_loadButton2);
+        }
+
+        if(pStats3 != null && _saveToDelete == pStats3.Path)
+        {
+            CleanButton(_loadButton3);
+        }
+
+        _gameToDelete = null;
+
+        File.Delete(_saveToDelete);
+        _saveToDelete = null;
+
+        _loadGamePanel.IsVisible = true;
+
+        _deleteGamePanel.IsVisible = false;
+    }
+
+    private void CleanButton(TextureButton button)
+    {
+        button.Text = "NewGame";
+        button.setTextMoney("");
+        button.isNewGame = true;
+        button._deleteButton.Visual.Parent=null;
+    }
 }

@@ -13,11 +13,24 @@ public class TextureButton : Button
     private SpriteRuntime _sprite;
     private TextRuntime _textMoney;
 
+    private float _scale;
+
     public bool isNewGame{get;set;}
+
+    public DeleteButton _deleteButton;
 
     public TextureButton(Texture2D texture, Rectangle sourceRectangle)
     {
+        _deleteButton = new DeleteButton();
         CreateSprite(texture, sourceRectangle);
+    }
+
+    public TextureButton(TextureButton button)
+    {
+        CreateSprite(button._sprite.Texture, button._sprite.SourceRectangle);
+        Text = button.Text;
+        _textMoney.Text = button._textMoney.Text;
+        SetScale(button._scale);
     }
 
     private void CreateSprite(Texture2D texture, Rectangle sourceRectangle)
@@ -88,6 +101,8 @@ public class TextureButton : Button
         _sprite.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
         _sprite.Width = newWidth;
         _sprite.Height = newHeight;
+
+        _scale = scale;
 
     }
 
