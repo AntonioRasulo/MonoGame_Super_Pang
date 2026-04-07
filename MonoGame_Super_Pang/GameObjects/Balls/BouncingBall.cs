@@ -38,7 +38,7 @@ public class BouncingBall : Ball
             _velocity.X = _speedX * normal.X;
         }
 
-         // Floor
+        // Floor
         if (normal.Y < 0)
         {
             _velocity.Y = -_jumpStrength;

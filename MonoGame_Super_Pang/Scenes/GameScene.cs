@@ -3,16 +3,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
-using MonoGameLibrary.Graphics;
 using MonoGameLibrary.Scenes;
 using MonoGame_Super_Pang.GameObjects;
 using MonoGame_Super_Pang.Config;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
 using MonoGame_Super_Pang.UI;
 using MonoGameGum;
 using MonoGame_Super_Pang.Backgrounds;
+using MonoGame_Super_Pang.Utility;
 
 namespace MonoGame_Super_Pang.Scenes;
 
@@ -56,8 +55,6 @@ public class GameScene : Scene
 
     // The speed of the fade to grayscale effect.
     private const float FADE_SPEED = 0.02f;
-
-    private SoundEffect _blockBreakEffect;
 
     private Background _levelBackground;
 
@@ -157,8 +154,6 @@ public class GameScene : Scene
 
         // Load the font
         _font = Content.Load<SpriteFont>("fonts/04B_30");
-
-        _blockBreakEffect = Content.Load<SoundEffect>("audio/Block Break 1");
 
         LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
 
@@ -313,7 +308,7 @@ public class GameScene : Scene
                 // If the ball has been already hit in this frame skip
                 if(toRemoveBall.Contains(ball)) continue;
 
-                if(areIntersecting(ball.GetBounds(), harpoonBound))
+                if(CollisionChecker.areIntersecting(ball.GetBounds(), harpoonBound))
                 {
                     handleBallHit(ball, ref toAddBall, ref toRemoveBall);
                     toRemoveHarpoon.Add(harpoon);
@@ -371,7 +366,7 @@ public class GameScene : Scene
             {
                 Circle ballBounds = ball.GetBounds();
 
-                if(areIntersecting(ballBounds, platformBounds))
+                if(CollisionChecker.areIntersecting(ballBounds, platformBounds))
                 {
                     Vector2 pos = ball.Position;
                     
@@ -396,17 +391,17 @@ public class GameScene : Scene
                     switch (indexMin)
                     {
                         case 0:
-                        ball.Bounce(Vector2.UnitY);
-                        break;
+                            ball.Bounce(Vector2.UnitY);
+                            break;
                         case 1:
-                        ball.Bounce(-Vector2.UnitY);
-                        break;
+                            ball.Bounce(-Vector2.UnitY);
+                            break;
                         case 2:
-                        ball.Bounce(-Vector2.UnitX);
-                        break;
+                            ball.Bounce(-Vector2.UnitX);
+                            break;
                         case 3:
-                        ball.Bounce(Vector2.UnitX);
-                        break;
+                            ball.Bounce(Vector2.UnitX);
+                            break;
                     }
                 }
             }
@@ -415,7 +410,7 @@ public class GameScene : Scene
         /* Character - Ball collision check */
         foreach(Ball ball in _balls)
         {
-            if(areIntersecting(ball.GetBounds(), characterBounds) && (_character.IsImmune == false))
+            if(CollisionChecker.areIntersecting(ball.GetBounds(), characterBounds) && (_character.IsImmune == false))
             {
                 _score--;
                 _character.activateImmunity();
@@ -467,33 +462,19 @@ public class GameScene : Scene
             if (ballBounds.Top < _roomBounds.Top)
             {
                 ball.Bounce(Vector2.UnitY);
-                // Clamp to ceiling
-                pos.Y = _roomBounds.Top + (pos.Y - (ballBounds.Y - ballBounds.Radius));
-                ball.Position = pos;
             }
             else if (ballBounds.Bottom > _roomBounds.Bottom)
             {
                 ball.Bounce(-Vector2.UnitY);
-                // Clamp to floor
-                pos.Y = _roomBounds.Bottom - ball.spriteHeight
-                        - (ballBounds.Bottom - _roomBounds.Bottom);
-                ball.Position = pos;
             }
 
             if (ballBounds.Left < _roomBounds.Left)
             {
                 ball.Bounce(Vector2.UnitX);
-                // Clamp to left wall
-                pos.X = _roomBounds.Left + (pos.X - (ballBounds.X - ballBounds.Radius));
-                ball.Position = pos;
             }
             else if (ballBounds.Right > _roomBounds.Right)
             {
                 ball.Bounce(-Vector2.UnitX);
-                // Clamp to right wall
-                pos.X = _roomBounds.Right - ball.spriteWidth
-                        - (ballBounds.Right - _roomBounds.Right);
-                ball.Position = pos;
             }
         }
     }
@@ -537,31 +518,6 @@ public class GameScene : Scene
         toRemoveBall.Add(ball);
         Ball.playPopSound();
         _collectibleHandler.GenerateCollectible(ball.Position);
-    }
-
-    private bool areIntersecting(Circle circle, Rectangle rectangle)
-    {
-        int distanceX = Math.Abs(circle.X - rectangle.Center.X);
-        int distanceY = Math.Abs(circle.Y - rectangle.Center.Y);
-
-        float halfRectWidth = rectangle.Width * 0.5f;
-        float halfRectHeight = rectangle.Height * 0.5f;
-
-        if((distanceX > (halfRectWidth + circle.Radius)) ||
-           (distanceY > (halfRectHeight + circle.Radius)))
-        {
-            return false;
-        }
-
-        if(distanceX <= halfRectWidth ||
-           distanceY <= halfRectHeight)
-        {
-            return true;
-        }
-
-        double cornerDistanceSquare = Math.Pow(distanceX-halfRectWidth, 2) + Math.Pow(distanceY-halfRectHeight, 2);
-
-        return cornerDistanceSquare <= Math.Pow(circle.Radius, 2);
     }
 
     public override void Draw(GameTime gameTime)
@@ -623,20 +579,7 @@ public class GameScene : Scene
 
         _balls = LevelGenerator.generateBalls();
 
-        foreach(var platformSpawn in config.Platforms)
-        {
-            PlatformType platformType = platformSpawn.platformType;
-            switch (platformType)
-            {
-                case PlatformType.HORIZONTAL_GRAY:
-                    _platforms.Add(new UnbreakablePlatform(platformSpawn.Position, platformType));
-                break;
-                case PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE:
-                    _platforms.Add(new BreakablePlatform(platformSpawn.Position, platformType, platformSpawn.platformState, _blockBreakEffect));
-                    
-                break;
-            }
-        }
+        _platforms = LevelGenerator.generatePlatforms(_balls);
 
         List<Texture2D> clouds = new List<Texture2D>();
 

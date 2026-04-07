@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
+using Microsoft.Xna.Framework;
 using MonoGame_Super_Pang.GameObjects;
+using MonoGame_Super_Pang.Utility;
 using MonoGameLibrary;
 
 namespace MonoGame_Super_Pang.Config;
@@ -10,24 +11,35 @@ class LevelGenerator
 {
     private const int MAX_ENEMY_NUMBER = 4;
     private const int MAX_BALLS_NUMBER = 4;
+    private const int MAX_PLATFORM_NUMBER = 2;
+
+    private static int SCREEN_WIDTH = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
+    private static int SCREEN_HEIGHT = Core.GraphicsDevice.PresentationParameters.BackBufferHeight;
+
+    private static Random xRandom = new Random();
+    private static Random yRandom = new Random();
 
     public static List<Enemy> generateEnemies()
     {
         List<Enemy> enemies = new List<Enemy>();
 
-        int enemy_number = Random.Shared.Next(0, MAX_ENEMY_NUMBER);
+        Random randomGen = new Random();
+
+        int enemy_number = randomGen.Next(0, MAX_ENEMY_NUMBER);
 
         for(int i = 0; i<enemy_number; i++)
         {
             EnemyType enemyType = (EnemyType)Random.Shared.Next(0, (int)EnemyType.LAST_ENEMY);
 
+            Vector2 position = generatePosition(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*0.75f);
+
             switch (enemyType)
             {
                 case EnemyType.MINI_BAT:
-                    enemies.Add(new MiniBat(generatePosition()));
+                    enemies.Add(new MiniBat(position));
                     break;
                 case EnemyType.BIG_BAT:
-                    enemies.Add(new BigBat(generatePosition()));
+                    enemies.Add(new BigBat(position));
                     break;
             }
         }
@@ -39,7 +51,7 @@ class LevelGenerator
     {
         List<Ball> balls = new List<Ball>();
 
-        int balls_number = Random.Shared.Next(0, MAX_BALLS_NUMBER);
+        int balls_number = Random.Shared.Next(1, MAX_BALLS_NUMBER);
 
         for(int i = 0; i<balls_number; i++)
         {
@@ -51,15 +63,17 @@ class LevelGenerator
                 direction = Random.Shared.Next(-1, 2);
             }
 
+            Vector2 position = generatePosition(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*0.75f);
+
             switch (ballType)
             {
                 case BallType.GREEN_ROUND:
                 case BallType.RED_ROUND:
                 case BallType.BLUE_ROUND:
-                    balls.Add(new BouncingBall(ballSize, direction, ballType, generatePosition()));
+                    balls.Add(new BouncingBall(ballSize, direction, ballType, position));
                 break;
                 case BallType.GREEN_SQUARED:
-                    balls.Add(new ReflectiveBall(ballSize, direction, ballType, generatePosition()));
+                    balls.Add(new ReflectiveBall(ballSize, direction, ballType, position));
                 break;
             }
         }
@@ -67,19 +81,71 @@ class LevelGenerator
         return balls;
     }
 
-    private static Vector2 generatePosition()
+    public static List<Platform> generatePlatforms(List<Ball> balls)
     {
-        float positionX = Random.Shared.Next(
-                0,
-                Core.GraphicsDevice.PresentationParameters.BackBufferWidth
+        List<Platform> platforms = new List<Platform>();
+
+        int platform_num = Random.Shared.Next(1, MAX_PLATFORM_NUMBER);
+
+        for(int i = 0; i< platform_num; i++)
+        {
+            PlatformType platformType = (PlatformType)Random.Shared.Next(0, (int)PlatformType.LAST_PLATFORM_TYPE);
+            platforms.Add(GeneratePlatform(balls, platformType));
+        }
+
+        return platforms;
+    }
+
+    private static Vector2 generatePosition(float minX, float minY, float maxX, float maxY)
+    {
+        float positionX = xRandom.Next(
+                (int)minX,
+                (int)maxX
             );
 
-        float positionY = Random.Shared.Next(
-                0,
-                (int)(Core.GraphicsDevice.PresentationParameters.BackBufferHeight * 0.75f)
+        float positionY = yRandom.Next(
+                (int)minY,
+                (int)maxY
             );
 
         return new Vector2(positionX, positionY);
     }
 
+    private static Platform GeneratePlatform(List<Ball> balls, PlatformType platformType)
+    {
+
+        Vector2 position = new Vector2();
+
+        Platform platform = null;
+
+        while(platform == null)
+        {
+            position = generatePosition(SCREEN_WIDTH * 0.2f, SCREEN_HEIGHT*0.25f, SCREEN_WIDTH * 0.8f, SCREEN_HEIGHT * 0.5f);
+
+            switch (platformType)
+            {
+                case PlatformType.HORIZONTAL_GRAY:
+                    platform = new UnbreakablePlatform(position, platformType);
+                break;
+                case PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE:
+                    platform = new BreakablePlatform(position, platformType);
+                break;
+            }
+
+            Rectangle platformBounds = platform.getBounds();
+
+            for(int indexBall = 0; indexBall<balls.Count; indexBall++)
+            {
+                Circle ballBounds = balls[indexBall].GetBounds();
+                if(CollisionChecker.areIntersecting(ballBounds, platformBounds))
+                {
+                    platform = null;
+                    break;
+                }
+            }
+        }
+
+        return platform;
+
+    }
 }
