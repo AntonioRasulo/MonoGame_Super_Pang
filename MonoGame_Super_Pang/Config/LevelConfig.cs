@@ -7,23 +7,10 @@ namespace MonoGame_Super_Pang.Config;
 
 public class LevelConfig
 {
-    public List<BallSpawnConfig> Balls {get; set;}
-
     public List<PlatformConfig> Platforms{get; set;}
 
     public List<string> backgroundStr;
     // later: tilemap, time limit, etc.
-}
-
-public class BallSpawnConfig
-{
-    public BallSize Size { get; set; }
-    public float DirectionX { get; set; }
-
-    public BallType BallType{get; set;}
-
-    public Vector2 Position { get; set; }
-
 }
 
 public class PlatformConfig

@@ -12,7 +12,8 @@ public enum BallSize
 {
     SMALL,
     MEDIUM,
-    LARGE
+    LARGE,
+    LAST_BALL_SIZE
 }
 
 public enum BallType
@@ -20,7 +21,8 @@ public enum BallType
     GREEN_ROUND,
     RED_ROUND,
     BLUE_ROUND,
-    GREEN_SQUARED
+    GREEN_SQUARED,
+    LAST_BALL_TYPE
 }
 
 abstract public class Ball

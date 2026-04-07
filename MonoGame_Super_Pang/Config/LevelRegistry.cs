@@ -11,10 +11,6 @@ public static class LevelRegistry
     {
         new LevelConfig // Level 0
         {
-            Balls = new List<BallSpawnConfig>
-            {
-                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = 1f, BallType = BallType.RED_ROUND }
-            },
             Platforms = new List<PlatformConfig>
             {
 
@@ -29,11 +25,6 @@ public static class LevelRegistry
         },
         new LevelConfig // Level 1
         {
-            Balls = new List<BallSpawnConfig>
-            {
-                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = -1f, BallType = BallType.RED_ROUND }
-            },
-
             Platforms = new List<PlatformConfig>
             {
                 new PlatformConfig
@@ -52,23 +43,6 @@ public static class LevelRegistry
         },
         new LevelConfig // Level 2
         {
-            Balls = new List<BallSpawnConfig>
-            {
-                new BallSpawnConfig
-                {
-                    Size = BallSize.LARGE,
-                    DirectionX = -1f,
-                    BallType = BallType.GREEN_SQUARED,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
-                },
-                new BallSpawnConfig 
-                { 
-                    Size = BallSize.LARGE,
-                    DirectionX = 1f,
-                    BallType = BallType.GREEN_SQUARED,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.75f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
-                }
-            },
             Platforms = new List<PlatformConfig>
             {
 
@@ -83,24 +57,6 @@ public static class LevelRegistry
         },
         new LevelConfig // Level 3
         {
-            Balls = new List<BallSpawnConfig>
-            {
-                new BallSpawnConfig
-                {
-                    Size = BallSize.MEDIUM,
-                    DirectionX = -1f,
-                    BallType = BallType.GREEN_SQUARED,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
-                },
-                new BallSpawnConfig 
-                { 
-                    Size = BallSize.MEDIUM,
-                    DirectionX = 1f,
-                    BallType = BallType.GREEN_SQUARED,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.75f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
-                }
-            },
-
             Platforms = new List<PlatformConfig>
             {
                 new PlatformConfig
@@ -119,24 +75,6 @@ public static class LevelRegistry
         },
         new LevelConfig // Level 4
         {
-            Balls = new List<BallSpawnConfig>
-            {
-                new BallSpawnConfig
-                {
-                    Size = BallSize.MEDIUM,
-                    DirectionX = -1f,
-                    BallType = BallType.RED_ROUND,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
-                },
-                new BallSpawnConfig 
-                { 
-                    Size = BallSize.MEDIUM,
-                    DirectionX = 1f,
-                    BallType = BallType.RED_ROUND,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.75f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
-                }
-            },
-
             Platforms = new List<PlatformConfig>
             {
                 new PlatformConfig

@@ -620,21 +620,8 @@ public class GameScene : Scene
         _platforms.Clear();
         _enemies.Clear();
         Ball.resetFreeze();
-        foreach (var spawnConfig in config.Balls)
-        {
-            BallType ballType = spawnConfig.BallType;
-            switch(spawnConfig.BallType)
-            {
-                case BallType.GREEN_ROUND:
-                case BallType.RED_ROUND:
-                case BallType.BLUE_ROUND:
-                    _balls.Add(new BouncingBall(spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
-                break;
-                case BallType.GREEN_SQUARED:
-                    _balls.Add(new ReflectiveBall(spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
-                break;
-            }
-        }
+
+        _balls = LevelGenerator.generateBalls();
 
         foreach(var platformSpawn in config.Platforms)
         {
