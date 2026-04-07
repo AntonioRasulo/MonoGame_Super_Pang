@@ -25,14 +25,6 @@ public static class LevelRegistry
                 "images/backgrounds/clouds1/2",
                 "images/backgrounds/clouds1/3",
                 "images/backgrounds/clouds1/4"
-            },
-            Enemies = new List<EnemyConfig>
-            {
-                new EnemyConfig
-                {
-                    EnemyType = EnemyType.BIG_BAT,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.60f)
-                }
             }
         },
         new LevelConfig // Level 1
@@ -56,19 +48,6 @@ public static class LevelRegistry
                 "images/backgrounds/clouds2/2",
                 "images/backgrounds/clouds2/3",
                 "images/backgrounds/clouds2/4"
-            },
-            Enemies = new List<EnemyConfig>
-            {
-                new EnemyConfig
-                {
-                    EnemyType = EnemyType.MINI_BAT,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.60f)
-                },
-                new EnemyConfig
-                {
-                    EnemyType = EnemyType.MINI_BAT,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.75f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.60f)
-                }
             }
         },
         new LevelConfig // Level 2
@@ -100,10 +79,6 @@ public static class LevelRegistry
                 "images/backgrounds/clouds3/2",
                 "images/backgrounds/clouds3/3",
                 "images/backgrounds/clouds3/4"
-            },
-            Enemies = new List<EnemyConfig>
-            {
-
             }
         },
         new LevelConfig // Level 3
@@ -140,10 +115,6 @@ public static class LevelRegistry
                 "images/backgrounds/clouds4/2",
                 "images/backgrounds/clouds4/3",
                 "images/backgrounds/clouds4/4"
-            },
-            Enemies = new List<EnemyConfig>
-            {
-
             }
         },
         new LevelConfig // Level 4
@@ -182,10 +153,6 @@ public static class LevelRegistry
                 "images/backgrounds/clouds5/3",
                 "images/backgrounds/clouds5/4",
                 "images/backgrounds/clouds5/5",
-            },
-            Enemies = new List<EnemyConfig>
-            {
-
             }
         }
     };

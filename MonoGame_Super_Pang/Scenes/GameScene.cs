@@ -658,18 +658,7 @@ public class GameScene : Scene
 
         _levelBackground = new Background(clouds);
 
-        foreach (EnemyConfig enemyConfig in config.Enemies)
-        {
-            switch (enemyConfig.EnemyType)
-            {
-            case EnemyType.BIG_BAT:
-                _enemies.Add(new BigBat(enemyConfig.Position));
-            break;
-            case EnemyType.MINI_BAT:
-                _enemies.Add(new MiniBat(enemyConfig.Position));
-            break;
-            }
-        }
+        _enemies = LevelGenerator.generateEnemies();
     }
 
     private List<Ball> splitBall(Ball ball)
