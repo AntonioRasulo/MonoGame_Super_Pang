@@ -60,10 +60,6 @@ public class BouncingBall : Ball
             // Update the position of the ball based on the velocity.
             Position += _velocity;
         }
-        else
-        {
-            updateFreeze(gameTime);
-        }
     }
 
     protected override void LoadSprite()

@@ -61,10 +61,6 @@ public class ReflectiveBall : Ball
 
             _ballSprite.Rotation += _rotationSpeed;
         }
-        else
-        {
-            updateFreeze(gameTime);
-        }
     }
 
     protected override void LoadSprite()

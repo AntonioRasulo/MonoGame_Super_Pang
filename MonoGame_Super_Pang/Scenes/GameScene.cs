@@ -198,6 +198,8 @@ public class GameScene : Scene
 
         _character.Update(gameTime);
 
+        Ball.updateFreeze(gameTime);
+
         foreach(Ball ball in _balls)
         {
             ball.Update(gameTime);

@@ -143,12 +143,12 @@ abstract public class Ball
         return _ballType;
     }
 
-    protected static void updateFreeze(GameTime gameTime)
+    public static void updateFreeze(GameTime gameTime)
     {
-        float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
         if (_freezeTimer > 0f)
         {
+            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             _freezeTimer -= delta;
 
             if (_freezeTimer <= 0f)
