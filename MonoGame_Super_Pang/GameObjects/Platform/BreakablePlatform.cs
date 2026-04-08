@@ -22,16 +22,19 @@ public class BreakablePlatform : Platform
     private List<Sprite> _sprites;
     private PlatformState _platformState;
 
-    public BreakablePlatform(Vector2 position, PlatformType platformType) : base(position, platformType)
+    private SoundEffect _breakPlatformEffect;
+
+    public BreakablePlatform(Vector2 position, PlatformType platformType, PlatformState platformState, SoundEffect breakPlatformEffect) : base(position, platformType)
     {
         foreach(Sprite sprite in _sprites)
         {
             sprite.Scale = new Vector2(SCALE, SCALE);
         }
-        _platformState = PlatformState.Stage1;
+        _platformState = platformState;
 
         _breakable = true;
 
+        _breakPlatformEffect = breakPlatformEffect;
     }
 
     public override void Draw()
@@ -115,7 +118,7 @@ public class BreakablePlatform : Platform
 
     public void hitPlatform()
     {
-        Core.Audio.PlaySoundEffect(_blockBreakEffect);
+        Core.Audio.PlaySoundEffect(_breakPlatformEffect);
         switch (_platformState)
         {
             case PlatformState.Stage1:
@@ -163,11 +166,6 @@ public class BreakablePlatform : Platform
         }
 
         return returnList;
-    }
-
-    public void SetPlatformState(PlatformState platformState)
-    {
-        _platformState = platformState;
     }
 
 }

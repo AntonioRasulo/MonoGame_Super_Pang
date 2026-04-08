@@ -8,8 +8,7 @@ namespace MonoGame_Super_Pang.GameObjects;
 public enum EnemyType
 {
     BIG_BAT,
-    MINI_BAT,
-    LAST_ENEMY
+    MINI_BAT
 }
 
 abstract public class Enemy

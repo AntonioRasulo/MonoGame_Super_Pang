@@ -14,6 +14,7 @@ using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using MonoGame_Super_Pang.Backgrounds;
 using MonoGame_Super_Pang.Config;
+using System.Collections.Generic;
 
 namespace MonoGame_Super_Pang.Scenes;
 
@@ -76,6 +77,8 @@ public class TitleScene : Scene
     bool _isLastFocusedLoadBackButton = false;
 
     private Background _levelBackground;
+
+    private Random _backgroundRand;
 
     private TextureRegion _loadGamePaperRegion;
 
@@ -154,9 +157,18 @@ public class TitleScene : Scene
 
         _loadGamePaperRegion = book2Atlas.GetRegion("paper-tile-9");
 
-        BackgroundRegistry.LoadContent();
+        _backgroundRand = new Random();
+        int backgroundIndex = _backgroundRand.Next(0, LevelRegistry.AllLevels.Count);
 
-        _levelBackground = LevelGenerator.generateBackground();
+        List<string> backgroundList = LevelRegistry.AllLevels[backgroundIndex].backgroundStr;
+        List<Texture2D> clouds = new List<Texture2D>();
+
+        foreach(string backgroundStr in backgroundList)
+        {
+            clouds.Add(Content.Load<Texture2D>(backgroundStr));
+        }
+
+        _levelBackground = new Background(clouds);
 
         pStats1 = PlayerStats.LoadGame(PATH1);
         pStats2 = PlayerStats.LoadGame(PATH2);
