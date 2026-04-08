@@ -1,11 +1,9 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using MonoGameLibrary.Scenes;
 using Microsoft.Xna.Framework.Media;
-using System.Collections.Generic;
 using MonoGame_Super_Pang.Config;
 using MonoGame_Super_Pang.Backgrounds;
 
@@ -38,8 +36,6 @@ public class GameOver : Scene
     private Vector2 _pressEnterOrigin;
 
     private Background _levelBackground;
-
-    private Random _backgroundRand;
 
     public GameOver(int score)
     {
@@ -84,18 +80,7 @@ public class GameOver : Scene
         // Load the font for the title text.
         _font5x = Content.Load<SpriteFont>("fonts/04B_30_5x");
 
-        _backgroundRand = new Random();
-        int backgroundIndex = _backgroundRand.Next(0, LevelRegistry.AllLevels.Count);
-
-        List<string> backgroundList = LevelRegistry.AllLevels[backgroundIndex].backgroundStr;
-        List<Texture2D> clouds = new List<Texture2D>();
-
-        foreach(string backgroundStr in backgroundList)
-        {
-            clouds.Add(Content.Load<Texture2D>(backgroundStr));
-        }
-
-        _levelBackground = new Background(clouds);
+        _levelBackground = LevelGenerator.generateBackground();
 
     }
 

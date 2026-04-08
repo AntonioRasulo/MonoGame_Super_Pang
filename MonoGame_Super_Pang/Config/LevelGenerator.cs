@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using MonoGame_Super_Pang.Backgrounds;
 using MonoGame_Super_Pang.GameObjects;
 using MonoGame_Super_Pang.Utility;
 using MonoGameLibrary;
@@ -29,7 +30,7 @@ class LevelGenerator
 
         for(int i = 0; i<enemy_number; i++)
         {
-            EnemyType enemyType = (EnemyType)Random.Shared.Next(0, (int)EnemyType.LAST_ENEMY);
+            EnemyType enemyType = (EnemyType)Random.Shared.Next((int)EnemyType.LAST_ENEMY);
 
             Vector2 position = generatePosition(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*0.75f);
 
@@ -55,8 +56,8 @@ class LevelGenerator
 
         for(int i = 0; i<balls_number; i++)
         {
-            BallType ballType = (BallType)Random.Shared.Next(0, (int)BallType.LAST_BALL_TYPE);
-            BallSize ballSize = (BallSize)Random.Shared.Next(0, (int)BallSize.LAST_BALL_SIZE);
+            BallType ballType = (BallType)Random.Shared.Next((int)BallType.LAST_BALL_TYPE);
+            BallSize ballSize = (BallSize)Random.Shared.Next((int)BallSize.LAST_BALL_SIZE);
             int direction = 0;
             while (direction == 0)
             {
@@ -81,6 +82,13 @@ class LevelGenerator
         return balls;
     }
 
+    public static Background generateBackground()
+    {
+        int bg_num = Random.Shared.Next(BackgroundRegistry.backgrounds.Count);
+
+        return BackgroundRegistry.backgrounds[bg_num];
+    }
+
     public static List<Platform> generatePlatforms(List<Ball> balls)
     {
         List<Platform> platforms = new List<Platform>();
@@ -89,7 +97,7 @@ class LevelGenerator
 
         for(int i = 0; i< platform_num; i++)
         {
-            PlatformType platformType = (PlatformType)Random.Shared.Next(0, (int)PlatformType.LAST_PLATFORM_TYPE);
+            PlatformType platformType = (PlatformType)Random.Shared.Next((int)PlatformType.LAST_PLATFORM_TYPE);
             platforms.Add(GeneratePlatform(balls, platformType));
         }
 

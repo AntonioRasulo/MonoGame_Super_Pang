@@ -39,8 +39,6 @@ public class GameScene : Scene
     // Tracks the players score.
     private int _score;
 
-    private int _currentLevelIndex;
-
     private CollectibleHandler _collectibleHandler;
 
     private GameSceneUI _ui;
@@ -62,7 +60,6 @@ public class GameScene : Scene
 
     public GameScene(int startingLevel, PlayerStats pStats)
     {
-        _currentLevelIndex = startingLevel;
         _pStats = pStats;
     }
 
@@ -155,7 +152,7 @@ public class GameScene : Scene
         // Load the font
         _font = Content.Load<SpriteFont>("fonts/04B_30");
 
-        LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
+        ResetLevel();
 
         // Load the grayscale effect.
         _grayscaleEffect = Content.Load<Effect>("effects/grayscaleEffect");
@@ -487,16 +484,10 @@ public class GameScene : Scene
             if(_score < 0)
                 _score = 0;
             _ui.UpdateScoreText(_score);
-            _currentLevelIndex++;
-            if(_currentLevelIndex >= LevelRegistry.AllLevels.Count)
-            {
-                Core.ChangeScene(new GameOver(_score));
-            }
-            else
-            {
-                _ui.resetTimer();
-                LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
-            }
+
+            _ui.resetTimer();
+            ResetLevel();
+
             PlayerStats.SaveGame(_character._pStats);
         }
         else if(_character.isAlive() == false)
@@ -570,7 +561,7 @@ public class GameScene : Scene
         base.Draw(gameTime);
     }
 
-    private void LoadLevel(LevelConfig config)
+    private void ResetLevel()
     {
         _balls.Clear();
         _platforms.Clear();
@@ -581,14 +572,7 @@ public class GameScene : Scene
 
         _platforms = LevelGenerator.generatePlatforms(_balls);
 
-        List<Texture2D> clouds = new List<Texture2D>();
-
-        foreach(string backgroundStr in config.backgroundStr)
-        {
-            clouds.Add(Content.Load<Texture2D>(backgroundStr));
-        }
-
-        _levelBackground = new Background(clouds);
+        _levelBackground = LevelGenerator.generateBackground();
 
         _enemies = LevelGenerator.generateEnemies();
     }
