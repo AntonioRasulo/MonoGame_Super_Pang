@@ -7,13 +7,16 @@ namespace MonoGame_Super_Pang.Config;
 
 public static class LevelRegistry
 {
+    private static readonly float screenWidth = Core.GraphicsDevice.PresentationParameters.Bounds.Width;
+    private static readonly float screenHeight = Core.GraphicsDevice.PresentationParameters.Bounds.Height;
+
     public static List<LevelConfig> AllLevels = new List<LevelConfig>
     {
         new LevelConfig // Level 0
         {
             Balls = new List<BallSpawnConfig>
             {
-                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = 1f, BallType = BallType.RED_ROUND }
+                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = 1f, BallType = BallType.RED_ROUND, Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.5f) },
             },
             Platforms = new List<PlatformConfig>
             {
@@ -28,25 +31,20 @@ public static class LevelRegistry
             },
             Enemies = new List<EnemyConfig>
             {
-                new EnemyConfig
-                {
-                    EnemyType = EnemyType.BIG_BAT,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.60f)
-                }
             }
         },
         new LevelConfig // Level 1
         {
             Balls = new List<BallSpawnConfig>
             {
-                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = -1f, BallType = BallType.RED_ROUND }
+                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = 1f, BallType = BallType.GREEN_ROUND, Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.5f) },
+                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = -1f, BallType = BallType.GREEN_ROUND, Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f) }
             },
-
             Platforms = new List<PlatformConfig>
             {
                 new PlatformConfig
                 {
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.60f),
+                    Position = new Vector2(screenWidth * 0.5f, screenHeight * 0.5f),
                     platformType = PlatformType.HORIZONTAL_GRAY
                 }
             },
@@ -59,16 +57,6 @@ public static class LevelRegistry
             },
             Enemies = new List<EnemyConfig>
             {
-                new EnemyConfig
-                {
-                    EnemyType = EnemyType.MINI_BAT,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.60f)
-                },
-                new EnemyConfig
-                {
-                    EnemyType = EnemyType.MINI_BAT,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.75f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.60f)
-                }
             }
         },
         new LevelConfig // Level 2
@@ -80,14 +68,7 @@ public static class LevelRegistry
                     Size = BallSize.LARGE,
                     DirectionX = -1f,
                     BallType = BallType.GREEN_SQUARED,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
-                },
-                new BallSpawnConfig 
-                { 
-                    Size = BallSize.LARGE,
-                    DirectionX = 1f,
-                    BallType = BallType.GREEN_SQUARED,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.75f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
+                    Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f - 30f)
                 }
             },
             Platforms = new List<PlatformConfig>
@@ -110,29 +91,11 @@ public static class LevelRegistry
         {
             Balls = new List<BallSpawnConfig>
             {
-                new BallSpawnConfig
-                {
-                    Size = BallSize.MEDIUM,
-                    DirectionX = -1f,
-                    BallType = BallType.GREEN_SQUARED,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
-                },
-                new BallSpawnConfig 
-                { 
-                    Size = BallSize.MEDIUM,
-                    DirectionX = 1f,
-                    BallType = BallType.GREEN_SQUARED,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.75f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
-                }
+                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = 1f, BallType = BallType.BLUE_ROUND, Position = new Vector2(screenWidth * 0.5f, screenHeight * 0.5f) },
             },
 
             Platforms = new List<PlatformConfig>
             {
-                new PlatformConfig
-                {
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.65f),
-                    platformType = PlatformType.HORIZONTAL_GRAY
-                }
             },
             backgroundStr = new List<string>
             {
@@ -143,7 +106,16 @@ public static class LevelRegistry
             },
             Enemies = new List<EnemyConfig>
             {
-
+                new EnemyConfig
+                {
+                    EnemyType = EnemyType.MINI_BAT,
+                    Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.60f)
+                },
+                new EnemyConfig
+                {
+                    EnemyType = EnemyType.MINI_BAT,
+                    Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.60f)
+                }
             }
         },
         new LevelConfig // Level 4
@@ -155,14 +127,14 @@ public static class LevelRegistry
                     Size = BallSize.MEDIUM,
                     DirectionX = -1f,
                     BallType = BallType.RED_ROUND,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
+                    Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f - 30f)
                 },
                 new BallSpawnConfig 
                 { 
                     Size = BallSize.MEDIUM,
                     DirectionX = 1f,
                     BallType = BallType.RED_ROUND,
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.75f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.5f - 30f)
+                    Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.5f - 30f)
                 }
             },
 
@@ -170,7 +142,7 @@ public static class LevelRegistry
             {
                 new PlatformConfig
                 {
-                    Position = new Vector2(Core.GraphicsDevice.PresentationParameters.Bounds.Width * 0.25f, Core.GraphicsDevice.PresentationParameters.Bounds.Height * 0.65f),
+                    Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f),
                     platformType = PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE,
                     platformState = PlatformState.Stage1
                 }
@@ -186,6 +158,86 @@ public static class LevelRegistry
             Enemies = new List<EnemyConfig>
             {
 
+            }
+        },
+        new LevelConfig // Level 5
+        {
+            Balls = new List<BallSpawnConfig>
+            {
+                new BallSpawnConfig
+                {
+                    Size = BallSize.MEDIUM,
+                    DirectionX = -1f,
+                    BallType = BallType.RED_ROUND,
+                    Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f - 30f)
+                },
+                new BallSpawnConfig 
+                {
+                    Size = BallSize.MEDIUM,
+                    DirectionX = 1f,
+                    BallType = BallType.RED_ROUND,
+                    Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.5f - 30f)
+                }
+            },
+
+            Platforms = new List<PlatformConfig>
+            {
+
+            },
+            backgroundStr = new List<string>
+            {
+                "images/backgrounds/clouds2/1",
+                "images/backgrounds/clouds2/2",
+                "images/backgrounds/clouds2/3",
+                "images/backgrounds/clouds2/4"
+            },
+            Enemies = new List<EnemyConfig>
+            {
+                new EnemyConfig
+                {
+                    EnemyType = EnemyType.BIG_BAT,
+                    Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.60f)
+                }
+            }
+        },
+        new LevelConfig // Level 6
+        {
+            Balls = new List<BallSpawnConfig>
+            {
+                new BallSpawnConfig
+                {
+                    Size = BallSize.MEDIUM,
+                    DirectionX = -1f,
+                    BallType = BallType.GREEN_SQUARED,
+                    Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f - 30f)
+                },
+                new BallSpawnConfig 
+                {
+                    Size = BallSize.MEDIUM,
+                    DirectionX = 1f,
+                    BallType = BallType.GREEN_SQUARED,
+                    Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.5f - 30f)
+                }
+            },
+
+            Platforms = new List<PlatformConfig>
+            {
+
+            },
+            backgroundStr = new List<string>
+            {
+                "images/backgrounds/clouds1/1",
+                "images/backgrounds/clouds1/2",
+                "images/backgrounds/clouds1/3",
+                "images/backgrounds/clouds1/4"
+            },
+            Enemies = new List<EnemyConfig>
+            {
+                new EnemyConfig
+                {
+                    EnemyType = EnemyType.BIG_BAT,
+                    Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.60f)
+                }
             }
         }
     };
