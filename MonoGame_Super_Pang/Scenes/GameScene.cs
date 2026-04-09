@@ -3,13 +3,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
-using MonoGameLibrary.Graphics;
 using MonoGameLibrary.Scenes;
 using MonoGame_Super_Pang.GameObjects;
 using MonoGame_Super_Pang.Config;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
 using MonoGame_Super_Pang.UI;
 using MonoGameGum;
 using MonoGame_Super_Pang.Backgrounds;
@@ -56,8 +54,6 @@ public class GameScene : Scene
 
     // The speed of the fade to grayscale effect.
     private const float FADE_SPEED = 0.02f;
-
-    private SoundEffect _blockBreakEffect;
 
     private Background _levelBackground;
 
@@ -157,8 +153,6 @@ public class GameScene : Scene
 
         // Load the font
         _font = Content.Load<SpriteFont>("fonts/04B_30");
-
-        _blockBreakEffect = Content.Load<SoundEffect>("audio/Block Break 1");
 
         LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
 
@@ -631,7 +625,7 @@ public class GameScene : Scene
                     _platforms.Add(new UnbreakablePlatform(platformSpawn.Position, platformType));
                 break;
                 case PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE:
-                    _platforms.Add(new BreakablePlatform(platformSpawn.Position, platformType, platformSpawn.platformState, _blockBreakEffect));
+                    _platforms.Add(new BreakablePlatform(platformSpawn.Position, platformType, platformSpawn.platformState));
                     
                 break;
             }

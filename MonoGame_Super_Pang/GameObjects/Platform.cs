@@ -3,6 +3,7 @@ using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -25,6 +26,8 @@ abstract public class Platform
     protected static TextureRegion _grayHorizontalPlatform;
 
     protected static List<TextureRegion> _horizontalBreakableBlueSprites;
+
+    protected static SoundEffect _breakPlatformEffect;
 
     public Platform(Vector2 position, PlatformType platformType)
     {
@@ -55,6 +58,8 @@ abstract public class Platform
             String spriteName = "largeBreakableBluePlatform"+indexPlatform;
             _horizontalBreakableBlueSprites.Add(itemsAtlas.GetRegion(spriteName));
         }
+
+        _breakPlatformEffect = Core.Content.Load<SoundEffect>("audio/Block Break 1");
 
     }
 
