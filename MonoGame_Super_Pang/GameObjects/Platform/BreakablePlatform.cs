@@ -29,6 +29,7 @@ public class BreakablePlatform : Platform
         foreach(Sprite sprite in _sprites)
         {
             sprite.Scale = new Vector2(SCALE, SCALE);
+            sprite.CenterOrigin();
         }
         _platformState = platformState;
 
@@ -69,40 +70,40 @@ public class BreakablePlatform : Platform
         {
             case PlatformState.Stage1:
                 platformBounds = new Rectangle(
-                (int)_position.X,
-                (int)_position.Y,
+                (int)(_position.X - _sprites[0].Width * 0.5f),
+                (int)(_position.Y - _sprites[0].Height * 0.5f),
                 (int)_sprites[0].Width,
                 (int)_sprites[0].Height
                 );
                 break;
             case PlatformState.Stage2:
             platformBounds = new Rectangle(
-                (int)_position.X,
-                (int)_position.Y,
+                (int)(_position.X - _sprites[1].Width * 0.5f),
+                (int)(_position.Y - _sprites[1].Height * 0.5f),
                 (int)_sprites[1].Width,
                 (int)_sprites[1].Height
                 );
                 break;
             case PlatformState.Stage3:
             platformBounds = new Rectangle(
-                (int)_position.X,
-                (int)_position.Y,
+                (int)(_position.X - _sprites[2].Width * 0.5f),
+                (int)(_position.Y - _sprites[2].Height * 0.5f),
                 (int)_sprites[2].Width,
                 (int)_sprites[2].Height
                 );
                 break;
             case PlatformState.Stage4:
             platformBounds = new Rectangle(
-                (int)_position.X,
-                (int)_position.Y,
+                (int)(_position.X - _sprites[3].Width * 0.5f),
+                (int)(_position.Y - _sprites[3].Height * 0.5f),
                 (int)_sprites[3].Width,
                 (int)_sprites[3].Height
                 );
                 break;
             case PlatformState.Stage5:
             platformBounds = new Rectangle(
-                (int)_position.X,
-                (int)_position.Y,
+                (int)(_position.X - _sprites[4].Width * 0.5f),
+                (int)(_position.Y - _sprites[4].Height * 0.5f),
                 (int)_sprites[4].Width,
                 (int)_sprites[4].Height
                 );

@@ -11,6 +11,7 @@ public class UnbreakablePlatform : Platform
     public UnbreakablePlatform(Vector2 position, PlatformType platformType) : base(position, platformType)
     {
         _sprite.Scale = new Vector2(SCALE, SCALE);
+        _sprite.CenterOrigin();
         _breakable = false;
     }
 
@@ -23,8 +24,8 @@ public class UnbreakablePlatform : Platform
     {
         // Creating a bounding rectangle for the platform
         Rectangle platformBounds = new Rectangle(
-            (int)_position.X,
-            (int)_position.Y,
+            (int)(_position.X - _sprite.Width*0.5f),
+            (int)(_position.Y - _sprite.Height*0.5f),
             (int)_sprite.Width,
             (int)_sprite.Height
         );

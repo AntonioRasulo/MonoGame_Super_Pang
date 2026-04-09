@@ -48,6 +48,25 @@ public class BouncingBall : Ball
             _velocity.Y = Math.Abs(_velocity.Y);
         }
 
+        Vector2 newPosition = Position;
+
+        // Adjust the position based on the normal to prevent sticking to walls.
+        if (normal.X != 0)
+        {
+            // We are bouncing off a vertical wall (left/right).
+            // Move slightly away from the wall in the direction of the normal.
+            newPosition.X += normal.X * (_ballSprite.Width * 0.05f);
+        }
+
+        if (normal.Y != 0)
+        {
+            // We are bouncing off a horizontal wall (top/bottom).
+            // Move slightly way from the wall in the direction of the normal.
+            newPosition.Y += normal.Y * (_ballSprite.Height * 0.05f);
+        }
+
+        Position = newPosition;
+
     }
 
     public override void Update(GameTime gameTime)

@@ -467,33 +467,19 @@ public class GameScene : Scene
             if (ballBounds.Top < _roomBounds.Top)
             {
                 ball.Bounce(Vector2.UnitY);
-                // Clamp to ceiling
-                pos.Y = _roomBounds.Top + (pos.Y - (ballBounds.Y - ballBounds.Radius));
-                ball.Position = pos;
             }
             else if (ballBounds.Bottom > _roomBounds.Bottom)
             {
                 ball.Bounce(-Vector2.UnitY);
-                // Clamp to floor
-                pos.Y = _roomBounds.Bottom - ball.spriteHeight
-                        - (ballBounds.Bottom - _roomBounds.Bottom);
-                ball.Position = pos;
             }
 
             if (ballBounds.Left < _roomBounds.Left)
             {
                 ball.Bounce(Vector2.UnitX);
-                // Clamp to left wall
-                pos.X = _roomBounds.Left + (pos.X - (ballBounds.X - ballBounds.Radius));
-                ball.Position = pos;
             }
             else if (ballBounds.Right > _roomBounds.Right)
             {
                 ball.Bounce(-Vector2.UnitX);
-                // Clamp to right wall
-                pos.X = _roomBounds.Right - ball.spriteWidth
-                        - (ballBounds.Right - _roomBounds.Right);
-                ball.Position = pos;
             }
         }
     }
