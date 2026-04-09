@@ -86,7 +86,7 @@ abstract public class Ball
             Position = ballInitialPosition;
         }
 
-        _ballSprite.Origin = new Vector2(_ballSprite.Region.Width, _ballSprite.Region.Height) * 0.5f;
+        _ballSprite.CenterOrigin();
 
     }
 
