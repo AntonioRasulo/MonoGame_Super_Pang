@@ -13,6 +13,7 @@ class Invicible : Sprite
     public Invicible(TextureRegion region) : base(region)
     {
         Scale = new Vector2(SCALE, SCALE);
+        CenterOrigin();
     }
 
 }

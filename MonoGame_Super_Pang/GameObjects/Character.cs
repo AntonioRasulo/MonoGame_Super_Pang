@@ -69,7 +69,7 @@ public class Character
 
         _characterPosition = new Vector2(
             windowWidth*0.5f, 
-            windowHeight-_idleSprite.Height);
+            windowHeight-_idleSprite.Height * 0.5f);
 
         previousKeyboardState = Keyboard.GetState();
 
@@ -83,12 +83,15 @@ public class Character
 
         _idleSprite = characterAtlas.CreateSprite("characterStanding");
         _idleSprite.Scale = SCALE;
+        _idleSprite.CenterOrigin();
 
         _walkAnimation = characterAtlas.CreateAnimatedSprite("walk-animation");
         _walkAnimation.Scale = SCALE;
+        _walkAnimation.CenterOrigin();
 
         _shootAnimation = characterAtlas.CreateAnimatedSprite("shooting-animation");
         _shootAnimation.Scale = SCALE;
+        _shootAnimation.CenterOrigin();
 
         // Retrieve harpoons frames
         List<TextureRegion> harpoonFrames = new List<TextureRegion>();
@@ -245,12 +248,12 @@ public class Character
         // move it back inside.
         if (characterBounds.Left < screenBounds.Left)
         {
-            newCharPosition.X = screenBounds.Left;
+            newCharPosition.X = screenBounds.Left + getWidth() * 0.5f;
             _characterPosition = newCharPosition;
         }
         else if (characterBounds.Right > screenBounds.Right)
         {
-            newCharPosition.X = screenBounds.Right - getWidth();
+            newCharPosition.X = screenBounds.Right - getWidth() * 0.5f;
             _characterPosition = newCharPosition;
         }
     }
@@ -267,7 +270,7 @@ public class Character
 
         if(_invinciblePowerUp.isActive && _isVisible)
         {
-            Vector2 invinciblePowerUpPos = new Vector2(_characterPosition.X, _characterPosition.Y - 20.0f);
+            Vector2 invinciblePowerUpPos = new Vector2(_characterPosition.X, _characterPosition.Y);
             _invinciblePowerUp.Draw(Core.SpriteBatch, invinciblePowerUpPos);
         }
 
@@ -290,8 +293,8 @@ public class Character
     {
         // Creating a bounding rectangle for the character
         Rectangle characterBounds = new Rectangle(
-            (int)_characterPosition.X,
-            (int)_characterPosition.Y,
+            (int)(_characterPosition.X - _idleSprite.Width*0.5f),
+            (int)(_characterPosition.Y - _idleSprite.Height*0.5f),
             (int)_idleSprite.Width,
             (int)_idleSprite.Height
         );
@@ -308,7 +311,7 @@ public class Character
     {
         AnimatedSprite newHarpoon = new AnimatedSprite(_harpoonAnimation);
 
-        _harpoons.Add(new Harpoon(newHarpoon, _characterPosition.X + (_shootAnimation.Width*0.5f), 720));
+        _harpoons.Add(new Harpoon(newHarpoon, _characterPosition.X, 720));
     }
 
     public void activateImmunity(bool fromPowerUp = false)
