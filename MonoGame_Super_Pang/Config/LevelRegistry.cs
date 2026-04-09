@@ -186,10 +186,12 @@ public static class LevelRegistry
             },
             backgroundStr = new List<string>
             {
-                "images/backgrounds/clouds2/1",
-                "images/backgrounds/clouds2/2",
-                "images/backgrounds/clouds2/3",
-                "images/backgrounds/clouds2/4"
+                "images/backgrounds/clouds6/1",
+                "images/backgrounds/clouds6/2",
+                "images/backgrounds/clouds6/3",
+                "images/backgrounds/clouds6/4",
+                "images/backgrounds/clouds6/5",
+                "images/backgrounds/clouds6/6"
             },
             Enemies = new List<EnemyConfig>
             {
