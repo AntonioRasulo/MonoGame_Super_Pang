@@ -1,14 +1,14 @@
-using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using MonoGameLibrary;
-using MonoGameLibrary.Graphics;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
 public enum EnemyType
 {
     BIG_BAT,
-    MINI_BAT
+    MINI_BAT,
+    FLYING_DEMON
 }
 
 abstract public class Enemy
@@ -30,6 +30,8 @@ abstract public class Enemy
 
     protected bool _toRemove;
 
+    public List<Bullet> _bullets;
+
     /// <summary>
     /// Creates a new Bat using the specified animated sprite and sound effect.
     /// </summary>
@@ -37,6 +39,7 @@ abstract public class Enemy
     public Enemy(Vector2 position)
     {
         _position = position;
+        _bullets = new List<Bullet>();
     }
 
     /// <summary>
@@ -70,5 +73,9 @@ abstract public class Enemy
     {
         return _toRemove;
     }
+
+    protected abstract void LoadContent();
+
+    protected abstract void UpdateMovement(GameTime gameTime);
 
 }

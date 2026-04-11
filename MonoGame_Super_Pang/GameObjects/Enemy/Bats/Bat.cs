@@ -95,10 +95,6 @@ abstract public class Bat : Enemy
 
     }
 
-    protected abstract void UpdateMovement(GameTime gameTime);
-
-    protected abstract void LoadContent();
-
     private void UpdateDisappear(GameTime gameTime)
     {
         float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;

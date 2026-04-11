@@ -1,9 +1,6 @@
-using System;
 using MonoGameLibrary;
 using Microsoft.Xna.Framework;
 using MonoGameLibrary.Graphics;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -20,14 +17,10 @@ public class Harpoon
     {
         _harpoonAnimation = harpoonAnimation;
 
-        _harpoonAnimation.Origin = new Vector2(_harpoonAnimation.Width *0.5f,_harpoonAnimation.Height);
+        _harpoonAnimation.Origin = new Vector2(_harpoonAnimation.Width *0.5f, _harpoonAnimation.Height);
+        _harpoonAnimation.Scale = new Vector2(SCALE, SCALE);
 
         _position = new Vector2(positionX, positionY);
-
-    }
-
-    public void Initialize(float positionX)
-    {
 
     }
 
@@ -39,7 +32,6 @@ public class Harpoon
 
     public void Draw()
     {
-        _harpoonAnimation.Scale = new Vector2(SCALE, SCALE);
         _harpoonAnimation.Draw(Core.SpriteBatch, _position);
     }
 

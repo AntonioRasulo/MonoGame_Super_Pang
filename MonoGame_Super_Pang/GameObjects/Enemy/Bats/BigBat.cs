@@ -43,7 +43,7 @@ public class BigBat : Bat
     private void UpdateTargetPosition()
     {
         int targetY = (int)_position.Y;
-        while(!(targetY > _position.Y + _landAnimation.Height*0.5f || targetY < _position.Y - _landAnimation.Height*0.5f))
+        while(!(targetY > _position.Y + _idleAnimation.Height*0.5f || targetY < _position.Y - _idleAnimation.Height*0.5f))
         {
             targetY = _positionRand.Next(minPosY, maxPosY);
         }

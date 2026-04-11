@@ -241,6 +241,32 @@ public static class LevelRegistry
                     Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.60f)
                 }
             }
+        },
+        new LevelConfig // Level 7
+        {
+            Balls = new List<BallSpawnConfig>
+            {
+            },
+
+            Platforms = new List<PlatformConfig>
+            {
+
+            },
+            backgroundStr = new List<string>
+            {
+                "images/backgrounds/clouds7/1",
+                "images/backgrounds/clouds7/2",
+                "images/backgrounds/clouds7/3",
+                "images/backgrounds/clouds7/4"
+            },
+            Enemies = new List<EnemyConfig>
+            {
+                new EnemyConfig
+                {
+                    EnemyType = EnemyType.FLYING_DEMON,
+                    Position = new Vector2(screenWidth * 0.5f, screenHeight * 0.25f)
+                }
+            }
         }
     };
 }

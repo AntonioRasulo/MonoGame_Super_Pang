@@ -24,7 +24,7 @@ public class Character
     private KeyboardState previousKeyboardState;
 
     // Tracks the position of the character.
-    public Vector2 _characterPosition { get; set; }
+    public static Vector2 _characterPosition { get; set; }
 
     private Sprite _idleSprite;
     private AnimatedSprite _walkAnimation;

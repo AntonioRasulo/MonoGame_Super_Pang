@@ -347,14 +347,24 @@ public class GameScene : Scene
             Rectangle enemyBounds = enemy.GetBounds();
             if (characterBounds.Intersects(enemyBounds) && (_character.IsImmune == false))
             {
-                _score--;
-                _character.activateImmunity();
-                _ui.UpdateLivesText(_character.getLives());
-                // Update the score display on the UI.
-                _ui.UpdateScoreText(_score);
-                if(_character.isAlive() == false)
+                if(HandleCharHit() == false)
                     return;
             }
+
+            List<Bullet> bulletsToRemove = new List<Bullet>();
+            /* Enemy bullets - character collision */
+            foreach(Bullet bullet in enemy._bullets)
+            {
+                Circle bulletBound = bullet.GetBounds();
+                if(areIntersecting(bulletBound, characterBounds))
+                {
+                    if(HandleCharHit() == false)
+                        return;
+                    bulletsToRemove.Add(bullet);
+                }
+            }
+            
+            enemy._bullets.RemoveAll(bullet => bulletsToRemove.Contains(bullet));
         }
 
         /* Platform - Ball collision check */
@@ -411,12 +421,7 @@ public class GameScene : Scene
         {
             if(areIntersecting(ball.GetBounds(), characterBounds) && (_character.IsImmune == false))
             {
-                _score--;
-                _character.activateImmunity();
-                _ui.UpdateLivesText(_character.getLives());
-                // Update the score display on the UI.
-                _ui.UpdateScoreText(_score);
-                if(_character.isAlive() == false)
+                if(HandleCharHit() == false)
                     return;
             }
         }
@@ -478,9 +483,19 @@ public class GameScene : Scene
         }
     }
 
+    private bool HandleCharHit()
+    {
+        _score--;
+        _character.activateImmunity();
+        _ui.UpdateLivesText(_character.getLives());
+        // Update the score display on the UI.
+        _ui.UpdateScoreText(_score);
+        return _character.isAlive();
+    }
+
     private void checkChangeScene()
     {
-        if(_balls.Count == 0)
+        if(_balls.Count == 0 && _enemies.Count == 0)
         {
             _score -= _ui.getTimer();
             if(_score < 0)
@@ -649,6 +664,9 @@ public class GameScene : Scene
             break;
             case EnemyType.MINI_BAT:
                 _enemies.Add(new MiniBat(enemyConfig.Position));
+            break;
+            case EnemyType.FLYING_DEMON:
+                _enemies.Add(new FlyingDemon(enemyConfig.Position));
             break;
             }
         }
