@@ -13,71 +13,59 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin atlas.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:atlas.png
-
-#begin audio/14. Traveling the Sky.mp3
+#begin audio/Music/14. Traveling the Sky.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:audio/14. Traveling the Sky.mp3
+/build:audio/Music/14. Traveling the Sky.mp3
 
-#begin audio/15. Volcanic Crater.mp3
+#begin audio/Music/15. Volcanic Crater.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:audio/15. Volcanic Crater.mp3
+/build:audio/Music/15. Volcanic Crater.mp3
 
-#begin audio/16. Battle Theme III (loop).mp3
+#begin audio/Music/16. Battle Theme III (loop).mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:audio/16. Battle Theme III (loop).mp3
+/build:audio/Music/16. Battle Theme III (loop).mp3
 
-#begin audio/Balloon Pop 1.wav
+#begin audio/Sound effects/Balloon Pop 1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:audio/Balloon Pop 1.wav
+/build:audio/Sound effects/Balloon Pop 1.wav
 
-#begin audio/Block Break 1.wav
+#begin audio/Sound effects/Block Break 1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:audio/Block Break 1.wav
+/build:audio/Sound effects/Block Break 1.wav
 
-#begin audio/Boss hit 1.wav
+#begin audio/Sound effects/Boss hit 1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:audio/Boss hit 1.wav
+/build:audio/Sound effects/Boss hit 1.wav
 
-#begin audio/bounce.wav
+#begin audio/Sound effects/bounce.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:audio/bounce.wav
+/build:audio/Sound effects/bounce.wav
 
-#begin audio/Confirm 1.wav
+#begin audio/Sound effects/Confirm 1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:audio/Confirm 1.wav
+/build:audio/Sound effects/Confirm 1.wav
 
-#begin audio/Fruit collect 1.wav
+#begin audio/Sound effects/Fruit collect 1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:audio/Fruit collect 1.wav
+/build:audio/Sound effects/Fruit collect 1.wav
 
 #begin effects/grayscaleEffect.fx
 /importer:EffectImporter
@@ -102,7 +90,7 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/04B_30.spritefont
 
-#begin images/atlas.png
+#begin images/UI/atlas.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -112,7 +100,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/atlas.png
+/build:images/UI/atlas.png
 
 #begin images/backgrounds/clouds1/1.png
 /importer:TextureImporter
@@ -486,10 +474,10 @@
 /processorParam:TextureFormat=Color
 /build:images/backgrounds/clouds7/4.png
 
-#begin images/baloons_atlas.xml
-/copy:images/baloons_atlas.xml
+#begin images/balls/baloons_atlas.xml
+/copy:images/balls/baloons_atlas.xml
 
-#begin images/baloons.png
+#begin images/balls/baloons.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=128,0,255,255
@@ -499,12 +487,12 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/baloons.png
+/build:images/balls/baloons.png
 
-#begin images/character_atlas.xml
-/copy:images/character_atlas.xml
+#begin images/Character/character_atlas.xml
+/copy:images/Character/character_atlas.xml
 
-#begin images/character.png
+#begin images/Character/character.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -514,7 +502,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/character.png
+/build:images/Character/character.png
 
 #begin images/Coins/chest_atlas.xml
 /copy:images/Coins/chest_atlas.xml
@@ -687,7 +675,7 @@
 #begin images/GUI_atlas.xml
 /copy:images/GUI_atlas.xml
 
-#begin images/HexagonGreenBall.png
+#begin images/balls/HexagonGreenBall.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=128,0,255,255
@@ -697,9 +685,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/HexagonGreenBall.png
+/build:images/balls/HexagonGreenBall.png
 
-#begin images/items_100.png
+#begin images/harpoons/items_100.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -709,9 +697,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_100.png
+/build:images/harpoons/items_100.png
 
-#begin images/items_101.png
+#begin images/harpoons/items_101.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -721,9 +709,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_101.png
+/build:images/harpoons/items_101.png
 
-#begin images/items_102.png
+#begin images/harpoons/items_102.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -733,9 +721,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_102.png
+/build:images/harpoons/items_102.png
 
-#begin images/items_103.png
+#begin images/harpoons/items_103.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -745,9 +733,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_103.png
+/build:images/harpoons/items_103.png
 
-#begin images/items_104.png
+#begin images/harpoons/items_104.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -757,9 +745,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_104.png
+/build:images/harpoons/items_104.png
 
-#begin images/items_105.png
+#begin images/harpoons/items_105.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -769,9 +757,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_105.png
+/build:images/harpoons/items_105.png
 
-#begin images/items_106.png
+#begin images/harpoons/items_106.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -781,9 +769,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_106.png
+/build:images/harpoons/items_106.png
 
-#begin images/items_107.png
+#begin images/harpoons/items_107.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -793,9 +781,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_107.png
+/build:images/harpoons/items_107.png
 
-#begin images/items_108.png
+#begin images/harpoons/items_108.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -805,9 +793,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_108.png
+/build:images/harpoons/items_108.png
 
-#begin images/items_109.png
+#begin images/harpoons/items_109.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -817,9 +805,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_109.png
+/build:images/harpoons/items_109.png
 
-#begin images/items_110.png
+#begin images/harpoons/items_110.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -829,9 +817,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_110.png
+/build:images/harpoons/items_110.png
 
-#begin images/items_111.png
+#begin images/harpoons/items_111.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -841,9 +829,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_111.png
+/build:images/harpoons/items_111.png
 
-#begin images/items_112.png
+#begin images/harpoons/items_112.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -853,9 +841,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_112.png
+/build:images/harpoons/items_112.png
 
-#begin images/items_113.png
+#begin images/harpoons/items_113.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -865,9 +853,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_113.png
+/build:images/harpoons/items_113.png
 
-#begin images/items_114.png
+#begin images/harpoons/items_114.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -877,9 +865,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_114.png
+/build:images/harpoons/items_114.png
 
-#begin images/items_115.png
+#begin images/harpoons/items_115.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -889,9 +877,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_115.png
+/build:images/harpoons/items_115.png
 
-#begin images/items_116.png
+#begin images/harpoons/items_116.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -901,9 +889,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_116.png
+/build:images/harpoons/items_116.png
 
-#begin images/items_117.png
+#begin images/harpoons/items_117.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -913,9 +901,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_117.png
+/build:images/harpoons/items_117.png
 
-#begin images/items_118.png
+#begin images/harpoons/items_118.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -925,9 +913,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_118.png
+/build:images/harpoons/items_118.png
 
-#begin images/items_119.png
+#begin images/harpoons/items_119.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -937,9 +925,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_119.png
+/build:images/harpoons/items_119.png
 
-#begin images/items_120.png
+#begin images/harpoons/items_120.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -949,9 +937,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_120.png
+/build:images/harpoons/items_120.png
 
-#begin images/items_121.png
+#begin images/harpoons/items_121.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -961,9 +949,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_121.png
+/build:images/harpoons/items_121.png
 
-#begin images/items_122.png
+#begin images/harpoons/items_122.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -973,9 +961,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_122.png
+/build:images/harpoons/items_122.png
 
-#begin images/items_123.png
+#begin images/harpoons/items_123.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -985,9 +973,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_123.png
+/build:images/harpoons/items_123.png
 
-#begin images/items_124.png
+#begin images/harpoons/items_124.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -997,9 +985,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_124.png
+/build:images/harpoons/items_124.png
 
-#begin images/items_125.png
+#begin images/harpoons/items_125.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1009,9 +997,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_125.png
+/build:images/harpoons/items_125.png
 
-#begin images/items_126.png
+#begin images/harpoons/items_126.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1021,9 +1009,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_126.png
+/build:images/harpoons/items_126.png
 
-#begin images/items_127.png
+#begin images/harpoons/items_127.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1033,9 +1021,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_127.png
+/build:images/harpoons/items_127.png
 
-#begin images/items_128.png
+#begin images/harpoons/items_128.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1045,9 +1033,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_128.png
+/build:images/harpoons/items_128.png
 
-#begin images/items_129.png
+#begin images/harpoons/items_129.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1057,9 +1045,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_129.png
+/build:images/harpoons/items_129.png
 
-#begin images/items_130.png
+#begin images/harpoons/items_130.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1069,9 +1057,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_130.png
+/build:images/harpoons/items_130.png
 
-#begin images/items_131.png
+#begin images/harpoons/items_131.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1081,9 +1069,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_131.png
+/build:images/harpoons/items_131.png
 
-#begin images/items_132.png
+#begin images/harpoons/items_132.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1093,9 +1081,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_132.png
+/build:images/harpoons/items_132.png
 
-#begin images/items_133.png
+#begin images/harpoons/items_133.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1105,9 +1093,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_133.png
+/build:images/harpoons/items_133.png
 
-#begin images/items_134.png
+#begin images/harpoons/items_134.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1117,9 +1105,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_134.png
+/build:images/harpoons/items_134.png
 
-#begin images/items_135.png
+#begin images/harpoons/items_135.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1129,9 +1117,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_135.png
+/build:images/harpoons/items_135.png
 
-#begin images/items_136.png
+#begin images/harpoons/items_136.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1141,9 +1129,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_136.png
+/build:images/harpoons/items_136.png
 
-#begin images/items_137.png
+#begin images/harpoons/items_137.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1153,9 +1141,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_137.png
+/build:images/harpoons/items_137.png
 
-#begin images/items_138.png
+#begin images/harpoons/items_138.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1165,9 +1153,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_138.png
+/build:images/harpoons/items_138.png
 
-#begin images/items_139.png
+#begin images/harpoons/items_139.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1177,9 +1165,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_139.png
+/build:images/harpoons/items_139.png
 
-#begin images/items_140.png
+#begin images/harpoons/items_140.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1189,9 +1177,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_140.png
+/build:images/harpoons/items_140.png
 
-#begin images/items_141.png
+#begin images/harpoons/items_141.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1201,9 +1189,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_141.png
+/build:images/harpoons/items_141.png
 
-#begin images/items_142.png
+#begin images/harpoons/items_142.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1213,9 +1201,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_142.png
+/build:images/harpoons/items_142.png
 
-#begin images/items_143.png
+#begin images/harpoons/items_143.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1225,9 +1213,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_143.png
+/build:images/harpoons/items_143.png
 
-#begin images/items_144.png
+#begin images/harpoons/items_144.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1237,9 +1225,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_144.png
+/build:images/harpoons/items_144.png
 
-#begin images/items_145.png
+#begin images/harpoons/items_145.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1249,9 +1237,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_145.png
+/build:images/harpoons/items_145.png
 
-#begin images/items_146.png
+#begin images/harpoons/items_146.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1261,9 +1249,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_146.png
+/build:images/harpoons/items_146.png
 
-#begin images/items_147.png
+#begin images/harpoons/items_147.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1273,9 +1261,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_147.png
+/build:images/harpoons/items_147.png
 
-#begin images/items_148.png
+#begin images/harpoons/items_148.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1285,9 +1273,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_148.png
+/build:images/harpoons/items_148.png
 
-#begin images/items_149.png
+#begin images/harpoons/items_149.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1297,9 +1285,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_149.png
+/build:images/harpoons/items_149.png
 
-#begin images/items_150.png
+#begin images/harpoons/items_150.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1309,9 +1297,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_150.png
+/build:images/harpoons/items_150.png
 
-#begin images/items_151.png
+#begin images/harpoons/items_151.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1321,9 +1309,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_151.png
+/build:images/harpoons/items_151.png
 
-#begin images/items_152.png
+#begin images/harpoons/items_152.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1333,9 +1321,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_152.png
+/build:images/harpoons/items_152.png
 
-#begin images/items_153.png
+#begin images/harpoons/items_153.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1345,9 +1333,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_153.png
+/build:images/harpoons/items_153.png
 
-#begin images/items_154.png
+#begin images/harpoons/items_154.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1357,9 +1345,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_154.png
+/build:images/harpoons/items_154.png
 
-#begin images/items_155.png
+#begin images/harpoons/items_155.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1369,9 +1357,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_155.png
+/build:images/harpoons/items_155.png
 
-#begin images/items_156.png
+#begin images/harpoons/items_156.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1381,9 +1369,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_156.png
+/build:images/harpoons/items_156.png
 
-#begin images/items_157.png
+#begin images/harpoons/items_157.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1393,9 +1381,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_157.png
+/build:images/harpoons/items_157.png
 
-#begin images/items_158.png
+#begin images/harpoons/items_158.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1405,9 +1393,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_158.png
+/build:images/harpoons/items_158.png
 
-#begin images/items_159.png
+#begin images/harpoons/items_159.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1417,9 +1405,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_159.png
+/build:images/harpoons/items_159.png
 
-#begin images/items_160.png
+#begin images/harpoons/items_160.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1429,9 +1417,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_160.png
+/build:images/harpoons/items_160.png
 
-#begin images/items_161.png
+#begin images/harpoons/items_161.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1441,9 +1429,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_161.png
+/build:images/harpoons/items_161.png
 
-#begin images/items_162.png
+#begin images/harpoons/items_162.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1453,9 +1441,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_162.png
+/build:images/harpoons/items_162.png
 
-#begin images/items_163.png
+#begin images/harpoons/items_163.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1465,9 +1453,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_163.png
+/build:images/harpoons/items_163.png
 
-#begin images/items_164.png
+#begin images/harpoons/items_164.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1477,9 +1465,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_164.png
+/build:images/harpoons/items_164.png
 
-#begin images/items_165.png
+#begin images/harpoons/items_165.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1489,9 +1477,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_165.png
+/build:images/harpoons/items_165.png
 
-#begin images/items_166.png
+#begin images/harpoons/items_166.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1501,9 +1489,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_166.png
+/build:images/harpoons/items_166.png
 
-#begin images/items_167.png
+#begin images/harpoons/items_167.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1513,9 +1501,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_167.png
+/build:images/harpoons/items_167.png
 
-#begin images/items_168.png
+#begin images/harpoons/items_168.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1525,9 +1513,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_168.png
+/build:images/harpoons/items_168.png
 
-#begin images/items_169.png
+#begin images/harpoons/items_169.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1537,9 +1525,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_169.png
+/build:images/harpoons/items_169.png
 
-#begin images/items_170.png
+#begin images/harpoons/items_170.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1549,12 +1537,12 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items_170.png
+/build:images/harpoons/items_170.png
 
 #begin images/items-atlas.xml
 /copy:images/items-atlas.xml
 
-#begin images/items.png
+#begin images/Items/items.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=103,150,86,255
@@ -1564,9 +1552,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/items.png
+/build:images/Items/items.png
 
-#begin images/Terrain (16x16).png
+#begin images/platforms/Terrain (16x16).png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,255,255,255
@@ -1576,10 +1564,10 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/Terrain (16x16).png
+/build:images/platforms/Terrain (16x16).png
 
-#begin images/terrain_atlas.xml
-/copy:images/terrain_atlas.xml
+#begin images/platforms/terrain_atlas.xml
+/copy:images/platforms/terrain_atlas.xml
 
 #begin images/UI/Book_atlas.xml
 /copy:images/UI/Book_atlas.xml
