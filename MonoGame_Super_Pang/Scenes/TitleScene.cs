@@ -88,9 +88,9 @@ public class TitleScene : Scene
         "saves"
     );
 
-    private readonly string PATH1 = _saveDirectory + "/pStats1.json";
-    private readonly string PATH2 = _saveDirectory + "/pStats2.json";
-    private readonly string PATH3 = _saveDirectory + "/pStats3.json";
+    private readonly string PATH1 = _saveDirectory + "/pStats1";
+    private readonly string PATH2 = _saveDirectory + "/pStats2";
+    private readonly string PATH3 = _saveDirectory + "/pStats3";
 
     private PlayerStats pStats1;
     private PlayerStats pStats2;
