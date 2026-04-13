@@ -9,8 +9,17 @@ namespace MonoGame_Super_Pang.GameObjects;
 
 public enum PlatformType
 {
-    HORIZONTAL_GRAY,
+    GRAY,
+    BROWN,
+    CARAMEL,
+    GOLD,
     BREAKABLE_LARGE_HORIZONTAL_BLUE
+};
+
+public enum PlatformRotation
+{
+    VERTICAL,
+    HORIZONTAL
 };
 
 abstract public class Platform
@@ -23,17 +32,23 @@ abstract public class Platform
 
     protected bool _breakable;
 
-    protected static TextureRegion _grayHorizontalPlatform;
+    protected static TextureRegion _grayPlatform;
+    protected static TextureRegion _goldPlatform;
+    protected static TextureRegion _caramelPlatform;
+    protected static TextureRegion _brownPlatform;
 
     protected static List<TextureRegion> _horizontalBreakableBlueSprites;
 
     protected static SoundEffect _breakPlatformEffect;
 
-    public Platform(Vector2 position, PlatformType platformType)
+    protected PlatformRotation _rotation;
+
+    public Platform(Vector2 position, PlatformType platformType, PlatformRotation rotation)
     {
         LoadSprite();
         _position = position;
         _platformType = platformType;
+        _rotation = rotation;
     }
 
     public abstract void Draw();
@@ -47,10 +62,13 @@ abstract public class Platform
 
     public static void LoadContent()
     {
-        TextureAtlas platformAtlas = TextureAtlas.FromFile(Core.Content, "images/terrain_atlas.xml");
+        TextureAtlas platformAtlas = TextureAtlas.FromFile(Core.Content, "images/platforms/terrain_atlas.xml");
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/items-atlas.xml");
 
-        _grayHorizontalPlatform = platformAtlas.GetRegion("horizontalGrayPlatform");
+        _grayPlatform = platformAtlas.GetRegion("GrayPlatform");
+        _goldPlatform = platformAtlas.GetRegion("GoldPlatform");
+        _brownPlatform = platformAtlas.GetRegion("BrownPlatform");
+        _caramelPlatform = platformAtlas.GetRegion("CaramelPlatform");
 
         _horizontalBreakableBlueSprites = new List<TextureRegion>();
         for(int indexPlatform = 1; indexPlatform<=5; indexPlatform++)
@@ -61,6 +79,20 @@ abstract public class Platform
 
         _breakPlatformEffect = Core.Content.Load<SoundEffect>("audio/Block Break 1");
 
+    }
+
+    protected Rectangle RotatePlatform(Rectangle rect)
+    {
+        // 90° and 270° swap width and height, re-centered on the same point
+        float cx = rect.X + rect.Width * 0.5f;
+        float cy = rect.Y + rect.Height * 0.5f;
+
+        return new Rectangle(
+            (int)(cx - rect.Height / 2f),
+            (int)(cy - rect.Width / 2f),
+            rect.Height,
+            rect.Width
+        );
     }
 
     protected abstract void LoadSprite();

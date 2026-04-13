@@ -21,12 +21,16 @@ public class BreakablePlatform : Platform
     private List<Sprite> _sprites;
     private PlatformState _platformState;
 
-    public BreakablePlatform(Vector2 position, PlatformType platformType, PlatformState platformState) : base(position, platformType)
+    public BreakablePlatform(Vector2 position, PlatformType platformType, PlatformState platformState, PlatformRotation rotation) : base(position, platformType, rotation)
     {
         foreach(Sprite sprite in _sprites)
         {
             sprite.Scale = new Vector2(SCALE, SCALE);
             sprite.CenterOrigin();
+            if(_rotation == PlatformRotation.VERTICAL)
+            {
+                sprite.Rotation = float.DegreesToRadians(90);
+            }
         }
         _platformState = platformState;
 
@@ -110,6 +114,11 @@ public class BreakablePlatform : Platform
                 break;
         }
 
+        if(_rotation == PlatformRotation.VERTICAL)
+        {
+            platformBounds = RotatePlatform(platformBounds);
+        }
+
         return platformBounds;
     }
 
@@ -148,7 +157,7 @@ public class BreakablePlatform : Platform
     {
         _sprites = _platformType switch
         {
-            PlatformType.HORIZONTAL_GRAY => LoadHorizontalGraySprite(),
+            PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE => LoadHorizontalGraySprite(),
             _ => LoadHorizontalGraySprite()
         };
     }

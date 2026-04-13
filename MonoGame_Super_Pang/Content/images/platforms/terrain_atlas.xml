@@ -2,8 +2,11 @@
 <TextureAtlas>
     <Texture>images/Terrain (16x16)</Texture>
         <Regions>
-        <Region name="horizontalGrayPlatform" x="192" y="64" width="48" height="16" />
-    </Regions>
+            <Region name="BrownPlatform" x="192" y="0" width="48" height="16" />
+            <Region name="GrayPlatform" x="192" y="64" width="48" height="16" />
+            <Region name="CaramelPlatform" x="192" y="128" width="48" height="16" />
+            <Region name="GoldPlatform" x="272" y="128" width="48" height="16" />
+        </Regions>
     <Animations>
 
     </Animations>

@@ -45,7 +45,8 @@ public static class LevelRegistry
                 new PlatformConfig
                 {
                     Position = new Vector2(screenWidth * 0.5f, screenHeight * 0.5f),
-                    platformType = PlatformType.HORIZONTAL_GRAY
+                    Rotation = PlatformRotation.HORIZONTAL,
+                    platformType = PlatformType.GRAY
                 }
             },
             backgroundStr = new List<string>
@@ -59,7 +60,7 @@ public static class LevelRegistry
             {
             }
         },
-        new LevelConfig // Level 2
+        new LevelConfig // Level 4
         {
             Balls = new List<BallSpawnConfig>
             {
@@ -87,7 +88,7 @@ public static class LevelRegistry
 
             }
         },
-        new LevelConfig // Level 3
+        new LevelConfig // Level 5
         {
             Balls = new List<BallSpawnConfig>
             {
@@ -118,7 +119,7 @@ public static class LevelRegistry
                 }
             }
         },
-        new LevelConfig // Level 4
+        new LevelConfig // Level 6
         {
             Balls = new List<BallSpawnConfig>
             {
@@ -143,6 +144,7 @@ public static class LevelRegistry
                 new PlatformConfig
                 {
                     Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f),
+                    Rotation = PlatformRotation.HORIZONTAL,
                     platformType = PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE,
                     platformState = PlatformState.Stage1
                 }
@@ -160,7 +162,7 @@ public static class LevelRegistry
 
             }
         },
-        new LevelConfig // Level 5
+        new LevelConfig // Level 7
         {
             Balls = new List<BallSpawnConfig>
             {
@@ -202,7 +204,7 @@ public static class LevelRegistry
                 }
             }
         },
-        new LevelConfig // Level 6
+        new LevelConfig // Level 8
         {
             Balls = new List<BallSpawnConfig>
             {
@@ -242,7 +244,62 @@ public static class LevelRegistry
                 }
             }
         },
-        new LevelConfig // Level 7
+        new LevelConfig
+        {
+            Balls = new List<BallSpawnConfig>
+            {
+                new BallSpawnConfig
+                {
+                    Size = BallSize.MEDIUM,
+                    DirectionX = -1f,
+                    BallType = BallType.BLUE_ROUND,
+                    Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f - 30f)
+                },
+                new BallSpawnConfig
+                {
+                    Size = BallSize.MEDIUM,
+                    DirectionX = -1f,
+                    BallType = BallType.RED_ROUND,
+                    Position = new Vector2(screenWidth * 0.5f, screenHeight * 0.5f - 30f)
+                },
+                new BallSpawnConfig 
+                {
+                    Size = BallSize.MEDIUM,
+                    DirectionX = 1f,
+                    BallType = BallType.GREEN_ROUND,
+                    Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.5f - 30f)
+                }
+            },
+            Platforms = new List<PlatformConfig>
+            {
+                new PlatformConfig
+                {
+                    Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f),
+                    Rotation = PlatformRotation.VERTICAL,
+                    platformType = PlatformType.BROWN
+                },
+                new PlatformConfig
+                {
+                    Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.5f),
+                    Rotation = PlatformRotation.VERTICAL,
+                    platformType = PlatformType.BROWN
+                }
+            },
+            backgroundStr = new List<string>
+            {
+                "images/backgrounds/clouds8/1",
+                "images/backgrounds/clouds8/2",
+                "images/backgrounds/clouds8/3",
+                "images/backgrounds/clouds8/4",
+                "images/backgrounds/clouds8/5",
+                "images/backgrounds/clouds8/6"
+            },
+            Enemies = new List<EnemyConfig>
+            {
+                
+            }
+        },
+        new LevelConfig // Level 9
         {
             Balls = new List<BallSpawnConfig>
             {

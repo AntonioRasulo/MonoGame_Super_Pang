@@ -636,12 +636,14 @@ public class GameScene : Scene
             PlatformType platformType = platformSpawn.platformType;
             switch (platformType)
             {
-                case PlatformType.HORIZONTAL_GRAY:
-                    _platforms.Add(new UnbreakablePlatform(platformSpawn.Position, platformType));
+                case PlatformType.BROWN:
+                case PlatformType.CARAMEL:
+                case PlatformType.GOLD:
+                case PlatformType.GRAY:
+                    _platforms.Add(new UnbreakablePlatform(platformSpawn.Position, platformType, platformSpawn.Rotation));
                 break;
                 case PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE:
-                    _platforms.Add(new BreakablePlatform(platformSpawn.Position, platformType, platformSpawn.platformState));
-                    
+                    _platforms.Add(new BreakablePlatform(platformSpawn.Position, platformType, platformSpawn.platformState, platformSpawn.Rotation));
                 break;
             }
         }

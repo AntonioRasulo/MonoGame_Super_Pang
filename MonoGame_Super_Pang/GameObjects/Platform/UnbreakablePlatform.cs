@@ -8,10 +8,14 @@ public class UnbreakablePlatform : Platform
 {
     private Sprite _sprite;
 
-    public UnbreakablePlatform(Vector2 position, PlatformType platformType) : base(position, platformType)
+    public UnbreakablePlatform(Vector2 position, PlatformType platformType, PlatformRotation rotation) : base(position, platformType, rotation)
     {
         _sprite.Scale = new Vector2(SCALE, SCALE);
         _sprite.CenterOrigin();
+        if (_rotation == PlatformRotation.VERTICAL)
+        {
+            _sprite.Rotation = float.DegreesToRadians(90);
+        }
         _breakable = false;
     }
 
@@ -30,6 +34,11 @@ public class UnbreakablePlatform : Platform
             (int)_sprite.Height
         );
 
+        if(_rotation == PlatformRotation.VERTICAL)
+        {
+            platformBounds = RotatePlatform(platformBounds);
+        }
+
         return platformBounds;
     }
 
@@ -37,8 +46,11 @@ public class UnbreakablePlatform : Platform
     {
         _sprite = _platformType switch
         {
-            PlatformType.HORIZONTAL_GRAY => new Sprite(_grayHorizontalPlatform),
-            _ => new Sprite(_grayHorizontalPlatform)
+            PlatformType.GRAY => new Sprite(_grayPlatform),
+            PlatformType.BROWN => new Sprite(_brownPlatform),
+            PlatformType.CARAMEL => new Sprite(_caramelPlatform),
+            PlatformType.GOLD => new Sprite(_goldPlatform),
+            _ => new Sprite()
         };
     }
 }
