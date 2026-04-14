@@ -11,7 +11,6 @@ using MonoGameGum;
 using MonoGameGum.GueDeriving;
 using MonoGame_Super_Pang.UI;
 using MonoGameLibrary.Graphics;
-using Microsoft.Xna.Framework.Audio;
 using MonoGame_Super_Pang.Backgrounds;
 using MonoGame_Super_Pang.Config;
 using System.Collections.Generic;
@@ -20,14 +19,15 @@ namespace MonoGame_Super_Pang.Scenes;
 
 public class TitleScene : Scene
 {
-    private Panel _titleScreenButtonsPanel;
+    private TitlePanelManager _panelManager;
+    // private Panel _titleScreenButtonsPanel;
     private Panel _optionsPanel;
     private Panel _loadGamePanel;
     private Panel _newGamePanel;
     private Panel _deleteGamePanel;
 
     // The options button used to open the options menu.
-    private AnimatedButton _optionsButton;
+    // private AnimatedButton _optionsButton;
 
     // The back button used to exit the options menu back to the title menu.
     private AnimatedButton _optionsBackButton;
@@ -37,7 +37,7 @@ public class TitleScene : Scene
     private OptionsSlider sfxSlider;
     private OptionsSlider musicSlider;
 
-    private SoundEffect _uiSoundEffect;
+    //private SoundEffect _uiSoundEffect;
 
     private const string MONOGAME_TEXT = "MonoGame";
     private const string SUPER_PANG_TEXT = "Super";
@@ -71,7 +71,7 @@ public class TitleScene : Scene
 
     // Reference to the texture atlas that we can pass to UI elements when they
     // are created.
-    private TextureAtlas _GUIatlas;
+    //private TextureAtlas _GUIatlas;
 
     bool _isLastFocusedBackButton = false;
     bool _isLastFocusedLoadBackButton = false;
@@ -104,7 +104,7 @@ public class TitleScene : Scene
 
     private string _saveToDelete;
 
-    private TextBox _newGameNametextBox;
+    //private TextBox _newGameNametextBox;
 
     public override void Initialize()
     {
@@ -148,10 +148,10 @@ public class TitleScene : Scene
         Core.Audio.PlaySong(theme);
 
         // Load the sound effect to play when ui actions occur.
-        _uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Confirm 1");
+        //_uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Confirm 1");
 
         // Load the texture atlas from the xml configuration file.
-        _GUIatlas = TextureAtlas.FromFile(Content, "images/GUI_atlas.xml");
+        //_GUIatlas = TextureAtlas.FromFile(Content, "images/GUI_atlas.xml");
 
         TextureAtlas book2Atlas = TextureAtlas.FromFile(Content, "images/UI/Book2_atlas.xml");
 
@@ -220,7 +220,7 @@ public class TitleScene : Scene
         // Draw the background
         _levelBackground.Draw();
 
-        if (_titleScreenButtonsPanel.IsVisible)
+        if (TitlePanelManager.IsTitlePanelVisible())
         {
             // Begin the sprite batch to prepare for rendering.
             Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
@@ -265,45 +265,44 @@ public class TitleScene : Scene
         // Create the directory if it doesn't exist yet
         Directory.CreateDirectory(_saveDirectory);
 
-        CreateTitlePanel();
         CreateOptionsPanel();
         CreateLoadGamePanel();
         CreateNewGamePanel();
         CreateDeleteGamePanel();
     }
 
-    private void CreateTitlePanel()
-    {
-        // Create a container to hold all of our buttons
-        _titleScreenButtonsPanel = new Panel();
-        _titleScreenButtonsPanel.Dock(Gum.Wireframe.Dock.Fill);
-        _titleScreenButtonsPanel.AddToRoot();
+    // private void CreateTitlePanel()
+    // {
+    //     // Create a container to hold all of our buttons
+    //     _titleScreenButtonsPanel = new Panel();
+    //     _titleScreenButtonsPanel.Dock(Gum.Wireframe.Dock.Fill);
+    //     _titleScreenButtonsPanel.AddToRoot();
 
-        var startButton = new AnimatedButton(_GUIatlas);
-        startButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
-        startButton.X = 50;
-        startButton.Y = -12;
-        startButton.Width = 70;
-        startButton.Text = "Start";
-        startButton.Click += HandleStartClicked;
-        _titleScreenButtonsPanel.AddChild(startButton);
+    //     var startButton = new AnimatedButton(_GUIatlas);
+    //     startButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
+    //     startButton.X = 50;
+    //     startButton.Y = -12;
+    //     startButton.Width = 70;
+    //     startButton.Text = "Start";
+    //     startButton.Click += HandleStartClicked;
+    //     _titleScreenButtonsPanel.AddChild(startButton);
 
-        _optionsButton = new AnimatedButton(_GUIatlas);
-        _optionsButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
-        _optionsButton.X = -50;
-        _optionsButton.Y = -12;
-        _optionsButton.Width = 70;
-        _optionsButton.Text = "Options";
-        _optionsButton.Click += HandleOptionsClicked;
-        _titleScreenButtonsPanel.AddChild(_optionsButton);
+    //     _optionsButton = new AnimatedButton(_GUIatlas);
+    //     _optionsButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
+    //     _optionsButton.X = -50;
+    //     _optionsButton.Y = -12;
+    //     _optionsButton.Width = 70;
+    //     _optionsButton.Text = "Options";
+    //     _optionsButton.Click += HandleOptionsClicked;
+    //     _titleScreenButtonsPanel.AddChild(_optionsButton);
 
-        startButton.IsFocused = true;
-    }
+    //     startButton.IsFocused = true;
+    // }
 
     private void HandleLoadButton(object sender, EventArgs e)
     {
         // A UI interaction occurred, play the sound effect
-        Core.Audio.PlaySoundEffect(_uiSoundEffect);
+        //Core.Audio.PlaySoundEffect(_uiSoundEffect);
 
         PlayerStats pStats = null;
 
@@ -343,26 +342,26 @@ public class TitleScene : Scene
         Core.ChangeScene(new GameScene(STARTING_LEVEL, pStats));
     }
 
-    private void HandleOptionsClicked(object sender, EventArgs e)
-    {
-        // A UI interaction occurred, play the sound effect
-        Core.Audio.PlaySoundEffect(_uiSoundEffect);
+    // private void HandleOptionsClicked(object sender, EventArgs e)
+    // {
+    //     // A UI interaction occurred, play the sound effect
+    //     Core.Audio.PlaySoundEffect(_uiSoundEffect);
 
-        // Set the title panel to be invisible.
-        _titleScreenButtonsPanel.IsVisible = false;
+    //     // Set the title panel to be invisible.
+    //     _titleScreenButtonsPanel.IsVisible = false;
 
-        _loadGamePanel.IsVisible = false;
+    //     _loadGamePanel.IsVisible = false;
 
-        _newGamePanel.IsVisible = false;
+    //     _newGamePanel.IsVisible = false;
 
-        _deleteGamePanel.IsVisible = false;
+    //     _deleteGamePanel.IsVisible = false;
 
-        // Set the options panel to be visible.
-        _optionsPanel.IsVisible = true;
+    //     // Set the options panel to be visible.
+    //     _optionsPanel.IsVisible = true;
 
-        // Give the back button on the options panel focus.
-        _optionsBackButton.IsFocused = true;
-    }
+    //     // Give the back button on the options panel focus.
+    //     _optionsBackButton.IsFocused = true;
+    // }
 
     private void CreateOptionsPanel()
     {
@@ -381,7 +380,7 @@ public class TitleScene : Scene
         optionsText.IsEnabled = false;
         _optionsPanel.AddChild(optionsText);
 
-        musicSlider = new OptionsSlider(_GUIatlas);
+        //musicSlider = new OptionsSlider(_GUIatlas);
         musicSlider.Name = "MusicSlider";
         musicSlider.Text = "MUSIC";
         musicSlider.Anchor(Gum.Wireframe.Anchor.Top);
@@ -396,7 +395,7 @@ public class TitleScene : Scene
         musicSlider.KeyDown += updateFlagButton;
         _optionsPanel.AddChild(musicSlider);
 
-        sfxSlider = new OptionsSlider(_GUIatlas);
+        //sfxSlider = new OptionsSlider(_GUIatlas);
         sfxSlider.Name = "SfxSlider";
         sfxSlider.Text = "SFX";
         sfxSlider.Anchor(Gum.Wireframe.Anchor.Top);
@@ -410,7 +409,7 @@ public class TitleScene : Scene
         sfxSlider.ValueChangeCompleted += HandleSfxSliderChangeCompleted;
         _optionsPanel.AddChild(sfxSlider);
 
-        _optionsBackButton = new AnimatedButton(_GUIatlas);
+        //_optionsBackButton = new AnimatedButton(_GUIatlas);
         _optionsBackButton.Text = "BACK";
         _optionsBackButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
         _optionsBackButton.X = -28f;
@@ -420,35 +419,35 @@ public class TitleScene : Scene
         _optionsPanel.AddChild(_optionsBackButton);
     }
 
-    private void CreateNewGamePanel()
-    {
-        _newGamePanel = new Panel();
-        _newGamePanel.Dock(Gum.Wireframe.Dock.Fill);
-        _newGamePanel.IsVisible = false;
-        _newGamePanel.AddToRoot();
+    // private void CreateNewGamePanel()
+    // {
+    //     _newGamePanel = new Panel();
+    //     _newGamePanel.Dock(Gum.Wireframe.Dock.Fill);
+    //     _newGamePanel.IsVisible = false;
+    //     _newGamePanel.AddToRoot();
 
-        _newGameNametextBox = new TextBox();
-        _newGameNametextBox.Width = 200;
-        _newGameNametextBox.Anchor(Gum.Wireframe.Anchor.Center);
-        _newGameNametextBox.Placeholder = "";
-        _newGamePanel.AddChild(_newGameNametextBox);
+    //     _newGameNametextBox = new TextBox();
+    //     _newGameNametextBox.Width = 200;
+    //     _newGameNametextBox.Anchor(Gum.Wireframe.Anchor.Center);
+    //     _newGameNametextBox.Placeholder = "";
+    //     _newGamePanel.AddChild(_newGameNametextBox);
 
-        AnimatedButton confirmButton = new AnimatedButton(_GUIatlas);
-        confirmButton.Text = "CONFIRM";
-        confirmButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
-        confirmButton.X = 28f;
-        confirmButton.Y = -10f;
-        confirmButton.Click += handleConfirmNameClicked;
-        _newGamePanel.AddChild(confirmButton);
+    //     // AnimatedButton confirmButton = new AnimatedButton(_GUIatlas);
+    //     // confirmButton.Text = "CONFIRM";
+    //     // confirmButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
+    //     // confirmButton.X = 28f;
+    //     // confirmButton.Y = -10f;
+    //     // confirmButton.Click += handleConfirmNameClicked;
+    //     // _newGamePanel.AddChild(confirmButton);
 
-        _newGameBackButton = new AnimatedButton(_GUIatlas);
-        _newGameBackButton.Text = "BACK";
-        _newGameBackButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
-        _newGameBackButton.X = -28f;
-        _newGameBackButton.Y = -10f;
-        _newGameBackButton.Click += HandleStartClicked;
-        _newGamePanel.AddChild(_newGameBackButton);
-    }
+    //     //_newGameBackButton = new AnimatedButton(_GUIatlas);
+    //     _newGameBackButton.Text = "BACK";
+    //     _newGameBackButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
+    //     _newGameBackButton.X = -28f;
+    //     _newGameBackButton.Y = -10f;
+    //     //_newGameBackButton.Click += HandleStartClicked;
+    //     _newGamePanel.AddChild(_newGameBackButton);
+    // }
 
     private void CreateDeleteGamePanel()
     {
@@ -466,21 +465,21 @@ public class TitleScene : Scene
         text.IsEnabled = false;
         _deleteGamePanel.AddChild(text);
 
-        AnimatedButton confirmButton = new AnimatedButton(_GUIatlas);
-        confirmButton.Text = "CONFIRM";
-        confirmButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
-        confirmButton.X = 28f;
-        confirmButton.Y = -10f;
-        confirmButton.Click += handleConfirmDeleteGameClicked;
-        _deleteGamePanel.AddChild(confirmButton);
+        // AnimatedButton confirmButton = new AnimatedButton(_GUIatlas);
+        // confirmButton.Text = "CONFIRM";
+        // confirmButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
+        // confirmButton.X = 28f;
+        // confirmButton.Y = -10f;
+        // confirmButton.Click += handleConfirmDeleteGameClicked;
+        // _deleteGamePanel.AddChild(confirmButton);
 
-        AnimatedButton cancelButton = new AnimatedButton(_GUIatlas);
-        cancelButton.Text = "CANCEL";
-        cancelButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
-        cancelButton.X = -28f;
-        cancelButton.Y = -10f;
-        cancelButton.Click += HandleStartClicked;
-        _deleteGamePanel.AddChild(cancelButton);
+        // AnimatedButton cancelButton = new AnimatedButton(_GUIatlas);
+        // cancelButton.Text = "CANCEL";
+        // cancelButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
+        // cancelButton.X = -28f;
+        // cancelButton.Y = -10f;
+        // cancelButton.Click += HandleStartClicked;
+        //_deleteGamePanel.AddChild(cancelButton);
     }
 
     private void CreateLoadGamePanel()
@@ -555,7 +554,7 @@ public class TitleScene : Scene
             _loadGamePanel.AddChild(_loadButton3._deleteButton);
         }
 
-        _loadBackButton = new AnimatedButton(_GUIatlas);
+        //_loadBackButton = new AnimatedButton(_GUIatlas);
         _loadBackButton.Text = "BACK";
         _loadBackButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
         _loadBackButton.X = -28f;
@@ -621,7 +620,7 @@ public class TitleScene : Scene
     private void HandleMusicSliderValueChangeCompleted(object sender, EventArgs args)
     {
         // A UI interaction occurred, play the sound effect
-        Core.Audio.PlaySoundEffect(_uiSoundEffect);
+        //Core.Audio.PlaySoundEffect(_uiSoundEffect);
     }
 
     private void HandleSfxSliderChanged(object sender, EventArgs args)
@@ -665,25 +664,25 @@ public class TitleScene : Scene
         _optionsButton.IsFocused = true;
     }
 
-    private void HandleStartClicked(object sender, EventArgs e)
-    {
-        // A UI interaction occurred, play the sound effect
-        Core.Audio.PlaySoundEffect(_uiSoundEffect);
+    // private void HandleStartClicked(object sender, EventArgs e)
+    // {
+    //     // A UI interaction occurred, play the sound effect
+    //     Core.Audio.PlaySoundEffect(_uiSoundEffect);
 
-        // Set the title panel to be invisible.
-        _titleScreenButtonsPanel.IsVisible = false;
+    //     // Set the title panel to be invisible.
+    //     _titleScreenButtonsPanel.IsVisible = false;
 
-        _loadGamePanel.IsVisible = true;
+    //     _loadGamePanel.IsVisible = true;
 
-        _newGamePanel.IsVisible = false;
+    //     _newGamePanel.IsVisible = false;
 
-        // Set the options panel to be visible.
-        _optionsPanel.IsVisible = false;
+    //     // Set the options panel to be visible.
+    //     _optionsPanel.IsVisible = false;
 
-        _deleteGamePanel.IsVisible = false;
+    //     _deleteGamePanel.IsVisible = false;
 
-        _newGameNametextBox.Text = "";
-    }
+    //     _newGameNametextBox.Text = "";
+    // }
 
     private void HandleNewGameClicked(object sender)
     {
