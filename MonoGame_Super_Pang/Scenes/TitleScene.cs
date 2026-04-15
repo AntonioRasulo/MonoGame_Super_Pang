@@ -25,6 +25,7 @@ public class TitleScene : Scene
     private Panel _loadGamePanel;
     private Panel _newGamePanel;
     private Panel _deleteGamePanel;
+    private Panel _afterSelectionPanel;
 
     // The options button used to open the options menu.
     private AnimatedButton _optionsButton;
@@ -270,6 +271,34 @@ public class TitleScene : Scene
         CreateLoadGamePanel();
         CreateNewGamePanel();
         CreateDeleteGamePanel();
+        CreateAfterSelPanel();
+    }
+
+    private void CreateAfterSelPanel()
+    {
+        _afterSelectionPanel = new Panel();
+        _afterSelectionPanel.Dock(Gum.Wireframe.Dock.Fill);
+        _afterSelectionPanel.AddToRoot();
+
+        var startGameButton = new AnimatedButton(_GUIatlas);
+        startGameButton.Anchor(Gum.Wireframe.Anchor.Left);
+        startGameButton.X = 50;
+        startGameButton.Y = -12;
+        startGameButton.Width = 70;
+        startGameButton.Text = "Start";
+        startGameButton.Click += ;
+        _afterSelectionPanel.AddChild(startGameButton);
+
+        var shopButton = new AnimatedButton(_GUIatlas);
+        shopButton.Anchor(Gum.Wireframe.Anchor.Right);
+        shopButton.X = -50;
+        shopButton.Y = -12;
+        shopButton.Width = 70;
+        shopButton.Text = "Start";
+        shopButton.Click += ;
+        _afterSelectionPanel.AddChild(shopButton);
+
+        startGameButton.IsFocused = true;
     }
 
     private void CreateTitlePanel()
