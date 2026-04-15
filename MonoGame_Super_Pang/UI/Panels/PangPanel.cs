@@ -1,4 +1,5 @@
 using Gum.Forms.Controls;
+using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 
 namespace MonoGame_Super_Pang.UI;
@@ -11,11 +12,11 @@ public abstract class PangPanel
 
     // public static SoundEffect _uiSoundEffect;
 
-    // private static void LoadContent()
-    // {
-    //     // Load the texture atlas from the xml configuration file.
-    //     _GUIatlas = TextureAtlas.FromFile(Core.Content, "images/GUI_atlas.xml");
-    // }
+    public static void LoadContent()
+    {
+        // Load the texture atlas from the xml configuration file.
+        _GUIatlas = TextureAtlas.FromFile(Core.Content, "images/UI/GUI_atlas.xml");
+    }
 
     public bool IsVisible()
     {
@@ -26,5 +27,12 @@ public abstract class PangPanel
     {
         _panel.IsVisible = isVisible;
     }
+
+    public void AddChild(TextureButton child)
+    {
+        _panel.AddChild(child);
+    }
+
+    public abstract void Update();
 
 }

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Audio;
 using MonoGameLibrary;
+using MonoGame_Super_Pang.Config;
 using System;
 
 namespace MonoGame_Super_Pang.UI;
@@ -12,23 +13,32 @@ public class TitlePanelManager
     private static OptionsPanel _optionsPanel;
     private static DeleteGamePanel _deleteGamePanel;
 
-    public static SoundEffect _uiSoundEffect;
+    public static SoundEffect uiSoundEffect;
 
-    public TitlePanelManager()
+    public static void LoadContent()
     {
+        PangPanel.LoadContent();
         _titleScreenButtonsPanel = new TitleScreenButtonsPanel();
         _loadGamePanel = new LoadGamePanel();
+        _newGamePanel = new NewGamePanel();
+        _optionsPanel = new OptionsPanel();
+        _deleteGamePanel = new DeleteGamePanel();
+        uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Confirm 1");
     }
 
-    private static void LoadContent()
+    public static void Update()
     {
-        _uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Confirm 1");
+        _titleScreenButtonsPanel.Update();
+        _optionsPanel.Update();
+        _loadGamePanel.Update();
+        _deleteGamePanel.Update();
+        _newGamePanel.Update();
     }
 
     public static void HandleStartClicked(object sender, EventArgs e)
     {
         // A UI interaction occurred, play the sound effect
-        Core.Audio.PlaySoundEffect(_uiSoundEffect);
+        Core.Audio.PlaySoundEffect(uiSoundEffect);
 
         // Set the title panel to be invisible.
         _titleScreenButtonsPanel.SetIsVisible(false);
@@ -42,13 +52,13 @@ public class TitlePanelManager
 
         _deleteGamePanel.SetIsVisible(false);
 
-        _newGameNametextBox.Text = "";
+        _newGamePanel.ClearNewGameTextBox();
     }
 
     public static void HandleOptionsClicked(object sender, EventArgs e)
     {
         // A UI interaction occurred, play the sound effect
-        Core.Audio.PlaySoundEffect(_uiSoundEffect);
+        Core.Audio.PlaySoundEffect(uiSoundEffect);
 
         // Set the title panel to be invisible.
         _titleScreenButtonsPanel.SetIsVisible(false);
@@ -63,12 +73,86 @@ public class TitlePanelManager
         _optionsPanel.SetIsVisible(true);
 
         // Give the back button on the options panel focus.
-        _optionsBackButton.IsFocused = true;
+        _optionsPanel.OptionsBackButtonSetFocus(true);
+    }
+
+    public static void HandleOptionsButtonBack(object sender, EventArgs e)
+    {
+        // A UI interaction occurred, play the sound effect
+        Core.Audio.PlaySoundEffect(uiSoundEffect);
+
+        // Set the title panel to be visible.
+        _titleScreenButtonsPanel.SetIsVisible(true);
+
+        // Set the options panel to be invisible.
+        _optionsPanel.SetIsVisible(false);
+
+        _loadGamePanel.SetIsVisible(false);
+
+        _newGamePanel.SetIsVisible(false);
+
+        _deleteGamePanel.SetIsVisible(false);
+
+        // Give the options button on the title panel focus since we are coming
+        // back from the options screen.
+        _titleScreenButtonsPanel.SetOptionButtonFocus(true);
+    }
+
+    public static void handleConfirmNameClicked(object sender, EventArgs e)
+    {
+        _loadGamePanel.handleConfirmNameClicked(_newGamePanel.GetNewGameTextBoxText());
+        _newGamePanel.ClearNewGameTextBox();
     }
 
     public static bool IsTitlePanelVisible()
     {
         return _titleScreenButtonsPanel.IsVisible();
+    }
+
+    public static void HandleDeleteGameClicked(TextureButton gameToDelete)
+    {
+        _deleteGamePanel.AddChild(gameToDelete);
+
+        // Set the title panel to be visible.
+        _titleScreenButtonsPanel.SetIsVisible(false);
+
+        // Set the options panel to be invisible.
+        _optionsPanel.SetIsVisible(false);
+
+        _loadGamePanel.SetIsVisible(false);
+
+        _newGamePanel.SetIsVisible(false);
+
+        _deleteGamePanel.SetIsVisible(true);
+        //_deleteGamePanel.SetDataToDelete(gameToDelete, saveToDelete);
+    }
+
+    public static void HandleNewGameClicked()
+    {
+        // A UI interaction occurred, play the sound effect
+        Core.Audio.PlaySoundEffect(uiSoundEffect);
+
+        // Set the title panel to be invisible.
+        _titleScreenButtonsPanel.SetIsVisible(false);
+
+        _loadGamePanel.SetIsVisible(false);
+
+        _newGamePanel.SetIsVisible(true);
+
+        // Set the options panel to be visible.
+        _optionsPanel.SetIsVisible(false);
+
+        _deleteGamePanel.SetIsVisible(false);
+    }
+
+    public static void handleConfirmDeleteGameClicked(object sender)
+    {
+        _loadGamePanel.handleConfirmDeleteGameClicked(sender);
+
+        _loadGamePanel.SetIsVisible(true);
+
+        _deleteGamePanel.SetIsVisible(false);
+
     }
 
 }

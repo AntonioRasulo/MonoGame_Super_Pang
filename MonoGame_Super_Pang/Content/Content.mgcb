@@ -744,8 +744,8 @@
 #begin images/enemies/mini_bats/mini_bat.xml
 /copy:images/enemies/mini_bats/mini_bat.xml
 
-#begin images/GUI_atlas.xml
-/copy:images/GUI_atlas.xml
+#begin images/UI/GUI_atlas.xml
+/copy:images/UI/GUI_atlas.xml
 
 #begin images/balls/HexagonGreenBall.png
 /importer:TextureImporter

@@ -6,6 +6,8 @@ namespace MonoGame_Super_Pang.UI;
 public class NewGamePanel : PangPanel
 {
     private TextBox _newGameNametextBox;
+    private AnimatedButton _newGameBackButton;
+    private AnimatedButton confirmButton;
 
     public NewGamePanel()
     {
@@ -20,12 +22,13 @@ public class NewGamePanel : PangPanel
         _newGameNametextBox.Placeholder = "";
         _panel.AddChild(_newGameNametextBox);
 
-        AnimatedButton confirmButton = new AnimatedButton(_GUIatlas);
+        confirmButton = new AnimatedButton(_GUIatlas);
         confirmButton.Text = "CONFIRM";
         confirmButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
         confirmButton.X = 28f;
         confirmButton.Y = -10f;
-        confirmButton.Click += handleConfirmNameClicked;
+        confirmButton.Click += TitlePanelManager.handleConfirmNameClicked;
+        confirmButton.IsFocused = true;
         _panel.AddChild(confirmButton);
 
         _newGameBackButton = new AnimatedButton(_GUIatlas);
@@ -33,8 +36,29 @@ public class NewGamePanel : PangPanel
         _newGameBackButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
         _newGameBackButton.X = -28f;
         _newGameBackButton.Y = -10f;
-        _newGameBackButton.Click += HandleStartClicked;
+        _newGameBackButton.Click += TitlePanelManager.HandleStartClicked;
         _panel.AddChild(_newGameBackButton);
+    }
+
+    public string GetNewGameTextBoxText()
+    {
+        return _newGameNametextBox.Text;
+    }
+
+    public void ClearNewGameTextBox()
+    {
+        _newGameNametextBox.Text = "";
+    }
+
+    public override void Update()
+    {
+        if(_panel.IsVisible &&
+        confirmButton.IsFocused == false &&
+        _newGameBackButton.IsFocused == false &&
+        _newGameNametextBox.IsFocused == false)
+        {
+            confirmButton.IsFocused = true;
+        }
     }
 
 }

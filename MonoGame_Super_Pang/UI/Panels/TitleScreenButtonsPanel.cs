@@ -6,6 +6,7 @@ namespace MonoGame_Super_Pang.UI;
 public class TitleScreenButtonsPanel : PangPanel
 {
     private AnimatedButton _optionsButton;
+    private AnimatedButton _startButton;
 
     public TitleScreenButtonsPanel()
     {
@@ -14,14 +15,14 @@ public class TitleScreenButtonsPanel : PangPanel
         _panel.Dock(Gum.Wireframe.Dock.Fill);
         _panel.AddToRoot();
 
-        var startButton = new AnimatedButton(_GUIatlas);
-        startButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
-        startButton.X = 50;
-        startButton.Y = -12;
-        startButton.Width = 70;
-        startButton.Text = "Start";
-        startButton.Click += TitlePanelManager.HandleStartClicked;
-        _panel.AddChild(startButton);
+        _startButton = new AnimatedButton(_GUIatlas);
+        _startButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
+        _startButton.X = 50;
+        _startButton.Y = -12;
+        _startButton.Width = 70;
+        _startButton.Text = "Start";
+        _startButton.Click += TitlePanelManager.HandleStartClicked;
+        _panel.AddChild(_startButton);
 
         _optionsButton = new AnimatedButton(_GUIatlas);
         _optionsButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
@@ -32,7 +33,21 @@ public class TitleScreenButtonsPanel : PangPanel
         _optionsButton.Click += TitlePanelManager.HandleOptionsClicked;
         _panel.AddChild(_optionsButton);
 
-        startButton.IsFocused = true;
+    }
+
+    public void SetOptionButtonFocus(bool IsFocused)
+    {
+        _optionsButton.IsFocused = IsFocused;
+    }
+
+    public override void Update()
+    {
+        if (_optionsButton.IsFocused == false &&
+            _startButton.IsFocused == false &&
+            _panel.IsVisible == true)
+        {
+            _startButton.IsFocused = true;
+        }
     }
 
 }
