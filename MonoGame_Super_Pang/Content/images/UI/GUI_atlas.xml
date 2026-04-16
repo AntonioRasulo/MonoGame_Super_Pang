@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TextureAtlas>
-    <Texture>images/atlas</Texture>
+    <Texture>images/UI/atlas</Texture>
     <Regions>
         <Region name="unfocused-button" x="259" y="80" width="65" height="14" />
         <Region name="focused-button-1" x="259" y="94" width="65" height="14" />

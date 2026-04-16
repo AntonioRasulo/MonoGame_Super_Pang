@@ -15,6 +15,9 @@ public class LevelConfig
 
     public List<EnemyConfig> Enemies{get; set;}
     // later: tilemap, time limit, etc.
+
+    public static readonly int STARTING_LEVEL = 0;
+
 }
 
 public class BallSpawnConfig
