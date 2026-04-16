@@ -12,6 +12,7 @@ public class TitlePanelManager
     private static NewGamePanel _newGamePanel;
     private static OptionsPanel _optionsPanel;
     private static DeleteGamePanel _deleteGamePanel;
+    private static StartGamePanel _startGamePanel;
 
     public static SoundEffect uiSoundEffect;
 
@@ -23,6 +24,7 @@ public class TitlePanelManager
         _newGamePanel = new NewGamePanel();
         _optionsPanel = new OptionsPanel();
         _deleteGamePanel = new DeleteGamePanel();
+        _startGamePanel = new StartGamePanel();
         uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Confirm 1");
     }
 
@@ -33,6 +35,7 @@ public class TitlePanelManager
         _loadGamePanel.Update();
         _deleteGamePanel.Update();
         _newGamePanel.Update();
+        _startGamePanel.Update();
     }
 
     public static void HandleStartClicked(object sender, EventArgs e)
