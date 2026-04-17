@@ -37,7 +37,8 @@ public class StartGamePanel : PangPanel
         _backButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
         _backButton.X = -28f;
         _backButton.Y = -10f;
-        //_backButton.Click += ;
+        _backButton.Click += TitlePanelManager.HandleBackStartGameClicked;
+        _panel.AddChild(_backButton);
     }
 
     public override void Update()

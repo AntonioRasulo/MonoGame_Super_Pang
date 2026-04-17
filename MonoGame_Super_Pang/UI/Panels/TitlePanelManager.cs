@@ -127,7 +127,6 @@ public class TitlePanelManager
         _newGamePanel.SetIsVisible(false);
 
         _deleteGamePanel.SetIsVisible(true);
-        //_deleteGamePanel.SetDataToDelete(gameToDelete, saveToDelete);
     }
 
     public static void HandleNewGameClicked()
@@ -156,6 +155,12 @@ public class TitlePanelManager
 
         _deleteGamePanel.SetIsVisible(false);
 
+    }
+
+    public static void HandleBackStartGameClicked(object sender, EventArgs e)
+    {
+        _startGamePanel.SetIsVisible(false);
+        _loadGamePanel.SetIsVisible(true);
     }
 
 }
