@@ -163,4 +163,15 @@ public class TitlePanelManager
         _loadGamePanel.SetIsVisible(true);
     }
 
+    public static void GoToStartGamePanel(PlayerStats pStats)
+    {
+        _titleScreenButtonsPanel.SetIsVisible(false);
+        _loadGamePanel.SetIsVisible(false);
+        _newGamePanel.SetIsVisible(false);
+        _optionsPanel.SetIsVisible(false);
+        _deleteGamePanel.SetIsVisible(false);
+        _startGamePanel.SetIsVisible(true);
+        _startGamePanel.pStats = pStats;
+    }
+
 }

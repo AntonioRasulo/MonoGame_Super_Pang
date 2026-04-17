@@ -128,7 +128,7 @@ public class LoadGamePanel : PangPanel
             PlayerStats.SaveGame(PlayerStatsManager.pStats1);
             _loadButton1.isNewGame = false;
 
-            Core.ChangeScene(new GameScene(LevelConfig.STARTING_LEVEL, PlayerStatsManager.pStats1));
+            TitlePanelManager.GoToStartGamePanel(PlayerStatsManager.pStats1);
         }
         if (_newGameButton == _loadButton2)
         {
@@ -140,7 +140,7 @@ public class LoadGamePanel : PangPanel
             PlayerStats.SaveGame(PlayerStatsManager.pStats2);
             _loadButton2.isNewGame = false;
 
-            Core.ChangeScene(new GameScene(LevelConfig.STARTING_LEVEL, PlayerStatsManager.pStats2));
+            TitlePanelManager.GoToStartGamePanel(PlayerStatsManager.pStats2);
         }
         if (_newGameButton == _loadButton3)
         {
@@ -152,7 +152,7 @@ public class LoadGamePanel : PangPanel
             PlayerStats.SaveGame(PlayerStatsManager.pStats3);
             _loadButton3.isNewGame = false;
 
-            Core.ChangeScene(new GameScene(LevelConfig.STARTING_LEVEL, PlayerStatsManager.pStats3));
+            TitlePanelManager.GoToStartGamePanel(PlayerStatsManager.pStats3);
         }
     }
 
@@ -195,8 +195,7 @@ public class LoadGamePanel : PangPanel
             pStats = PlayerStatsManager.pStats3;
         }
 
-        // Change to the game scene to start the game.
-        Core.ChangeScene(new GameScene(LevelConfig.STARTING_LEVEL, pStats));
+        TitlePanelManager.GoToStartGamePanel(pStats);
     }
 
     private void HandleDeleteGameClicked(object sender, EventArgs e)

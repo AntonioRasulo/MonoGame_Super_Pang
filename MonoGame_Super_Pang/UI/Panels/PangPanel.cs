@@ -10,8 +10,6 @@ public abstract class PangPanel
 
     protected static TextureAtlas _GUIatlas;
 
-    // public static SoundEffect _uiSoundEffect;
-
     public static void LoadContent()
     {
         // Load the texture atlas from the xml configuration file.

@@ -1,13 +1,19 @@
 using Gum.Forms.Controls;
 using MonoGameGum;
+using MonoGameLibrary;
+using MonoGame_Super_Pang.Scenes;
+using MonoGame_Super_Pang.Config;
+using System;
 
 namespace MonoGame_Super_Pang.UI;
 
 public class StartGamePanel : PangPanel
 {
-    AnimatedButton _startGameButton;
-    AnimatedButton _shopButton;
-    AnimatedButton _backButton;
+    private AnimatedButton _startGameButton;
+    private AnimatedButton _shopButton;
+    private AnimatedButton _backButton;
+
+    public PlayerStats pStats{get;set;}
 
     public StartGamePanel()
     {
@@ -21,7 +27,7 @@ public class StartGamePanel : PangPanel
         _startGameButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
         _startGameButton.X = 28f;
         _startGameButton.Y = -10f;
-        //_startGameButton.Click += ;
+        _startGameButton.Click += StartGame;
         _panel.AddChild(_startGameButton);
 
         _shopButton = new AnimatedButton(_GUIatlas);
@@ -51,4 +57,11 @@ public class StartGamePanel : PangPanel
             _startGameButton.IsFocused = true;
         }
     }
+
+    private void StartGame(object sender, EventArgs e)
+    {
+        // Change to the game scene to start the game.
+        Core.ChangeScene(new GameScene(LevelConfig.STARTING_LEVEL, pStats));
+    }
+
 }
