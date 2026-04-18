@@ -52,15 +52,7 @@ public class LoadGamePanel : PangPanel
 
         if(PlayerStatsManager.pStats1 != null)
         {
-            _loadButton1.Text = PlayerStatsManager.pStats1.Name;
-            _loadButton1.setTextMoney(PlayerStatsManager.pStats1.Money.ToString());
-            _loadButton1.isNewGame = false;
-            _loadButton1._deleteButton.Click += HandleDeleteGameClicked;
-            _loadButton1._deleteButton.Anchor(Gum.Wireframe.Anchor.Left);
-            _loadButton1._deleteButton.Text="";
-            _loadButton1._deleteButton.Y = -58;
-            _loadButton1._deleteButton.X = 90;
-            _panel.AddChild(_loadButton1._deleteButton);
+            LoadButton(PlayerStatsManager.pStats1, _loadButton1, Gum.Wireframe.Anchor.Left, 90, -58);
         }
 
         _loadButton2.Anchor(Gum.Wireframe.Anchor.Center);
@@ -71,15 +63,7 @@ public class LoadGamePanel : PangPanel
 
         if(PlayerStatsManager.pStats2 != null)
         {
-            _loadButton2.Text = PlayerStatsManager.pStats2.Name;
-            _loadButton2.setTextMoney(PlayerStatsManager.pStats2.Money.ToString());
-            _loadButton2.isNewGame = false;
-            _loadButton2._deleteButton.Click += HandleDeleteGameClicked;
-            _loadButton2._deleteButton.Anchor(Gum.Wireframe.Anchor.Center);
-            _loadButton2._deleteButton.Text = "";
-            _loadButton2._deleteButton.Y = -58;
-            _loadButton2._deleteButton.X = 33;
-            _panel.AddChild(_loadButton2._deleteButton);
+            LoadButton(PlayerStatsManager.pStats2, _loadButton2, Gum.Wireframe.Anchor.Center, 33, -58);
         }
 
         _loadButton3.Anchor(Gum.Wireframe.Anchor.Right);
@@ -91,15 +75,7 @@ public class LoadGamePanel : PangPanel
 
         if(PlayerStatsManager.pStats3 != null)
         {
-            _loadButton3.Text = PlayerStatsManager.pStats3.Name;
-            _loadButton3.setTextMoney(PlayerStatsManager.pStats3.Money.ToString());
-            _loadButton3.isNewGame = false;
-            _loadButton3._deleteButton.Click += HandleDeleteGameClicked;
-            _loadButton3._deleteButton.Anchor(Gum.Wireframe.Anchor.Right);
-            _loadButton3._deleteButton.Text = "";
-            _loadButton3._deleteButton.Y = -58;
-            _loadButton3._deleteButton.X = -24;
-            _panel.AddChild(_loadButton3._deleteButton);
+            LoadButton(PlayerStatsManager.pStats3, _loadButton3, Gum.Wireframe.Anchor.Right, -24, -58);
         }
 
         _loadBackButton = new AnimatedButton(_GUIatlas);
@@ -126,7 +102,7 @@ public class LoadGamePanel : PangPanel
             PlayerStatsManager.pStats1.Path = PlayerStatsManager.PATH1;
 
             PlayerStats.SaveGame(PlayerStatsManager.pStats1);
-            _loadButton1.isNewGame = false;
+            LoadButton(PlayerStatsManager.pStats1, _loadButton1, Gum.Wireframe.Anchor.Left, 90, -58);
 
             TitlePanelManager.GoToStartGamePanel(PlayerStatsManager.pStats1);
         }
@@ -138,7 +114,7 @@ public class LoadGamePanel : PangPanel
             PlayerStatsManager.pStats2.Path = PlayerStatsManager.PATH2;
 
             PlayerStats.SaveGame(PlayerStatsManager.pStats2);
-            _loadButton2.isNewGame = false;
+            LoadButton(PlayerStatsManager.pStats2, _loadButton2, Gum.Wireframe.Anchor.Center, 33, -58);
 
             TitlePanelManager.GoToStartGamePanel(PlayerStatsManager.pStats2);
         }
@@ -150,10 +126,23 @@ public class LoadGamePanel : PangPanel
             PlayerStatsManager.pStats3.Path = PlayerStatsManager.PATH3;
 
             PlayerStats.SaveGame(PlayerStatsManager.pStats3);
-            _loadButton3.isNewGame = false;
+            LoadButton(PlayerStatsManager.pStats3, _loadButton3, Gum.Wireframe.Anchor.Right, -24, -58);
 
             TitlePanelManager.GoToStartGamePanel(PlayerStatsManager.pStats3);
         }
+    }
+
+    private void LoadButton(PlayerStats pStats, TextureButton loadButton, Gum.Wireframe.Anchor anchor, float deleteX, float deleteY)
+    {
+        loadButton.Text = pStats.Name;
+        loadButton.setTextMoney(pStats.Money.ToString());
+        loadButton.isNewGame = false;
+        loadButton._deleteButton.Click += HandleDeleteGameClicked;
+        loadButton._deleteButton.Anchor(anchor);
+        loadButton._deleteButton.Text = "";
+        loadButton._deleteButton.Y = deleteY;
+        loadButton._deleteButton.X = deleteX;
+        _panel.AddChild(loadButton._deleteButton);
     }
 
     private void HandleLoadButton(object sender, EventArgs e)
