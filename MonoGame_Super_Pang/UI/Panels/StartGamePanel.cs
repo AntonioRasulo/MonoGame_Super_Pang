@@ -1,4 +1,5 @@
 using Gum.Forms.Controls;
+using Microsoft.Xna.Framework.Input;
 using MonoGameGum;
 using MonoGameLibrary;
 using MonoGame_Super_Pang.Scenes;
@@ -12,6 +13,8 @@ public class StartGamePanel : PangPanel
     private AnimatedButton _startGameButton;
     private AnimatedButton _shopButton;
     private AnimatedButton _backButton;
+
+    private bool _isLastFocusedBackButton = false;
 
     public PlayerStats pStats{get;set;}
 
@@ -28,6 +31,7 @@ public class StartGamePanel : PangPanel
         _startGameButton.X = 28f;
         _startGameButton.Y = -10f;
         _startGameButton.Click += StartGame;
+        _startGameButton.KeyDown += updateFlagButton;
         _panel.AddChild(_startGameButton);
 
         _shopButton = new AnimatedButton(_GUIatlas);
@@ -44,6 +48,7 @@ public class StartGamePanel : PangPanel
         _backButton.X = -28f;
         _backButton.Y = -10f;
         _backButton.Click += TitlePanelManager.HandleBackStartGameClicked;
+        _backButton.KeyDown += updateFlagButton;
         _panel.AddChild(_backButton);
     }
 
@@ -54,7 +59,14 @@ public class StartGamePanel : PangPanel
         _shopButton.IsFocused == false &&
         _backButton.IsFocused == false)
         {
-            _startGameButton.IsFocused = true;
+            if (_isLastFocusedBackButton)
+            {
+                _startGameButton.IsFocused = true;
+            }
+            else
+            {
+                _backButton.IsFocused = true;
+            }
         }
     }
 
@@ -62,6 +74,24 @@ public class StartGamePanel : PangPanel
     {
         // Change to the game scene to start the game.
         Core.ChangeScene(new GameScene(LevelConfig.STARTING_LEVEL, pStats));
+    }
+
+    private void updateFlagButton(Object sender, KeyEventArgs e)
+    {
+        if(sender == _startGameButton)
+        {
+            if (e.Key == Keys.Up || e.Key == Keys.Left)
+            {
+                _isLastFocusedBackButton = false;
+            }
+        }
+        else if(sender == _backButton)
+        {
+            if (e.Key == Keys.Down || e.Key == Keys.Right)
+            {
+                _isLastFocusedBackButton = true;
+            }
+        }
     }
 
 }
