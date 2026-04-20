@@ -13,6 +13,7 @@ public class TitlePanelManager
     private static OptionsPanel _optionsPanel;
     private static DeleteGamePanel _deleteGamePanel;
     private static StartGamePanel _startGamePanel;
+    private static ShopPanel _shopPanel;
 
     public static SoundEffect uiSoundEffect;
 
@@ -25,6 +26,7 @@ public class TitlePanelManager
         _optionsPanel = new OptionsPanel();
         _deleteGamePanel = new DeleteGamePanel();
         _startGamePanel = new StartGamePanel();
+        _shopPanel = new ShopPanel();
         uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Confirm 1");
     }
 
@@ -36,6 +38,7 @@ public class TitlePanelManager
         _deleteGamePanel.Update();
         _newGamePanel.Update();
         _startGamePanel.Update();
+        _shopPanel.Update();
     }
 
     public static void HandleStartClicked(object sender, EventArgs e)
@@ -163,7 +166,7 @@ public class TitlePanelManager
         _loadGamePanel.SetIsVisible(true);
     }
 
-    public static void GoToStartGamePanel(PlayerStats pStats)
+    public static void GoToStartGamePanel(PlayerStats pStats = null)
     {
         _titleScreenButtonsPanel.SetIsVisible(false);
         _loadGamePanel.SetIsVisible(false);
@@ -171,7 +174,17 @@ public class TitlePanelManager
         _optionsPanel.SetIsVisible(false);
         _deleteGamePanel.SetIsVisible(false);
         _startGamePanel.SetIsVisible(true);
-        _startGamePanel.pStats = pStats;
+        _shopPanel.SetIsVisible(false);
+        if(pStats != null)
+        {
+            _startGamePanel.pStats = pStats;
+        }
+    }
+
+    public static void GoToShopPanel(object sender, EventArgs e)
+    {
+        _shopPanel.SetIsVisible(true);
+        _startGamePanel.SetIsVisible(false);
     }
 
 }

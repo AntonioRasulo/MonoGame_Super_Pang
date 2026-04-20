@@ -39,7 +39,7 @@ public class StartGamePanel : PangPanel
         _shopButton.Anchor(Gum.Wireframe.Anchor.Bottom);
         _shopButton.X = 0f;
         _shopButton.Y = -10f;
-        //_shopButton.Click += ;
+        _shopButton.Click += TitlePanelManager.GoToShopPanel;
         _panel.AddChild(_shopButton);
 
         _backButton = new AnimatedButton(_GUIatlas);
