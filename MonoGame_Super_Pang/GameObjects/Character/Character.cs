@@ -56,9 +56,7 @@ public class Character
 
     private int _lives = 3;
 
-    public PlayerStats _pStats{get; set;}
-
-    public Character(PlayerStats pStats)
+    public Character()
     {
         LoadContent();
 
@@ -73,7 +71,6 @@ public class Character
 
         previousKeyboardState = Keyboard.GetState();
 
-        _pStats = pStats;
     }
 
     private void LoadContent()

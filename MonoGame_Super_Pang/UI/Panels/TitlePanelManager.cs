@@ -164,9 +164,10 @@ public class TitlePanelManager
     {
         _startGamePanel.SetIsVisible(false);
         _loadGamePanel.SetIsVisible(true);
+        PlayerStatsManager.SelectPlayerStats(4);
     }
 
-    public static void GoToStartGamePanel(PlayerStats pStats = null)
+    public static void GoToStartGamePanel()
     {
         _titleScreenButtonsPanel.SetIsVisible(false);
         _loadGamePanel.SetIsVisible(false);
@@ -175,10 +176,6 @@ public class TitlePanelManager
         _deleteGamePanel.SetIsVisible(false);
         _startGamePanel.SetIsVisible(true);
         _shopPanel.SetIsVisible(false);
-        if(pStats != null)
-        {
-            _startGamePanel.pStats = pStats;
-        }
     }
 
     public static void GoToShopPanel(object sender, EventArgs e)

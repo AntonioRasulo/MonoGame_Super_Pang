@@ -57,12 +57,9 @@ public class GameScene : Scene
 
     private Background _levelBackground;
 
-    private PlayerStats _pStats;
-
-    public GameScene(int startingLevel, PlayerStats pStats)
+    public GameScene(int startingLevel)
     {
         _currentLevelIndex = startingLevel;
-        _pStats = pStats;
     }
 
     public override void Initialize()
@@ -98,7 +95,7 @@ public class GameScene : Scene
         // Create the game scene ui instance.
         _ui = new GameSceneUI();
         _ui.UpdateLivesText(_character.getLives());
-        _ui.UpdateMoneyText(_pStats.Money);
+        _ui.UpdateMoneyText();
 
         // Subscribe to the events from the game scene ui.
         _ui.ResumeButtonClick += OnResumeButtonClicked;
@@ -126,7 +123,7 @@ public class GameScene : Scene
 
     private void OnQuitButtonClicked(object sender, EventArgs args)
     {
-        PlayerStats.SaveGame(_character._pStats);
+        PlayerStats.SaveGame(PlayerStatsManager.currentStats);
         // Player has chosen to quit, so return back to the title scene.
         Core.ChangeScene(new TitleScene());
     }
@@ -143,7 +140,7 @@ public class GameScene : Scene
         // Load platform content
         Platform.LoadContent();
 
-        _character = new Character(_pStats);
+        _character = new Character();
 
         _balls = new List<Ball>();
 
@@ -285,8 +282,8 @@ public class GameScene : Scene
             case collectibleType.GOLD_COIN:
             case collectibleType.SILVER_COIN:
             case collectibleType.BRONZE_COIN:
-                _character._pStats.Money += Coin.GetValue(collectibleCollided);
-                _ui.UpdateMoneyText(_character._pStats.Money);
+                PlayerStatsManager.currentStats.Money += Coin.GetValue(collectibleCollided);
+                _ui.UpdateMoneyText();
                 break;
         }
 
@@ -511,7 +508,7 @@ public class GameScene : Scene
                 _ui.resetTimer();
                 LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
             }
-            PlayerStats.SaveGame(_character._pStats);
+            PlayerStats.SaveGame(PlayerStatsManager.currentStats);
         }
         else if(_character.isAlive() == false)
         {
@@ -520,7 +517,7 @@ public class GameScene : Scene
                 _score = 0;
             _ui.UpdateScoreText(_score);
             Core.ChangeScene(new GameOver(_score));
-            PlayerStats.SaveGame(_character._pStats);
+            PlayerStats.SaveGame(PlayerStatsManager.currentStats);
         }
     }
 

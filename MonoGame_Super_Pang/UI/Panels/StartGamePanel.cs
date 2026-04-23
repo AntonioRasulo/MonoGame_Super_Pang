@@ -16,8 +16,6 @@ public class StartGamePanel : PangPanel
 
     private bool _isLastFocusedBackButton = false;
 
-    public PlayerStats pStats{get;set;}
-
     public StartGamePanel()
     {
         _panel = new Panel();
@@ -73,7 +71,7 @@ public class StartGamePanel : PangPanel
     private void StartGame(object sender, EventArgs e)
     {
         // Change to the game scene to start the game.
-        Core.ChangeScene(new GameScene(LevelConfig.STARTING_LEVEL, pStats));
+        Core.ChangeScene(new GameScene(LevelConfig.STARTING_LEVEL));
     }
 
     private void updateFlagButton(Object sender, KeyEventArgs e)

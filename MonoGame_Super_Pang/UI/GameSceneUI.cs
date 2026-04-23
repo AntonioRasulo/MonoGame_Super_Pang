@@ -10,6 +10,7 @@ using Gum.Forms.Controls;
 using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
+using MonoGame_Super_Pang.Config;
 
 namespace MonoGame_Super_Pang.UI;
 
@@ -382,9 +383,9 @@ public class GameSceneUI : ContainerRuntime
         }
     }
 
-    public void UpdateMoneyText(int money)
+    public void UpdateMoneyText()
     {
-        _moneyText.Text = string.Format(s_moneyFormat, money);
+        _moneyText.Text = string.Format(s_moneyFormat, PlayerStatsManager.currentStats.Money);
     }
 
     /// <summary>

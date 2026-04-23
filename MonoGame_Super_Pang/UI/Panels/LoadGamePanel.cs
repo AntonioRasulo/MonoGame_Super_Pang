@@ -104,7 +104,8 @@ public class LoadGamePanel : PangPanel
             PlayerStats.SaveGame(PlayerStatsManager.pStats1);
             LoadButton(PlayerStatsManager.pStats1, _loadButton1, Gum.Wireframe.Anchor.Left, 90, -58);
 
-            TitlePanelManager.GoToStartGamePanel(PlayerStatsManager.pStats1);
+            PlayerStatsManager.SelectPlayerStats(1);
+            TitlePanelManager.GoToStartGamePanel();
         }
         if (_newGameButton == _loadButton2)
         {
@@ -116,7 +117,8 @@ public class LoadGamePanel : PangPanel
             PlayerStats.SaveGame(PlayerStatsManager.pStats2);
             LoadButton(PlayerStatsManager.pStats2, _loadButton2, Gum.Wireframe.Anchor.Center, 33, -58);
 
-            TitlePanelManager.GoToStartGamePanel(PlayerStatsManager.pStats2);
+            PlayerStatsManager.SelectPlayerStats(2);
+            TitlePanelManager.GoToStartGamePanel();
         }
         if (_newGameButton == _loadButton3)
         {
@@ -128,7 +130,8 @@ public class LoadGamePanel : PangPanel
             PlayerStats.SaveGame(PlayerStatsManager.pStats3);
             LoadButton(PlayerStatsManager.pStats3, _loadButton3, Gum.Wireframe.Anchor.Right, -24, -58);
 
-            TitlePanelManager.GoToStartGamePanel(PlayerStatsManager.pStats3);
+            PlayerStatsManager.SelectPlayerStats(3);
+            TitlePanelManager.GoToStartGamePanel();
         }
     }
 
@@ -150,8 +153,6 @@ public class LoadGamePanel : PangPanel
         // A UI interaction occurred, play the sound effect
         Core.Audio.PlaySoundEffect(TitlePanelManager.uiSoundEffect);
 
-        PlayerStats pStats = null;
-
         //TODO load game implementation
         if(sender == _loadButton1)
         {
@@ -161,7 +162,7 @@ public class LoadGamePanel : PangPanel
                 return;
             }
             
-            pStats = PlayerStatsManager.pStats1;
+            PlayerStatsManager.SelectPlayerStats(1);
         }
 
         if(sender == _loadButton2)
@@ -171,7 +172,7 @@ public class LoadGamePanel : PangPanel
                 HandleNewGameClicked(_loadButton2);
                 return;
             }
-            pStats = PlayerStatsManager.pStats2;
+            PlayerStatsManager.SelectPlayerStats(2);
         }
 
         if(sender == _loadButton3)
@@ -181,10 +182,10 @@ public class LoadGamePanel : PangPanel
                 HandleNewGameClicked(_loadButton3);
                 return;
             }
-            pStats = PlayerStatsManager.pStats3;
+            PlayerStatsManager.SelectPlayerStats(3);
         }
 
-        TitlePanelManager.GoToStartGamePanel(pStats);
+        TitlePanelManager.GoToStartGamePanel();
     }
 
     private void HandleDeleteGameClicked(object sender, EventArgs e)

@@ -19,10 +19,25 @@ public class PlayerStatsManager
     public static PlayerStats pStats2;
     public static PlayerStats pStats3;
 
+    public static PlayerStats currentStats;
+
     public static void LoadContent()
     {
         pStats1 = PlayerStats.LoadGame(PATH1);
         pStats2 = PlayerStats.LoadGame(PATH2);
         pStats3 = PlayerStats.LoadGame(PATH3);
+        currentStats = null;
     }
+
+    public static void SelectPlayerStats(int stats)
+    {
+        currentStats = stats switch
+        {
+            1 => pStats1,
+            2 => pStats2,
+            3 => pStats3,
+            _ => null
+        };
+    }
+
 }
