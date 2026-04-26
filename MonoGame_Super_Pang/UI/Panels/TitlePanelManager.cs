@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework.Audio;
 using MonoGameLibrary;
 using MonoGame_Super_Pang.Config;
 using System;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGame_Super_Pang.UI;
 
@@ -115,7 +116,7 @@ public class TitlePanelManager
         return _titleScreenButtonsPanel.IsVisible();
     }
 
-    public static void HandleDeleteGameClicked(TextureButton gameToDelete)
+    public static void HandleDeleteGameClicked(LoadButton gameToDelete)
     {
         _deleteGamePanel.AddChild(gameToDelete);
 
@@ -164,6 +165,7 @@ public class TitlePanelManager
     {
         _startGamePanel.SetIsVisible(false);
         _loadGamePanel.SetIsVisible(true);
+        _loadGamePanel.UpdateLoadButton();
         PlayerStatsManager.SelectPlayerStats(4);
     }
 
@@ -182,6 +184,17 @@ public class TitlePanelManager
     {
         _shopPanel.SetIsVisible(true);
         _startGamePanel.SetIsVisible(false);
+    }
+
+    public static void Draw()
+    {
+        // Begin the sprite batch to prepare for rendering.
+        Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+        _titleScreenButtonsPanel.Draw();
+
+        // Always end the sprite batch when finished.
+        Core.SpriteBatch.End();
     }
 
 }

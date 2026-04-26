@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame_Super_Pang.Config;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
-using MonoGame_Super_Pang.Scenes;
 using Gum.Forms.Controls;
 using MonoGameGum;
 using System;
@@ -12,11 +11,11 @@ namespace MonoGame_Super_Pang.UI;
 
 public class LoadGamePanel : PangPanel
 {
-    private TextureButton _loadButton1;
-    private TextureButton _loadButton2;
-    private TextureButton _loadButton3;
+    private LoadButton _loadButton1;
+    private LoadButton _loadButton2;
+    private LoadButton _loadButton3;
 
-    private TextureButton _newGameButton;
+    private LoadButton _newGameButton;
 
     private AnimatedButton _loadBackButton;
 
@@ -24,8 +23,7 @@ public class LoadGamePanel : PangPanel
 
     private string _saveToDelete;
 
-    TextureButton _gameToDelete;
-
+    private LoadButton _gameToDelete;
 
     public LoadGamePanel()
     {
@@ -40,49 +38,52 @@ public class LoadGamePanel : PangPanel
         float screenHeight = Core.GraphicsDevice.PresentationParameters.BackBufferHeight;
         float screenWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
 
-        _loadButton1 = new(loadGamePaperRegion.Texture, loadGamePaperRegion.SourceRectangle);
-        _loadButton2 = new(loadGamePaperRegion.Texture, loadGamePaperRegion.SourceRectangle);
-        _loadButton3 = new(loadGamePaperRegion.Texture, loadGamePaperRegion.SourceRectangle);
+        _loadButton1 = new(_GUIatlas);
+        _loadButton2 = new(_GUIatlas);
+        _loadButton3 = new(_GUIatlas);
 
         _loadButton1.Click += HandleLoadButton;
-        _loadButton1.Anchor(Gum.Wireframe.Anchor.Left);
-        _loadButton1.X = 25;
-        _loadButton1.Y = 0;
-        _loadButton1.SetScale(1.8f);
+        _loadButton1.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        _loadButton1.X = 2;
+        _loadButton1.Y = 10;
+        _loadButton1.Width = 240;
+        _loadButton1.Height = 50;
 
         if(PlayerStatsManager.pStats1 != null)
         {
-            LoadButton(PlayerStatsManager.pStats1, _loadButton1, Gum.Wireframe.Anchor.Left, 90, -58);
+            LoadButton(PlayerStatsManager.pStats1, _loadButton1, Gum.Wireframe.Anchor.TopRight, -65, 30);
         }
 
-        _loadButton2.Anchor(Gum.Wireframe.Anchor.Center);
+        _loadButton2.Anchor(Gum.Wireframe.Anchor.TopLeft);
         _loadButton2.Click += HandleLoadButton;
-        _loadButton2.X = 0;
-        _loadButton2.Y = 0;
-        _loadButton2.SetScale(1.8f);
+        _loadButton2.X = 2;
+        _loadButton2.Y = 65;
+        _loadButton2.Width = 240;
+        _loadButton2.Height = 50;
 
         if(PlayerStatsManager.pStats2 != null)
         {
-            LoadButton(PlayerStatsManager.pStats2, _loadButton2, Gum.Wireframe.Anchor.Center, 33, -58);
+            LoadButton(PlayerStatsManager.pStats2, _loadButton2, Gum.Wireframe.Anchor.Right, -65, 0);
         }
 
-        _loadButton3.Anchor(Gum.Wireframe.Anchor.Right);
+        _loadButton3.Anchor(Gum.Wireframe.Anchor.TopLeft);
         _loadButton3.Click += HandleLoadButton;
-        _loadButton3.X = -25;
-        _loadButton3.Y = 0;
-        _loadButton3.SetScale(1.8f);
+        _loadButton3.X = 2;
+        _loadButton3.Y = 120;
+        _loadButton3.Width = 240;
+        _loadButton3.Height = 50;
         _loadButton3.KeyDown += updateFlagLoadButton;
 
         if(PlayerStatsManager.pStats3 != null)
         {
-            LoadButton(PlayerStatsManager.pStats3, _loadButton3, Gum.Wireframe.Anchor.Right, -24, -58);
+            LoadButton(PlayerStatsManager.pStats3, _loadButton3, Gum.Wireframe.Anchor.BottomRight, -65, -30);
         }
 
         _loadBackButton = new AnimatedButton(_GUIatlas);
         _loadBackButton.Text = "BACK";
         _loadBackButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
-        _loadBackButton.X = -28f;
-        _loadBackButton.Y = -10f;
+        _loadBackButton.X = -15f;
+        _loadBackButton.Y = -5f;
         _loadBackButton.Click += TitlePanelManager.HandleOptionsButtonBack;
         _loadBackButton.KeyDown += updateFlagLoadButton;
 
@@ -96,10 +97,7 @@ public class LoadGamePanel : PangPanel
     {
         if (_newGameButton == _loadButton1)
         {
-            PlayerStatsManager.pStats1 = new PlayerStats();
-            PlayerStatsManager.pStats1.Name = newGameText;
-            PlayerStatsManager.pStats1.Money = 0;
-            PlayerStatsManager.pStats1.Path = PlayerStatsManager.PATH1;
+            PlayerStatsManager.pStats1 = new PlayerStats(newGameText, PlayerStatsManager.PATH1);
 
             PlayerStats.SaveGame(PlayerStatsManager.pStats1);
             LoadButton(PlayerStatsManager.pStats1, _loadButton1, Gum.Wireframe.Anchor.Left, 90, -58);
@@ -109,10 +107,7 @@ public class LoadGamePanel : PangPanel
         }
         if (_newGameButton == _loadButton2)
         {
-            PlayerStatsManager.pStats2 = new PlayerStats();
-            PlayerStatsManager.pStats2.Name = newGameText;
-            PlayerStatsManager.pStats2.Money = 0;
-            PlayerStatsManager.pStats2.Path = PlayerStatsManager.PATH2;
+            PlayerStatsManager.pStats2 = new PlayerStats(newGameText, PlayerStatsManager.PATH2);
 
             PlayerStats.SaveGame(PlayerStatsManager.pStats2);
             LoadButton(PlayerStatsManager.pStats2, _loadButton2, Gum.Wireframe.Anchor.Center, 33, -58);
@@ -122,10 +117,7 @@ public class LoadGamePanel : PangPanel
         }
         if (_newGameButton == _loadButton3)
         {
-            PlayerStatsManager.pStats3 = new PlayerStats();
-            PlayerStatsManager.pStats3.Name = newGameText;
-            PlayerStatsManager.pStats3.Money = 0;
-            PlayerStatsManager.pStats3.Path = PlayerStatsManager.PATH3;
+            PlayerStatsManager.pStats3 = new PlayerStats(newGameText, PlayerStatsManager.PATH3);
 
             PlayerStats.SaveGame(PlayerStatsManager.pStats3);
             LoadButton(PlayerStatsManager.pStats3, _loadButton3, Gum.Wireframe.Anchor.Right, -24, -58);
@@ -135,7 +127,7 @@ public class LoadGamePanel : PangPanel
         }
     }
 
-    private void LoadButton(PlayerStats pStats, TextureButton loadButton, Gum.Wireframe.Anchor anchor, float deleteX, float deleteY)
+    private void LoadButton(PlayerStats pStats, LoadButton loadButton, Gum.Wireframe.Anchor anchor, float deleteX, float deleteY)
     {
         loadButton.Text = pStats.Name;
         loadButton.setTextMoney(pStats.Money.ToString());
@@ -198,17 +190,17 @@ public class LoadGamePanel : PangPanel
 
         if(sender == _loadButton1._deleteButton)
         {
-            _gameToDelete = new TextureButton(_loadButton1);
+            _gameToDelete = new LoadButton(_loadButton1, _GUIatlas);
             _saveToDelete = PlayerStatsManager.pStats1.Path;
         }
         if(sender == _loadButton2._deleteButton)
         {
-            _gameToDelete = new TextureButton(_loadButton2);
+            _gameToDelete = new LoadButton(_loadButton2, _GUIatlas);
             _saveToDelete = PlayerStatsManager.pStats2.Path;
         }
         if(sender == _loadButton3._deleteButton)
         {
-            _gameToDelete = new TextureButton(_loadButton3);
+            _gameToDelete = new LoadButton(_loadButton3, _GUIatlas);
             _saveToDelete = PlayerStatsManager.pStats3.Path;
         }
 
@@ -257,7 +249,7 @@ public class LoadGamePanel : PangPanel
 
     private void HandleNewGameClicked(object sender)
     {
-        _newGameButton = (TextureButton)sender;
+        _newGameButton = (LoadButton)sender;
 
         TitlePanelManager.HandleNewGameClicked();
 
@@ -289,12 +281,30 @@ public class LoadGamePanel : PangPanel
         _saveToDelete = null;
     }
 
-    private void CleanButton(TextureButton button)
+    private void CleanButton(LoadButton button)
     {
         button.Text = "NewGame";
         button.setTextMoney("");
         button.isNewGame = true;
         button._deleteButton.Visual.Parent=null;
+    }
+
+    public void UpdateLoadButton()
+    {
+        if(PlayerStatsManager.currentStats == PlayerStatsManager.pStats1)
+        {
+            _loadButton1.setTextMoney(PlayerStatsManager.pStats1.Money.ToString());
+        }
+
+        if(PlayerStatsManager.currentStats == PlayerStatsManager.pStats2)
+        {
+            _loadButton2.setTextMoney(PlayerStatsManager.pStats2.Money.ToString());
+        }
+
+        if(PlayerStatsManager.currentStats == PlayerStatsManager.pStats3)
+        {
+            _loadButton3.setTextMoney(PlayerStatsManager.pStats3.Money.ToString());
+        }
     }
 
 }

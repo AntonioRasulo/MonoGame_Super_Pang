@@ -1,48 +1,55 @@
-using System;
-using Gum.Forms.Controls;
 using Gum.Forms.DefaultVisuals.V3;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonoGameGum.GueDeriving;
+using MonoGameLibrary.Graphics;
+using MonoGame_Super_Pang.Config;
 
 namespace MonoGame_Super_Pang.UI;
 
-public class TextureButton : Button
+public enum PowerUpButtonState
+{
+    Level1,
+    Level2,
+    Level3
+}
+
+public class PowerUpButton : AnimatedButton
 {
     private SpriteRuntime _sprite;
-    private TextRuntime _textMoney;
 
     private float _scale;
 
-    public bool isNewGame{get;set;}
+    private PowerUpButtonState _state;
 
-    public DeleteButton _deleteButton;
+    private ShopItems _item;
 
-    public TextureButton(Texture2D texture, Rectangle sourceRectangle)
+    private const int WIDTH = 30;
+    private const int HEIGHT = 20;
+
+    public PowerUpButton(Texture2D texture, Rectangle sourceRectangle, TextureAtlas atlas, ShopItems item) : base(atlas)
     {
-        _deleteButton = new DeleteButton();
         CreateSprite(texture, sourceRectangle);
+        SetState(PowerUpButtonState.Level1);
+        Width = WIDTH;
+        Height = HEIGHT;
+        _item = item;
     }
 
-    public TextureButton(TextureButton button)
+    public PowerUpButton(PowerUpButton button, TextureAtlas atlas) : base(atlas)
     {
         CreateSprite(button._sprite.Texture, button._sprite.SourceRectangle);
-        Text = button.Text;
-        _textMoney.Text = button._textMoney.Text;
+        SetState(button._state);
         SetScale(button._scale);
+        Width = WIDTH;
+        Height = HEIGHT;
+        _item = button._item;
     }
 
     private void CreateSprite(Texture2D texture, Rectangle sourceRectangle)
     {
         // Access the visual
         ButtonVisual visual = (ButtonVisual)this.Visual;
-
-        // Remove default background (NineSlice)
-        if (visual.Background != null)
-        {
-            visual.Children.Remove(visual.Background);
-        }
 
         // Create sprite
         _sprite = new SpriteRuntime
@@ -63,23 +70,15 @@ public class TextureButton : Button
         this.Height = sourceRectangle.Height;
 
         TextRuntime textInstance = visual.TextInstance;
-        textInstance.Text = "NewGame";
-        textInstance.Anchor(Gum.Wireframe.Anchor.Top);
-        textInstance.Y = 10;
-        textInstance.Color = Color.Black;
-        _textMoney = new TextRuntime();
-        _textMoney.Text = "";
-        _textMoney.Anchor(Gum.Wireframe.Anchor.Bottom);
+        textInstance.Text = "";
 
-        visual.Children.Insert(0, _sprite);
-        visual.Children.Insert(1, _textMoney);
-
-        isNewGame = true;
+        _sprite.Anchor(Gum.Wireframe.Anchor.Center);
+        visual.Background.AddChild(_sprite);
 
         // Add event handlers for keyboard input.
         KeyDown += HandleKeyDown;
 
-        // // Add event handler for mouse hover focus.
+        // Add event handler for mouse hover focus.
         visual.RollOn += HandleRollOn;
     }
 
@@ -96,6 +95,12 @@ public class TextureButton : Button
         this.Width = newWidth;
         this.Height = newHeight;
 
+        ButtonVisual visual = (ButtonVisual)this.Visual;
+        visual.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+        visual.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+        visual.Width = newWidth;
+        visual.Height = newHeight;
+
         // Scale sprite (visual)
         _sprite.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
         _sprite.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
@@ -103,36 +108,57 @@ public class TextureButton : Button
         _sprite.Height = newHeight;
 
         _scale = scale;
-
     }
 
-    public void setTextMoney(string textMoney)
+    public void LevelUp()
     {
-        _textMoney.Text = textMoney;
-    }
-
-    /// <summary>
-    /// Handles keyboard input for navigation between buttons using left/right keys.
-    /// </summary>
-    private void HandleKeyDown(object sender, KeyEventArgs e)
-    {
-        if (e.Key == Keys.Left)
+        switch (_state)
         {
-            // Left arrow navigates to previous control
-            HandleTab(TabDirection.Up, loop: true);
+            case PowerUpButtonState.Level1:
+            case PowerUpButtonState.Level2:
+                _state++;
+            break;
+            case PowerUpButtonState.Level3:
+            break;
         }
-        if (e.Key == Keys.Right)
+        SetSpriteColor();
+    }
+
+    public void SetState(PowerUpButtonState state)
+    {
+        _state = state;
+        SetSpriteColor();
+    }
+
+    private void SetSpriteColor()
+    {
+        switch (_state)
         {
-            // Right arrow navigates to next control
-            HandleTab(TabDirection.Down, loop: true);
+            case PowerUpButtonState.Level1:
+                _sprite.Color = Color.SandyBrown;
+            break;
+            case PowerUpButtonState.Level2:
+                _sprite.Color = Color.Silver;
+            break;
+            case PowerUpButtonState.Level3:
+                _sprite.Color = Color.Gold;
+            break;
         }
     }
 
-    /// <summary>
-    /// Automatically focuses the button when the mouse hovers over it.
-    /// </summary>
-    private void HandleRollOn(object sender, EventArgs e)
+    public int GetPowerUpPrize()
     {
-        IsFocused = true;
+        return ShopItemsConfig.prizes[_item][_state];
     }
+
+    public PowerUpButtonState GetState()
+    {
+        return _state;
+    }
+
+    public ShopItems GetItem()
+    {
+        return _item;
+    }
+
 }

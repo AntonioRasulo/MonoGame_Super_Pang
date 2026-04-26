@@ -1611,8 +1611,8 @@
 /processorParam:TextureFormat=Color
 /build:images/harpoons/items_170.png
 
-#begin images/items-atlas.xml
-/copy:images/items-atlas.xml
+#begin images/Items/items-atlas.xml
+/copy:images/Items/items-atlas.xml
 
 #begin images/Items/items.png
 /importer:TextureImporter

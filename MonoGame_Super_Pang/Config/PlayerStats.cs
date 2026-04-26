@@ -10,6 +10,16 @@ public class PlayerStats
     public int Money{ get; set;}
     public string Path{get;set;}
 
+    public int HarpoonNum{get; set;}
+
+    public PlayerStats(string name, string path)
+    {
+        Money = 0;
+        HarpoonNum = 1;
+        Name = name;
+        Path = path;
+    }
+
     public static PlayerStats LoadGame(string PATH)
     {
         string backupPath = PATH + ".bak";
@@ -29,6 +39,8 @@ public class PlayerStats
             }
 
             stats = JsonSerializer.Deserialize<PlayerStats>(json);
+
+            break;
 
         }
 

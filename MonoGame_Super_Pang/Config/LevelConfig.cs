@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using MonoGame_Super_Pang.GameObjects;
-using MonoGameLibrary.Graphics;
 
 namespace MonoGame_Super_Pang.Config;
 

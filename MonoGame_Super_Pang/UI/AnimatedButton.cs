@@ -15,7 +15,7 @@ namespace MonoGame_Super_Pang.UI;
 /// A custom button implementation that inherits from Gum's Button class to provide
 /// animated visual feedback when focused.
 /// </summary>
-internal class AnimatedButton : Button
+public class AnimatedButton : Button
 {
     /// <summary>
     /// Creates a new AnimatedButton instance using graphics from the specified texture atlas.
@@ -139,7 +139,7 @@ internal class AnimatedButton : Button
     /// <summary>
     /// Handles keyboard input for navigation between buttons using left/right keys.
     /// </summary>
-    private void HandleKeyDown(object sender, KeyEventArgs e)
+    protected void HandleKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Keys.Left)
         {
@@ -156,7 +156,7 @@ internal class AnimatedButton : Button
     /// <summary>
     /// Automatically focuses the button when the mouse hovers over it.
     /// </summary>
-    private void HandleRollOn(object sender, EventArgs e)
+    protected void HandleRollOn(object sender, EventArgs e)
     {
         IsFocused = true;
     }

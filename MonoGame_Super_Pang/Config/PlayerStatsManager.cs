@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using MonoGame_Super_Pang.UI;
 
 namespace MonoGame_Super_Pang.Config;
 
@@ -20,6 +21,7 @@ public class PlayerStatsManager
     public static PlayerStats pStats3;
 
     public static PlayerStats currentStats;
+    public static PlayerStatsPowerUpState currentStatsLevels;
 
     public static void LoadContent()
     {
@@ -38,6 +40,27 @@ public class PlayerStatsManager
             3 => pStats3,
             _ => null
         };
+
+        currentStatsLevels = PlayerStatsPowerUpState.getCurrentStatePowerUpLevel();
+
+        if( currentStats != null)
+        {
+            ShopPanel.InitializePowerUpButtons();
+        }
+    }
+
+    public static void SetPlayerStats(PowerUpButtonState state, ShopItems itemType)
+    {
+        switch (itemType)
+        {
+            case ShopItems.HARPOON:
+            currentStatsLevels.harpoonLevel = state;
+            currentStats.HarpoonNum++;
+            break;
+        }
+
+        PlayerStats.SaveGame(currentStats);
+
     }
 
 }
