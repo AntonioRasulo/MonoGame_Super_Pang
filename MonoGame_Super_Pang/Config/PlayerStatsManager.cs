@@ -57,6 +57,18 @@ public class PlayerStatsManager
             currentStatsLevels.harpoonLevel = state;
             currentStats.HarpoonNum++;
             break;
+            case ShopItems.SPEED:
+            currentStatsLevels.speedLevel = state;
+                switch (state)
+                {
+                    case PowerUpButtonState.Level2:
+                        currentStats.Speed = 6.5f;
+                        break;
+                    case PowerUpButtonState.Level3:
+                        currentStats.Speed = 8.0f;
+                        break;
+                }
+            break;
         }
 
         PlayerStats.SaveGame(currentStats);

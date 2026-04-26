@@ -34,8 +34,6 @@ public class Character
 
     private List<Harpoon> _harpoons;
 
-    private float _speed = 5.0f;
-
     private readonly Vector2 SCALE = new Vector2(4.0f, 4.0f);
 
     private const int HARPOON_DELAY = 5;
@@ -83,6 +81,23 @@ public class Character
         _walkAnimation = characterAtlas.CreateAnimatedSprite("walk-animation");
         _walkAnimation.Scale = SCALE;
         _walkAnimation.CenterOrigin();
+
+        TimeSpan speed = TimeSpan.Zero;
+
+        switch (PlayerStatsManager.currentStats.Speed)
+        {
+            case 5.0f:
+                speed = new TimeSpan(0, 0, 0, 0, 150);
+            break;
+            case 6.5f:
+                speed = new TimeSpan(0, 0, 0, 0, 150);
+            break;
+            case 8.0f:
+                speed = new TimeSpan(0, 0, 0, 0, 150);
+            break;
+        }
+
+        _walkAnimation.SetDelay(speed);
 
         _shootAnimation = characterAtlas.CreateAnimatedSprite("shooting-animation");
         _shootAnimation.Scale = SCALE;
@@ -193,7 +208,7 @@ public class Character
                 {
                     currentState = CharacterState.Walking;
 
-                    newPosition.X -= _speed;
+                    newPosition.X -= PlayerStatsManager.currentStats.Speed;
                     _characterPosition = newPosition;
                     _walkAnimation.Effects = SpriteEffects.None;
                     _idleSprite.Effects = SpriteEffects.None;
@@ -203,7 +218,7 @@ public class Character
                 {
                     currentState = CharacterState.Walking;
 
-                    newPosition.X += _speed;
+                    newPosition.X += PlayerStatsManager.currentStats.Speed;
                     _characterPosition = newPosition;
                     _walkAnimation.Effects = SpriteEffects.FlipHorizontally;
                     _idleSprite.Effects = SpriteEffects.FlipHorizontally;

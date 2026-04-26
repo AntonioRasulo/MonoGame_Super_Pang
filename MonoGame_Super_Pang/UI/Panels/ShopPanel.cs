@@ -1,5 +1,6 @@
 using Gum.Forms.Controls;
 using MonoGame_Super_Pang.Config;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGameGum;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
@@ -13,6 +14,7 @@ class ShopPanel : PangPanel
     private TextureAtlas _itemsAtlas;
 
     private static PowerUpButton harpoonButton;
+    private static PowerUpButton speedButton;
 
     private PowerUpButton lastButtonPressed;
 
@@ -48,11 +50,23 @@ class ShopPanel : PangPanel
         harpoonButton.Click += ShowConfirmPanel;
         _panel.AddChild(harpoonButton);
 
+        Texture2D speed2DTexture = Core.Content.Load<Texture2D>("images/UI/white_wings");
+        TextureRegion speedRegion = new TextureRegion(speed2DTexture, 0, 0, speed2DTexture.Width, speed2DTexture.Height);
+
+        speedButton = new PowerUpButton(speedRegion.Texture, speedRegion.SourceRectangle, _GUIatlas, ShopItems.SPEED);
+        speedButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        speedButton.X = 60.0f;
+        speedButton.Y = 30.0f;
+        speedButton.Click += ShowConfirmPanel;
+        speedButton.SetScale(0.02f);
+        _panel.AddChild(speedButton);
+
     }
 
     public static void InitializePowerUpButtons()
     {
         harpoonButton.SetState(PlayerStatsManager.currentStatsLevels.harpoonLevel);
+        speedButton.SetState(PlayerStatsManager.currentStatsLevels.speedLevel);
     }
 
     public override void Update()

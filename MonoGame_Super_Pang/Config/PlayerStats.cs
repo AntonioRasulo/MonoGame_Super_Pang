@@ -12,6 +12,8 @@ public class PlayerStats
 
     public int HarpoonNum{get; set;}
 
+    public float Speed{get; set;}
+
     public PlayerStats(string name, string path)
     {
         Money = 0;

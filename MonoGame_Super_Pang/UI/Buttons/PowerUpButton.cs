@@ -86,26 +86,11 @@ public class PowerUpButton : AnimatedButton
     {
         var rect = _sprite.SourceRectangle;
 
-        float newWidth = rect.Width * scale;
-        float newHeight = rect.Height * scale;
-
-        // Scale button (IMPORTANT for input)
-        this.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
-        this.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
-        this.Width = newWidth;
-        this.Height = newHeight;
-
-        ButtonVisual visual = (ButtonVisual)this.Visual;
-        visual.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
-        visual.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
-        visual.Width = newWidth;
-        visual.Height = newHeight;
-
         // Scale sprite (visual)
         _sprite.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
         _sprite.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
-        _sprite.Width = newWidth;
-        _sprite.Height = newHeight;
+        _sprite.Width = rect.Width * scale;
+        _sprite.Height = rect.Height * scale;
 
         _scale = scale;
     }

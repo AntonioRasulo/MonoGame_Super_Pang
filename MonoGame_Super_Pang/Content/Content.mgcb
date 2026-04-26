@@ -90,18 +90,6 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/04B_30.spritefont
 
-#begin images/UI/atlas.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:images/UI/atlas.png
-
 #begin images/backgrounds/clouds1/1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -561,6 +549,18 @@
 /processorParam:TextureFormat=Color
 /build:images/balls/baloons.png
 
+#begin images/balls/HexagonGreenBall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=128,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/balls/HexagonGreenBall.png
+
 #begin images/Character/character_atlas.xml
 /copy:images/Character/character_atlas.xml
 
@@ -743,21 +743,6 @@
 
 #begin images/enemies/mini_bats/mini_bat.xml
 /copy:images/enemies/mini_bats/mini_bat.xml
-
-#begin images/UI/GUI_atlas.xml
-/copy:images/UI/GUI_atlas.xml
-
-#begin images/balls/HexagonGreenBall.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=128,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:images/balls/HexagonGreenBall.png
 
 #begin images/harpoons/items_100.png
 /importer:TextureImporter
@@ -1641,6 +1626,18 @@
 #begin images/platforms/terrain_atlas.xml
 /copy:images/platforms/terrain_atlas.xml
 
+#begin images/UI/atlas.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/UI/atlas.png
+
 #begin images/UI/Book_atlas.xml
 /copy:images/UI/Book_atlas.xml
 
@@ -1659,6 +1656,9 @@
 #begin images/UI/Book2_atlas.xml
 /copy:images/UI/Book2_atlas.xml
 
+#begin images/UI/GUI_atlas.xml
+/copy:images/UI/GUI_atlas.xml
+
 #begin images/UI/UI_books_and_more.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1670,4 +1670,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:images/UI/UI_books_and_more.png
+
+#begin images/UI/white_wings.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,255,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/UI/white_wings.png
 

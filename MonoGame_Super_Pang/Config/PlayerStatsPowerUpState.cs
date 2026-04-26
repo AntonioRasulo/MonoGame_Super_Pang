@@ -5,6 +5,7 @@ namespace MonoGame_Super_Pang.Config;
 public class PlayerStatsPowerUpState
 {
     public PowerUpButtonState harpoonLevel;
+    public PowerUpButtonState speedLevel;
 
     public static PlayerStatsPowerUpState getCurrentStatePowerUpLevel()
     {
@@ -20,6 +21,12 @@ public class PlayerStatsPowerUpState
                     1 => PowerUpButtonState.Level1,
                     2 => PowerUpButtonState.Level2,
                     3 => PowerUpButtonState.Level3
+                },
+                speedLevel = PlayerStatsManager.currentStats.Speed switch
+                {
+                    5.0f => PowerUpButtonState.Level1,
+                    6.5f => PowerUpButtonState.Level2,
+                    8.0f => PowerUpButtonState.Level3 
                 }
             };
         }

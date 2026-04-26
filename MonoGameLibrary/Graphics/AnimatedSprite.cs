@@ -66,4 +66,9 @@ public class AnimatedSprite : Sprite
 
     public bool IsComplete => _currentFrame >= _animation.Frames.Count - 1;
 
+    public void SetDelay(TimeSpan delay)
+    {
+        _animation.Delay = delay;
+    }
+
 }
