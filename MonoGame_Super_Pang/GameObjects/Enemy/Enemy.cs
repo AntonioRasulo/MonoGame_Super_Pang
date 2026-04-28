@@ -30,6 +30,8 @@ abstract public class Enemy
 
     protected bool _toRemove;
 
+    public bool _isDead;
+
     public List<Bullet> _bullets;
 
     /// <summary>
@@ -40,6 +42,7 @@ abstract public class Enemy
     {
         _position = position;
         _bullets = new List<Bullet>();
+        _isDead = false;
     }
 
     /// <summary>
@@ -64,6 +67,7 @@ abstract public class Enemy
         _lives--;
         if(_lives == 0)
         {
+            _isDead = true;
             return _score;
         }
         return 0;

@@ -29,6 +29,7 @@ public class GameScene : Scene
     private List<Platform> _platforms;
 
     private List<Enemy> _enemies;
+    private List<Enemy> _deadEnemies;
 
     private Rectangle _roomBounds;
 
@@ -147,6 +148,7 @@ public class GameScene : Scene
         _platforms = new List<Platform>();
 
         _enemies = new List<Enemy>();
+        _deadEnemies = new List<Enemy>();
 
         // Load the font
         _font = Content.Load<SpriteFont>("fonts/04B_30");
@@ -203,19 +205,16 @@ public class GameScene : Scene
             enemy.Update(gameTime);
         }
 
+        foreach(Enemy enemy in _deadEnemies)
+        {
+            enemy.Update(gameTime);
+        }
+
         CollisionChecks();
 
         checkChangeScene();
 
-        List<Enemy> toRemoveEnemies = new List<Enemy>();
-        foreach(Enemy enemy in _enemies)
-        {
-            if (enemy.isToRemove())
-            {
-                toRemoveEnemies.Add(enemy);
-            }
-        }
-        _enemies.RemoveAll(enemy => toRemoveEnemies.Contains(enemy));
+        _deadEnemies.RemoveAll(enemy => enemy.isToRemove());
 
         _levelBackground.Update(gameTime);
 
@@ -332,10 +331,14 @@ public class GameScene : Scene
                     _score += enemy.TakeHit();
                     _ui.UpdateScoreText(_score);
                     toRemoveHarpoon.Add(harpoon);
+                    if (enemy._isDead)
+                    {
+                        _deadEnemies.Add(enemy);
+                    }
                 }
             }
         }
-
+        _enemies.RemoveAll(enemy => enemy._isDead);
         _character.removeHarpoons(toRemoveHarpoon);
 
         /* Enemies character collision */
@@ -597,6 +600,11 @@ public class GameScene : Scene
             enemy.Draw();
         }
 
+        foreach(Enemy enemy in _deadEnemies)
+        {
+            enemy.Draw();
+        }
+
         // Always end the sprite batch when finished.
         Core.SpriteBatch.End();
 
@@ -611,6 +619,7 @@ public class GameScene : Scene
         _balls.Clear();
         _platforms.Clear();
         _enemies.Clear();
+        _deadEnemies.Clear();
         Ball.resetFreeze();
         foreach (var spawnConfig in config.Balls)
         {
