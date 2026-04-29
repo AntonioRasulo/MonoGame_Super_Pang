@@ -15,10 +15,13 @@ class ShopPanel : PangPanel
 
     private static PowerUpButton harpoonButton;
     private static PowerUpButton speedButton;
+    private static PowerUpButton livesButton;
 
     private PowerUpButton lastButtonPressed;
 
     private ConfirmUpgradeItemPanel _confirmUpgradePanel;
+
+    private const float BUTTONDISTANCEX = 30.0f;
 
     public ShopPanel()
     {
@@ -42,10 +45,11 @@ class ShopPanel : PangPanel
         _itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
 
         TextureRegion harpoonText = _itemsAtlas.GetRegion("harpoonTexture");
+        TextureRegion livesText = _itemsAtlas.GetRegion("livesSprite");
 
         harpoonButton = new PowerUpButton(harpoonText.Texture, harpoonText.SourceRectangle, _GUIatlas, ShopItems.HARPOON);
         harpoonButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        harpoonButton.X = 30.0f;
+        harpoonButton.X = BUTTONDISTANCEX;
         harpoonButton.Y = 30.0f;
         harpoonButton.Click += ShowConfirmPanel;
         _panel.AddChild(harpoonButton);
@@ -55,11 +59,18 @@ class ShopPanel : PangPanel
 
         speedButton = new PowerUpButton(speedRegion.Texture, speedRegion.SourceRectangle, _GUIatlas, ShopItems.SPEED);
         speedButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        speedButton.X = 60.0f;
+        speedButton.X = 2*BUTTONDISTANCEX;
         speedButton.Y = 30.0f;
         speedButton.Click += ShowConfirmPanel;
         speedButton.SetScale(0.02f);
         _panel.AddChild(speedButton);
+
+        livesButton = new PowerUpButton(livesText.Texture, livesText.SourceRectangle, _GUIatlas, ShopItems.LIVES);
+        livesButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        livesButton.X = 3*BUTTONDISTANCEX;
+        livesButton.Y = 30.0f;
+        livesButton.Click += ShowConfirmPanel;
+        _panel.AddChild(livesButton);
 
     }
 
@@ -67,6 +78,7 @@ class ShopPanel : PangPanel
     {
         harpoonButton.SetState(PlayerStatsManager.currentStatsLevels.harpoonLevel);
         speedButton.SetState(PlayerStatsManager.currentStatsLevels.speedLevel);
+        livesButton.SetState(PlayerStatsManager.currentStatsLevels.livesLevel);
     }
 
     public override void Update()

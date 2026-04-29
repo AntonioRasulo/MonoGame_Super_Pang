@@ -14,12 +14,16 @@ public class PlayerStats
 
     public float Speed{get; set;}
 
+    public int Lives{get; set;}
+
     public PlayerStats(string name, string path)
     {
         Money = 0;
         HarpoonNum = 1;
         Name = name;
         Path = path;
+        Lives = 1;
+        Speed = 5.0f;
     }
 
     public static PlayerStats LoadGame(string PATH)

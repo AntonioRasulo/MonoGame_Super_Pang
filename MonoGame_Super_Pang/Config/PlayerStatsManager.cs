@@ -69,6 +69,10 @@ public class PlayerStatsManager
                         break;
                 }
             break;
+            case ShopItems.LIVES:
+            currentStatsLevels.livesLevel = state;
+            currentStats.Lives++;
+            break;
         }
 
         PlayerStats.SaveGame(currentStats);

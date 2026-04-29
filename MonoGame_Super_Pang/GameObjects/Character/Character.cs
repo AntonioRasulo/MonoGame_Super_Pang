@@ -50,7 +50,7 @@ public class Character
 
     private SoundEffect _hitSoundEffect;
 
-    private int _lives = 3;
+    private int _lives = PlayerStatsManager.currentStats.Lives;
 
     public Character()
     {
