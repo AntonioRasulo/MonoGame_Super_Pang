@@ -16,6 +16,8 @@ public class PlayerStats
 
     public int Lives{get; set;}
 
+    public float LivesProb{get; set;}
+
     public PlayerStats(string name, string path)
     {
         Money = 0;

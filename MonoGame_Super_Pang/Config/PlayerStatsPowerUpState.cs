@@ -4,9 +4,13 @@ namespace MonoGame_Super_Pang.Config;
 
 public class PlayerStatsPowerUpState
 {
+    /* Character power up */
     public PowerUpButtonState harpoonLevel;
     public PowerUpButtonState speedLevel;
     public PowerUpButtonState livesLevel;
+
+    /* Collectibles power up */
+    public PowerUpButtonState collLivesLevel;
 
     public static PlayerStatsPowerUpState getCurrentStatePowerUpLevel()
     {
@@ -34,6 +38,13 @@ public class PlayerStatsPowerUpState
                     1 => PowerUpButtonState.Level1,
                     2 => PowerUpButtonState.Level2,
                     3 => PowerUpButtonState.Level3
+                },
+                collLivesLevel = PlayerStatsManager.currentStats.LivesProb switch
+                {
+                    0 => PowerUpButtonState.Level0,
+                    3 => PowerUpButtonState.Level1,
+                    4 => PowerUpButtonState.Level2,
+                    5 => PowerUpButtonState.Level3
                 }
             };
         }

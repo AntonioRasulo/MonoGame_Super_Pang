@@ -88,7 +88,7 @@ public class ConfirmUpgradeItemPanel : PangPanel
 
     public void SetText(ShopItems item, int prize)
     {
-        _text.Text = "Do you want to upgrade " + ShopItemsConfig.itemsText[item] + "\nfor "+prize.ToString()+ "?";
+        _text.Text = "Do you want to upgrade\n" + ShopItemsConfig.itemsText[item] + " for "+prize.ToString()+ "?";
     }
 
 }

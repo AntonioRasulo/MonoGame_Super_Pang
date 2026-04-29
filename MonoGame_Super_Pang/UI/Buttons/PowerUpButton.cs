@@ -2,6 +2,7 @@ using Gum.Forms.DefaultVisuals.V3;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameGum.GueDeriving;
+using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using MonoGame_Super_Pang.Config;
 
@@ -9,6 +10,7 @@ namespace MonoGame_Super_Pang.UI;
 
 public enum PowerUpButtonState
 {
+    Level0,
     Level1,
     Level2,
     Level3
@@ -26,6 +28,8 @@ public class PowerUpButton : AnimatedButton
 
     private const int WIDTH = 30;
     private const int HEIGHT = 20;
+
+    private SpriteRuntime _Xsprite;
 
     public PowerUpButton(Texture2D texture, Rectangle sourceRectangle, TextureAtlas atlas, ShopItems item) : base(atlas)
     {
@@ -99,6 +103,11 @@ public class PowerUpButton : AnimatedButton
     {
         switch (_state)
         {
+            case PowerUpButtonState.Level0:
+                _state++;
+                //ButtonVisual visual = (ButtonVisual)this.Visual;
+                _Xsprite.Parent = null;
+                break;
             case PowerUpButtonState.Level1:
             case PowerUpButtonState.Level2:
                 _state++;
@@ -113,12 +122,19 @@ public class PowerUpButton : AnimatedButton
     {
         _state = state;
         SetSpriteColor();
+        if(_state == PowerUpButtonState.Level0)
+        {
+            CreateXSprite();
+        }
     }
 
     private void SetSpriteColor()
     {
         switch (_state)
         {
+            case PowerUpButtonState.Level0:
+                _sprite.Color = Color.SandyBrown;
+            break;
             case PowerUpButtonState.Level1:
                 _sprite.Color = Color.SandyBrown;
             break;
@@ -144,6 +160,38 @@ public class PowerUpButton : AnimatedButton
     public ShopItems GetItem()
     {
         return _item;
+    }
+
+    private void CreateXSprite()
+    {
+        ButtonVisual visual = (ButtonVisual)this.Visual;
+        TextureAtlas book2Atlas = TextureAtlas.FromFile(Core.Content, "images/UI/Book2_atlas.xml");
+
+        TextureRegion x_icon = book2Atlas.GetRegion("x-icon");
+        Texture2D texture = x_icon.Texture;
+        Rectangle sourceRectangle = x_icon.SourceRectangle;
+
+        // Create sprite
+        _Xsprite = new SpriteRuntime
+        {
+            Texture = texture,
+            SourceRectangle = sourceRectangle,
+            WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+            HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+            Width = sourceRectangle.Width,
+            Height = sourceRectangle.Height,
+            TextureAddress = Gum.Managers.TextureAddress.Custom
+        };
+
+        _Xsprite.Anchor(Gum.Wireframe.Anchor.Center);
+        visual.Background.AddChild(_Xsprite);
+        // this.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+        // this.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+
+        // this.Width = sourceRectangle.Width;
+        // this.Height = sourceRectangle.Height;
+
+        //visual.Children.Insert(0, _sprite);
     }
 
 }

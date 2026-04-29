@@ -13,16 +13,20 @@ class ShopPanel : PangPanel
     private static AnimatedButton _backButton;
     private TextureAtlas _itemsAtlas;
 
+    /* Character power up */
     private static PowerUpButton harpoonButton;
     private static PowerUpButton speedButton;
     private static PowerUpButton livesButton;
+
+    /* Collectibles power up */
+    private static PowerUpButton collLivesButton;
 
     private PowerUpButton lastButtonPressed;
 
     private ConfirmUpgradeItemPanel _confirmUpgradePanel;
     private ShopFailedBuyPanel _shopFailedPanel;
 
-    private const float BUTTONDISTANCEX = 30.0f;
+    private const float BUTTONDISTANCE = 30.0f;
 
     public ShopPanel()
     {
@@ -30,13 +34,6 @@ class ShopPanel : PangPanel
         _panel.Dock(Gum.Wireframe.Dock.Fill);
         _panel.IsVisible = false;
         _panel.AddToRoot();
-
-        _confirmUpgradePanel = new ConfirmUpgradeItemPanel();
-        _confirmUpgradePanel.confirmButton.Click += ConfirmBuy;
-        _panel.AddChild(_confirmUpgradePanel.Visual());
-
-        _shopFailedPanel = new ShopFailedBuyPanel();
-        _panel.AddChild(_shopFailedPanel.Visual());
 
         _backButton = new AnimatedButton(_GUIatlas);
         _backButton.Text = "BACK";
@@ -53,8 +50,8 @@ class ShopPanel : PangPanel
 
         harpoonButton = new PowerUpButton(harpoonText.Texture, harpoonText.SourceRectangle, _GUIatlas, ShopItems.HARPOON);
         harpoonButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        harpoonButton.X = BUTTONDISTANCEX;
-        harpoonButton.Y = 30.0f;
+        harpoonButton.X = BUTTONDISTANCE;
+        harpoonButton.Y = BUTTONDISTANCE;
         harpoonButton.Click += ShowConfirmPanel;
         _panel.AddChild(harpoonButton);
 
@@ -63,19 +60,32 @@ class ShopPanel : PangPanel
 
         speedButton = new PowerUpButton(speedRegion.Texture, speedRegion.SourceRectangle, _GUIatlas, ShopItems.SPEED);
         speedButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        speedButton.X = 2*BUTTONDISTANCEX;
-        speedButton.Y = 30.0f;
+        speedButton.X = 2*BUTTONDISTANCE;
+        speedButton.Y = BUTTONDISTANCE;
         speedButton.Click += ShowConfirmPanel;
         speedButton.SetScale(0.02f);
         _panel.AddChild(speedButton);
 
         livesButton = new PowerUpButton(livesText.Texture, livesText.SourceRectangle, _GUIatlas, ShopItems.LIVES);
         livesButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        livesButton.X = 3*BUTTONDISTANCEX;
-        livesButton.Y = 30.0f;
+        livesButton.X = 3*BUTTONDISTANCE;
+        livesButton.Y = BUTTONDISTANCE;
         livesButton.Click += ShowConfirmPanel;
         _panel.AddChild(livesButton);
 
+        collLivesButton = new PowerUpButton(livesText.Texture, livesText.SourceRectangle, _GUIatlas, ShopItems.COLL_LIVES);
+        collLivesButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        collLivesButton.X = BUTTONDISTANCE;
+        collLivesButton.Y = 2*BUTTONDISTANCE;
+        collLivesButton.Click += ShowConfirmPanel;
+        _panel.AddChild(collLivesButton);
+
+        _confirmUpgradePanel = new ConfirmUpgradeItemPanel();
+        _confirmUpgradePanel.confirmButton.Click += ConfirmBuy;
+        _panel.AddChild(_confirmUpgradePanel.Visual());
+
+        _shopFailedPanel = new ShopFailedBuyPanel();
+        _panel.AddChild(_shopFailedPanel.Visual());
     }
 
     public static void InitializePowerUpButtons()
@@ -83,6 +93,7 @@ class ShopPanel : PangPanel
         harpoonButton.SetState(PlayerStatsManager.currentStatsLevels.harpoonLevel);
         speedButton.SetState(PlayerStatsManager.currentStatsLevels.speedLevel);
         livesButton.SetState(PlayerStatsManager.currentStatsLevels.livesLevel);
+        collLivesButton.SetState(PlayerStatsManager.currentStatsLevels.collLivesLevel);
     }
 
     public override void Update()
@@ -130,5 +141,6 @@ class ShopPanel : PangPanel
         harpoonButton.IsEnabled = isEnabled;
         livesButton.IsEnabled = isEnabled;
         _backButton.IsEnabled = isEnabled;
+        collLivesButton.IsEnabled = isEnabled;
     }
 }

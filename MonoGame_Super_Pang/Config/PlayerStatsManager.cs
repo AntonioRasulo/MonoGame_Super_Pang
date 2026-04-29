@@ -73,6 +73,21 @@ public class PlayerStatsManager
             currentStatsLevels.livesLevel = state;
             currentStats.Lives++;
             break;
+            case ShopItems.COLL_LIVES:
+                currentStatsLevels.collLivesLevel = state;
+                switch (state)
+                {
+                    case PowerUpButtonState.Level1:
+                    currentStats.LivesProb = 3.0f;
+                    break;
+                    case PowerUpButtonState.Level2:
+                    currentStats.LivesProb = 4.0f;
+                    break;
+                    case PowerUpButtonState.Level3:
+                    currentStats.LivesProb = 5.0f;
+                    break;
+                }
+            break;
         }
 
         PlayerStats.SaveGame(currentStats);

@@ -4,6 +4,7 @@ using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using MonoGame_Super_Pang.Config;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -27,7 +28,7 @@ public class CollectibleHandler
 
     private SoundEffect _collectSound;
 
-    private const int LIVES_PROB = 5; // 5%
+    //private const int LIVES_PROB = 5; // 5%
     private const int FREEZE_PROB = 10; // 5%
     private const int INVINCIBILITY_PROB = 15; // 5%
     private const int BOMB_PROB = 20; // 5%
@@ -95,31 +96,31 @@ public class CollectibleHandler
     public void GenerateCollectible(Vector2 position)
     {
         int rand = _collectibleRand.Next(0, 100);
-        if (rand < LIVES_PROB)
+        if (rand < PlayerStatsManager.currentStats.LivesProb)
         {
             _collectibles.Add(new PowerUp(position, collectibleType.LIVES));
         }
-        else if (rand < FREEZE_PROB)
+        else if (rand < FREEZE_PROB && rand >5)
         {
             _collectibles.Add(new PowerUp(position, collectibleType.CLOCK));
         }
-        else if (rand < INVINCIBILITY_PROB)
+        else if (rand < INVINCIBILITY_PROB && rand > FREEZE_PROB)
         {
             _collectibles.Add(new PowerUp(position, collectibleType.INVINCIBILITY));
         }
-        else if (rand < BOMB_PROB)
+        else if (rand < BOMB_PROB && rand > BOMB_PROB)
         {
             _collectibles.Add(new PowerUp(position, collectibleType.BOMB));
         }
-        else if (rand < GOLD_COIN_PROB)
+        else if (rand < GOLD_COIN_PROB && rand > BOMB_PROB)
         {
             _collectibles.Add(new Coin(position, collectibleType.GOLD_COIN));
         }
-        else if (rand < SILVER_COIN_PROB)
+        else if (rand < SILVER_COIN_PROB && rand > GOLD_COIN_PROB)
         {
             _collectibles.Add(new Coin(position, collectibleType.SILVER_COIN));
         }
-        else if(rand < BRONZE_COIN_PROB)
+        else if(rand < BRONZE_COIN_PROB && rand > SILVER_COIN_PROB)
         {
             _collectibles.Add(new Coin(position, collectibleType.BRONZE_COIN));
         }
