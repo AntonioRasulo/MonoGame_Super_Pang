@@ -10,7 +10,7 @@ namespace MonoGame_Super_Pang.UI;
 
 class ShopPanel : PangPanel
 {
-    private AnimatedButton _backButton;
+    private static AnimatedButton _backButton;
     private TextureAtlas _itemsAtlas;
 
     private static PowerUpButton harpoonButton;
@@ -20,6 +20,7 @@ class ShopPanel : PangPanel
     private PowerUpButton lastButtonPressed;
 
     private ConfirmUpgradeItemPanel _confirmUpgradePanel;
+    private ShopFailedBuyPanel _shopFailedPanel;
 
     private const float BUTTONDISTANCEX = 30.0f;
 
@@ -33,6 +34,9 @@ class ShopPanel : PangPanel
         _confirmUpgradePanel = new ConfirmUpgradeItemPanel();
         _confirmUpgradePanel.confirmButton.Click += ConfirmBuy;
         _panel.AddChild(_confirmUpgradePanel.Visual());
+
+        _shopFailedPanel = new ShopFailedBuyPanel();
+        _panel.AddChild(_shopFailedPanel.Visual());
 
         _backButton = new AnimatedButton(_GUIatlas);
         _backButton.Text = "BACK";
@@ -103,8 +107,10 @@ class ShopPanel : PangPanel
             }
             else
             {
-                //TODO panel you can't afford this
+                _shopFailedPanel.SetText(lastButtonPressed.GetItem(), prize);
+                _shopFailedPanel.SetIsVisible(true);
             }
+            setButtonsIsEnabled(false);
         }
     }
 
@@ -116,5 +122,13 @@ class ShopPanel : PangPanel
         PowerUpButtonState state = lastButtonPressed.GetState();
         ShopItems itemType = lastButtonPressed.GetItem();
         PlayerStatsManager.SetPlayerStats(state, itemType);
+    }
+
+    public static void setButtonsIsEnabled(bool isEnabled)
+    {
+        speedButton.IsEnabled = isEnabled;
+        harpoonButton.IsEnabled = isEnabled;
+        livesButton.IsEnabled = isEnabled;
+        _backButton.IsEnabled = isEnabled;
     }
 }

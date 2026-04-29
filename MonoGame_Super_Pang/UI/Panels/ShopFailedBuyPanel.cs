@@ -8,13 +8,12 @@ using System;
 
 namespace MonoGame_Super_Pang.UI;
 
-public class ConfirmUpgradeItemPanel : PangPanel
+public class ShopFailedBuyPanel: PangPanel
 {
-    public AnimatedButton confirmButton;
-    public AnimatedButton cancelButton;
+
     public TextRuntime _text;
 
-    public ConfirmUpgradeItemPanel()
+    public ShopFailedBuyPanel()
     {
         _panel = new Panel();
         _panel.Anchor(Gum.Wireframe.Anchor.Center);
@@ -40,55 +39,39 @@ public class ConfirmUpgradeItemPanel : PangPanel
         _text.Text = "";
         _text.UseCustomFont = true;
         _text.CustomFontFile = "fonts/04b_30.fnt";
-        _text.FontScale = 0.25f;
+        _text.FontScale = 0.2f;
         _text.X = 10.0f;
         _text.Y = 10.0f;
         _panel.AddChild(_text);
 
-        confirmButton = new AnimatedButton(_GUIatlas);
-        confirmButton.Text = "CONFIRM";
-        confirmButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
-        confirmButton.X = 9.0f;
-        confirmButton.Y = -9.0f;
-
-        confirmButton.Click += OnConfirmButtonClicked;
-        //confirmButton.GotFocus += OnElementGotFocus;
-
-        _panel.AddChild(confirmButton);
-
-        cancelButton = new AnimatedButton(_GUIatlas);
-        cancelButton.Text = "CANCEL";
-        cancelButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
-        cancelButton.X = -9.0f;
-        cancelButton.Y = -9.0f;
+        AnimatedButton okButton = new AnimatedButton(_GUIatlas);
+        okButton.Text = "OK";
+        okButton.Anchor(Gum.Wireframe.Anchor.Bottom);
+        okButton.X = 0f;
+        okButton.Y = -9.0f;
 
         // TODO
-        cancelButton.Click += OnCancelButtonClicked;
+        okButton.Click += OkButtonClicked;
         // cancelButton.GotFocus += OnElementGotFocus;
 
-        _panel.AddChild(cancelButton);
+        _panel.AddChild(okButton);
 
-    }
-
-    private void OnConfirmButtonClicked(object sender, EventArgs e)
-    {
-        _panel.IsVisible = false;
-        ShopPanel.setButtonsIsEnabled(true);
-    }
-
-    private void OnCancelButtonClicked(object sender, EventArgs e)
-    {
-        _panel.IsVisible = false;
-        ShopPanel.setButtonsIsEnabled(true);
     }
 
     public override void Update()
     {
+        
+    }
+
+    private void OkButtonClicked(object sender, EventArgs e)
+    {
+        _panel.IsVisible = false;
+        ShopPanel.setButtonsIsEnabled(true);
     }
 
     public void SetText(ShopItems item, int prize)
     {
-        _text.Text = "Do you want to upgrade " + ShopItemsConfig.itemsText[item] + "\nfor "+prize.ToString()+ "?";
+        _text.Text = "You don't have enough money for " + ShopItemsConfig.itemsText[item] + ".\n";
+        _text.Text += "The price of the item is " + prize.ToString();
     }
-
 }
