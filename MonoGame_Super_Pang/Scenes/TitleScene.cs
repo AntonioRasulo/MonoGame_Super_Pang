@@ -42,9 +42,16 @@ public class TitleScene : Scene
         // Load the font for the standard text.
         _font = Core.Content.Load<SpriteFont>("fonts/04B_30");
 
-        // Load the background theme music
-        Song theme = Content.Load<Song>("audio/14. Traveling the Sky");
-        Core.Audio.PlaySong(theme);
+        try
+        {
+            // Load the background theme music
+            Song theme = Content.Load<Song>("audio/14. Traveling the Sky");
+            Core.Audio.PlaySong(theme);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to load theme music: {ex.Message}");
+        }
 
         _backgroundRand = new Random();
         int backgroundIndex = _backgroundRand.Next(0, LevelRegistry.AllLevels.Count);

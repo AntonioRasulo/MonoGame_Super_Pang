@@ -131,9 +131,16 @@ public class GameScene : Scene
 
     public override void LoadContent()
     {
-        // Load the background theme music
-        Song theme = Content.Load<Song>("audio/16. Battle Theme III (loop)");
-        Core.Audio.PlaySong(theme);
+        try
+        {
+            // Load the background theme music
+            Song theme = Content.Load<Song>("audio/16. Battle Theme III (loop)");
+            Core.Audio.PlaySong(theme);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to load theme music: {ex.Message}");
+        }
 
         // Load ball content
         Ball.LoadContent();

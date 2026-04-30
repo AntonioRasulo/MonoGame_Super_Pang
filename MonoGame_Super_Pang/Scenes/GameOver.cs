@@ -75,8 +75,15 @@ public class GameOver : Scene
     public override void LoadContent()
     {
         // Load the background theme music
-        Song theme = Content.Load<Song>("audio/15. Volcanic Crater");
-        Core.Audio.PlaySong(theme);
+        try
+        {
+            Song theme = Content.Load<Song>("audio/15. Volcanic Crater");
+            Core.Audio.PlaySong(theme);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to load theme music: {ex.Message}");
+        }
 
         // Load the font for the standard text.
         _font = Core.Content.Load<SpriteFont>("fonts/04B_30");
