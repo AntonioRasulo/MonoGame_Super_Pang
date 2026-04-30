@@ -23,8 +23,6 @@ public class LoadGamePanel : PangPanel
 
     private string _saveToDelete;
 
-    private LoadButton _gameToDelete;
-
     public LoadGamePanel()
     {
         _panel = new Panel();
@@ -182,29 +180,23 @@ public class LoadGamePanel : PangPanel
         // A UI interaction occurred, play the sound effect
         Core.Audio.PlaySoundEffect(TitlePanelManager.uiSoundEffect);
 
-        _gameToDelete = null;
         _saveToDelete = null;
 
         if(sender == _loadButton1._deleteButton)
         {
-            _gameToDelete = new LoadButton(_loadButton1, _GUIatlas);
             _saveToDelete = PlayerStatsManager.pStats1.Path;
         }
         if(sender == _loadButton2._deleteButton)
         {
-            _gameToDelete = new LoadButton(_loadButton2, _GUIatlas);
             _saveToDelete = PlayerStatsManager.pStats2.Path;
         }
         if(sender == _loadButton3._deleteButton)
         {
-            _gameToDelete = new LoadButton(_loadButton3, _GUIatlas);
             _saveToDelete = PlayerStatsManager.pStats3.Path;
         }
 
-        _gameToDelete.Click-=HandleLoadButton;
-        _gameToDelete.Anchor(Gum.Wireframe.Anchor.Center);
-
-        TitlePanelManager.HandleDeleteGameClicked(_gameToDelete);
+        setButtonsIsEnabled(false);
+        TitlePanelManager.HandleDeleteGameClicked();
     }
 
     public override void Update()
@@ -254,6 +246,8 @@ public class LoadGamePanel : PangPanel
 
     public void handleConfirmDeleteGameClicked(object sender)
     {
+        setButtonsIsEnabled(true);
+
         if(PlayerStatsManager.pStats1 != null && _saveToDelete == PlayerStatsManager.pStats1.Path)
         {
             CleanButton(_loadButton1);
@@ -268,8 +262,6 @@ public class LoadGamePanel : PangPanel
         {
             CleanButton(_loadButton3);
         }
-
-        _gameToDelete = null;
 
         var jsonFile = _saveToDelete + ".json";
         var bakFile = _saveToDelete + ".bak";
@@ -303,5 +295,26 @@ public class LoadGamePanel : PangPanel
             _loadButton3.setTextMoney(PlayerStatsManager.pStats3.Money.ToString());
         }
     }
+
+    public void setButtonsIsEnabled(bool isEnabled)
+    {
+        _loadButton1.IsEnabled = isEnabled;
+        if(_loadButton1._deleteButton != null)
+        {
+            _loadButton1._deleteButton.IsEnabled = isEnabled;
+        }
+        _loadButton2.IsEnabled = isEnabled;
+        if(_loadButton2._deleteButton != null)
+        {
+            _loadButton2._deleteButton.IsEnabled = isEnabled;
+        }
+        _loadButton3.IsEnabled = isEnabled;
+        if(_loadButton3._deleteButton != null)
+        {
+            _loadButton3._deleteButton.IsEnabled = isEnabled;
+        }
+        _loadBackButton.IsEnabled = isEnabled;
+    }
+
 
 }

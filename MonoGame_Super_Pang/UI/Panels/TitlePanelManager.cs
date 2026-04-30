@@ -44,13 +44,11 @@ public class TitlePanelManager
 
     public static void HandleStartClicked(object sender, EventArgs e)
     {
-        // A UI interaction occurred, play the sound effect
-        Core.Audio.PlaySoundEffect(uiSoundEffect);
-
         // Set the title panel to be invisible.
         _titleScreenButtonsPanel.SetIsVisible(false);
 
         _loadGamePanel.SetIsVisible(true);
+        _loadGamePanel.setButtonsIsEnabled(true);
 
         _newGamePanel.SetIsVisible(false);
 
@@ -116,19 +114,8 @@ public class TitlePanelManager
         return _titleScreenButtonsPanel.IsVisible();
     }
 
-    public static void HandleDeleteGameClicked(LoadButton gameToDelete)
+    public static void HandleDeleteGameClicked()
     {
-        _deleteGamePanel.AddChild(gameToDelete);
-
-        // Set the title panel to be visible.
-        _titleScreenButtonsPanel.SetIsVisible(false);
-
-        // Set the options panel to be invisible.
-        _optionsPanel.SetIsVisible(false);
-
-        _loadGamePanel.SetIsVisible(false);
-
-        _newGamePanel.SetIsVisible(false);
 
         _deleteGamePanel.SetIsVisible(true);
     }
@@ -148,7 +135,6 @@ public class TitlePanelManager
         // Set the options panel to be visible.
         _optionsPanel.SetIsVisible(false);
 
-        _deleteGamePanel.SetIsVisible(false);
     }
 
     public static void handleConfirmDeleteGameClicked(object sender)
