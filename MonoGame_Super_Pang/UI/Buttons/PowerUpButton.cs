@@ -5,6 +5,7 @@ using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using MonoGame_Super_Pang.Config;
+using System;
 
 namespace MonoGame_Super_Pang.UI;
 
@@ -80,10 +81,10 @@ public class PowerUpButton : AnimatedButton
         visual.Background.AddChild(_sprite);
 
         // Add event handlers for keyboard input.
-        KeyDown += HandleKeyDown;
+        //KeyDown += HandleKeyDown;
 
         // Add event handler for mouse hover focus.
-        visual.RollOn += HandleRollOn;
+        GotFocus += ChangeDescriptionText;
     }
 
     public void SetScale(float scale)
@@ -105,7 +106,6 @@ public class PowerUpButton : AnimatedButton
         {
             case PowerUpButtonState.Level0:
                 _state++;
-                //ButtonVisual visual = (ButtonVisual)this.Visual;
                 _Xsprite.Parent = null;
                 break;
             case PowerUpButtonState.Level1:
@@ -185,13 +185,11 @@ public class PowerUpButton : AnimatedButton
 
         _Xsprite.Anchor(Gum.Wireframe.Anchor.Center);
         visual.Background.AddChild(_Xsprite);
-        // this.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
-        // this.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+    }
 
-        // this.Width = sourceRectangle.Width;
-        // this.Height = sourceRectangle.Height;
-
-        //visual.Children.Insert(0, _sprite);
+    private void ChangeDescriptionText(object sender, EventArgs e)
+    {
+        DescriptionPowerPanel.SetText(_item);
     }
 
 }

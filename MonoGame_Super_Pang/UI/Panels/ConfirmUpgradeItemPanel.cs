@@ -12,7 +12,7 @@ public class ConfirmUpgradeItemPanel : PangPanel
 {
     public AnimatedButton confirmButton;
     public AnimatedButton cancelButton;
-    public TextRuntime _text;
+    private TextRuntime _text;
 
     public ConfirmUpgradeItemPanel()
     {
@@ -80,10 +80,6 @@ public class ConfirmUpgradeItemPanel : PangPanel
     {
         _panel.IsVisible = false;
         ShopPanel.setButtonsIsEnabled(true);
-    }
-
-    public override void Update()
-    {
     }
 
     public void SetText(ShopItems item, int prize)

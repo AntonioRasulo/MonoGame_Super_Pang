@@ -69,9 +69,16 @@ public class ShopFailedBuyPanel: PangPanel
         ShopPanel.setButtonsIsEnabled(true);
     }
 
-    public void SetText(ShopItems item, int prize)
+    public void SetText(ShopItems item, int prize = -1)
     {
-        _text.Text = "You don't have enough money to upgrade\n" + ShopItemsConfig.itemsText[item] + ".\n";
-        _text.Text += "The price of the item is " + prize.ToString();
+        if(prize != -1)
+        {
+            _text.Text = "You don't have enough money to upgrade\n" + ShopItemsConfig.itemsText[item] + ".\n";
+            _text.Text += "The price of the item is " + prize.ToString();
+        }
+        else
+        {
+            _text.Text = "Reached maximum level for "+ShopItemsConfig.itemsText[item] + ".";
+        }
     }
 }

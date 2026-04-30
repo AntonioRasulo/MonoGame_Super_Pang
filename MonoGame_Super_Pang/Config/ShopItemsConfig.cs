@@ -91,4 +91,15 @@ public class ShopItemsConfig
         {ShopItems.CLOCK, "clock probability"}
     };
 
+    public static readonly Dictionary<ShopItems, string> itemsDescriptions = new()
+    {
+        {ShopItems.HARPOON, "Increase the number of harpoon that the\nchracter can shoot simultaneously."},
+        {ShopItems.SPEED, "Increase the speed of the character."},
+        {ShopItems.LIVES, "Increase the number of initial lives."},
+        {ShopItems.COLL_LIVES, "Probability that baloons and monsters drop\nlive power up when get shot."},
+        {ShopItems.INVINCIBILITY, "Probability that baloons and monsters drop\ninvincibility power up when get shot.\nThis power up makes the character\ninvincible for 3 seconds."},
+        {ShopItems.BOMB, "Probability that baloons and monsters drop\nbomb power up when get shot.\nThis power up hits all the baloons and monsters\non the fields."},
+        {ShopItems.CLOCK, "Probability that baloons and monsters drop\nclock power up when get shot.\nThis power up freezes all the baloons and monsters\nfor 4 seconds."}
+    };
+
 }

@@ -28,6 +28,7 @@ class ShopPanel : PangPanel
 
     private ConfirmUpgradeItemPanel _confirmUpgradePanel;
     private ShopFailedBuyPanel _shopFailedPanel;
+    private static DescriptionPowerPanel _descriptionPanel;
 
     private const float BUTTONDISTANCE = 30.0f;
 
@@ -114,6 +115,9 @@ class ShopPanel : PangPanel
 
         _shopFailedPanel = new ShopFailedBuyPanel();
         _panel.AddChild(_shopFailedPanel.Visual());
+
+        _descriptionPanel = new DescriptionPowerPanel();
+        _panel.AddChild(_descriptionPanel.Visual());
     }
 
     public static void InitializePowerUpButtons()
@@ -139,19 +143,27 @@ class ShopPanel : PangPanel
     private void ShowConfirmPanel(object sender, EventArgs e)
     {
         lastButtonPressed = (PowerUpButton)sender;
-        if(lastButtonPressed.GetState() < PowerUpButtonState.Level3)
+        PowerUpButtonState buttonPressedState = lastButtonPressed.GetState();
+        ShopItems buttonPressedItem = lastButtonPressed.GetItem();
+        if(buttonPressedState < PowerUpButtonState.Level3)
         {
             int prize = lastButtonPressed.GetPowerUpPrize();
             if (prize <= PlayerStatsManager.currentStats.Money)
             {
-                _confirmUpgradePanel.SetText(lastButtonPressed.GetItem(), prize);
+                _confirmUpgradePanel.SetText(buttonPressedItem, prize);
                 _confirmUpgradePanel.SetIsVisible(true);
             }
             else
             {
-                _shopFailedPanel.SetText(lastButtonPressed.GetItem(), prize);
+                _shopFailedPanel.SetText(buttonPressedItem, prize);
                 _shopFailedPanel.SetIsVisible(true);
             }
+            setButtonsIsEnabled(false);
+        }
+        else if(buttonPressedState == PowerUpButtonState.Level3)
+        {
+            _shopFailedPanel.SetText(buttonPressedItem);
+            _shopFailedPanel.SetIsVisible(true);
             setButtonsIsEnabled(false);
         }
     }
@@ -176,5 +188,6 @@ class ShopPanel : PangPanel
         invincibilityButton.IsEnabled = isEnabled;
         bombButton.IsEnabled = isEnabled;
         clockButton.IsEnabled = isEnabled;
+        _descriptionPanel.SetIsVisible(isEnabled);
     }
 }

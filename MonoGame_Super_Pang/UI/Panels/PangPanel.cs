@@ -31,7 +31,10 @@ public abstract class PangPanel
         _panel.AddChild(child);
     }
 
-    public abstract void Update();
+    public virtual void Update()
+    {
+        
+    }
 
     public Gum.Wireframe.InteractiveGue Visual()
     {
