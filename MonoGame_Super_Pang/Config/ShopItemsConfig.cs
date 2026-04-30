@@ -8,7 +8,8 @@ public enum ShopItems
     HARPOON,
     SPEED,
     LIVES,
-    COLL_LIVES
+    COLL_LIVES,
+    INVINCIBILITY
 }
 
 public class ShopItemsConfig
@@ -47,6 +48,15 @@ public class ShopItemsConfig
                 {PowerUpButtonState.Level1, 200},
                 {PowerUpButtonState.Level2, 300}
             }
+        },
+        {
+            ShopItems.INVINCIBILITY,
+            new()
+            {
+                {PowerUpButtonState.Level0, 100},
+                {PowerUpButtonState.Level1, 200},
+                {PowerUpButtonState.Level2, 300}
+            }
         }
     };
 
@@ -55,7 +65,8 @@ public class ShopItemsConfig
         {ShopItems.HARPOON, "harpoon"},
         {ShopItems.SPEED, "speed"},
         {ShopItems.LIVES, "lives"},
-        {ShopItems.COLL_LIVES, "lives probability"}
+        {ShopItems.COLL_LIVES, "lives probability"},
+        {ShopItems.INVINCIBILITY, "invincibility probability"}
     };
 
 }

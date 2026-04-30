@@ -71,7 +71,7 @@ public class ShopFailedBuyPanel: PangPanel
 
     public void SetText(ShopItems item, int prize)
     {
-        _text.Text = "You don't have enough money for " + ShopItemsConfig.itemsText[item] + ".\n";
+        _text.Text = "You don't have enough money to upgrade\n" + ShopItemsConfig.itemsText[item] + ".\n";
         _text.Text += "The price of the item is " + prize.ToString();
     }
 }

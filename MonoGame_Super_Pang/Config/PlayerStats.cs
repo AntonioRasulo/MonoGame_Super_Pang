@@ -10,22 +10,28 @@ public class PlayerStats
     public int Money{ get; set;}
     public string Path{get;set;}
 
+    /* Character stats */
     public int HarpoonNum{get; set;}
 
     public float Speed{get; set;}
 
     public int Lives{get; set;}
 
-    public float LivesProb{get; set;}
+    /* Collectibles probability */
+    public int LivesProb{get; set;}
+
+    public int InvincibilityProb{get; set;}
 
     public PlayerStats(string name, string path)
     {
-        Money = 0;
-        HarpoonNum = 1;
         Name = name;
+        Money = 0;
         Path = path;
-        Lives = 1;
+        HarpoonNum = 1;
         Speed = 5.0f;
+        Lives = 1;
+        LivesProb = 0;
+        InvincibilityProb = 0;
     }
 
     public static PlayerStats LoadGame(string PATH)

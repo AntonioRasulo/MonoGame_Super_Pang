@@ -28,10 +28,10 @@ public class CollectibleHandler
 
     private SoundEffect _collectSound;
 
-    //private const int LIVES_PROB = 5; // 5%
-    private const int FREEZE_PROB = 10; // 5%
-    private const int INVINCIBILITY_PROB = 15; // 5%
-    private const int BOMB_PROB = 20; // 5%
+    private const int LIVES_MAX_PROB = 5; // 5%
+    private const int FREEZE_MAX_PROB = 10; // 5%
+    private const int INVINCIBILITY_MAX_PROB = 15; // 5%
+    private const int BOMB_MAX_PROB = 20; // 5%
     private const int GOLD_COIN_PROB = 23; //3%
     private const int SILVER_COIN_PROB = 27; // 4%
     private const int BRONZE_COIN_PROB = 32; // 5%
@@ -100,19 +100,19 @@ public class CollectibleHandler
         {
             _collectibles.Add(new PowerUp(position, collectibleType.LIVES));
         }
-        else if (rand < FREEZE_PROB && rand >5)
+        else if (rand < FREEZE_MAX_PROB && rand >LIVES_MAX_PROB)
         {
             _collectibles.Add(new PowerUp(position, collectibleType.CLOCK));
         }
-        else if (rand < INVINCIBILITY_PROB && rand > FREEZE_PROB)
+        else if (rand < PlayerStatsManager.currentStats.InvincibilityProb && rand > FREEZE_MAX_PROB)
         {
             _collectibles.Add(new PowerUp(position, collectibleType.INVINCIBILITY));
         }
-        else if (rand < BOMB_PROB && rand > BOMB_PROB)
+        else if (rand < BOMB_MAX_PROB && rand > INVINCIBILITY_MAX_PROB)
         {
             _collectibles.Add(new PowerUp(position, collectibleType.BOMB));
         }
-        else if (rand < GOLD_COIN_PROB && rand > BOMB_PROB)
+        else if (rand < GOLD_COIN_PROB && rand > BOMB_MAX_PROB)
         {
             _collectibles.Add(new Coin(position, collectibleType.GOLD_COIN));
         }

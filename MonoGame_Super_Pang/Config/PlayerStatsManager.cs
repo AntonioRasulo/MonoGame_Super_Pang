@@ -77,14 +77,35 @@ public class PlayerStatsManager
                 currentStatsLevels.collLivesLevel = state;
                 switch (state)
                 {
+                    case PowerUpButtonState.Level0:
+                    currentStats.LivesProb = 0;
+                    break;
                     case PowerUpButtonState.Level1:
-                    currentStats.LivesProb = 3.0f;
+                    currentStats.LivesProb = 3;
                     break;
                     case PowerUpButtonState.Level2:
-                    currentStats.LivesProb = 4.0f;
+                    currentStats.LivesProb = 4;
                     break;
                     case PowerUpButtonState.Level3:
-                    currentStats.LivesProb = 5.0f;
+                    currentStats.LivesProb = 5;
+                    break;
+                }
+            break;
+            case ShopItems.INVINCIBILITY:
+                currentStatsLevels.invincibilityLevel = state;
+                switch (state)
+                {
+                    case PowerUpButtonState.Level0:
+                    currentStats.InvincibilityProb = 0;
+                    break;
+                    case PowerUpButtonState.Level1:
+                    currentStats.InvincibilityProb = 13;
+                    break;
+                    case PowerUpButtonState.Level2:
+                    currentStats.InvincibilityProb = 14;
+                    break;
+                    case PowerUpButtonState.Level3:
+                    currentStats.InvincibilityProb = 15;
                     break;
                 }
             break;

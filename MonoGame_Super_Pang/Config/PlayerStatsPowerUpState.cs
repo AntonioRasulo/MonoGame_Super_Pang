@@ -11,6 +11,7 @@ public class PlayerStatsPowerUpState
 
     /* Collectibles power up */
     public PowerUpButtonState collLivesLevel;
+    public PowerUpButtonState invincibilityLevel;
 
     public static PlayerStatsPowerUpState getCurrentStatePowerUpLevel()
     {
@@ -45,6 +46,13 @@ public class PlayerStatsPowerUpState
                     3 => PowerUpButtonState.Level1,
                     4 => PowerUpButtonState.Level2,
                     5 => PowerUpButtonState.Level3
+                },
+                invincibilityLevel = PlayerStatsManager.currentStats.InvincibilityProb switch
+                {
+                    0 => PowerUpButtonState.Level0,
+                    13 => PowerUpButtonState.Level1,
+                    14 => PowerUpButtonState.Level2,
+                    15 => PowerUpButtonState.Level3
                 }
             };
         }

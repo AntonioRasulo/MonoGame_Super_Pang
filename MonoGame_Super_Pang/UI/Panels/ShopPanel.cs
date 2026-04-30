@@ -20,6 +20,7 @@ class ShopPanel : PangPanel
 
     /* Collectibles power up */
     private static PowerUpButton collLivesButton;
+    private static PowerUpButton invincibilityButton;
 
     private PowerUpButton lastButtonPressed;
 
@@ -45,10 +46,11 @@ class ShopPanel : PangPanel
 
         _itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
 
-        TextureRegion harpoonText = _itemsAtlas.GetRegion("harpoonTexture");
-        TextureRegion livesText = _itemsAtlas.GetRegion("livesSprite");
+        TextureRegion harpoonRegion = _itemsAtlas.GetRegion("harpoonTexture");
+        TextureRegion livesRegion = _itemsAtlas.GetRegion("livesSprite");
+        TextureRegion invincibilityRegion = _itemsAtlas.GetRegion("invincibilitySprite");
 
-        harpoonButton = new PowerUpButton(harpoonText.Texture, harpoonText.SourceRectangle, _GUIatlas, ShopItems.HARPOON);
+        harpoonButton = new PowerUpButton(harpoonRegion.Texture, harpoonRegion.SourceRectangle, _GUIatlas, ShopItems.HARPOON);
         harpoonButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         harpoonButton.X = BUTTONDISTANCE;
         harpoonButton.Y = BUTTONDISTANCE;
@@ -66,19 +68,27 @@ class ShopPanel : PangPanel
         speedButton.SetScale(0.02f);
         _panel.AddChild(speedButton);
 
-        livesButton = new PowerUpButton(livesText.Texture, livesText.SourceRectangle, _GUIatlas, ShopItems.LIVES);
+        livesButton = new PowerUpButton(livesRegion.Texture, livesRegion.SourceRectangle, _GUIatlas, ShopItems.LIVES);
         livesButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         livesButton.X = 3*BUTTONDISTANCE;
         livesButton.Y = BUTTONDISTANCE;
         livesButton.Click += ShowConfirmPanel;
         _panel.AddChild(livesButton);
 
-        collLivesButton = new PowerUpButton(livesText.Texture, livesText.SourceRectangle, _GUIatlas, ShopItems.COLL_LIVES);
+        collLivesButton = new PowerUpButton(livesRegion.Texture, livesRegion.SourceRectangle, _GUIatlas, ShopItems.COLL_LIVES);
         collLivesButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         collLivesButton.X = BUTTONDISTANCE;
         collLivesButton.Y = 2*BUTTONDISTANCE;
         collLivesButton.Click += ShowConfirmPanel;
         _panel.AddChild(collLivesButton);
+
+        invincibilityButton = new PowerUpButton(invincibilityRegion.Texture, invincibilityRegion.SourceRectangle, _GUIatlas, ShopItems.INVINCIBILITY);
+        invincibilityButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        invincibilityButton.X = 2*BUTTONDISTANCE;
+        invincibilityButton.Y = 2*BUTTONDISTANCE;
+        invincibilityButton.Click += ShowConfirmPanel;
+        invincibilityButton.SetScale(0.4f);
+        _panel.AddChild(invincibilityButton);
 
         _confirmUpgradePanel = new ConfirmUpgradeItemPanel();
         _confirmUpgradePanel.confirmButton.Click += ConfirmBuy;
@@ -94,6 +104,7 @@ class ShopPanel : PangPanel
         speedButton.SetState(PlayerStatsManager.currentStatsLevels.speedLevel);
         livesButton.SetState(PlayerStatsManager.currentStatsLevels.livesLevel);
         collLivesButton.SetState(PlayerStatsManager.currentStatsLevels.collLivesLevel);
+        invincibilityButton.SetState(PlayerStatsManager.currentStatsLevels.invincibilityLevel);
     }
 
     public override void Update()
@@ -142,5 +153,6 @@ class ShopPanel : PangPanel
         livesButton.IsEnabled = isEnabled;
         _backButton.IsEnabled = isEnabled;
         collLivesButton.IsEnabled = isEnabled;
+        invincibilityButton.IsEnabled = isEnabled;
     }
 }
