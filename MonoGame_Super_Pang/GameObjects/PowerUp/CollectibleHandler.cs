@@ -108,7 +108,7 @@ public class CollectibleHandler
         {
             _collectibles.Add(new PowerUp(position, collectibleType.INVINCIBILITY));
         }
-        else if (rand < BOMB_MAX_PROB && rand > INVINCIBILITY_MAX_PROB)
+        else if (rand < PlayerStatsManager.currentStats.bombProbability && rand > INVINCIBILITY_MAX_PROB)
         {
             _collectibles.Add(new PowerUp(position, collectibleType.BOMB));
         }

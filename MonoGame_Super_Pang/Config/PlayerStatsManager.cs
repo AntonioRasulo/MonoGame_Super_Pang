@@ -109,6 +109,24 @@ public class PlayerStatsManager
                     break;
                 }
             break;
+            case ShopItems.BOMB:
+                currentStatsLevels.bombLevel = state;
+                switch (state)
+                {
+                    case PowerUpButtonState.Level0:
+                    currentStats.bombProbability = 0;
+                    break;
+                    case PowerUpButtonState.Level1:
+                    currentStats.bombProbability = 18;
+                    break;
+                    case PowerUpButtonState.Level2:
+                    currentStats.bombProbability = 19;
+                    break;
+                    case PowerUpButtonState.Level3:
+                    currentStats.bombProbability = 20;
+                    break;
+                }
+            break;
         }
 
         PlayerStats.SaveGame(currentStats);
