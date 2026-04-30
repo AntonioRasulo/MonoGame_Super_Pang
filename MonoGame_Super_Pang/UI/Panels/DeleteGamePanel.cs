@@ -1,5 +1,4 @@
 using Gum.Forms.Controls;
-using MonoGame_Super_Pang.Config;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
 using System;

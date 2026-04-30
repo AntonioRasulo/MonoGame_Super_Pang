@@ -142,9 +142,6 @@ public class LoadGamePanel : PangPanel
 
     private void HandleLoadButton(object sender, EventArgs e)
     {
-        // A UI interaction occurred, play the sound effect
-        Core.Audio.PlaySoundEffect(TitlePanelManager.uiSoundEffect);
-
         //TODO load game implementation
         if(sender == _loadButton1)
         {

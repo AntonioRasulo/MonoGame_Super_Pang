@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
+using System;
 
 namespace MonoGame_Super_Pang.UI;
 
@@ -15,6 +16,10 @@ public class DeleteButton : Button
     public DeleteButton()
     {
         CreateSprite();
+
+        Click += PlaySound;
+
+        GotFocus += PlaySound;
     }
 
     private void CreateSprite()
@@ -75,6 +80,11 @@ public class DeleteButton : Button
         _sprite.Width = newWidth;
         _sprite.Height = newHeight;
 
+    }
+
+    private void PlaySound(object sender, EventArgs e)
+    {
+        Core.Audio.PlaySoundEffect(TitlePanelManager.uiSoundEffect);
     }
 
 }

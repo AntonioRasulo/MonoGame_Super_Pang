@@ -50,17 +50,10 @@ public class ShopFailedBuyPanel: PangPanel
         okButton.X = 0f;
         okButton.Y = -9.0f;
 
-        // TODO
         okButton.Click += OkButtonClicked;
-        // cancelButton.GotFocus += OnElementGotFocus;
 
         _panel.AddChild(okButton);
 
-    }
-
-    public override void Update()
-    {
-        
     }
 
     private void OkButtonClicked(object sender, EventArgs e)

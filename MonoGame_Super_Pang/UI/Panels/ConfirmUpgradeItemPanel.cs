@@ -52,7 +52,6 @@ public class ConfirmUpgradeItemPanel : PangPanel
         confirmButton.Y = -9.0f;
 
         confirmButton.Click += OnConfirmButtonClicked;
-        //confirmButton.GotFocus += OnElementGotFocus;
 
         _panel.AddChild(confirmButton);
 
@@ -62,9 +61,7 @@ public class ConfirmUpgradeItemPanel : PangPanel
         cancelButton.X = -9.0f;
         cancelButton.Y = -9.0f;
 
-        // TODO
         cancelButton.Click += OnCancelButtonClicked;
-        // cancelButton.GotFocus += OnElementGotFocus;
 
         _panel.AddChild(cancelButton);
 

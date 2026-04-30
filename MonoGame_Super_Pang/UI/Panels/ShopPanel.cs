@@ -131,10 +131,6 @@ class ShopPanel : PangPanel
         clockButton.SetState(PlayerStatsManager.currentStatsLevels.clockLevel);
     }
 
-    public override void Update()
-    {
-    }
-
     private void GoToStartGamePanel(object sender, EventArgs e)
     {
         TitlePanelManager.GoToStartGamePanel();

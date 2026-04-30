@@ -7,6 +7,7 @@ using Gum.Graphics.Animation;
 using Gum.Managers;
 using Microsoft.Xna.Framework.Input;
 using MonoGameGum.GueDeriving;
+using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 
 namespace MonoGame_Super_Pang.UI;
@@ -134,6 +135,10 @@ public class AnimatedButton : Button
 
         // Add event handler for mouse hover focus.
         buttonVisual.RollOn += HandleRollOn;
+
+        Click += PlaySound;
+
+        GotFocus += PlaySound;
     }
 
     /// <summary>
@@ -160,4 +165,10 @@ public class AnimatedButton : Button
     {
         IsFocused = true;
     }
+
+    protected void PlaySound(object sender, EventArgs e)
+    {
+        Core.Audio.PlaySoundEffect(TitlePanelManager.uiSoundEffect);
+    }
+
 }
