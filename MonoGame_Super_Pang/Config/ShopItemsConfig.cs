@@ -22,8 +22,8 @@ public class ShopItemsConfig
             ShopItems.HARPOON,
             new()
             {
-                {PowerUpButtonState.Level1, 200},
-                {PowerUpButtonState.Level2, 400}
+                {PowerUpButtonState.Level1, 100},
+                {PowerUpButtonState.Level2, 200}
             }
         },
         {
@@ -31,15 +31,15 @@ public class ShopItemsConfig
             new()
             {
                 {PowerUpButtonState.Level1, 100},
-                {PowerUpButtonState.Level2, 300}
+                {PowerUpButtonState.Level2, 200}
             }
         },
         {
             ShopItems.LIVES,
             new()
             {
-                {PowerUpButtonState.Level1, 200},
-                {PowerUpButtonState.Level2, 400}
+                {PowerUpButtonState.Level1, 100},
+                {PowerUpButtonState.Level2, 200}
             }
         },
         {
@@ -47,8 +47,8 @@ public class ShopItemsConfig
             new()
             {
                 {PowerUpButtonState.Level0, 100},
-                {PowerUpButtonState.Level1, 200},
-                {PowerUpButtonState.Level2, 300}
+                {PowerUpButtonState.Level1, 150},
+                {PowerUpButtonState.Level2, 200}
             }
         },
         {
@@ -56,8 +56,8 @@ public class ShopItemsConfig
             new()
             {
                 {PowerUpButtonState.Level0, 100},
-                {PowerUpButtonState.Level1, 200},
-                {PowerUpButtonState.Level2, 300}
+                {PowerUpButtonState.Level1, 150},
+                {PowerUpButtonState.Level2, 200}
             }
         },
         {
@@ -65,8 +65,8 @@ public class ShopItemsConfig
             new()
             {
                 {PowerUpButtonState.Level0, 100},
-                {PowerUpButtonState.Level1, 200},
-                {PowerUpButtonState.Level2, 300}
+                {PowerUpButtonState.Level1, 150},
+                {PowerUpButtonState.Level2, 200}
             }
         },
         {
@@ -74,8 +74,8 @@ public class ShopItemsConfig
             new()
             {
                 {PowerUpButtonState.Level0, 100},
-                {PowerUpButtonState.Level1, 200},
-                {PowerUpButtonState.Level2, 300}
+                {PowerUpButtonState.Level1, 150},
+                {PowerUpButtonState.Level2, 200}
             }
         }
     };
