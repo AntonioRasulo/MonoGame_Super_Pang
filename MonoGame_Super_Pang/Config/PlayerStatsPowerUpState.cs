@@ -13,6 +13,7 @@ public class PlayerStatsPowerUpState
     public PowerUpButtonState collLivesLevel;
     public PowerUpButtonState invincibilityLevel;
     public PowerUpButtonState bombLevel;
+    public PowerUpButtonState clockLevel;
 
     public static PlayerStatsPowerUpState getCurrentStatePowerUpLevel()
     {
@@ -47,6 +48,13 @@ public class PlayerStatsPowerUpState
                     3 => PowerUpButtonState.Level1,
                     4 => PowerUpButtonState.Level2,
                     5 => PowerUpButtonState.Level3
+                },
+                clockLevel = PlayerStatsManager.currentStats.clockProbability switch
+                {
+                    0 => PowerUpButtonState.Level0,
+                    8 => PowerUpButtonState.Level1,
+                    9 => PowerUpButtonState.Level2,
+                    10 => PowerUpButtonState.Level3
                 },
                 invincibilityLevel = PlayerStatsManager.currentStats.InvincibilityProb switch
                 {

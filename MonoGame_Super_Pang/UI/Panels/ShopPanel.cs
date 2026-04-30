@@ -22,6 +22,7 @@ class ShopPanel : PangPanel
     private static PowerUpButton collLivesButton;
     private static PowerUpButton invincibilityButton;
     private static PowerUpButton bombButton;
+    private static PowerUpButton clockButton;
 
     private PowerUpButton lastButtonPressed;
 
@@ -51,6 +52,7 @@ class ShopPanel : PangPanel
         TextureRegion livesRegion = _itemsAtlas.GetRegion("livesSprite");
         TextureRegion invincibilityRegion = _itemsAtlas.GetRegion("invincibilitySprite");
         TextureRegion bombRegion = _itemsAtlas.GetRegion("bombSprite");
+        TextureRegion clockRegion = _itemsAtlas.GetRegion("freezeSprite");
 
         harpoonButton = new PowerUpButton(harpoonRegion.Texture, harpoonRegion.SourceRectangle, _GUIatlas, ShopItems.HARPOON);
         harpoonButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
@@ -99,6 +101,13 @@ class ShopPanel : PangPanel
         bombButton.Click += ShowConfirmPanel;
         _panel.AddChild(bombButton);
 
+        clockButton = new PowerUpButton(clockRegion.Texture, clockRegion.SourceRectangle, _GUIatlas, ShopItems.CLOCK);
+        clockButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        clockButton.X = 4*BUTTONDISTANCE;
+        clockButton.Y = 2*BUTTONDISTANCE;
+        clockButton.Click += ShowConfirmPanel;
+        _panel.AddChild(clockButton);
+
         _confirmUpgradePanel = new ConfirmUpgradeItemPanel();
         _confirmUpgradePanel.confirmButton.Click += ConfirmBuy;
         _panel.AddChild(_confirmUpgradePanel.Visual());
@@ -115,6 +124,7 @@ class ShopPanel : PangPanel
         collLivesButton.SetState(PlayerStatsManager.currentStatsLevels.collLivesLevel);
         invincibilityButton.SetState(PlayerStatsManager.currentStatsLevels.invincibilityLevel);
         bombButton.SetState(PlayerStatsManager.currentStatsLevels.bombLevel);
+        clockButton.SetState(PlayerStatsManager.currentStatsLevels.clockLevel);
     }
 
     public override void Update()
@@ -165,5 +175,6 @@ class ShopPanel : PangPanel
         collLivesButton.IsEnabled = isEnabled;
         invincibilityButton.IsEnabled = isEnabled;
         bombButton.IsEnabled = isEnabled;
+        clockButton.IsEnabled = isEnabled;
     }
 }

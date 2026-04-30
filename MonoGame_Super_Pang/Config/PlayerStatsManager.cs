@@ -127,6 +127,24 @@ public class PlayerStatsManager
                     break;
                 }
             break;
+            case ShopItems.CLOCK:
+                currentStatsLevels.clockLevel = state;
+                switch (state)
+                {
+                    case PowerUpButtonState.Level0:
+                    currentStats.clockProbability = 0;
+                    break;
+                    case PowerUpButtonState.Level1:
+                    currentStats.clockProbability = 8;
+                    break;
+                    case PowerUpButtonState.Level2:
+                    currentStats.clockProbability = 9;
+                    break;
+                    case PowerUpButtonState.Level3:
+                    currentStats.clockProbability = 10;
+                    break;
+                }
+            break;
         }
 
         PlayerStats.SaveGame(currentStats);

@@ -100,7 +100,7 @@ public class CollectibleHandler
         {
             _collectibles.Add(new PowerUp(position, collectibleType.LIVES));
         }
-        else if (rand < FREEZE_MAX_PROB && rand >LIVES_MAX_PROB)
+        else if (rand < PlayerStatsManager.currentStats.clockProbability && rand >LIVES_MAX_PROB)
         {
             _collectibles.Add(new PowerUp(position, collectibleType.CLOCK));
         }

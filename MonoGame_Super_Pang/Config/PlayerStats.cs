@@ -22,7 +22,8 @@ public class PlayerStats
 
     public int InvincibilityProb{get; set;}
 
-    public int bombProbability{get;set;}
+    public int bombProbability{get; set;}
+    public int clockProbability{get; set;}
 
     public PlayerStats(string name, string path)
     {
@@ -35,6 +36,7 @@ public class PlayerStats
         LivesProb = 0;
         InvincibilityProb = 0;
         bombProbability = 0;
+        clockProbability = 0;
     }
 
     public static PlayerStats LoadGame(string PATH)

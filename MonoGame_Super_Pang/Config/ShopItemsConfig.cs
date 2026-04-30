@@ -10,7 +10,8 @@ public enum ShopItems
     LIVES,
     COLL_LIVES,
     INVINCIBILITY,
-    BOMB
+    BOMB,
+    CLOCK
 }
 
 public class ShopItemsConfig
@@ -67,6 +68,15 @@ public class ShopItemsConfig
                 {PowerUpButtonState.Level1, 200},
                 {PowerUpButtonState.Level2, 300}
             }
+        },
+        {
+            ShopItems.CLOCK,
+            new()
+            {
+                {PowerUpButtonState.Level0, 100},
+                {PowerUpButtonState.Level1, 200},
+                {PowerUpButtonState.Level2, 300}
+            }
         }
     };
 
@@ -77,7 +87,8 @@ public class ShopItemsConfig
         {ShopItems.LIVES, "lives"},
         {ShopItems.COLL_LIVES, "lives probability"},
         {ShopItems.INVINCIBILITY, "invincibility probability"},
-        {ShopItems.BOMB, "bomb probability"}
+        {ShopItems.BOMB, "bomb probability"},
+        {ShopItems.CLOCK, "clock probability"}
     };
 
 }
