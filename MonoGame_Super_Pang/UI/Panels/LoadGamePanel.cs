@@ -98,7 +98,7 @@ public class LoadGamePanel : PangPanel
             PlayerStatsManager.pStats1 = new PlayerStats(newGameText, PlayerStatsManager.PATH1);
 
             PlayerStats.SaveGame(PlayerStatsManager.pStats1);
-            LoadButton(PlayerStatsManager.pStats1, _loadButton1, Gum.Wireframe.Anchor.Left, 90, -58);
+            LoadButton(PlayerStatsManager.pStats1, _loadButton1, Gum.Wireframe.Anchor.TopRight, -65, 30);
 
             PlayerStatsManager.SelectPlayerStats(1);
             TitlePanelManager.GoToStartGamePanel();
@@ -108,7 +108,7 @@ public class LoadGamePanel : PangPanel
             PlayerStatsManager.pStats2 = new PlayerStats(newGameText, PlayerStatsManager.PATH2);
 
             PlayerStats.SaveGame(PlayerStatsManager.pStats2);
-            LoadButton(PlayerStatsManager.pStats2, _loadButton2, Gum.Wireframe.Anchor.Center, 33, -58);
+            LoadButton(PlayerStatsManager.pStats2, _loadButton2, Gum.Wireframe.Anchor.Right, -65, 0);
 
             PlayerStatsManager.SelectPlayerStats(2);
             TitlePanelManager.GoToStartGamePanel();
@@ -118,7 +118,7 @@ public class LoadGamePanel : PangPanel
             PlayerStatsManager.pStats3 = new PlayerStats(newGameText, PlayerStatsManager.PATH3);
 
             PlayerStats.SaveGame(PlayerStatsManager.pStats3);
-            LoadButton(PlayerStatsManager.pStats3, _loadButton3, Gum.Wireframe.Anchor.Right, -24, -58);
+            LoadButton(PlayerStatsManager.pStats3, _loadButton3, Gum.Wireframe.Anchor.BottomRight, -65, -30);
 
             PlayerStatsManager.SelectPlayerStats(3);
             TitlePanelManager.GoToStartGamePanel();
