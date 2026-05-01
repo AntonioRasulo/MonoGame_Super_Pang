@@ -22,6 +22,8 @@ public class TitleScene : Scene
 
     private Random _backgroundRand;
 
+    private static bool _volumeInitialized = false;
+
     public override void Initialize()
     {
         // LoadContent is called during base.Initialize().
@@ -31,8 +33,12 @@ public class TitleScene : Scene
         // can close the game by pressing the escape key.
         Core.ExitOnEscape = true;
 
-        Core.Audio.SongVolume = 0.5f;
-        Core.Audio.SoundEffectVolume = 0.5f;
+        if(_volumeInitialized == false)
+        {
+            Core.Audio.SongVolume = 0.5f;
+            Core.Audio.SoundEffectVolume = 0.5f;
+            _volumeInitialized = true;
+        }
 
         InitializeUI();
     }
