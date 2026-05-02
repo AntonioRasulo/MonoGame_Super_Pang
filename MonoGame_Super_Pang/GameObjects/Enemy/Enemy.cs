@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using MonoGameLibrary;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -81,5 +80,10 @@ abstract public class Enemy
     protected abstract void LoadContent();
 
     protected abstract void UpdateMovement(GameTime gameTime);
+
+    public Vector2 GetPosition()
+    {
+        return _position;
+    }
 
 }

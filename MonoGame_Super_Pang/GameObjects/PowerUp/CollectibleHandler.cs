@@ -32,9 +32,9 @@ public class CollectibleHandler
     private const int FREEZE_MAX_PROB = 10; // 5%
     private const int INVINCIBILITY_MAX_PROB = 15; // 5%
     private const int BOMB_MAX_PROB = 20; // 5%
-    private const int GOLD_COIN_PROB = 23; //3%
-    private const int SILVER_COIN_PROB = 27; // 4%
-    private const int BRONZE_COIN_PROB = 32; // 5%
+    private const int GOLD_COIN_PROB = 25; //5%
+    private const int SILVER_COIN_PROB = 30; // 5%
+    private const int BRONZE_COIN_PROB = 35; // 5%
 
     public CollectibleHandler()
     {

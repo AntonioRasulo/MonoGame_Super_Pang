@@ -341,6 +341,7 @@ public class GameScene : Scene
                     if (enemy._isDead)
                     {
                         _deadEnemies.Add(enemy);
+                        _collectibleHandler.GenerateCollectible(enemy.GetPosition());
                     }
                 }
             }

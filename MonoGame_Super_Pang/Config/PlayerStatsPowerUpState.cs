@@ -28,47 +28,54 @@ public class PlayerStatsPowerUpState
                 {
                     1 => PowerUpButtonState.Level1,
                     2 => PowerUpButtonState.Level2,
-                    3 => PowerUpButtonState.Level3
+                    3 => PowerUpButtonState.Level3,
+                    _ => PowerUpButtonState.Level1
                 },
                 speedLevel = PlayerStatsManager.currentStats.Speed switch
                 {
                     5.0f => PowerUpButtonState.Level1,
                     6.5f => PowerUpButtonState.Level2,
-                    8.0f => PowerUpButtonState.Level3 
+                    8.0f => PowerUpButtonState.Level3,
+                    _ => PowerUpButtonState.Level1
                 },
                 livesLevel = PlayerStatsManager.currentStats.Lives switch
                 {
                     1 => PowerUpButtonState.Level1,
                     2 => PowerUpButtonState.Level2,
-                    3 => PowerUpButtonState.Level3
+                    3 => PowerUpButtonState.Level3,
+                    _ => PowerUpButtonState.Level1
                 },
                 collLivesLevel = PlayerStatsManager.currentStats.LivesProb switch
                 {
                     0 => PowerUpButtonState.Level0,
                     3 => PowerUpButtonState.Level1,
                     4 => PowerUpButtonState.Level2,
-                    5 => PowerUpButtonState.Level3
+                    5 => PowerUpButtonState.Level3,
+                    _ => PowerUpButtonState.Level0
                 },
                 clockLevel = PlayerStatsManager.currentStats.clockProbability switch
                 {
                     0 => PowerUpButtonState.Level0,
                     8 => PowerUpButtonState.Level1,
                     9 => PowerUpButtonState.Level2,
-                    10 => PowerUpButtonState.Level3
+                    10 => PowerUpButtonState.Level3,
+                    _ => PowerUpButtonState.Level0
                 },
                 invincibilityLevel = PlayerStatsManager.currentStats.InvincibilityProb switch
                 {
                     0 => PowerUpButtonState.Level0,
                     13 => PowerUpButtonState.Level1,
                     14 => PowerUpButtonState.Level2,
-                    15 => PowerUpButtonState.Level3
+                    15 => PowerUpButtonState.Level3,
+                    _ => PowerUpButtonState.Level0
                 },
                 bombLevel = PlayerStatsManager.currentStats.bombProbability switch
                 {
                     0 => PowerUpButtonState.Level0,
                     18 => PowerUpButtonState.Level1,
                     19 => PowerUpButtonState.Level2,
-                    20 => PowerUpButtonState.Level3
+                    20 => PowerUpButtonState.Level3,
+                    _ => PowerUpButtonState.Level0
                 }
             };
         }

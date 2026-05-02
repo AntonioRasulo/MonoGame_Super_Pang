@@ -31,6 +31,7 @@ public class PowerUpButton : AnimatedButton
     private const int HEIGHT = 20;
 
     private SpriteRuntime _Xsprite;
+    private SpriteRuntime _Vsprite;
 
     public PowerUpButton(Texture2D texture, Rectangle sourceRectangle, TextureAtlas atlas, ShopItems item) : base(atlas)
     {
@@ -109,11 +110,15 @@ public class PowerUpButton : AnimatedButton
                 _Xsprite.Parent = null;
                 break;
             case PowerUpButtonState.Level1:
+                _state++;
+                break;
             case PowerUpButtonState.Level2:
                 _state++;
-            break;
+                CreateVSprite();
+                break;
             case PowerUpButtonState.Level3:
-            break;
+            default:
+                break;
         }
         SetSpriteColor();
     }
@@ -185,6 +190,31 @@ public class PowerUpButton : AnimatedButton
 
         _Xsprite.Anchor(Gum.Wireframe.Anchor.Center);
         visual.Background.AddChild(_Xsprite);
+    }
+
+    private void CreateVSprite()
+    {
+        ButtonVisual visual = (ButtonVisual)this.Visual;
+        TextureAtlas book2Atlas = TextureAtlas.FromFile(Core.Content, "images/UI/Book2_atlas.xml");
+
+        TextureRegion v_icon = book2Atlas.GetRegion("v-icon");
+        Texture2D texture = v_icon.Texture;
+        Rectangle sourceRectangle = v_icon.SourceRectangle;
+
+        // Create sprite
+        _Vsprite = new SpriteRuntime
+        {
+            Texture = texture,
+            SourceRectangle = sourceRectangle,
+            WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+            HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
+            Width = sourceRectangle.Width,
+            Height = sourceRectangle.Height,
+            TextureAddress = Gum.Managers.TextureAddress.Custom
+        };
+
+        _Vsprite.Anchor(Gum.Wireframe.Anchor.Center);
+        visual.Background.AddChild(_Vsprite);
     }
 
     private void ChangeDescriptionText(object sender, EventArgs e)
