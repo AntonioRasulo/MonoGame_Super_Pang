@@ -3,6 +3,8 @@ using System.IO;
 using System.Reflection;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGameLibrary.Graphics;
 
 namespace MonoGameLibrary.Content;  
   
@@ -148,5 +150,17 @@ public static class ContentManagerExtensions
             }
         };
     }
+
+    /// <summary>  
+    /// Load an Effect into the <see cref="Material"/> wrapper class  
+    /// </summary>  
+    /// <param name="manager"></param>  
+    /// <param name="assetName"></param>  
+    /// <returns></returns>  
+    public static Material WatchMaterial(this ContentManager manager, string assetName)
+    {
+        return new Material(manager.Watch<Effect>(assetName));
+    }
+
 
 }
