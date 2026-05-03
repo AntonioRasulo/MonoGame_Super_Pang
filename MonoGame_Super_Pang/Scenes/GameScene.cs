@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
+using MonoGameLibrary.Content;
 using MonoGameLibrary.Scenes;
 using MonoGame_Super_Pang.GameObjects;
 using MonoGame_Super_Pang.Config;
@@ -48,7 +49,7 @@ public class GameScene : Scene
     private GameState _state;
 
     // The grayscale shader effect.
-    private Effect _grayscaleEffect;
+    private WatchedAsset<Effect> _grayscaleEffect;
 
     // The amount of saturation to provide the grayscale shader effect.
     private float _saturation = 1.0f;
@@ -163,12 +164,15 @@ public class GameScene : Scene
         LoadLevel(LevelRegistry.AllLevels[_currentLevelIndex]);
 
         // Load the grayscale effect.
-        _grayscaleEffect = Content.Load<Effect>("effects/grayscaleEffect");
+        _grayscaleEffect = Content.Watch<Effect>("effects/grayscaleEffect");
 
     }
 
     public override void Update(GameTime gameTime)
     {
+        // Update the grayscale effect if it was changed
+        _grayscaleEffect.TryRefresh(out _);
+
         // Ensure the UI is always updated.
         _ui.Update(gameTime);
 
@@ -577,10 +581,10 @@ public class GameScene : Scene
         if (_state != GameState.Playing)
         {
             // We are in a game over state, so apply the saturation parameter.
-            _grayscaleEffect.Parameters["Saturation"].SetValue(_saturation);
+            _grayscaleEffect.Asset.Parameters["Saturation"].SetValue(_saturation);
 
             // And begin the sprite batch using the grayscale effect.
-            Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp, effect: _grayscaleEffect);
+            Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp, effect: _grayscaleEffect.Asset);
         }
         else
         {

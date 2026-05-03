@@ -5,6 +5,7 @@
     <RollForward>Major</RollForward>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
+    <RunWorkingDirectory>bin/$(Configuration)/$(TargetFramework)</RunWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -30,4 +31,27 @@
   <ItemGroup>
     <ProjectReference Include="..\MonoGameLibrary\MonoGameLibrary.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="'$(OnlyWatchContentFiles)'=='true'">  
+    <!-- Adds .fx files to the `dotnet watch`'s file scope -->  
+    <Watch Include="Content/**/*.fx;"/>  
+    <!-- Removes the .cs files from `dotnet watch`'s compile scope -->  
+    <Compile Update="**/*.cs" Watch="false" />  
+  </ItemGroup>
+  <Target Name="BuildAndCopyContent" DependsOnTargets="IncludeContent">  
+    <Message Text="Rebuilding Content..." Importance="High"/>  
+    <Copy
+        SourceFiles="%(ExtraContent.Identity)"  
+        DestinationFiles="$(OutDir)%(ExtraContent.ContentDir)%(ExtraContent.RecursiveDir)%(ExtraContent.Filename)%(ExtraContent.Extension)"
+        SkipUnchangedFiles="true"  
+    />
+  </Target>
+  <ItemGroup  Condition="'$(OnlyWatchContentFiles)'=='true'">  
+    <!-- Adds .fx files to the `dotnet watch`'s file scope -->  
+    <Watch Include="Content/**/*.fx;"/>  
+    <!-- Removes the .cs files from `dotnet watch`'s compile scope -->  
+    <Compile Update="**/*.cs" Watch="false" />  
+  </ItemGroup>
+  <Target Name="WatchContent">  
+    <Exec Command="dotnet watch build --property OnlyWatchContentFiles=true --property AutoRestoreMGCBTool=false -- MonoGame_Super_Pang.csproj --target:BuildAndCopyContent" EnvironmentVariables="DOTNET_WATCH_SUPPRESS_EMOJIS=1"/>  
+  </Target>
 </Project>
