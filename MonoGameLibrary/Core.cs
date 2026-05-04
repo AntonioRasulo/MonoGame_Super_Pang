@@ -1,3 +1,4 @@
+using ImGuiNET.SampleProgram.XNA;
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -5,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary.Audio;
 using MonoGameLibrary.Input;
+using MonoGameLibrary.Graphics;
 using MonoGameLibrary.Scenes;
 
 namespace MonoGameLibrary;
@@ -58,6 +60,11 @@ public class Core : Game
     /// Gets a reference to the audio control system.
     /// </summary>
     public static AudioController Audio { get; private set; }
+
+    /// <summary>
+    /// Gets the ImGui renderer used for debug UIs.
+    /// </summary>
+    public static ImGuiRenderer ImGuiRenderer { get; private set; }
 
     /// <summary>
     /// Creates a new Core instance.
@@ -122,6 +129,10 @@ public class Core : Game
         // Create a new audio controller.
         Audio = new AudioController();
 
+        // Create the ImGui renderer.
+        ImGuiRenderer = new ImGuiRenderer(this);
+        ImGuiRenderer.RebuildFontAtlas();
+
     }
 
     protected override void UnloadContent()
@@ -168,6 +179,8 @@ public class Core : Game
         {
             s_activeScene.Draw(gameTime);
         }
+
+        Material.DrawVisibleDebugUi(gameTime);
 
         base.Draw(gameTime);
     }
