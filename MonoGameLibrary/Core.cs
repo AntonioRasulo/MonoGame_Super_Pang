@@ -1,10 +1,12 @@
 using ImGuiNET.SampleProgram.XNA;
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary.Audio;
+using MonoGameLibrary.Content;
 using MonoGameLibrary.Input;
 using MonoGameLibrary.Graphics;
 using MonoGameLibrary.Scenes;
@@ -66,6 +68,31 @@ public class Core : Game
     /// </summary>
     public static ImGuiRenderer ImGuiRenderer { get; private set; }
 
+    /// <summary>  
+    /// The material that is used when changing scenes  
+    /// </summary>  
+    public static Material SceneTransitionMaterial { get; private set; }
+
+    /// <summary>  
+    /// Gets a runtime generated 1x1 pixel texture.  
+    /// </summary>  
+    public static Texture2D Pixel { get; private set; }
+
+    /// <summary>  
+    /// A set of grayscale gradient textures to use as transition guides  
+    /// </summary>  
+    public static List<Texture2D> SceneTransitionTextures { get; private set; }
+
+    /// <summary>  
+    /// The current transition between scenes  
+    /// </summary>  
+    public static SceneTransition SceneTransition { get; protected set; } = SceneTransition.Open(1000);
+
+    /// <summary>
+    /// Gets the content manager that can load global assets from the SharedContent folder.
+    /// </summary>
+    public static ContentManager SharedContent { get; private set; }
+
     /// <summary>
     /// Creates a new Core instance.
     /// </summary>
@@ -105,6 +132,9 @@ public class Core : Game
         // Set the root directory for content.
         Content.RootDirectory = "Content";
 
+        // Set the core's shared content manager, pointing to the SharedContent folder.
+        SharedContent = new ContentManager(Services, "SharedContent");
+
         // Mouse is visible by default.
         IsMouseVisible = true;
 
@@ -133,6 +163,24 @@ public class Core : Game
         ImGuiRenderer = new ImGuiRenderer(this);
         ImGuiRenderer.RebuildFontAtlas();
 
+        // Create a 1x1 white pixel texture for drawing quads.
+        Pixel = new Texture2D(GraphicsDevice, 1, 1);
+        Pixel.SetData(new Color[]{ Color.White });
+
+    }
+
+    protected override void LoadContent()
+    {
+        base.LoadContent();
+        SceneTransitionMaterial = SharedContent.WatchMaterial("effects/sceneTransitionEffect");
+        SceneTransitionMaterial.SetParameter("EdgeWidth", .05f);
+        SceneTransitionMaterial.IsDebugVisible = true;
+
+        SceneTransitionTextures = new List<Texture2D>();
+        SceneTransitionTextures.Add(SharedContent.Load<Texture2D>("images/angled"));
+        SceneTransitionTextures.Add(SharedContent.Load<Texture2D>("images/concave"));
+        SceneTransitionTextures.Add(SharedContent.Load<Texture2D>("images/radial"));
+        SceneTransitionTextures.Add(SharedContent.Load<Texture2D>("images/ripple"));
     }
 
     protected override void UnloadContent()
@@ -169,6 +217,10 @@ public class Core : Game
             s_activeScene.Update(gameTime);
         }
 
+        // Check if the scene transition material needs to be reloaded.
+        SceneTransitionMaterial.SetParameter("Progress", SceneTransition.DirectionalRatio);
+        SceneTransitionMaterial.Update();
+
         base.Update(gameTime);
     }
 
@@ -179,6 +231,11 @@ public class Core : Game
         {
             s_activeScene.Draw(gameTime);
         }
+
+        // Draw the scene transition quad
+        SpriteBatch.Begin(effect: SceneTransitionMaterial.Effect);
+        SpriteBatch.Draw(SceneTransitionTextures[SceneTransition.TextureIndex % SceneTransitionTextures.Count], GraphicsDevice.Viewport.Bounds, Color.White);
+        SpriteBatch.End();
 
         Material.DrawVisibleDebugUi(gameTime);
 
@@ -192,11 +249,13 @@ public class Core : Game
         if (s_activeScene != next)
         {
             s_nextScene = next;
+            SceneTransition = SceneTransition.Close(250);
         }
     }
 
     private static void TransitionScene()
     {
+        SceneTransition = SceneTransition.Open(500);
         // If there is an active scene, dispose of it.
         if (s_activeScene != null)
         {

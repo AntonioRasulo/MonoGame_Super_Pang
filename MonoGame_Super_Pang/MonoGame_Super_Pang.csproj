@@ -47,11 +47,14 @@
   </Target>
   <ItemGroup  Condition="'$(OnlyWatchContentFiles)'=='true'">  
     <!-- Adds .fx files to the `dotnet watch`'s file scope -->  
-    <Watch Include="Content/**/*.fx;"/>  
+    <Watch Include="../**/*.fx;" />  
     <!-- Removes the .cs files from `dotnet watch`'s compile scope -->  
     <Compile Update="**/*.cs" Watch="false" />  
   </ItemGroup>
   <Target Name="WatchContent">  
     <Exec Command="dotnet watch build --property OnlyWatchContentFiles=true --property AutoRestoreMGCBTool=false -- MonoGame_Super_Pang.csproj --target:BuildAndCopyContent" EnvironmentVariables="DOTNET_WATCH_SUPPRESS_EMOJIS=1"/>  
   </Target>
+  <ItemGroup>
+    <MonoGameContentReference Include="**/*.mgcb;../MonoGameLibrary/**/*.mgcb" />
+  </ItemGroup>
 </Project>

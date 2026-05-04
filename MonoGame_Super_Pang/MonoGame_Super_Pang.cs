@@ -25,7 +25,8 @@ public class Game1 : Core
 
     protected override void LoadContent()
     {
-
+        // Allow the Core class to also load content.
+        base.LoadContent();
     }
 
     private void InitializeGum()

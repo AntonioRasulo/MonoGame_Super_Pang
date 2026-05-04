@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/Lenovo/Documents/C#_projects/MonoGame_Super_Pang/MonoGameLibrary/SharedContent/effects/sceneTransitionEffect.fx</File>
+    <File>C:/Users/Lenovo/Documents/C#_projects/MonoGame_Super_Pang/MonoGameLibrary/SharedContent/images/angled.png</File>
+    <File>C:/Users/Lenovo/Documents/C#_projects/MonoGame_Super_Pang/MonoGameLibrary/SharedContent/images/concave.png</File>
+    <File>C:/Users/Lenovo/Documents/C#_projects/MonoGame_Super_Pang/MonoGameLibrary/SharedContent/images/radial.png</File>
+    <File>C:/Users/Lenovo/Documents/C#_projects/MonoGame_Super_Pang/MonoGameLibrary/SharedContent/images/ripple.png</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>
