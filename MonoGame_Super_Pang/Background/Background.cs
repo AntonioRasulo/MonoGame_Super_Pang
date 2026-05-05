@@ -58,10 +58,10 @@ public class Background
         _backgroundOffset.X %= _backgroundWidth;
     }
 
-    public void Draw()
+    public void Draw(Effect effect = null)
     {
 
-        Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp, effect: effect);
         Core.SpriteBatch.Draw(_clouds[0], _backgroundDestination, _clouds[0].Bounds, Color.White * 0.5f);
         Core.SpriteBatch.End();
 

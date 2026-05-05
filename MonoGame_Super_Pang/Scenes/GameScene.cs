@@ -576,19 +576,22 @@ public class GameScene : Scene
     {
         Core.GraphicsDevice.Clear(Color.White);
 
-        // Draw the background
-        _levelBackground.Draw();
-
         if (_state != GameState.Playing)
         {
             // We are in a game over state, so apply the saturation parameter.
             _grayscaleEffect.SetParameter("Saturation", _saturation);
+
+            // Draw the background
+            _levelBackground.Draw(_grayscaleEffect.Effect);
 
             // And begin the sprite batch using the grayscale effect.
             Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp, effect: _grayscaleEffect.Effect);
         }
         else
         {
+            // Draw the background
+            _levelBackground.Draw();
+
             // Begin the sprite batch to prepare for rendering.
             Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
         }
