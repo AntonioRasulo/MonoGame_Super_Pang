@@ -127,10 +127,6 @@ public class PowerUpButton : AnimatedButton
     {
         _state = state;
         SetSpriteColor();
-        if(_state == PowerUpButtonState.Level0)
-        {
-            CreateXSprite();
-        }
     }
 
     private void SetSpriteColor()
@@ -139,6 +135,7 @@ public class PowerUpButton : AnimatedButton
         {
             case PowerUpButtonState.Level0:
                 _sprite.Color = Color.SandyBrown;
+                CreateXSprite();
             break;
             case PowerUpButtonState.Level1:
                 _sprite.Color = Color.SandyBrown;
@@ -148,6 +145,7 @@ public class PowerUpButton : AnimatedButton
             break;
             case PowerUpButtonState.Level3:
                 _sprite.Color = Color.Gold;
+                CreateVSprite();
             break;
         }
     }
