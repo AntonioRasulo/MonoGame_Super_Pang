@@ -52,6 +52,8 @@ abstract public class Ball
 
     protected static TextureRegion _greenBallSquaredRegion;
 
+    public static Animation _explosionAnimation;
+
     public Ball(BallSize ballsize, float dirX, BallType ballType, Vector2 ballInitialPosition = default)
     {
         _ballSize = ballsize;
@@ -192,7 +194,7 @@ abstract public class Ball
 
     public static void LoadContent()
     {
-        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/items-atlas.xml");
+        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
 
         _redBallRoundRegion = itemsAtlas.GetRegion("redBall");
         _blueBallRoundRegion = itemsAtlas.GetRegion("blueBall");
@@ -205,6 +207,7 @@ abstract public class Ball
         _popSoundEffect = Core.Content.Load<SoundEffect>("audio/Balloon Pop 1");
         _bounceSoundEffect = Core.Content.Load<SoundEffect>("audio/bounce");
 
+        _explosionAnimation = itemsAtlas.GetAnimation("Explosion-animation");
     }
 
     protected abstract void LoadSprite();

@@ -27,6 +27,7 @@ public class GameScene : Scene
     private Character _character;
 
     private List<Ball> _balls;
+    private List<BallExplosion> _explosionAnimation;
 
     private List<Platform> _platforms;
 
@@ -153,6 +154,7 @@ public class GameScene : Scene
         _character = new Character();
 
         _balls = new List<Ball>();
+        _explosionAnimation = new List<BallExplosion>();
 
         _platforms = new List<Platform>();
 
@@ -221,6 +223,13 @@ public class GameScene : Scene
         {
             enemy.Update(gameTime);
         }
+
+        foreach(BallExplosion explosion in _explosionAnimation)
+        {
+            explosion.Update(gameTime);
+        }
+
+        _explosionAnimation.RemoveAll(explosion => explosion.isComplete());
 
         CollisionChecks();
 
@@ -545,6 +554,18 @@ public class GameScene : Scene
         toRemoveBall.Add(ball);
         Ball.playPopSound();
         _collectibleHandler.GenerateCollectible(ball.Position);
+        if(ball.GetBallSize() == BallSize.SMALL)
+        {
+            Color color = ball.GetBallType() switch
+            {
+                BallType.GREEN_ROUND => Color.LightGreen,
+                BallType.RED_ROUND => Color.Red,
+                BallType.BLUE_ROUND => Color.Blue,
+                BallType.GREEN_SQUARED => Color.LightGreen,
+                _ => Color.Red
+            };
+            _explosionAnimation.Add(new BallExplosion(color, ball.Position));
+        }
     }
 
     private bool areIntersecting(Circle circle, Rectangle rectangle)
@@ -619,6 +640,11 @@ public class GameScene : Scene
         foreach(Enemy enemy in _deadEnemies)
         {
             enemy.Draw();
+        }
+
+        foreach(BallExplosion explosion in _explosionAnimation)
+        {
+            explosion.Draw();
         }
 
         // Always end the sprite batch when finished.
