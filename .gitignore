@@ -4,3 +4,5 @@ MonoGame_Super_Pang/bin/*
 MonoGame_Super_Pang/obj/*
 MonoGame_Super_Pang/Content/obj/*
 MonoGame_Super_Pang/Content/bin/*
+MonoGameLibrary/SharedContent/obj/*
+MonoGameLibrary/SharedContent/bin/*
