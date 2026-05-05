@@ -3,6 +3,8 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
+using MonoGameLibrary.Content;
+using MonoGameLibrary.Graphics;
 using MonoGameLibrary.Scenes;
 using Microsoft.Xna.Framework.Media;
 using MonoGameGum;
@@ -23,6 +25,9 @@ public class TitleScene : Scene
     private Random _backgroundRand;
 
     private static bool _volumeInitialized = false;
+
+    // The 3d material  
+    private Material _3dMaterial;
 
     public override void Initialize()
     {
@@ -73,6 +78,14 @@ public class TitleScene : Scene
         _levelBackground = new Background(clouds);
 
         PlayerStatsManager.LoadContent();
+
+        // Load the 3d effect 
+        _3dMaterial = Core.SharedContent.WatchMaterial("effects/3dEffect");
+        _3dMaterial.IsDebugVisible = true;
+
+        var camera = new SpriteCamera3d();
+        _3dMaterial.SetParameter("MatrixTransform", camera.CalculateMatrixTransform());
+        _3dMaterial.SetParameter("ScreenSize", new Vector2(Core.GraphicsDevice.Viewport.Width, Core.GraphicsDevice.Viewport.Height));
     }
 
     public override void Update(GameTime gameTime)
@@ -82,6 +95,12 @@ public class TitleScene : Scene
         _levelBackground.Update(gameTime);
 
         TitlePanelManager.Update();
+
+        _3dMaterial.Update();
+
+        var spinAmount = Core.Input.Mouse.X / (float)Core.GraphicsDevice.Viewport.Width;
+        spinAmount = MathHelper.SmoothStep(-.1f, .1f, spinAmount);
+        _3dMaterial.SetParameter("SpinAmount", spinAmount);
     }
 
     public override void Draw(GameTime gameTime)
@@ -91,7 +110,15 @@ public class TitleScene : Scene
         // Draw the background
         _levelBackground.Draw();
 
+        // Begin the sprite batch to prepare for rendering.
+        Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp,
+                                rasterizerState: RasterizerState.CullNone,
+                                effect: _3dMaterial.Effect);
+
         TitlePanelManager.Draw();
+
+        // Always end the sprite batch when finished.
+        Core.SpriteBatch.End();
 
         GumService.Default.Draw();
     }

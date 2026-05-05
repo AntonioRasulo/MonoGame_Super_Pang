@@ -174,13 +174,7 @@ public class TitlePanelManager
 
     public static void Draw()
     {
-        // Begin the sprite batch to prepare for rendering.
-        Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
-
         _titleScreenButtonsPanel.Draw();
-
-        // Always end the sprite batch when finished.
-        Core.SpriteBatch.End();
     }
 
 }
