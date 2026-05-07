@@ -168,7 +168,7 @@ public class GameScene : Scene
 
         // Load the grayscale effect.
         _grayscaleEffect = Content.WatchMaterial("effects/grayscaleEffect");
-        _grayscaleEffect.IsDebugVisible = true;
+        _grayscaleEffect.IsDebugVisible = false;
     }
 
     public override void Update(GameTime gameTime)

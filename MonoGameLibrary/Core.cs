@@ -174,7 +174,7 @@ public class Core : Game
         base.LoadContent();
         SceneTransitionMaterial = SharedContent.WatchMaterial("effects/sceneTransitionEffect");
         SceneTransitionMaterial.SetParameter("EdgeWidth", .05f);
-        SceneTransitionMaterial.IsDebugVisible = true;
+        SceneTransitionMaterial.IsDebugVisible = false;
 
         SceneTransitionTextures = new List<Texture2D>();
         SceneTransitionTextures.Add(SharedContent.Load<Texture2D>("images/angled"));

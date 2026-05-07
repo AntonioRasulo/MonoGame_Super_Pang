@@ -1,13 +1,20 @@
 using Gum.Forms.Controls;
+using Gum.Forms.DefaultVisuals.V3;
+using Gum.Managers;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGameGum;
+using MonoGameGum.GueDeriving;
+using MonoGameLibrary;
+using MonoGameLibrary.Graphics;
 using System;
 
 namespace MonoGame_Super_Pang.UI;
 
 public class NewGamePanel : PangPanel
 {
-    private TextBox _newGameNametextBox;
+    private Panel _newGameNamePanel;
+    private TextRuntime _nameText;
     private AnimatedButton _newGameBackButton;
     private AnimatedButton confirmButton;
     private bool _isLastFocusedBackButton = false;
@@ -19,57 +26,71 @@ public class NewGamePanel : PangPanel
         _panel.IsVisible = false;
         _panel.AddToRoot();
 
+        AddLetterButtons();
+
         confirmButton = new AnimatedButton(_GUIatlas);
         confirmButton.Text = "CONFIRM";
-        confirmButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
-        confirmButton.X = 28f;
-        confirmButton.Y = -10f;
+        confirmButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        confirmButton.X = 70;
+        confirmButton.Y = 130f;
         confirmButton.Click += TitlePanelManager.handleConfirmNameClicked;
         confirmButton.KeyDown += updateFlagButton;
+        ((ButtonVisual)confirmButton.Visual).Height = 18f;
         _panel.AddChild(confirmButton);
 
-        _newGameNametextBox = new TextBox();
-        _newGameNametextBox.Width = 200;
-        _newGameNametextBox.Anchor(Gum.Wireframe.Anchor.Center);
-        _newGameNametextBox.Placeholder = "";
-        _panel.AddChild(_newGameNametextBox);
+        _newGameNamePanel = CreateTextPanel();
+        _panel.AddChild(_newGameNamePanel);
 
         _newGameBackButton = new AnimatedButton(_GUIatlas);
         _newGameBackButton.Text = "BACK";
-        _newGameBackButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
-        _newGameBackButton.X = -28f;
-        _newGameBackButton.Y = -10f;
+        _newGameBackButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        _newGameBackButton.X = 140f;
+        _newGameBackButton.Y = 130f;
         _newGameBackButton.Click += TitlePanelManager.HandleStartClicked;
         _newGameBackButton.KeyDown += updateFlagButton;
+        ((ButtonVisual)_newGameBackButton.Visual).Height = 18f;
         _panel.AddChild(_newGameBackButton);
+
+        Texture2D arrow2DTexture = Core.Content.Load<Texture2D>("images/UI/Pixelart arrow icon pack 1.0");
+        TextureRegion arrowRegion = new TextureRegion(arrow2DTexture, 50, 1, 10, 13);
+        
+        SpriteButton backSpace = new SpriteButton(_GUIatlas, arrowRegion, 90);
+        backSpace.Text = "";
+        backSpace.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        backSpace.X = 190f;
+        backSpace.Y = 130f;
+        backSpace.Click += EraseLastChar;
+        ((ButtonVisual)backSpace.Visual).Height = 18f;
+        ((ButtonVisual)backSpace.Visual).Width = 30f;
+        _panel.AddChild(backSpace);
     }
 
     public string GetNewGameTextBoxText()
     {
-        return _newGameNametextBox.Text;
+        return _nameText.Text;
     }
 
     public void ClearNewGameTextBox()
     {
-        _newGameNametextBox.Text = "";
+        _nameText.Text = "";
     }
 
     public override void Update()
     {
-        if(_panel.IsVisible &&
-        confirmButton.IsFocused == false &&
-        _newGameBackButton.IsFocused == false &&
-        _newGameNametextBox.IsFocused == false)
-        {
-            if (_isLastFocusedBackButton)
-            {
-                confirmButton.IsFocused = true;
-            }
-            else
-            {
-                _newGameBackButton.IsFocused = true;
-            }
-        }
+        // if(_panel.IsVisible &&
+        // confirmButton.IsFocused == false &&
+        // _newGameBackButton.IsFocused == false &&
+        // _newGameNametextBox.IsFocused == false)
+        // {
+        //     if (_isLastFocusedBackButton)
+        //     {
+        //         confirmButton.IsFocused = true;
+        //     }
+        //     else
+        //     {
+        //         _newGameBackButton.IsFocused = true;
+        //     }
+        // }
     }
 
     private void updateFlagButton(Object sender, KeyEventArgs e)
@@ -88,6 +109,77 @@ public class NewGamePanel : PangPanel
                 _isLastFocusedBackButton = true;
             }
         }
+    }
+
+    private void AddLetterButtons()
+    {
+        string[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "Y", "Z" };
+        float yIndex = 0;
+        float xIndex = 0;
+        const int NUM_COLUMN = 6;
+        for (int i = 0; i < letters.Length; i++)
+        {
+            yIndex = i / NUM_COLUMN;
+            xIndex = i - NUM_COLUMN * yIndex;
+            
+            AnimatedButton btn = new AnimatedButton(_GUIatlas);
+            btn.Text = letters[i];
+
+            ((ButtonVisual)btn.Visual).Width = 30f;
+            ((ButtonVisual)btn.Visual).Height = 18f;
+            btn.Anchor(Gum.Wireframe.Anchor.TopLeft);
+            btn.X = 40.0f + xIndex * 40.0f;
+            btn.Y = 10.0f + yIndex * 30.0f;
+            btn.Click += AddChar;
+            _panel.AddChild(btn);
+        }
+    }
+
+    private void AddChar(Object sender, EventArgs e)
+    {
+        _nameText.Text += ((AnimatedButton)sender).Text;
+    }
+
+    private void EraseLastChar(Object sender, EventArgs e)
+    {
+        string text = _nameText.Text;
+        if(text != "")
+        {
+            _nameText.Text = text.Remove(text.Length-1);
+        }
+    }
+
+    private Panel CreateTextPanel()
+    {
+        Panel panel = new Panel();
+        panel.Anchor(Gum.Wireframe.Anchor.Bottom);
+        panel.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+        panel.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+        panel.Width = 200.0f;
+        panel.Height = 25.0f;
+        panel.IsVisible = true;
+
+        TextureRegion backgroundRegion = _GUIatlas.GetRegion("panel-background");
+
+        NineSliceRuntime background = new NineSliceRuntime();
+        background.Dock(Gum.Wireframe.Dock.Fill);
+        background.Texture = backgroundRegion.Texture;
+        background.TextureAddress = TextureAddress.Custom;
+        background.TextureHeight = backgroundRegion.Height;
+        background.TextureWidth = backgroundRegion.Width;
+        background.TextureTop = backgroundRegion.SourceRectangle.Top;
+        background.TextureLeft = backgroundRegion.SourceRectangle.Left;
+        panel.AddChild(background);
+
+        _nameText = new TextRuntime();
+        _nameText.Text = "";
+        _nameText.UseCustomFont = true;
+        _nameText.CustomFontFile = "fonts/04b_30.fnt";
+        _nameText.FontScale = 0.25f;
+        _nameText.Anchor(Gum.Wireframe.Anchor.Center);
+        panel.AddChild(_nameText);
+
+        return panel;
     }
 
 }
