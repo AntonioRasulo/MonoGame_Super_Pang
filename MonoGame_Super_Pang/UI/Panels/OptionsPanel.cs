@@ -68,7 +68,7 @@ public class OptionsPanel: PangPanel
         _optionsBackButton.Y = -10f;
         _optionsBackButton.Click += TitlePanelManager.HandleOptionsButtonBack;
         _optionsBackButton.KeyDown += updateFlagButton;
-        _panel.AddChild(_optionsBackButton);   
+        _panel.AddChild(_optionsBackButton);
     }
 
     public void OptionsBackButtonSetFocus(bool IsFocused)

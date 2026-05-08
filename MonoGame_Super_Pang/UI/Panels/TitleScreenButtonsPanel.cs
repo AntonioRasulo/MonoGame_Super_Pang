@@ -33,6 +33,7 @@ public class TitleScreenButtonsPanel : PangPanel
 
     private AnimatedButton _optionsButton;
     private AnimatedButton _startButton;
+    private AnimatedButton _creditsButton;
 
     // The font used to render the title text.
     private SpriteFont _font5x;
@@ -44,20 +45,26 @@ public class TitleScreenButtonsPanel : PangPanel
         _panel.Dock(Gum.Wireframe.Dock.Fill);
         _panel.AddToRoot();
 
+        _creditsButton = new AnimatedButton(_GUIatlas);
+        _creditsButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
+        _creditsButton.Width = 50;
+        _creditsButton.Text = "Credits";
+        _creditsButton.Y = -12;
+        _creditsButton.Click += TitlePanelManager.HandleCreditsClicked;
+        _panel.AddChild(_creditsButton);
+
         _startButton = new AnimatedButton(_GUIatlas);
-        _startButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
-        _startButton.X = 50;
+        _startButton.Anchor(Gum.Wireframe.Anchor.Bottom);
         _startButton.Y = -12;
-        _startButton.Width = 70;
+        _startButton.Width = 50;
         _startButton.Text = "Start";
         _startButton.Click += TitlePanelManager.HandleStartClicked;
         _panel.AddChild(_startButton);
 
         _optionsButton = new AnimatedButton(_GUIatlas);
         _optionsButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
-        _optionsButton.X = -50;
         _optionsButton.Y = -12;
-        _optionsButton.Width = 70;
+        _optionsButton.Width = 50;
         _optionsButton.Text = "Options";
         _optionsButton.Click += TitlePanelManager.HandleOptionsClicked;
         _panel.AddChild(_optionsButton);
@@ -90,6 +97,7 @@ public class TitleScreenButtonsPanel : PangPanel
     {
         if (_optionsButton.IsFocused == false &&
             _startButton.IsFocused == false &&
+            _creditsButton.IsFocused == false &&
             _panel.IsVisible == true)
         {
             _startButton.IsFocused = true;

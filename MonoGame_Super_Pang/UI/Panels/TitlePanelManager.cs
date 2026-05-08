@@ -15,6 +15,7 @@ public class TitlePanelManager
     private static DeleteGamePanel _deleteGamePanel;
     private static StartGamePanel _startGamePanel;
     private static ShopPanel _shopPanel;
+    private static CreditsPanel _creditsPanel;
 
     public static SoundEffect uiSoundEffect;
 
@@ -28,6 +29,7 @@ public class TitlePanelManager
         _deleteGamePanel = new DeleteGamePanel();
         _startGamePanel = new StartGamePanel();
         _shopPanel = new ShopPanel();
+        _creditsPanel = new CreditsPanel();
         uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Confirm 1");
     }
 
@@ -97,6 +99,8 @@ public class TitlePanelManager
         _newGamePanel.SetIsVisible(false);
 
         _deleteGamePanel.SetIsVisible(false);
+
+        _creditsPanel.SetIsVisible(false);
 
         // Give the options button on the title panel focus since we are coming
         // back from the options screen.
@@ -170,6 +174,12 @@ public class TitlePanelManager
     {
         _shopPanel.SetIsVisible(true);
         _startGamePanel.SetIsVisible(false);
+    }
+
+    public static void HandleCreditsClicked(object sender, EventArgs e)
+    {
+        _creditsPanel.SetIsVisible(true);
+        _titleScreenButtonsPanel.SetIsVisible(false);
     }
 
     public static void Draw()
