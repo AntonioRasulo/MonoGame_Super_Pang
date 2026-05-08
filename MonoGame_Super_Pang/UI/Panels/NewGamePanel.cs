@@ -17,7 +17,9 @@ public class NewGamePanel : PangPanel
     private TextRuntime _nameText;
     private AnimatedButton _newGameBackButton;
     private AnimatedButton confirmButton;
-    private bool _isLastFocusedBackButton = false;
+    private AnimatedButton aButton;
+    private SpriteButton _backSpace;
+    private AnimatedButton _focusBtn = null;
 
     public NewGamePanel()
     {
@@ -34,7 +36,6 @@ public class NewGamePanel : PangPanel
         confirmButton.X = 70;
         confirmButton.Y = 130f;
         confirmButton.Click += TitlePanelManager.handleConfirmNameClicked;
-        confirmButton.KeyDown += updateFlagButton;
         ((ButtonVisual)confirmButton.Visual).Height = 18f;
         _panel.AddChild(confirmButton);
 
@@ -47,22 +48,22 @@ public class NewGamePanel : PangPanel
         _newGameBackButton.X = 140f;
         _newGameBackButton.Y = 130f;
         _newGameBackButton.Click += TitlePanelManager.HandleStartClicked;
-        _newGameBackButton.KeyDown += updateFlagButton;
         ((ButtonVisual)_newGameBackButton.Visual).Height = 18f;
         _panel.AddChild(_newGameBackButton);
 
         Texture2D arrow2DTexture = Core.Content.Load<Texture2D>("images/UI/Pixelart arrow icon pack 1.0");
         TextureRegion arrowRegion = new TextureRegion(arrow2DTexture, 50, 1, 10, 13);
         
-        SpriteButton backSpace = new SpriteButton(_GUIatlas, arrowRegion, 90);
-        backSpace.Text = "";
-        backSpace.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        backSpace.X = 190f;
-        backSpace.Y = 130f;
-        backSpace.Click += EraseLastChar;
-        ((ButtonVisual)backSpace.Visual).Height = 18f;
-        ((ButtonVisual)backSpace.Visual).Width = 30f;
-        _panel.AddChild(backSpace);
+        _backSpace = new SpriteButton(_GUIatlas, arrowRegion, 90);
+        _backSpace.Text = "";
+        _backSpace.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        _backSpace.X = 190f;
+        _backSpace.Y = 130f;
+        _backSpace.Click += EraseLastChar;
+        _backSpace.KeyDown += updateFlagButton;
+        ((ButtonVisual)_backSpace.Visual).Height = 18f;
+        ((ButtonVisual)_backSpace.Visual).Width = 30f;
+        _panel.AddChild(_backSpace);
     }
 
     public string GetNewGameTextBoxText()
@@ -77,36 +78,28 @@ public class NewGamePanel : PangPanel
 
     public override void Update()
     {
-        // if(_panel.IsVisible &&
-        // confirmButton.IsFocused == false &&
-        // _newGameBackButton.IsFocused == false &&
-        // _newGameNametextBox.IsFocused == false)
-        // {
-        //     if (_isLastFocusedBackButton)
-        //     {
-        //         confirmButton.IsFocused = true;
-        //     }
-        //     else
-        //     {
-        //         _newGameBackButton.IsFocused = true;
-        //     }
-        // }
+        if(_panel.IsVisible &&
+        _focusBtn != null)
+        {
+            _focusBtn.IsFocused = true;
+            _focusBtn = null;
+        }
     }
 
     private void updateFlagButton(Object sender, KeyEventArgs e)
     {
-        if(sender == confirmButton)
+        if(sender == aButton)
         {
             if (e.Key == Keys.Up || e.Key == Keys.Left)
             {
-                _isLastFocusedBackButton = false;
+                _focusBtn = aButton;
             }
         }
-        else if(sender == _newGameBackButton)
+        else if(sender == _backSpace)
         {
             if (e.Key == Keys.Down || e.Key == Keys.Right)
             {
-                _isLastFocusedBackButton = true;
+                _focusBtn = _backSpace;
             }
         }
     }
@@ -131,6 +124,11 @@ public class NewGamePanel : PangPanel
             btn.X = 40.0f + xIndex * 40.0f;
             btn.Y = 10.0f + yIndex * 30.0f;
             btn.Click += AddChar;
+            if(i == 0)
+            {
+                btn.KeyDown += updateFlagButton;
+                aButton = btn;
+            }
             _panel.AddChild(btn);
         }
     }
