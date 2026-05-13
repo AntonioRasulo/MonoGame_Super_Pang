@@ -31,7 +31,7 @@ public class MiniBat : Bat
 
         // Convert the angle to a direction vector
         float x = (float)Math.Cos(angle);
-        float y = (float)Math.Sin(angle);
+        float y = -1.0f;
         Vector2 direction = new Vector2(x, y);
 
         // Multiply the direction vector by the movement speed to get the
