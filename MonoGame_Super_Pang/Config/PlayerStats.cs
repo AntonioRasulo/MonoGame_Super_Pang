@@ -49,17 +49,31 @@ public class PlayerStats
         {
             if (!File.Exists(candidate)) continue;
 
-            string json = File.ReadAllText(candidate);
+            string raw = File.ReadAllText(candidate);
 
             // Reject null-byte corrupted files before handing to the deserializer
-            if (string.IsNullOrWhiteSpace(json) || json.Contains('\0'))
+            if (string.IsNullOrWhiteSpace(raw) || raw.Contains('\0'))
             {
                 continue;
             }
 
-            stats = JsonSerializer.Deserialize<PlayerStats>(json);
+            try
+            {
+                // Try encrypted first, fall back to plain JSON (for old saves)
+                string json;
+                if (raw.TrimStart().StartsWith('{'))
+                    json = raw;                          // legacy plain-text save
+                else
+                    json = SaveEncryption.Decrypt(raw);  // new encrypted save
 
-            break;
+                stats = JsonSerializer.Deserialize<PlayerStats>(json);
+                break;
+            }
+            catch
+            {
+                // Corrupt or tampered — try next candidate
+                continue;
+            }
 
         }
 
@@ -76,11 +90,13 @@ public class PlayerStats
         {
             // Write to temp file first
             string json = JsonSerializer.Serialize<PlayerStats>(pStats);
-            File.WriteAllText(tempPath, json);
+            string encrypted = SaveEncryption.Encrypt(json);
+            File.WriteAllText(tempPath, encrypted);
 
             // Verify the temp file is valid before promoting it
             string written = File.ReadAllText(tempPath);
-            JsonSerializer.Deserialize<PlayerStats>(written); // throws if corrupt or null bytes
+            string decrypted = SaveEncryption.Decrypt(written.Trim());
+            JsonSerializer.Deserialize<PlayerStats>(decrypted); // throws if corrupt or null bytes
 
             // Rotate current save → backup
             if (File.Exists(finalPath))
