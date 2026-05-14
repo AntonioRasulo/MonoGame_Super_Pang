@@ -13,7 +13,6 @@ public class DescriptionPowerPanel: PangPanel
 
     public DescriptionPowerPanel()
     {
-        _panel = new Panel();
         _panel.Anchor(Gum.Wireframe.Anchor.Bottom);
         _panel.WidthUnits = DimensionUnitType.Absolute;
         _panel.HeightUnits = DimensionUnitType.Absolute;

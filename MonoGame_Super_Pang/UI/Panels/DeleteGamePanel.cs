@@ -14,7 +14,6 @@ public class DeleteGamePanel : PangPanel
     AnimatedButton cancelButton;
     public DeleteGamePanel()
     {
-        _panel = new Panel();
         _panel.Anchor(Gum.Wireframe.Anchor.Center);
         _panel.IsVisible = false;
         _panel.AddToRoot();

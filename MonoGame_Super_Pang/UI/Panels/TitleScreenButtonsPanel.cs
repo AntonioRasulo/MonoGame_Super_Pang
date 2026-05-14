@@ -41,9 +41,11 @@ public class TitleScreenButtonsPanel : PangPanel
     public TitleScreenButtonsPanel()
     {
         // Create a container to hold all of our buttons
-        _panel = new Panel();
         _panel.Dock(Gum.Wireframe.Dock.Fill);
         _panel.AddToRoot();
+
+        _volumeButton.Anchor(Gum.Wireframe.Anchor.TopRight);
+        _panel.AddChild(_volumeButton);
 
         _creditsButton = new AnimatedButton(_GUIatlas);
         _creditsButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);

@@ -23,10 +23,12 @@ public class NewGamePanel : PangPanel
 
     public NewGamePanel()
     {
-        _panel = new Panel();
         _panel.Dock(Gum.Wireframe.Dock.Fill);
         _panel.IsVisible = false;
         _panel.AddToRoot();
+
+        _volumeButton.Anchor(Gum.Wireframe.Anchor.TopRight);
+        _panel.AddChild(_volumeButton);
 
         AddLetterButtons();
 

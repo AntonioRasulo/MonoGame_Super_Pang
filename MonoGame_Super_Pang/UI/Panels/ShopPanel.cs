@@ -34,10 +34,12 @@ class ShopPanel : PangPanel
 
     public ShopPanel()
     {
-        _panel = new Panel();
         _panel.Dock(Gum.Wireframe.Dock.Fill);
         _panel.IsVisible = false;
         _panel.AddToRoot();
+
+        _volumeButton.Anchor(Gum.Wireframe.Anchor.TopRight);
+        _panel.AddChild(_volumeButton);
 
         _backButton = new AnimatedButton(_GUIatlas);
         _backButton.Text = "BACK";

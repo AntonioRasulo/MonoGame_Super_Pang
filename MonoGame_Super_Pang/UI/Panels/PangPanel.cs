@@ -10,6 +10,14 @@ public abstract class PangPanel
 
     protected static TextureAtlas _GUIatlas;
 
+    protected VolumeButton _volumeButton;
+
+    public PangPanel()
+    {
+        _panel = new Panel();
+        _volumeButton = new VolumeButton();
+    }
+
     public static void LoadContent()
     {
         // Load the texture atlas from the xml configuration file.
@@ -23,6 +31,10 @@ public abstract class PangPanel
 
     public void SetIsVisible(bool isVisible)
     {
+        if(isVisible == true)
+        {
+            _volumeButton.UpdateSprite();
+        }
         _panel.IsVisible = isVisible;
     }
 

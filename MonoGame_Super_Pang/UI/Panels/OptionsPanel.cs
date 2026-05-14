@@ -17,10 +17,12 @@ public class OptionsPanel: PangPanel
 
     public OptionsPanel()
     {
-        _panel = new Panel();
         _panel.Dock(Gum.Wireframe.Dock.Fill);
         _panel.IsVisible = false;
         _panel.AddToRoot();
+
+        _volumeButton.Anchor(Gum.Wireframe.Anchor.TopRight);
+        _panel.AddChild(_volumeButton);
 
         TextRuntime optionsText = new TextRuntime();
         optionsText.X = 10;
@@ -105,6 +107,8 @@ public class OptionsPanel: PangPanel
 
         // Set the global song volume to the value of the slider.
         Core.Audio.SongVolume = (float)slider.Value;
+
+        VolumeButton.Unmute(true);
     }
 
     private void HandleMusicSliderValueChangeCompleted(object sender, EventArgs args)
@@ -124,6 +128,8 @@ public class OptionsPanel: PangPanel
 
         // Set the global sound effect volume to the value of the slider.;
         Core.Audio.SoundEffectVolume = (float)slider.Value;
+
+        VolumeButton.Unmute(false);
     }
 
     private void HandleSfxSliderChangeCompleted(object sender, EventArgs e)

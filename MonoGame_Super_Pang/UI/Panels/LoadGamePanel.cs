@@ -25,10 +25,12 @@ public class LoadGamePanel : PangPanel
 
     public LoadGamePanel()
     {
-        _panel = new Panel();
         _panel.Dock(Gum.Wireframe.Dock.Fill);
         _panel.IsVisible = false;
         _panel.AddToRoot();
+
+        _volumeButton.Anchor(Gum.Wireframe.Anchor.TopRight);
+        _panel.AddChild(_volumeButton);
 
         TextureAtlas book2Atlas = TextureAtlas.FromFile(Core.Content, "images/UI/Book2_atlas.xml");
         TextureRegion loadGamePaperRegion = book2Atlas.GetRegion("paper-tile-9");

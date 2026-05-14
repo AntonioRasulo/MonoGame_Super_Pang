@@ -22,6 +22,7 @@ public class TitlePanelManager
     public static void LoadContent()
     {
         PangPanel.LoadContent();
+        VolumeButton.LoadContent();
         _titleScreenButtonsPanel = new TitleScreenButtonsPanel();
         _loadGamePanel = new LoadGamePanel();
         _newGamePanel = new NewGamePanel();

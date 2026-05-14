@@ -18,10 +18,12 @@ public class StartGamePanel : PangPanel
 
     public StartGamePanel()
     {
-        _panel = new Panel();
         _panel.Dock(Gum.Wireframe.Dock.Fill);
         _panel.IsVisible = false;
         _panel.AddToRoot();
+
+        _volumeButton.Anchor(Gum.Wireframe.Anchor.TopRight);
+        _panel.AddChild(_volumeButton);
 
         _startGameButton = new AnimatedButton(_GUIatlas);
         _startGameButton.Text = "START";

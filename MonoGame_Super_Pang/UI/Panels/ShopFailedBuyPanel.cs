@@ -15,7 +15,6 @@ public class ShopFailedBuyPanel: PangPanel
 
     public ShopFailedBuyPanel()
     {
-        _panel = new Panel();
         _panel.Anchor(Gum.Wireframe.Anchor.Center);
         _panel.WidthUnits = DimensionUnitType.Absolute;
         _panel.HeightUnits = DimensionUnitType.Absolute;
