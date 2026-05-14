@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework.Audio;
 using MonoGameLibrary;
 using MonoGame_Super_Pang.Config;
 using System;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGame_Super_Pang.UI;
 
@@ -17,7 +16,7 @@ public class TitlePanelManager
     private static ShopPanel _shopPanel;
     private static CreditsPanel _creditsPanel;
 
-    public static SoundEffect uiSoundEffect;
+    public static SoundEffect uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Confirm 1");
 
     public static void LoadContent()
     {
@@ -31,27 +30,13 @@ public class TitlePanelManager
         _startGamePanel = new StartGamePanel();
         _shopPanel = new ShopPanel();
         _creditsPanel = new CreditsPanel();
-        uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Confirm 1");
-    }
-
-    public static void Update()
-    {
-        _titleScreenButtonsPanel.Update();
-        _optionsPanel.Update();
-        _loadGamePanel.Update();
-        _deleteGamePanel.Update();
-        _newGamePanel.Update();
-        _startGamePanel.Update();
-        _shopPanel.Update();
+        _titleScreenButtonsPanel.SetStartButtonFocus(true);
     }
 
     public static void HandleStartClicked(object sender, EventArgs e)
     {
         // Set the title panel to be invisible.
         _titleScreenButtonsPanel.SetIsVisible(false);
-
-        _loadGamePanel.SetIsVisible(true);
-        _loadGamePanel.setButtonsIsEnabled(true);
 
         _newGamePanel.SetIsVisible(false);
 
@@ -61,6 +46,10 @@ public class TitlePanelManager
         _deleteGamePanel.SetIsVisible(false);
 
         _newGamePanel.ClearNewGameTextBox();
+
+        _loadGamePanel.setButtonsIsEnabled(true);
+        _loadGamePanel.SetIsVisible(true);
+
     }
 
     public static void HandleOptionsClicked(object sender, EventArgs e)
@@ -80,17 +69,12 @@ public class TitlePanelManager
         // Set the options panel to be visible.
         _optionsPanel.SetIsVisible(true);
 
-        // Give the back button on the options panel focus.
-        _optionsPanel.OptionsBackButtonSetFocus(true);
     }
 
     public static void HandleOptionsButtonBack(object sender, EventArgs e)
     {
         // A UI interaction occurred, play the sound effect
         Core.Audio.PlaySoundEffect(uiSoundEffect);
-
-        // Set the title panel to be visible.
-        _titleScreenButtonsPanel.SetIsVisible(true);
 
         // Set the options panel to be invisible.
         _optionsPanel.SetIsVisible(false);
@@ -103,9 +87,9 @@ public class TitlePanelManager
 
         _creditsPanel.SetIsVisible(false);
 
-        // Give the options button on the title panel focus since we are coming
-        // back from the options screen.
-        _titleScreenButtonsPanel.SetOptionButtonFocus(true);
+        // Set the title panel to be visible.
+        _titleScreenButtonsPanel.SetIsVisible(true);
+
     }
 
     public static void handleConfirmNameClicked(object sender, EventArgs e)
@@ -121,7 +105,6 @@ public class TitlePanelManager
 
     public static void HandleDeleteGameClicked()
     {
-
         _deleteGamePanel.SetIsVisible(true);
     }
 
@@ -135,10 +118,10 @@ public class TitlePanelManager
 
         _loadGamePanel.SetIsVisible(false);
 
-        _newGamePanel.SetIsVisible(true);
-
         // Set the options panel to be visible.
         _optionsPanel.SetIsVisible(false);
+
+        _newGamePanel.SetIsVisible(true);
 
     }
 
@@ -146,10 +129,9 @@ public class TitlePanelManager
     {
         _loadGamePanel.handleConfirmDeleteGameClicked(sender);
 
-        _loadGamePanel.SetIsVisible(true);
-
         _deleteGamePanel.SetIsVisible(false);
 
+        _loadGamePanel.SetIsVisible(true);
     }
 
     public static void HandleBackStartGameClicked(object sender, EventArgs e)
@@ -167,20 +149,20 @@ public class TitlePanelManager
         _newGamePanel.SetIsVisible(false);
         _optionsPanel.SetIsVisible(false);
         _deleteGamePanel.SetIsVisible(false);
-        _startGamePanel.SetIsVisible(true);
         _shopPanel.SetIsVisible(false);
+        _startGamePanel.SetIsVisible(true);
     }
 
     public static void GoToShopPanel(object sender, EventArgs e)
     {
-        _shopPanel.SetIsVisible(true);
         _startGamePanel.SetIsVisible(false);
+        _shopPanel.SetIsVisible(true);
     }
 
     public static void HandleCreditsClicked(object sender, EventArgs e)
     {
-        _creditsPanel.SetIsVisible(true);
         _titleScreenButtonsPanel.SetIsVisible(false);
+        _creditsPanel.SetIsVisible(true);
     }
 
     public static void Draw()

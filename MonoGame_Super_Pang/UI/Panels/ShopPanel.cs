@@ -1,4 +1,3 @@
-using Gum.Forms.Controls;
 using MonoGame_Super_Pang.Config;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameGum;
@@ -187,5 +186,11 @@ class ShopPanel : PangPanel
         bombButton.IsEnabled = isEnabled;
         clockButton.IsEnabled = isEnabled;
         _descriptionPanel.SetIsVisible(isEnabled);
+    }
+
+    public new void SetIsVisible(bool isVisible)
+    {
+        base.SetIsVisible(isVisible);
+        _backButton.IsFocused = isVisible;
     }
 }

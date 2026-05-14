@@ -1,5 +1,4 @@
 using Gum.DataTypes;
-using Gum.Forms.Controls;
 using Gum.Managers;
 using MonoGameLibrary.Graphics;
 using MonoGameGum.GueDeriving;
@@ -83,4 +82,9 @@ public class ConfirmUpgradeItemPanel : PangPanel
         _text.Text = "Do you want to upgrade\n" + ShopItemsConfig.itemsText[item] + " for "+prize.ToString()+ "?";
     }
 
+    public new void SetIsVisible(bool isVisible)
+    {
+        base.SetIsVisible(isVisible);
+        cancelButton.IsFocused = isVisible;
+    }
 }

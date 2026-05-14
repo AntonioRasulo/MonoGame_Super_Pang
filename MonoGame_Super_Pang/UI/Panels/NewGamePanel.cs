@@ -1,7 +1,6 @@
 using Gum.Forms.Controls;
 using Gum.Forms.DefaultVisuals.V3;
 using Gum.Managers;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
@@ -17,9 +16,7 @@ public class NewGamePanel : PangPanel
     private TextRuntime _nameText;
     private AnimatedButton _newGameBackButton;
     private AnimatedButton confirmButton;
-    private AnimatedButton aButton;
     private SpriteButton _backSpace;
-    private AnimatedButton _focusBtn = null;
 
     public NewGamePanel()
     {
@@ -62,7 +59,6 @@ public class NewGamePanel : PangPanel
         _backSpace.X = 190f;
         _backSpace.Y = 130f;
         _backSpace.Click += EraseLastChar;
-        _backSpace.KeyDown += updateFlagButton;
         ((ButtonVisual)_backSpace.Visual).Height = 18f;
         ((ButtonVisual)_backSpace.Visual).Width = 30f;
         _panel.AddChild(_backSpace);
@@ -76,34 +72,6 @@ public class NewGamePanel : PangPanel
     public void ClearNewGameTextBox()
     {
         _nameText.Text = "";
-    }
-
-    public override void Update()
-    {
-        if(_panel.IsVisible &&
-        _focusBtn != null)
-        {
-            _focusBtn.IsFocused = true;
-            _focusBtn = null;
-        }
-    }
-
-    private void updateFlagButton(Object sender, KeyEventArgs e)
-    {
-        if(sender == aButton)
-        {
-            if (e.Key == Keys.Up || e.Key == Keys.Left)
-            {
-                _focusBtn = aButton;
-            }
-        }
-        else if(sender == _backSpace)
-        {
-            if (e.Key == Keys.Down || e.Key == Keys.Right)
-            {
-                _focusBtn = _backSpace;
-            }
-        }
     }
 
     private void AddLetterButtons()
@@ -126,11 +94,6 @@ public class NewGamePanel : PangPanel
             btn.X = 40.0f + xIndex * 40.0f;
             btn.Y = 10.0f + yIndex * 30.0f;
             btn.Click += AddChar;
-            if(i == 0)
-            {
-                btn.KeyDown += updateFlagButton;
-                aButton = btn;
-            }
             _panel.AddChild(btn);
         }
     }
@@ -180,6 +143,12 @@ public class NewGamePanel : PangPanel
         panel.AddChild(_nameText);
 
         return panel;
+    }
+
+    public new void SetIsVisible(bool isVisible)
+    {
+        base.SetIsVisible(isVisible);
+        _newGameBackButton.IsFocused = isVisible;
     }
 
 }

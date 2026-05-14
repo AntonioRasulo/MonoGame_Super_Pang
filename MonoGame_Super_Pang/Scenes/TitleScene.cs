@@ -94,8 +94,6 @@ public class TitleScene : Scene
 
         _levelBackground.Update(gameTime);
 
-        TitlePanelManager.Update();
-
         _3dMaterial.Update();
 
         var spinAmount = Core.Input.Mouse.X / (float)Core.GraphicsDevice.Viewport.Width;

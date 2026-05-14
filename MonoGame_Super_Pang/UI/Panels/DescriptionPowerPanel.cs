@@ -1,5 +1,4 @@
 using Gum.DataTypes;
-using Gum.Forms.Controls;
 using Gum.Managers;
 using MonoGameLibrary.Graphics;
 using MonoGameGum.GueDeriving;
@@ -46,7 +45,6 @@ public class DescriptionPowerPanel: PangPanel
     public static void SetText(ShopItems item)
     {
         _text.Text = ShopItemsConfig.itemsDescriptions[item];
-        //_text.Text = "Do you want to upgrade\n" + ShopItemsConfig.itemsText[item] + " for "+prize.ToString()+ "?";
     }
 
 }

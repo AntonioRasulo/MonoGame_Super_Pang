@@ -1,5 +1,4 @@
 using Gum.Forms.Controls;
-using Microsoft.Xna.Framework.Input;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
@@ -12,8 +11,6 @@ public class OptionsPanel: PangPanel
     private OptionsSlider sfxSlider;
     private OptionsSlider musicSlider;
     private AnimatedButton _optionsBackButton;
-
-    bool _isLastFocusedBackButton = false;
 
     public OptionsPanel()
     {
@@ -46,7 +43,6 @@ public class OptionsPanel: PangPanel
         musicSlider.LargeChange = .2;
         musicSlider.ValueChanged += HandleMusicSliderValueChanged;
         musicSlider.ValueChangeCompleted += HandleMusicSliderValueChangeCompleted;
-        musicSlider.KeyDown += updateFlagButton;
         _panel.AddChild(musicSlider);
 
         sfxSlider = new OptionsSlider(_GUIatlas);
@@ -69,31 +65,7 @@ public class OptionsPanel: PangPanel
         _optionsBackButton.X = -28f;
         _optionsBackButton.Y = -10f;
         _optionsBackButton.Click += TitlePanelManager.HandleOptionsButtonBack;
-        _optionsBackButton.KeyDown += updateFlagButton;
         _panel.AddChild(_optionsBackButton);
-    }
-
-    public void OptionsBackButtonSetFocus(bool IsFocused)
-    {
-        _optionsBackButton.IsFocused = IsFocused;
-    }
-
-    public override void Update()
-    {
-        if (_optionsBackButton.IsFocused == false &&
-            sfxSlider.IsFocused == false &&
-            musicSlider.IsFocused == false &&
-            _panel.IsVisible == true)
-        {
-            if (_isLastFocusedBackButton)
-            {
-                musicSlider.IsFocused = true;
-            }
-            else
-            {
-                _optionsBackButton.IsFocused = true;
-            }
-        }
     }
 
     private void HandleMusicSliderValueChanged(object sender, EventArgs args)
@@ -138,22 +110,10 @@ public class OptionsPanel: PangPanel
         Core.Audio.PlaySoundEffect(TitlePanelManager.uiSoundEffect);
     }
 
-    private void updateFlagButton(Object sender, KeyEventArgs e)
+    public new void SetIsVisible(bool isVisible)
     {
-        if(sender == musicSlider)
-        {
-            if (e.Key == Keys.Up)
-            {
-                _isLastFocusedBackButton = false;
-            }
-        }
-        else if(sender == _optionsBackButton)
-        {
-            if (e.Key == Keys.Down || e.Key == Keys.Right)
-            {
-                _isLastFocusedBackButton = true;
-            }
-        }
+        base.SetIsVisible(isVisible);
+        _optionsBackButton.IsFocused = isVisible;
     }
 
 }

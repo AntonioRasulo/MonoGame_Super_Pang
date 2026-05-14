@@ -1,5 +1,4 @@
 using Gum.DataTypes;
-using Gum.Forms.Controls;
 using Gum.Managers;
 using MonoGameLibrary.Graphics;
 using MonoGameGum.GueDeriving;
@@ -10,7 +9,7 @@ namespace MonoGame_Super_Pang.UI;
 
 public class ShopFailedBuyPanel: PangPanel
 {
-
+    AnimatedButton okButton;
     public TextRuntime _text;
 
     public ShopFailedBuyPanel()
@@ -43,7 +42,7 @@ public class ShopFailedBuyPanel: PangPanel
         _text.Y = 10.0f;
         _panel.AddChild(_text);
 
-        AnimatedButton okButton = new AnimatedButton(_GUIatlas);
+        okButton = new AnimatedButton(_GUIatlas);
         okButton.Text = "OK";
         okButton.Anchor(Gum.Wireframe.Anchor.Bottom);
         okButton.X = 0f;
@@ -73,4 +72,11 @@ public class ShopFailedBuyPanel: PangPanel
             _text.Text = "Reached maximum level for "+ShopItemsConfig.itemsText[item] + ".";
         }
     }
+
+    public new void SetIsVisible(bool isVisible)
+    {
+        base.SetIsVisible(isVisible);
+        okButton.IsFocused = isVisible;
+    }
+
 }

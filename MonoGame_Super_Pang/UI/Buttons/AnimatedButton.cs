@@ -5,7 +5,6 @@ using Gum.Forms.Controls;
 using Gum.Forms.DefaultVisuals.V3;
 using Gum.Graphics.Animation;
 using Gum.Managers;
-using Microsoft.Xna.Framework.Input;
 using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
@@ -130,32 +129,12 @@ public class AnimatedButton : Button
         StateSave highlighted = buttonVisual.States.Highlighted;
         highlighted.Apply = enabledState.Apply;
 
-        // Add event handlers for keyboard input.
-        KeyDown += HandleKeyDown;
-
         // Add event handler for mouse hover focus.
         buttonVisual.RollOn += HandleRollOn;
 
         Click += PlaySound;
 
         GotFocus += PlaySound;
-    }
-
-    /// <summary>
-    /// Handles keyboard input for navigation between buttons using left/right keys.
-    /// </summary>
-    protected void HandleKeyDown(object sender, KeyEventArgs e)
-    {
-        if (e.Key == Keys.Left)
-        {
-            // Left arrow navigates to previous control
-            HandleTab(TabDirection.Up, loop: true);
-        }
-        if (e.Key == Keys.Right)
-        {
-            // Right arrow navigates to next control
-            HandleTab(TabDirection.Down, loop: true);
-        }
     }
 
     /// <summary>

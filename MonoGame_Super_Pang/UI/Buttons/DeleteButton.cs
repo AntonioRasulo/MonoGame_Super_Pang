@@ -20,6 +20,7 @@ public class DeleteButton : Button
         Click += PlaySound;
 
         GotFocus += PlaySound;
+        GotFocus += MoveFocus;
     }
 
     private void CreateSprite()
@@ -85,6 +86,11 @@ public class DeleteButton : Button
     private void PlaySound(object sender, EventArgs e)
     {
         Core.Audio.PlaySoundEffect(TitlePanelManager.uiSoundEffect);
+    }
+
+    private void MoveFocus(object sender, EventArgs args)
+    {
+        this.HandleKeyboardFocusUpdate();
     }
 
 }

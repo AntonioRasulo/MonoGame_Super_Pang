@@ -50,6 +50,8 @@ public class VolumeButton : Button
         visual.Children.Insert(0, _sprite);
 
         Click += ChangeVolume;
+        
+        GotFocus += MoveFocus;
     }
 
     public static void LoadContent()
@@ -69,7 +71,6 @@ public class VolumeButton : Button
 
     private void ChangeVolume(object sender, EventArgs args)
     {
-
         if (muted)
         {
             Core.Audio.SongVolume = _musicVolumeToRestore;
@@ -89,7 +90,7 @@ public class VolumeButton : Button
         _sprite.Texture = region.Texture;
         _sprite.SourceRectangle = region.SourceRectangle;
         _sprite.Width = region.SourceRectangle.Width;
-        _sprite.Height = region.SourceRectangle.Height;        
+        _sprite.Height = region.SourceRectangle.Height;
     }
 
     public void UpdateSprite()
@@ -118,6 +119,11 @@ public class VolumeButton : Button
         {
             Core.Audio.SongVolume = _musicVolumeToRestore;
         }
+    }
+
+    private void MoveFocus(object sender, EventArgs args)
+    {
+        this.HandleKeyboardFocusUpdate();
     }
 
 }

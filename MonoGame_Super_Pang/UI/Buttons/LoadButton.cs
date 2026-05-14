@@ -49,9 +49,6 @@ public class LoadButton : AnimatedButton
 
         isNewGame = true;
 
-        // Add event handlers for keyboard input.
-        KeyDown += HandleKeyDown;
-
         // Add event handler for mouse hover focus.
         visual.RollOn += HandleRollOn;
     }

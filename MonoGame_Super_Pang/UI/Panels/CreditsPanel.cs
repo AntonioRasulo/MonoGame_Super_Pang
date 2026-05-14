@@ -1,4 +1,3 @@
-using Gum.Forms.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
@@ -97,7 +96,7 @@ public class CreditsPanel : PangPanel
     public new void SetIsVisible(bool isVisible)
     {
         base.SetIsVisible(isVisible);
-        _backButton.IsFocused = true;
+        _backButton.IsFocused = isVisible;
     }
 
     private void AddDescriptionText(string text, float yCoordinate, float xCoordinate = -100.0f)

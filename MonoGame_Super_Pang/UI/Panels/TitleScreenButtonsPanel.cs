@@ -1,4 +1,3 @@
-using Gum.Forms.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameGum;
@@ -87,23 +86,11 @@ public class TitleScreenButtonsPanel : PangPanel
         size = _font5x.MeasureString(PANG_TEXT);
         _pangTextPos = new Vector2(874, 314);
         _pangTextOrigin = size * 0.5f;
-
     }
 
-    public void SetOptionButtonFocus(bool IsFocused)
+    public void SetStartButtonFocus(bool IsFocused)
     {
-        _optionsButton.IsFocused = IsFocused;
-    }
-
-    public override void Update()
-    {
-        if (_optionsButton.IsFocused == false &&
-            _startButton.IsFocused == false &&
-            _creditsButton.IsFocused == false &&
-            _panel.IsVisible == true)
-        {
-            _startButton.IsFocused = true;
-        }
+        _startButton.IsFocused = IsFocused;
     }
 
     public void Draw()
@@ -134,6 +121,12 @@ public class TitleScreenButtonsPanel : PangPanel
             // Draw the PANG_TEXT text on top of that at its original position.
             Core.SpriteBatch.DrawString(_font5x, PANG_TEXT, _pangTextPos, Color.White, 0.0f, _pangTextOrigin, 1.0f, SpriteEffects.None, 1.0f);
         }
+    }
+
+    public new void SetIsVisible(bool isVisible)
+    {
+        base.SetIsVisible(isVisible);
+        _startButton.IsFocused = isVisible;
     }
 
 }

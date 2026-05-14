@@ -1,5 +1,4 @@
 using Gum.DataTypes;
-using Gum.Forms.Controls;
 using Gum.Managers;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
@@ -61,18 +60,15 @@ public class DeleteGamePanel : PangPanel
         _panel.AddChild(cancelButton);
     }
 
-    public override void Update()
-    {
-        if (_panel.IsVisible &&
-        cancelButton.IsFocused == false &&
-        confirmButton.IsFocused == false)
-        {
-            cancelButton.IsFocused = true;
-        }
-    }
-
     private void handleConfirmDeleteGameClicked(object sender, EventArgs e)
     {
         TitlePanelManager.handleConfirmDeleteGameClicked(sender);
     }
+
+    public new void SetIsVisible(bool isVisible)
+    {
+        base.SetIsVisible(isVisible);
+        cancelButton.IsFocused = isVisible;
+    }
+
 }

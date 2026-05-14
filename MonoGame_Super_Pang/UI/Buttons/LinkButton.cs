@@ -19,6 +19,8 @@ class LinkButton : Button
 
         AddSprite(texture, sourceRectangle, spriteScale);
 
+        GotFocus += MoveFocus;
+
     }
 
     private void Initialize(string link)
@@ -71,6 +73,11 @@ class LinkButton : Button
             FileName = _link,
             UseShellExecute = true
         });
+    }
+
+    private void MoveFocus(object sender, EventArgs args)
+    {
+        this.HandleKeyboardFocusUpdate();
     }
 
 }

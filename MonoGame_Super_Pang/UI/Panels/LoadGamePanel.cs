@@ -1,8 +1,6 @@
-using Microsoft.Xna.Framework.Input;
 using MonoGame_Super_Pang.Config;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
-using Gum.Forms.Controls;
 using MonoGameGum;
 using System;
 using System.IO;
@@ -18,8 +16,6 @@ public class LoadGamePanel : PangPanel
     private LoadButton _newGameButton;
 
     private AnimatedButton _loadBackButton;
-
-    private bool _isLastFocusedLoadBackButton = false;
 
     private string _saveToDelete;
 
@@ -72,7 +68,6 @@ public class LoadGamePanel : PangPanel
         _loadButton3.Y = 120;
         _loadButton3.Width = 240;
         _loadButton3.Height = 50;
-        _loadButton3.KeyDown += updateFlagLoadButton;
 
         if(PlayerStatsManager.pStats3 != null)
         {
@@ -85,7 +80,6 @@ public class LoadGamePanel : PangPanel
         _loadBackButton.X = -15f;
         _loadBackButton.Y = -5f;
         _loadBackButton.Click += TitlePanelManager.HandleOptionsButtonBack;
-        _loadBackButton.KeyDown += updateFlagLoadButton;
 
         _panel.AddChild(_loadBackButton);
         _panel.AddChild(_loadButton1);
@@ -201,43 +195,6 @@ public class LoadGamePanel : PangPanel
         TitlePanelManager.HandleDeleteGameClicked();
     }
 
-    public override void Update()
-    {
-        if(_loadBackButton.IsFocused == false &&
-        _loadButton1.IsFocused == false &&
-        _loadButton2.IsFocused == false &&
-        _loadButton3.IsFocused == false &&
-        _panel.IsVisible == true)
-        {
-            if (_isLastFocusedLoadBackButton)
-            {
-                _loadButton3.IsFocused = true;
-            }
-            else
-            {
-                _loadBackButton.IsFocused = true;
-            }
-        }
-    }
-
-    private void updateFlagLoadButton(Object sender, KeyEventArgs e)
-    {
-        if(sender == _loadButton3)
-        {
-            if (e.Key == Keys.Down || e.Key == Keys.Right)
-            {
-                _isLastFocusedLoadBackButton = false;
-            }
-        }
-        else if(sender == _loadBackButton)
-        {
-            if (e.Key == Keys.Up || e.Key == Keys.Left)
-            {
-                _isLastFocusedLoadBackButton = true;
-            }
-        }
-    }
-
     private void HandleNewGameClicked(object sender)
     {
         _newGameButton = (LoadButton)sender;
@@ -318,5 +275,10 @@ public class LoadGamePanel : PangPanel
         _loadBackButton.IsEnabled = isEnabled;
     }
 
+    public new void SetIsVisible(bool isVisible)
+    {
+        base.SetIsVisible(isVisible);
+        _loadBackButton.IsFocused = isVisible;
+    }
 
 }
