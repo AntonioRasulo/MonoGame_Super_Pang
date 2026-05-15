@@ -81,9 +81,6 @@ public class PowerUpButton : AnimatedButton
         _sprite.Anchor(Gum.Wireframe.Anchor.Center);
         visual.Background.AddChild(_sprite);
 
-        // Add event handlers for keyboard input.
-        //KeyDown += HandleKeyDown;
-
         // Add event handler for mouse hover focus.
         GotFocus += ChangeDescriptionText;
     }

@@ -145,16 +145,17 @@ public class TitlePanelManager
     public static void GoToStartGamePanel()
     {
         _titleScreenButtonsPanel.SetIsVisible(false);
-        _loadGamePanel.SetIsVisible(false);
         _newGamePanel.SetIsVisible(false);
         _optionsPanel.SetIsVisible(false);
         _deleteGamePanel.SetIsVisible(false);
         _shopPanel.SetIsVisible(false);
+        _loadGamePanel.SetIsVisible(false);
         _startGamePanel.SetIsVisible(true);
     }
 
     public static void GoToShopPanel(object sender, EventArgs e)
     {
+        _loadGamePanel.SetIsVisible(false);
         _startGamePanel.SetIsVisible(false);
         _shopPanel.SetIsVisible(true);
     }

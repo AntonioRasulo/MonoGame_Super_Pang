@@ -273,6 +273,7 @@ public class LoadGamePanel : PangPanel
             _loadButton3._deleteButton.IsEnabled = isEnabled;
         }
         _loadBackButton.IsEnabled = isEnabled;
+        _volumeButton.IsEnabled = isEnabled;
     }
 
     public new void SetIsVisible(bool isVisible)

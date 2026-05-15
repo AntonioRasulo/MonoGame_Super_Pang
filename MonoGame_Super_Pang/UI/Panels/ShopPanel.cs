@@ -23,7 +23,7 @@ class ShopPanel : PangPanel
     private static PowerUpButton bombButton;
     private static PowerUpButton clockButton;
 
-    private PowerUpButton lastButtonPressed;
+    private static PowerUpButton lastButtonPressed;
 
     private ConfirmUpgradeItemPanel _confirmUpgradePanel;
     private ShopFailedBuyPanel _shopFailedPanel;
@@ -185,6 +185,7 @@ class ShopPanel : PangPanel
         invincibilityButton.IsEnabled = isEnabled;
         bombButton.IsEnabled = isEnabled;
         clockButton.IsEnabled = isEnabled;
+        lastButtonPressed.IsFocused = isEnabled;
         _descriptionPanel.SetIsVisible(isEnabled);
     }
 
