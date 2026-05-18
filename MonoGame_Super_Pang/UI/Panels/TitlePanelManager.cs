@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using MonoGameLibrary;
 using MonoGame_Super_Pang.Config;
@@ -169,6 +170,11 @@ public class TitlePanelManager
     public static void Draw()
     {
         _titleScreenButtonsPanel.Draw();
+    }
+
+    public static void Update(GameTime gametime)
+    {
+        _loadGamePanel.Update(gametime);
     }
 
 }

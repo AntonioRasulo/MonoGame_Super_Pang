@@ -71,4 +71,9 @@ public class AnimatedSprite : Sprite
         _animation.Delay = delay;
     }
 
+    public TextureRegion GetCurrentFrame()
+    {
+        return _animation.Frames[_currentFrame];
+    }
+
 }

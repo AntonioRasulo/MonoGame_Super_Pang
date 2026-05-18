@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using MonoGame_Super_Pang.Config;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
@@ -123,14 +124,8 @@ public class LoadGamePanel : PangPanel
 
     private void LoadButton(PlayerStats pStats, LoadButton loadButton, Gum.Wireframe.Anchor anchor, float deleteX, float deleteY)
     {
-        loadButton.Text = pStats.Name;
-        loadButton.setTextMoney(pStats.Money.ToString());
-        loadButton.isNewGame = false;
+        loadButton.LoadButtonStats(pStats, anchor, deleteX, deleteY);
         loadButton._deleteButton.Click += HandleDeleteGameClicked;
-        loadButton._deleteButton.Anchor(anchor);
-        loadButton._deleteButton.Text = "";
-        loadButton._deleteButton.Y = deleteY;
-        loadButton._deleteButton.X = deleteX;
         _panel.AddChild(loadButton._deleteButton);
     }
 
@@ -235,6 +230,7 @@ public class LoadGamePanel : PangPanel
         button.setTextMoney("");
         button.isNewGame = true;
         button._deleteButton.Visual.Parent=null;
+        button.DeleteAnimations();
     }
 
     public void UpdateLoadButton()
@@ -280,6 +276,13 @@ public class LoadGamePanel : PangPanel
     {
         base.SetIsVisible(isVisible);
         _loadBackButton.IsFocused = isVisible;
+    }
+
+    public void Update(GameTime gametime)
+    {
+        _loadButton1.Update(gametime);
+        _loadButton2.Update(gametime);
+        _loadButton3.Update(gametime);
     }
 
 }

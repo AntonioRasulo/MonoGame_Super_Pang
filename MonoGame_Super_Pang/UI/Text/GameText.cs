@@ -1,5 +1,7 @@
 using MonoGameGum.GueDeriving;
 
+namespace MonoGame_Super_Pang.UI;
+
 public class GameText : TextRuntime
 {
     public GameText(string text)
