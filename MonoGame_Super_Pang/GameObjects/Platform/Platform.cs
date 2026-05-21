@@ -63,7 +63,7 @@ abstract public class Platform
     public static void LoadContent()
     {
         TextureAtlas platformAtlas = TextureAtlas.FromFile(Core.Content, "images/platforms/terrain_atlas.xml");
-        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/items-atlas.xml");
+        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
 
         _grayPlatform = platformAtlas.GetRegion("GrayPlatform");
         _goldPlatform = platformAtlas.GetRegion("GoldPlatform");
@@ -77,7 +77,7 @@ abstract public class Platform
             _horizontalBreakableBlueSprites.Add(itemsAtlas.GetRegion(spriteName));
         }
 
-        _breakPlatformEffect = Core.Content.Load<SoundEffect>("audio/Block Break 1");
+        _breakPlatformEffect = Core.Content.Load<SoundEffect>("audio/Sound Effects/Block Break 1");
 
     }
 

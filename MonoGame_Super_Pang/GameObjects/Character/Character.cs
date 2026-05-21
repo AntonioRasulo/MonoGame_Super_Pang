@@ -71,8 +71,8 @@ public class Character
 
     private void LoadContent()
     {
-        TextureAtlas characterAtlas = TextureAtlas.FromFile(Core.Content, "images/character_atlas.xml");
-        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/items-atlas.xml");
+        TextureAtlas characterAtlas = TextureAtlas.FromFile(Core.Content, "images/Character/character_atlas.xml");
+        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
 
         _idleSprite = characterAtlas.CreateSprite("characterStanding");
         _idleSprite.Scale = SCALE;
@@ -107,7 +107,7 @@ public class Character
         List<TextureRegion> harpoonFrames = new List<TextureRegion>();
         for (int harpoonIndex = 100; harpoonIndex <= 170; harpoonIndex++)
         {
-            String harpoonImagePath = "images/items_" + harpoonIndex;
+            String harpoonImagePath = "images/harpoons/items_" + harpoonIndex;
             Texture2D harpoon2DTexture = Core.Content.Load<Texture2D>(harpoonImagePath);
             TextureRegion harpoonRegion = new TextureRegion(harpoon2DTexture, 0, 0, harpoon2DTexture.Width, harpoon2DTexture.Height);
             harpoonFrames.Add(harpoonRegion);
@@ -117,7 +117,7 @@ public class Character
 
         _invinciblePowerUp = new Invicible(itemsAtlas.GetRegion("invincibilitySprite"));
 
-        _hitSoundEffect = Core.Content.Load<SoundEffect>("audio/Boss hit 1");
+        _hitSoundEffect = Core.Content.Load<SoundEffect>("audio/Sound effects/Boss hit 1");
 
     }
 

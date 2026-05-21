@@ -56,7 +56,7 @@ public class TitleScene : Scene
         try
         {
             // Load the background theme music
-            Song theme = Content.Load<Song>("audio/14. Traveling the Sky");
+            Song theme = Content.Load<Song>("audio/Music/14. Traveling the Sky");
             Core.Audio.PlaySong(theme);
         }
         catch (Exception ex)
