@@ -17,6 +17,7 @@ public class NewGamePanel : PangPanel
     private AnimatedButton _newGameBackButton;
     private AnimatedButton confirmButton;
     private SpriteButton _backSpace;
+    private const int MAX_TEXT_SIZE = 7;
 
     public NewGamePanel()
     {
@@ -100,7 +101,10 @@ public class NewGamePanel : PangPanel
 
     private void AddChar(Object sender, EventArgs e)
     {
-        _nameText.Text += ((AnimatedButton)sender).Text;
+        if(_nameText.Text.Length < MAX_TEXT_SIZE)
+        {
+            _nameText.Text += ((AnimatedButton)sender).Text;
+        }
     }
 
     private void EraseLastChar(Object sender, EventArgs e)

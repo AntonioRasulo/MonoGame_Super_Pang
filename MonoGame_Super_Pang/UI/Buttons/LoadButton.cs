@@ -137,7 +137,7 @@ public class LoadButton : AnimatedButton
 
         _harpoonSprite = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.HARPOON, pStats);
         _harpoonSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        _harpoonSprite.X = 60.0f;
+        _harpoonSprite.X = 65.0f;
         _harpoonSprite.Y = 3.5f;
         visual.Background.AddChild(_harpoonSprite);
     }
