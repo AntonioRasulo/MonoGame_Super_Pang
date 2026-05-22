@@ -79,6 +79,8 @@ public class TitleScene : Scene
 
         PlayerStatsManager.LoadContent();
 
+        PowerUpSpritesHandler.LoadContent();
+
         // Load the 3d effect 
         _3dMaterial = Core.SharedContent.WatchMaterial("effects/3dEffect");
         _3dMaterial.IsDebugVisible = false;

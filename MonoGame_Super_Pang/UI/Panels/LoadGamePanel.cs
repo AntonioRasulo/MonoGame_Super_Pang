@@ -238,16 +238,19 @@ public class LoadGamePanel : PangPanel
         if(PlayerStatsManager.currentStats == PlayerStatsManager.pStats1)
         {
             _loadButton1.setTextMoney(PlayerStatsManager.pStats1.Money.ToString());
+            _loadButton1.UpdateLoadButtonPowerUps();
         }
 
         if(PlayerStatsManager.currentStats == PlayerStatsManager.pStats2)
         {
             _loadButton2.setTextMoney(PlayerStatsManager.pStats2.Money.ToString());
+            _loadButton1.UpdateLoadButtonPowerUps();
         }
 
         if(PlayerStatsManager.currentStats == PlayerStatsManager.pStats3)
         {
             _loadButton3.setTextMoney(PlayerStatsManager.pStats3.Money.ToString());
+            _loadButton1.UpdateLoadButtonPowerUps();
         }
     }
 

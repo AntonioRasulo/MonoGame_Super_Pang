@@ -15,37 +15,37 @@ public class PlayerStatsPowerUpState
     public PowerUpButtonState bombLevel;
     public PowerUpButtonState clockLevel;
 
-    public static PlayerStatsPowerUpState getCurrentStatePowerUpLevel()
+    public static PlayerStatsPowerUpState GetPlayerPowerUpState(PlayerStats playerStats)
     {
 
         PlayerStatsPowerUpState returnState = null;
 
-        if (PlayerStatsManager.currentStats != null)
+        if (playerStats != null)
         {
             returnState = new PlayerStatsPowerUpState
             {
-                harpoonLevel = PlayerStatsManager.currentStats.HarpoonNum switch
+                harpoonLevel = playerStats.HarpoonNum switch
                 {
                     1 => PowerUpButtonState.Level1,
                     2 => PowerUpButtonState.Level2,
                     3 => PowerUpButtonState.Level3,
                     _ => PowerUpButtonState.Level1
                 },
-                speedLevel = PlayerStatsManager.currentStats.Speed switch
+                speedLevel = playerStats.Speed switch
                 {
                     5.0f => PowerUpButtonState.Level1,
                     6.5f => PowerUpButtonState.Level2,
                     8.0f => PowerUpButtonState.Level3,
                     _ => PowerUpButtonState.Level1
                 },
-                livesLevel = PlayerStatsManager.currentStats.Lives switch
+                livesLevel = playerStats.Lives switch
                 {
                     1 => PowerUpButtonState.Level1,
                     2 => PowerUpButtonState.Level2,
                     3 => PowerUpButtonState.Level3,
                     _ => PowerUpButtonState.Level1
                 },
-                collLivesLevel = PlayerStatsManager.currentStats.LivesProb switch
+                collLivesLevel = playerStats.LivesProb switch
                 {
                     0 => PowerUpButtonState.Level0,
                     3 => PowerUpButtonState.Level1,
@@ -53,7 +53,7 @@ public class PlayerStatsPowerUpState
                     5 => PowerUpButtonState.Level3,
                     _ => PowerUpButtonState.Level0
                 },
-                clockLevel = PlayerStatsManager.currentStats.clockProbability switch
+                clockLevel = playerStats.clockProbability switch
                 {
                     0 => PowerUpButtonState.Level0,
                     8 => PowerUpButtonState.Level1,
@@ -61,7 +61,7 @@ public class PlayerStatsPowerUpState
                     10 => PowerUpButtonState.Level3,
                     _ => PowerUpButtonState.Level0
                 },
-                invincibilityLevel = PlayerStatsManager.currentStats.InvincibilityProb switch
+                invincibilityLevel = playerStats.InvincibilityProb switch
                 {
                     0 => PowerUpButtonState.Level0,
                     13 => PowerUpButtonState.Level1,
@@ -69,7 +69,7 @@ public class PlayerStatsPowerUpState
                     15 => PowerUpButtonState.Level3,
                     _ => PowerUpButtonState.Level0
                 },
-                bombLevel = PlayerStatsManager.currentStats.bombProbability switch
+                bombLevel = playerStats.bombProbability switch
                 {
                     0 => PowerUpButtonState.Level0,
                     18 => PowerUpButtonState.Level1,

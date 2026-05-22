@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Microsoft.Xna.Framework;
 using MonoGame_Super_Pang.UI;
 
 namespace MonoGame_Super_Pang.Config;
@@ -41,7 +42,7 @@ public class PlayerStatsManager
             _ => null
         };
 
-        currentStatsLevels = PlayerStatsPowerUpState.getCurrentStatePowerUpLevel();
+        currentStatsLevels = PlayerStatsPowerUpState.GetPlayerPowerUpState(currentStats);
 
         if( currentStats != null)
         {
@@ -148,6 +149,53 @@ public class PlayerStatsManager
         }
 
         PlayerStats.SaveGame(currentStats);
+
+    }
+
+    public static Color GetPowerUpColor(ShopItems shopItem, PlayerStats pStats = null)
+    {
+        PlayerStatsPowerUpState pPowerStats = currentStatsLevels;
+
+        if(pStats != null)
+        {
+            pPowerStats = PlayerStatsPowerUpState.GetPlayerPowerUpState(pStats);
+        }
+
+        if(pPowerStats == null)
+        {
+            return Color.SandyBrown;
+        }
+
+        PowerUpButtonState _state = shopItem switch
+        {
+            ShopItems.HARPOON => pPowerStats.harpoonLevel,
+            ShopItems.SPEED => pPowerStats.speedLevel,
+            ShopItems.LIVES => pPowerStats.livesLevel,
+            ShopItems.BOMB => pPowerStats.bombLevel,
+            ShopItems.COLL_LIVES => pPowerStats.collLivesLevel,
+            ShopItems.CLOCK => pPowerStats.clockLevel,
+            ShopItems.INVINCIBILITY => pPowerStats.invincibilityLevel,
+        };
+
+        Color returnColor = Color.SandyBrown;
+
+        switch (_state)
+        {
+            case PowerUpButtonState.Level0:
+                returnColor = Color.SandyBrown;
+                break;
+            case PowerUpButtonState.Level1:
+                returnColor = Color.SandyBrown;
+                break;
+            case PowerUpButtonState.Level2:
+                returnColor = Color.Silver;
+                break;
+            case PowerUpButtonState.Level3:
+                returnColor = Color.Gold;
+                break;
+        };
+
+        return returnColor;
 
     }
 

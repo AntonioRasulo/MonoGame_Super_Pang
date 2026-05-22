@@ -42,14 +42,14 @@ public class PowerUpButton : AnimatedButton
         _item = item;
     }
 
-    public PowerUpButton(PowerUpButton button, TextureAtlas atlas) : base(atlas)
+    public PowerUpButton(TextureAtlas atlas, ShopItems item) : base(atlas)
     {
-        CreateSprite(button._sprite.Texture, button._sprite.SourceRectangle);
-        SetState(button._state);
-        SetScale(button._scale);
+        TextureRegion textureRegion = PowerUpSpritesHandler.GetTextureRegion(item);
+        CreateSprite(textureRegion.Texture, textureRegion.SourceRectangle);
+        SetState(PowerUpButtonState.Level1);
         Width = WIDTH;
         Height = HEIGHT;
-        _item = button._item;
+        _item = item;
     }
 
     private void CreateSprite(Texture2D texture, Rectangle sourceRectangle)
@@ -111,12 +111,12 @@ public class PowerUpButton : AnimatedButton
                 break;
             case PowerUpButtonState.Level2:
                 _state++;
-                CreateVSprite();
                 break;
             case PowerUpButtonState.Level3:
             default:
                 break;
         }
+        PlayerStatsManager.SetPlayerStats(_state, _item);
         SetSpriteColor();
     }
 
@@ -128,21 +128,16 @@ public class PowerUpButton : AnimatedButton
 
     private void SetSpriteColor()
     {
+        _sprite.Color = PlayerStatsManager.GetPowerUpColor(_item);
         switch (_state)
         {
             case PowerUpButtonState.Level0:
-                _sprite.Color = Color.SandyBrown;
                 CreateXSprite();
             break;
-            case PowerUpButtonState.Level1:
-                _sprite.Color = Color.SandyBrown;
-            break;
-            case PowerUpButtonState.Level2:
-                _sprite.Color = Color.Silver;
-            break;
             case PowerUpButtonState.Level3:
-                _sprite.Color = Color.Gold;
                 CreateVSprite();
+            break;
+            default:
             break;
         }
     }

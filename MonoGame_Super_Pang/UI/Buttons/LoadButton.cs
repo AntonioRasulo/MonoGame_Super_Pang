@@ -19,6 +19,8 @@ public class LoadButton : AnimatedButton
     private AnimatedSprite _chestAnimation;
     private SpriteRuntime _chestSprite;
 
+    private SpriteRuntime _harpoonSprite;
+
     public LoadButton(TextureAtlas atlas) : base(atlas)
     {
         _deleteButton = new DeleteButton();
@@ -48,10 +50,13 @@ public class LoadButton : AnimatedButton
 
         isNewGame = true;
 
-        //CreateChestAnimation();
-
         // Add event handler for mouse hover focus.
         visual.RollOn += HandleRollOn;
+    }
+
+    public void UpdateLoadButtonPowerUps()
+    {
+        _harpoonSprite.Color = PlayerStatsManager.GetPowerUpColor(ShopItems.HARPOON);
     }
 
     public void setTextMoney(string textMoney)
@@ -111,7 +116,14 @@ public class LoadButton : AnimatedButton
 
     public void LoadButtonStats(PlayerStats pStats, Gum.Wireframe.Anchor anchor, float deleteX, float deleteY)
     {
-        Text = pStats.Name;
+        // Access the visual
+        ButtonVisual visual = (ButtonVisual)this.Visual;
+
+        TextRuntime textInstance = visual.TextInstance;
+        textInstance.Text = pStats.Name;
+        textInstance.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        textInstance.X = 10.0f;
+        textInstance.Y = 5.0f;
         setTextMoney(pStats.Money.ToString());
         isNewGame = false;
         _deleteButton.Anchor(anchor);
@@ -122,6 +134,12 @@ public class LoadButton : AnimatedButton
         {
             CreateChestAnimation();
         }
+
+        _harpoonSprite = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.HARPOON, pStats);
+        _harpoonSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        _harpoonSprite.X = 60.0f;
+        _harpoonSprite.Y = 3.5f;
+        visual.Background.AddChild(_harpoonSprite);
     }
 
     public void DeleteAnimations()

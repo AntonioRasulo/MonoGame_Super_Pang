@@ -50,13 +50,12 @@ class ShopPanel : PangPanel
 
         _itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
 
-        TextureRegion harpoonRegion = _itemsAtlas.GetRegion("harpoonTexture");
         TextureRegion livesRegion = _itemsAtlas.GetRegion("livesSprite");
         TextureRegion invincibilityRegion = _itemsAtlas.GetRegion("invincibilitySprite");
         TextureRegion bombRegion = _itemsAtlas.GetRegion("bombSprite");
         TextureRegion clockRegion = _itemsAtlas.GetRegion("freezeSprite");
 
-        harpoonButton = new PowerUpButton(harpoonRegion.Texture, harpoonRegion.SourceRectangle, _GUIatlas, ShopItems.HARPOON);
+        harpoonButton = new PowerUpButton(_GUIatlas, ShopItems.HARPOON);
         harpoonButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         harpoonButton.X = BUTTONDISTANCE;
         harpoonButton.Y = BUTTONDISTANCE;
@@ -170,9 +169,6 @@ class ShopPanel : PangPanel
         int prize = lastButtonPressed.GetPowerUpPrize();
         PlayerStatsManager.currentStats.Money -= prize;
         lastButtonPressed.LevelUp();
-        PowerUpButtonState state = lastButtonPressed.GetState();
-        ShopItems itemType = lastButtonPressed.GetItem();
-        PlayerStatsManager.SetPlayerStats(state, itemType);
     }
 
     public static void setButtonsIsEnabled(bool isEnabled)
