@@ -200,12 +200,12 @@ abstract public class Ball
         _blueBallRoundRegion = itemsAtlas.GetRegion("blueBall");
         _greenBallRoundRegion = itemsAtlas.GetRegion("greenBall");
 
-        Texture2D greenSquaredTexture = Core.Content.Load<Texture2D>("images/HexagonGreenBall");
+        Texture2D greenSquaredTexture = Core.Content.Load<Texture2D>("images/balls/HexagonGreenBall");
 
         _greenBallSquaredRegion = new TextureRegion(greenSquaredTexture, 0, 0, greenSquaredTexture.Width, greenSquaredTexture.Height);
 
-        _popSoundEffect = Core.Content.Load<SoundEffect>("audio/Balloon Pop 1");
-        _bounceSoundEffect = Core.Content.Load<SoundEffect>("audio/bounce");
+        _popSoundEffect = Core.Content.Load<SoundEffect>("audio/Sound effects/Balloon Pop 1");
+        _bounceSoundEffect = Core.Content.Load<SoundEffect>("audio/Sound effects/bounce");
 
         _explosionAnimation = itemsAtlas.GetAnimation("Explosion-animation");
     }

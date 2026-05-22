@@ -95,8 +95,8 @@ public class GameSceneUI : ContainerRuntime
 
         // Use that content manager to load the sound effect and atlas for the
         // user interface elements
-        _uiSoundEffect = content.Load<SoundEffect>("audio/Confirm 1");
-        TextureAtlas atlas = TextureAtlas.FromFile(content, "images/GUI_atlas.xml");
+        _uiSoundEffect = content.Load<SoundEffect>("audio/Sound effects/Confirm 1");
+        TextureAtlas atlas = TextureAtlas.FromFile(content, "images/UI/GUI_atlas.xml");
 
         // Create the text that will display the players score and add it as
         // a child to this container.

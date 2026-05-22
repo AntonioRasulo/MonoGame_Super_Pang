@@ -137,7 +137,7 @@ public class GameScene : Scene
         try
         {
             // Load the background theme music
-            Song theme = Content.Load<Song>("audio/16. Battle Theme III (loop)");
+            Song theme = Content.Load<Song>("audio/Music/16. Battle Theme III (loop)");
             Core.Audio.PlaySong(theme);
         }
         catch (Exception ex)

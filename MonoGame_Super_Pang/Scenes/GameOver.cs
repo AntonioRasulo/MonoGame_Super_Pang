@@ -77,7 +77,7 @@ public class GameOver : Scene
         // Load the background theme music
         try
         {
-            Song theme = Content.Load<Song>("audio/15. Volcanic Crater");
+            Song theme = Content.Load<Song>("audio/Music/15. Volcanic Crater");
             Core.Audio.PlaySong(theme);
         }
         catch (Exception ex)

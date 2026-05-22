@@ -46,7 +46,7 @@ public class CollectibleHandler
 
     private void LoadContent()
     {
-        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/items-atlas.xml");
+        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
         TextureAtlas coinsAtlas = TextureAtlas.FromFile(Core.Content, "images/Coins/coins_atlas.xml");
 
         _livesSprite = itemsAtlas.CreateSprite("livesSprite");
@@ -61,7 +61,7 @@ public class CollectibleHandler
         _bombSprite = itemsAtlas.CreateSprite("bombSprite");
         _bombSprite.Scale = SCALE;
 
-        _collectSound = Core.Content.Load<SoundEffect>("audio/Fruit collect 1");
+        _collectSound = Core.Content.Load<SoundEffect>("audio/Sound effects/Fruit collect 1");
 
         _goldCoinAnimation = coinsAtlas.GetAnimation("gold-animation");
 

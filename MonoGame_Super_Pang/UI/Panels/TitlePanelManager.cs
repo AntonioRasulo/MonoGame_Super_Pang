@@ -17,7 +17,7 @@ public class TitlePanelManager
     private static ShopPanel _shopPanel;
     private static CreditsPanel _creditsPanel;
 
-    public static SoundEffect uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Confirm 1");
+    public static SoundEffect uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Sound effects/Confirm 1");
 
     public static void LoadContent()
     {
