@@ -142,10 +142,18 @@ public class LoadButton : AnimatedButton
         visual.Background.AddChild(_harpoonSprite);
     }
 
-    public void DeleteAnimations()
+    public void CleanButton()
     {
+        Text = "NewGame";
+        setTextMoney("");
+        isNewGame = true;
+        _deleteButton.Visual.Parent=null;
+
         ButtonVisual visual = (ButtonVisual)this.Visual;
         visual.Background.RemoveChild(_chestSprite);
         _chestSprite = null;
+
+        visual.Background.RemoveChild(_harpoonSprite);
+        _harpoonSprite = null;
     }
 }

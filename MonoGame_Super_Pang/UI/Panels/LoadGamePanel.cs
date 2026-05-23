@@ -204,17 +204,17 @@ public class LoadGamePanel : PangPanel
 
         if(PlayerStatsManager.pStats1 != null && _saveToDelete == PlayerStatsManager.pStats1.Path)
         {
-            CleanButton(_loadButton1);
+            _loadButton1.CleanButton();
         }
 
         if(PlayerStatsManager.pStats2 != null &&_saveToDelete == PlayerStatsManager.pStats2.Path)
         {
-            CleanButton(_loadButton2);
+            _loadButton2.CleanButton();
         }
 
         if(PlayerStatsManager.pStats3 != null && _saveToDelete == PlayerStatsManager.pStats3.Path)
         {
-            CleanButton(_loadButton3);
+            _loadButton3.CleanButton();
         }
 
         var jsonFile = _saveToDelete + ".json";
@@ -222,15 +222,6 @@ public class LoadGamePanel : PangPanel
         File.Delete(jsonFile);
         File.Delete(bakFile);
         _saveToDelete = null;
-    }
-
-    private void CleanButton(LoadButton button)
-    {
-        button.Text = "NewGame";
-        button.setTextMoney("");
-        button.isNewGame = true;
-        button._deleteButton.Visual.Parent=null;
-        button.DeleteAnimations();
     }
 
     public void UpdateLoadButton()
