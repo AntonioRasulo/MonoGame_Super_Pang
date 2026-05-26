@@ -3,6 +3,7 @@ using MonoGameLibrary.Graphics;
 using MonoGame_Super_Pang.Config;
 using System.Collections.Generic;
 using MonoGameGum.GueDeriving;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGame_Super_Pang.UI; 
 
@@ -19,6 +20,11 @@ public static class PowerUpSpritesHandler
         TextureRegion _harpoonRegion = _itemsAtlas.GetRegion("harpoonTexture");
 
         _textureRegions.Add(ShopItems.HARPOON, _harpoonRegion);
+
+        Texture2D speed2DTexture = Core.Content.Load<Texture2D>("images/UI/white_wings");
+        TextureRegion speedRegion = new TextureRegion(speed2DTexture, 0, 0, speed2DTexture.Width, speed2DTexture.Height);
+
+        _textureRegions.Add(ShopItems.SPEED, speedRegion);
     }
 
     public static TextureRegion GetTextureRegion(ShopItems shopItem)
@@ -26,7 +32,7 @@ public static class PowerUpSpritesHandler
         return _textureRegions[shopItem];
     }
 
-    public static SpriteRuntime GetSpriteRuntime(ShopItems shopItem, PlayerStats pStats = null)
+    public static SpriteRuntime GetSpriteRuntime(ShopItems shopItem, PlayerStats pStats = null, float scale = 1.0f)
     {
         return new SpriteRuntime
         {
@@ -34,10 +40,10 @@ public static class PowerUpSpritesHandler
             SourceRectangle = _textureRegions[shopItem].SourceRectangle,
             WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
             HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
-            Width = _textureRegions[shopItem].SourceRectangle.Width,
-            Height = _textureRegions[shopItem].SourceRectangle.Height,
+            Width = _textureRegions[shopItem].SourceRectangle.Width * scale,
+            Height = _textureRegions[shopItem].SourceRectangle.Height * scale,
             TextureAddress = Gum.Managers.TextureAddress.Custom,
-            Color = PlayerStatsManager.GetPowerUpColor(ShopItems.HARPOON, pStats)
+            Color = PlayerStatsManager.GetPowerUpColor(shopItem, pStats)
         };
     }
 }

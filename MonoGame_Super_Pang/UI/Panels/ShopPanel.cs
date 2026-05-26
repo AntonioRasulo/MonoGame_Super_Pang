@@ -1,5 +1,4 @@
 using MonoGame_Super_Pang.Config;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGameGum;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
@@ -62,10 +61,7 @@ class ShopPanel : PangPanel
         harpoonButton.Click += ShowConfirmPanel;
         _panel.AddChild(harpoonButton);
 
-        Texture2D speed2DTexture = Core.Content.Load<Texture2D>("images/UI/white_wings");
-        TextureRegion speedRegion = new TextureRegion(speed2DTexture, 0, 0, speed2DTexture.Width, speed2DTexture.Height);
-
-        speedButton = new PowerUpButton(speedRegion.Texture, speedRegion.SourceRectangle, _GUIatlas, ShopItems.SPEED);
+        speedButton = new PowerUpButton(_GUIatlas, ShopItems.SPEED);
         speedButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         speedButton.X = 2*BUTTONDISTANCE;
         speedButton.Y = BUTTONDISTANCE;

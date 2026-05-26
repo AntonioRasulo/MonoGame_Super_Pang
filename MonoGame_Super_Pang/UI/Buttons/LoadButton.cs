@@ -20,6 +20,7 @@ public class LoadButton : AnimatedButton
     private SpriteRuntime _chestSprite;
 
     private SpriteRuntime _harpoonSprite;
+    private SpriteRuntime _speedSprite;
 
     public LoadButton(TextureAtlas atlas) : base(atlas)
     {
@@ -57,6 +58,7 @@ public class LoadButton : AnimatedButton
     public void UpdateLoadButtonPowerUps()
     {
         _harpoonSprite.Color = PlayerStatsManager.GetPowerUpColor(ShopItems.HARPOON);
+        _speedSprite.Color = PlayerStatsManager.GetPowerUpColor(ShopItems.SPEED);
     }
 
     public void setTextMoney(string textMoney)
@@ -140,6 +142,12 @@ public class LoadButton : AnimatedButton
         _harpoonSprite.X = 65.0f;
         _harpoonSprite.Y = 3.5f;
         visual.Background.AddChild(_harpoonSprite);
+
+        _speedSprite = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.SPEED, pStats, 0.02f);
+        _speedSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        _speedSprite.X = 85.0f;
+        _speedSprite.Y = 5.0f;
+        visual.Background.AddChild(_speedSprite);
     }
 
     public void CleanButton()
@@ -155,5 +163,8 @@ public class LoadButton : AnimatedButton
 
         visual.Background.RemoveChild(_harpoonSprite);
         _harpoonSprite = null;
+
+        visual.Background.RemoveChild(_speedSprite);
+        _speedSprite = null;
     }
 }
