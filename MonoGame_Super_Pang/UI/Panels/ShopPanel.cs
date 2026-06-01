@@ -69,7 +69,7 @@ class ShopPanel : PangPanel
         speedButton.SetScale(0.02f);
         _panel.AddChild(speedButton);
 
-        livesButton = new PowerUpButton(livesRegion.Texture, livesRegion.SourceRectangle, _GUIatlas, ShopItems.LIVES);
+        livesButton = new PowerUpButton(_GUIatlas, ShopItems.LIVES);
         livesButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         livesButton.X = 3*BUTTONDISTANCE;
         livesButton.Y = BUTTONDISTANCE;

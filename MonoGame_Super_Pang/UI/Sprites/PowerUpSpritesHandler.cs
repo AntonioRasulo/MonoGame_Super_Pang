@@ -25,6 +25,9 @@ public static class PowerUpSpritesHandler
         TextureRegion speedRegion = new TextureRegion(speed2DTexture, 0, 0, speed2DTexture.Width, speed2DTexture.Height);
 
         _textureRegions.Add(ShopItems.SPEED, speedRegion);
+
+        TextureRegion livesRegion = _itemsAtlas.GetRegion("livesSprite");
+        _textureRegions.Add(ShopItems.LIVES, livesRegion);
     }
 
     public static TextureRegion GetTextureRegion(ShopItems shopItem)
