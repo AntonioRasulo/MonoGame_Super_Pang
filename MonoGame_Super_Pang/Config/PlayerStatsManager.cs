@@ -152,7 +152,7 @@ public class PlayerStatsManager
 
     }
 
-    public static Color GetPowerUpColor(ShopItems shopItem, PlayerStats pStats = null)
+    public static (Color, PowerUpButtonState) GetPowerUpStatus(ShopItems shopItem, PlayerStats pStats = null)
     {
         PlayerStatsPowerUpState pPowerStats = currentStatsLevels;
 
@@ -163,7 +163,7 @@ public class PlayerStatsManager
 
         if(pPowerStats == null)
         {
-            return Color.SandyBrown;
+            return (Color.SandyBrown, PowerUpButtonState.NULL);
         }
 
         PowerUpButtonState _state = shopItem switch
@@ -195,7 +195,7 @@ public class PlayerStatsManager
                 break;
         };
 
-        return returnColor;
+        return (returnColor, _state);
 
     }
 

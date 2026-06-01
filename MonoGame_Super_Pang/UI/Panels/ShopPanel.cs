@@ -49,7 +49,6 @@ class ShopPanel : PangPanel
 
         _itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
 
-        TextureRegion livesRegion = _itemsAtlas.GetRegion("livesSprite");
         TextureRegion invincibilityRegion = _itemsAtlas.GetRegion("invincibilitySprite");
         TextureRegion bombRegion = _itemsAtlas.GetRegion("bombSprite");
         TextureRegion clockRegion = _itemsAtlas.GetRegion("freezeSprite");
@@ -76,7 +75,7 @@ class ShopPanel : PangPanel
         livesButton.Click += ShowConfirmPanel;
         _panel.AddChild(livesButton);
 
-        collLivesButton = new PowerUpButton(livesRegion.Texture, livesRegion.SourceRectangle, _GUIatlas, ShopItems.COLL_LIVES);
+        collLivesButton = new PowerUpButton(_GUIatlas, ShopItems.COLL_LIVES);
         collLivesButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         collLivesButton.X = BUTTONDISTANCE;
         collLivesButton.Y = 2*BUTTONDISTANCE;

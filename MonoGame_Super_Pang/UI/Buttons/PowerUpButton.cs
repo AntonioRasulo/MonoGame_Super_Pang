@@ -14,7 +14,8 @@ public enum PowerUpButtonState
     Level0,
     Level1,
     Level2,
-    Level3
+    Level3,
+    NULL
 }
 
 public class PowerUpButton : AnimatedButton
@@ -128,7 +129,7 @@ public class PowerUpButton : AnimatedButton
 
     private void SetSpriteColor()
     {
-        _sprite.Color = PlayerStatsManager.GetPowerUpColor(_item);
+        (_sprite.Color, _) = PlayerStatsManager.GetPowerUpStatus(_item);
         switch (_state)
         {
             case PowerUpButtonState.Level0:
@@ -160,23 +161,9 @@ public class PowerUpButton : AnimatedButton
     private void CreateXSprite()
     {
         ButtonVisual visual = (ButtonVisual)this.Visual;
-        TextureAtlas book2Atlas = TextureAtlas.FromFile(Core.Content, "images/UI/Book2_atlas.xml");
-
-        TextureRegion x_icon = book2Atlas.GetRegion("x-icon");
-        Texture2D texture = x_icon.Texture;
-        Rectangle sourceRectangle = x_icon.SourceRectangle;
 
         // Create sprite
-        _Xsprite = new SpriteRuntime
-        {
-            Texture = texture,
-            SourceRectangle = sourceRectangle,
-            WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
-            HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
-            Width = sourceRectangle.Width,
-            Height = sourceRectangle.Height,
-            TextureAddress = Gum.Managers.TextureAddress.Custom
-        };
+        _Xsprite = PowerUpSpritesHandler.GetXSprite();
 
         _Xsprite.Anchor(Gum.Wireframe.Anchor.Center);
         visual.Background.AddChild(_Xsprite);
@@ -185,23 +172,9 @@ public class PowerUpButton : AnimatedButton
     private void CreateVSprite()
     {
         ButtonVisual visual = (ButtonVisual)this.Visual;
-        TextureAtlas book2Atlas = TextureAtlas.FromFile(Core.Content, "images/UI/Book2_atlas.xml");
-
-        TextureRegion v_icon = book2Atlas.GetRegion("v-icon");
-        Texture2D texture = v_icon.Texture;
-        Rectangle sourceRectangle = v_icon.SourceRectangle;
 
         // Create sprite
-        _Vsprite = new SpriteRuntime
-        {
-            Texture = texture,
-            SourceRectangle = sourceRectangle,
-            WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
-            HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
-            Width = sourceRectangle.Width,
-            Height = sourceRectangle.Height,
-            TextureAddress = Gum.Managers.TextureAddress.Custom
-        };
+        _Vsprite = PowerUpSpritesHandler.GetVSprite();
 
         _Vsprite.Anchor(Gum.Wireframe.Anchor.Center);
         visual.Background.AddChild(_Vsprite);

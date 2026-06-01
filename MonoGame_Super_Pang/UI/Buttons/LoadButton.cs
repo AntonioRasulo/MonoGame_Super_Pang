@@ -23,6 +23,9 @@ public class LoadButton : AnimatedButton
     private SpriteRuntime _speedSprite;
     private SpriteRuntime _livesSprite;
 
+    private SpriteRuntime _collLivesSpriteIcon;
+    private SpriteRuntime _collLivesSprite;
+
     public LoadButton(TextureAtlas atlas) : base(atlas)
     {
         _deleteButton = new DeleteButton();
@@ -58,9 +61,13 @@ public class LoadButton : AnimatedButton
 
     public void UpdateLoadButtonPowerUps()
     {
-        _harpoonSprite.Color = PlayerStatsManager.GetPowerUpColor(ShopItems.HARPOON);
-        _speedSprite.Color = PlayerStatsManager.GetPowerUpColor(ShopItems.SPEED);
-        _livesSprite.Color = PlayerStatsManager.GetPowerUpColor(ShopItems.LIVES);
+        ButtonVisual visual = (ButtonVisual)this.Visual;
+
+        (_harpoonSprite.Color, _) = PlayerStatsManager.GetPowerUpStatus(ShopItems.HARPOON);
+        (_speedSprite.Color, _) = PlayerStatsManager.GetPowerUpStatus(ShopItems.SPEED);
+        (_livesSprite.Color, _) = PlayerStatsManager.GetPowerUpStatus(ShopItems.LIVES);
+        PowerUpButtonState collLivesState;
+        (_collLivesSprite.Color, collLivesState) = PlayerStatsManager.GetPowerUpStatus(ShopItems.COLL_LIVES);
     }
 
     public void setTextMoney(string textMoney)
@@ -139,23 +146,35 @@ public class LoadButton : AnimatedButton
             CreateChestAnimation();
         }
 
-        _harpoonSprite = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.HARPOON, pStats);
+        (_harpoonSprite, _) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.HARPOON, pStats);
         _harpoonSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
         _harpoonSprite.X = 65.0f;
         _harpoonSprite.Y = 3.5f;
         visual.Background.AddChild(_harpoonSprite);
 
-        _speedSprite = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.SPEED, pStats, 0.02f);
+        (_speedSprite, _) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.SPEED, pStats, 0.02f);
         _speedSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
         _speedSprite.X = 85.0f;
         _speedSprite.Y = 5.0f;
         visual.Background.AddChild(_speedSprite);
 
-        _livesSprite = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.LIVES, pStats);
+        (_livesSprite, _) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.LIVES, pStats);
         _livesSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
         _livesSprite.X = 105.0f;
         _livesSprite.Y = 3.5f;
         visual.Background.AddChild(_livesSprite);
+
+        PowerUpButtonState collLivesState;
+        (_collLivesSprite, collLivesState) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.COLL_LIVES, pStats);
+        _collLivesSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        _collLivesSprite.X = 65.0f;
+        _collLivesSprite.Y = 25.0f;
+        visual.Background.AddChild(_collLivesSprite);
+        _collLivesSpriteIcon = GetIconSprite(collLivesState, 67.0f, 27.0f);
+        if(_collLivesSpriteIcon != null)
+        {
+            visual.Background.AddChild(_collLivesSpriteIcon);
+        }
     }
 
     public void CleanButton()
@@ -177,5 +196,37 @@ public class LoadButton : AnimatedButton
 
         visual.Background.RemoveChild(_livesSprite);
         _livesSprite = null;
+
+        visual.Background.RemoveChild(_collLivesSprite);
+        _collLivesSprite = null;
+
+        if(_collLivesSpriteIcon != null)
+        {
+            visual.Background.RemoveChild(_collLivesSpriteIcon);
+            _collLivesSpriteIcon = null;
+        }
     }
+
+    private SpriteRuntime GetIconSprite(PowerUpButtonState state, float xCor, float yCor)
+    {
+        SpriteRuntime returnSprite = null;
+        if(state == PowerUpButtonState.Level0)
+        {
+            returnSprite = PowerUpSpritesHandler.GetXSprite();
+        }
+        else if(state == PowerUpButtonState.Level3)
+        {
+            returnSprite = PowerUpSpritesHandler.GetVSprite();
+        }
+
+        if(returnSprite != null)
+        {
+            returnSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
+            returnSprite.X = xCor;
+            returnSprite.Y = yCor;
+        }
+
+        return returnSprite;
+    }
+
 }
