@@ -49,7 +49,6 @@ class ShopPanel : PangPanel
 
         _itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
 
-        TextureRegion invincibilityRegion = _itemsAtlas.GetRegion("invincibilitySprite");
         TextureRegion bombRegion = _itemsAtlas.GetRegion("bombSprite");
         TextureRegion clockRegion = _itemsAtlas.GetRegion("freezeSprite");
 
@@ -82,7 +81,7 @@ class ShopPanel : PangPanel
         collLivesButton.Click += ShowConfirmPanel;
         _panel.AddChild(collLivesButton);
 
-        invincibilityButton = new PowerUpButton(invincibilityRegion.Texture, invincibilityRegion.SourceRectangle, _GUIatlas, ShopItems.INVINCIBILITY);
+        invincibilityButton = new PowerUpButton(_GUIatlas, ShopItems.INVINCIBILITY);
         invincibilityButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         invincibilityButton.X = 2*BUTTONDISTANCE;
         invincibilityButton.Y = 2*BUTTONDISTANCE;

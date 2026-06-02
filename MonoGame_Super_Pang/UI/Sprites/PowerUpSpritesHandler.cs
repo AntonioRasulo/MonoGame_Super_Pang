@@ -37,6 +37,9 @@ public static class PowerUpSpritesHandler
         TextureRegion livesRegion = _itemsAtlas.GetRegion("livesSprite");
         _textureRegions.Add(ShopItems.LIVES, livesRegion);
         _textureRegions.Add(ShopItems.COLL_LIVES, livesRegion);
+
+        TextureRegion invincibilityRegion = _itemsAtlas.GetRegion("invincibilitySprite");
+        _textureRegions.Add(ShopItems.INVINCIBILITY, invincibilityRegion);
     }
 
     public static TextureRegion GetTextureRegion(ShopItems shopItem)

@@ -26,6 +26,9 @@ public class LoadButton : AnimatedButton
     private SpriteRuntime _collLivesSpriteIcon;
     private SpriteRuntime _collLivesSprite;
 
+    private SpriteRuntime _invincibilitySpriteIcon;
+    private SpriteRuntime _invincibilitySprite;
+
     public LoadButton(TextureAtlas atlas) : base(atlas)
     {
         _deleteButton = new DeleteButton();
@@ -68,6 +71,7 @@ public class LoadButton : AnimatedButton
         (_livesSprite.Color, _) = PlayerStatsManager.GetPowerUpStatus(ShopItems.LIVES);
         PowerUpButtonState collLivesState;
         (_collLivesSprite.Color, collLivesState) = PlayerStatsManager.GetPowerUpStatus(ShopItems.COLL_LIVES);
+        //TODO
     }
 
     public void setTextMoney(string textMoney)
@@ -164,16 +168,27 @@ public class LoadButton : AnimatedButton
         _livesSprite.Y = 3.5f;
         visual.Background.AddChild(_livesSprite);
 
-        PowerUpButtonState collLivesState;
-        (_collLivesSprite, collLivesState) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.COLL_LIVES, pStats);
+        PowerUpButtonState collState;
+        (_collLivesSprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.COLL_LIVES, pStats);
         _collLivesSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
         _collLivesSprite.X = 65.0f;
-        _collLivesSprite.Y = 25.0f;
+        _collLivesSprite.Y = 27.0f;
         visual.Background.AddChild(_collLivesSprite);
-        _collLivesSpriteIcon = GetIconSprite(collLivesState, 67.0f, 27.0f);
+        _collLivesSpriteIcon = GetIconSprite(collState, 67.0f, 30.0f);
         if(_collLivesSpriteIcon != null)
         {
             visual.Background.AddChild(_collLivesSpriteIcon);
+        }
+
+        (_invincibilitySprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.INVINCIBILITY, pStats, 0.4f);
+        _invincibilitySprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        _invincibilitySprite.X = 85.0f;
+        _invincibilitySprite.Y = 27.0f;
+        visual.Background.AddChild(_invincibilitySprite);
+        _invincibilitySpriteIcon = GetIconSprite(collState, 85.0f, 30.0f);
+        if(_invincibilitySpriteIcon != null)
+        {
+            visual.Background.AddChild(_invincibilitySpriteIcon);
         }
     }
 
@@ -204,6 +219,15 @@ public class LoadButton : AnimatedButton
         {
             visual.Background.RemoveChild(_collLivesSpriteIcon);
             _collLivesSpriteIcon = null;
+        }
+
+        visual.Background.RemoveChild(_invincibilitySprite);
+        _invincibilitySprite = null;
+
+        if(_invincibilitySpriteIcon != null)
+        {
+            visual.Background.RemoveChild(_invincibilitySpriteIcon);
+            _invincibilitySpriteIcon = null;
         }
     }
 
