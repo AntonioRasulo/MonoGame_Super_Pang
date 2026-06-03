@@ -49,7 +49,6 @@ class ShopPanel : PangPanel
 
         _itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
 
-        TextureRegion bombRegion = _itemsAtlas.GetRegion("bombSprite");
         TextureRegion clockRegion = _itemsAtlas.GetRegion("freezeSprite");
 
         harpoonButton = new PowerUpButton(_GUIatlas, ShopItems.HARPOON);
@@ -89,7 +88,7 @@ class ShopPanel : PangPanel
         invincibilityButton.SetScale(0.4f);
         _panel.AddChild(invincibilityButton);
 
-        bombButton = new PowerUpButton(bombRegion.Texture, bombRegion.SourceRectangle, _GUIatlas, ShopItems.BOMB);
+        bombButton = new PowerUpButton(_GUIatlas, ShopItems.BOMB);
         bombButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         bombButton.X = 3*BUTTONDISTANCE;
         bombButton.Y = 2*BUTTONDISTANCE;

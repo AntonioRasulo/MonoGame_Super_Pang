@@ -29,6 +29,9 @@ public class LoadButton : AnimatedButton
     private SpriteRuntime _invincibilitySpriteIcon;
     private SpriteRuntime _invincibilitySprite;
 
+    private SpriteRuntime _bombSpriteIcon;
+    private SpriteRuntime _bombSprite;
+
     public LoadButton(TextureAtlas atlas) : base(atlas)
     {
         _deleteButton = new DeleteButton();
@@ -190,6 +193,17 @@ public class LoadButton : AnimatedButton
         {
             visual.Background.AddChild(_invincibilitySpriteIcon);
         }
+
+        (_bombSprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.BOMB, pStats);
+        _bombSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        _bombSprite.X = 105.0f;
+        _bombSprite.Y = 27.0f;
+        visual.Background.AddChild(_bombSprite);
+        _bombSpriteIcon = GetIconSprite(collState, 105.0f, 30.0f);
+        if(_bombSpriteIcon != null)
+        {
+            visual.Background.AddChild(_bombSpriteIcon);
+        }
     }
 
     public void CleanButton()
@@ -228,6 +242,16 @@ public class LoadButton : AnimatedButton
         {
             visual.Background.RemoveChild(_invincibilitySpriteIcon);
             _invincibilitySpriteIcon = null;
+        }
+
+
+        visual.Background.RemoveChild(_bombSprite);
+        _bombSprite = null;
+
+        if(_bombSpriteIcon != null)
+        {
+            visual.Background.RemoveChild(_bombSpriteIcon);
+            _bombSpriteIcon = null;
         }
     }
 
