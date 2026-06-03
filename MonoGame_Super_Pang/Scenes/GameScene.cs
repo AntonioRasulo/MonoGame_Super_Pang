@@ -297,6 +297,11 @@ public class GameScene : Scene
                     }
                     _balls.AddRange(toAddBall);
                     _balls.RemoveAll(ball => toRemoveBall.Contains(ball));
+                    foreach(Enemy enemy in _enemies)
+                    {
+                        HitEnemy(enemy);
+                    }
+                    _enemies.RemoveAll(enemy => enemy._isDead);
                 }
                 break;
             case collectibleType.GOLD_COIN:
@@ -349,14 +354,8 @@ public class GameScene : Scene
                 Rectangle enemyBounds = enemy.GetBounds();
                 if(harpoonBounds.Intersects(enemyBounds))
                 {
-                    _score += enemy.TakeHit();
-                    _ui.UpdateScoreText(_score);
+                    HitEnemy(enemy);
                     toRemoveHarpoon.Add(harpoon);
-                    if (enemy._isDead)
-                    {
-                        _deadEnemies.Add(enemy);
-                        _collectibleHandler.GenerateCollectible(enemy.GetPosition());
-                    }
                 }
             }
         }
@@ -761,6 +760,17 @@ public class GameScene : Scene
         }
 
         return toAddBall;
+    }
+
+    private void HitEnemy(Enemy enemy)
+    {
+        _score += enemy.TakeHit();
+        _ui.UpdateScoreText(_score);
+        if (enemy._isDead)
+        {
+            _deadEnemies.Add(enemy);
+            _collectibleHandler.GenerateCollectible(enemy.GetPosition());
+        }
     }
 
 }
