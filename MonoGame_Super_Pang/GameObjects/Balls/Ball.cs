@@ -29,9 +29,6 @@ abstract public class Ball
 
     protected const float MOVEMENT_SPEED = 5.0f;
 
-    private static float _freezeDuration = 4.0f;
-    protected static float _freezeTimer = 0f;
-
     private float _scale;
 
     protected BallSize _ballSize;
@@ -126,13 +123,6 @@ abstract public class Ball
         _ballSprite.Draw(Core.SpriteBatch, centeredPosition);
     }
 
-    public Sprite GetSprite()
-    {
-        var copy = new Sprite(_ballSprite.Region);
-        copy.Scale = _ballSprite.Scale; // copy current scale explicitly
-        return copy;
-    }
-
     public BallSize GetBallSize()
     {
         return _ballSize;
@@ -141,26 +131,6 @@ abstract public class Ball
     public BallType GetBallType()
     {
         return _ballType;
-    }
-
-    public static void updateFreeze(GameTime gameTime)
-    {
-        if (_freezeTimer > 0f)
-        {
-            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            _freezeTimer -= delta;
-
-            if (_freezeTimer <= 0f)
-            {
-                _freezeTimer = 0f;
-            }
-        }
-    }
-
-    public static void Freeze()
-    {
-        _freezeTimer = _freezeDuration;
     }
 
     public int spriteWidth => (int)(_ballSprite.Width);
@@ -174,11 +144,6 @@ abstract public class Ball
     public static void playPopSound()
     {
         Core.Audio.PlaySoundEffect(_popSoundEffect);
-    }
-
-    public static void resetFreeze()
-    {
-        _freezeTimer = 0f;
     }
 
     public int getScore()

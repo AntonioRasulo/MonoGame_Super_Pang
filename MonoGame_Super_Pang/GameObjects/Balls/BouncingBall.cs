@@ -71,7 +71,7 @@ public class BouncingBall : Ball
 
     public override void Update(GameTime gameTime)
     {
-        if(_freezeTimer <= 0)
+        if(FreezeHandler.freezeTimer <= 0)
         {
             // Apply gravity each frame
             _velocity.Y += GRAVITY;

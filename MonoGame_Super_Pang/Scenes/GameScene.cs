@@ -205,7 +205,7 @@ public class GameScene : Scene
 
         _character.Update(gameTime);
 
-        Ball.updateFreeze(gameTime);
+        FreezeHandler.updateFreeze(gameTime);
 
         foreach(Ball ball in _balls)
         {
@@ -282,7 +282,7 @@ public class GameScene : Scene
                 _ui.UpdateLivesText(_character.getLives());
                 break;
             case collectibleType.CLOCK:
-                Ball.Freeze();
+                FreezeHandler.Freeze();
                 break;
             case collectibleType.INVINCIBILITY:
                 {
@@ -662,7 +662,7 @@ public class GameScene : Scene
         _platforms.Clear();
         _enemies.Clear();
         _deadEnemies.Clear();
-        Ball.resetFreeze();
+        FreezeHandler.resetFreeze();
         foreach (var spawnConfig in config.Balls)
         {
             BallType ballType = spawnConfig.BallType;

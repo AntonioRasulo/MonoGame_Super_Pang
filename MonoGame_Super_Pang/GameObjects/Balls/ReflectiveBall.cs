@@ -54,7 +54,7 @@ public class ReflectiveBall : Ball
 
     public override void Update(GameTime gameTime)
     {
-        if(_freezeTimer <= 0)
+        if(FreezeHandler.freezeTimer <= 0)
         {
             // Update the position of the ball based on the velocity.
             Position += _velocity;

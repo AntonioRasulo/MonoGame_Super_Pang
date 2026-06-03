@@ -10,7 +10,8 @@ public enum BatState
     Hurt,
     Fall,
     Land,
-    Death
+    Death,
+    Frozen
 }
 
 abstract public class Bat : Enemy
@@ -22,12 +23,19 @@ abstract public class Bat : Enemy
     protected Sprite _deathSprite;
 
     protected BatState _state;
+    protected BatState _stateBeforeFrozen;
 
     private const float FALL_SPEED = 5.0f;
 
     private const int DEATH_TIME = 5;
 
     private float _deathTimer = 0f;
+
+    protected bool _isVisible = true;
+    protected bool _toggleVisibility = false;
+    protected const float BLINK_DURATION = 0.5f;
+    protected float _blinkDuration = BLINK_DURATION;
+    protected float _blinkTimer = 0f;
 
     public Bat(Vector2 position): base(position)
     {
@@ -54,18 +62,34 @@ abstract public class Bat : Enemy
             case BatState.Idle:
                 _idleAnimation.Update(gameTime);
                 UpdateMovement(gameTime);
+                CheckFreeze();
             break;
             case BatState.Hurt:
                 if(_hurtAnimation != null)
                 {
                     _hurtAnimation.Update(gameTime);
+                    ToggleVisibility(gameTime);
                     if (_hurtAnimation.IsComplete)
                     {
                         _state = BatState.Idle;
                         _hurtAnimation.Reset();
+                        _blinkTimer = 0;
+                        _isVisible = true;
                     }
+                    CheckFreeze();
                 }
             break;
+            case BatState.Frozen:
+                if (_toggleVisibility)
+                {
+                    ToggleVisibility(gameTime);
+                }
+                if (FreezeHandler.freezeTimer <= 0)
+                {
+                    _state = _stateBeforeFrozen;
+                    _isVisible = true;
+                }
+                break;
             case BatState.Fall:
                 _fallAnimation.Update(gameTime);
                 _position.Y += FALL_SPEED;
@@ -139,6 +163,22 @@ abstract public class Bat : Enemy
                 return new Rectangle(0, 0, 0, 0);
             }
             break;
+            case BatState.Frozen:
+                {
+                    if(_stateBeforeFrozen == BatState.Idle)
+                    {
+                        currentSprite = _idleAnimation;
+                    }
+                    else if(_stateBeforeFrozen == BatState.Hurt && _hurtAnimation != null)
+                    {
+                        currentSprite = _hurtAnimation;
+                    }
+                    else
+                    {
+                        return new Rectangle(0, 0, 0, 0);
+                    }
+                }
+                break;
             case BatState.Fall:
             case BatState.Land:
             case BatState.Death:
@@ -169,6 +209,8 @@ abstract public class Bat : Enemy
             _idleAnimation.Draw(Core.SpriteBatch, _position);
             break;
             case BatState.Hurt:
+            if(!_isVisible)
+                return;
             _hurtAnimation?.Draw(Core.SpriteBatch, _position);
             break;
             case BatState.Fall:
@@ -180,18 +222,66 @@ abstract public class Bat : Enemy
             case BatState.Death:
             _deathSprite.Draw(Core.SpriteBatch, _position);
             break;
+            case BatState.Frozen:
+                if(!_isVisible)
+                    return;
+                if (_stateBeforeFrozen == BatState.Hurt)
+                    _hurtAnimation?.Draw(Core.SpriteBatch, _position);
+                else
+                    _idleAnimation.Draw(Core.SpriteBatch, _position);
+                break;
         }
     }
 
     public override int TakeHit()
     {
-        int score = 0;
-        if(_state == BatState.Idle)
+        int score = base.TakeHit();
+
+        if(_lives == 0)
         {
-            score = base.TakeHit();
-            _state = _lives == 0 ? BatState.Fall : BatState.Hurt;
+            _state = BatState.Fall;
         }
+        else
+        {
+            if(_state == BatState.Idle)
+            {
+                _state = BatState.Hurt;
+            }
+        }
+        _toggleVisibility = true;
+        _blinkDuration = BLINK_DURATION;
         return score;
     }
 
+    public void CheckFreeze()
+    {
+        if(FreezeHandler.freezeTimer > 0)
+        {
+            _stateBeforeFrozen = _state;
+            _state = BatState.Frozen;
+            _toggleVisibility = false;
+        }
+    }
+
+    protected void ToggleVisibility(GameTime gameTime)
+    {
+        float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        if(_blinkDuration > 0)
+        {
+            _blinkDuration -= delta;
+            _blinkTimer += delta;
+            if (_blinkTimer >= 0.1)
+            {
+                _blinkTimer = 0;
+                _isVisible = !_isVisible;
+            }
+
+            if(_blinkDuration <= 0)
+            {
+                _blinkDuration = 0f;
+                _isVisible = true;
+            }
+        }
+    }
 }
