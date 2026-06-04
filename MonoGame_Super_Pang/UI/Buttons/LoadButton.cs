@@ -188,7 +188,7 @@ public class LoadButton : AnimatedButton
         _invincibilitySprite.X = 85.0f;
         _invincibilitySprite.Y = 27.0f;
         visual.Background.AddChild(_invincibilitySprite);
-        _invincibilitySpriteIcon = GetIconSprite(collState, 85.0f, 30.0f);
+        _invincibilitySpriteIcon = GetIconSprite(collState, 87.0f, 30.0f);
         if(_invincibilitySpriteIcon != null)
         {
             visual.Background.AddChild(_invincibilitySpriteIcon);
@@ -199,7 +199,7 @@ public class LoadButton : AnimatedButton
         _bombSprite.X = 105.0f;
         _bombSprite.Y = 27.0f;
         visual.Background.AddChild(_bombSprite);
-        _bombSpriteIcon = GetIconSprite(collState, 105.0f, 30.0f);
+        _bombSpriteIcon = GetIconSprite(collState, 107.0f, 30.0f);
         if(_bombSpriteIcon != null)
         {
             visual.Background.AddChild(_bombSpriteIcon);
