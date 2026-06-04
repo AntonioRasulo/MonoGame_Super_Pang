@@ -9,7 +9,6 @@ namespace MonoGame_Super_Pang.UI;
 class ShopPanel : PangPanel
 {
     private static AnimatedButton _backButton;
-    private TextureAtlas _itemsAtlas;
 
     /* Character power up */
     private static PowerUpButton harpoonButton;

@@ -75,9 +75,11 @@ public class LoadButton : AnimatedButton
         (_harpoonSprite.Color, _) = PlayerStatsManager.GetPowerUpStatus(ShopItems.HARPOON);
         (_speedSprite.Color, _) = PlayerStatsManager.GetPowerUpStatus(ShopItems.SPEED);
         (_livesSprite.Color, _) = PlayerStatsManager.GetPowerUpStatus(ShopItems.LIVES);
-        PowerUpButtonState collLivesState;
-        (_collLivesSprite.Color, collLivesState) = PlayerStatsManager.GetPowerUpStatus(ShopItems.COLL_LIVES);
-        //TODO
+
+        UpdateSpriteIcon(ref _collLivesSprite, ref _collLivesSpriteIcon, ShopItems.COLL_LIVES);
+        UpdateSpriteIcon(ref _invincibilitySprite, ref _invincibilitySpriteIcon, ShopItems.INVINCIBILITY);
+        UpdateSpriteIcon(ref _bombSprite, ref _bombSpriteIcon, ShopItems.BOMB);
+        UpdateSpriteIcon(ref _freezeSprite, ref _freezeSpriteIcon, ShopItems.CLOCK);
     }
 
     public void setTextMoney(string textMoney)
@@ -209,40 +211,10 @@ public class LoadButton : AnimatedButton
         visual.Background.RemoveChild(_livesSprite);
         _livesSprite = null;
 
-        visual.Background.RemoveChild(_collLivesSprite);
-        _collLivesSprite = null;
-
-        if(_collLivesSpriteIcon != null)
-        {
-            visual.Background.RemoveChild(_collLivesSpriteIcon);
-            _collLivesSpriteIcon = null;
-        }
-
-        visual.Background.RemoveChild(_invincibilitySprite);
-        _invincibilitySprite = null;
-
-        if(_invincibilitySpriteIcon != null)
-        {
-            visual.Background.RemoveChild(_invincibilitySpriteIcon);
-            _invincibilitySpriteIcon = null;
-        }
-
-        visual.Background.RemoveChild(_bombSprite);
-        _bombSprite = null;
-
-        if(_bombSpriteIcon != null)
-        {
-            visual.Background.RemoveChild(_bombSpriteIcon);
-            _bombSpriteIcon = null;
-        }
-
-        visual.Background.RemoveChild(_freezeSprite);
-        _freezeSprite = null;
-        if(_freezeSpriteIcon != null)
-        {
-            visual.Background.RemoveChild(_freezeSpriteIcon);
-            _freezeSpriteIcon = null;
-        }
+        CleanSprite(ref _collLivesSprite, ref _collLivesSpriteIcon);
+        CleanSprite(ref _invincibilitySprite, ref _invincibilitySpriteIcon);
+        CleanSprite(ref _bombSprite, ref _bombSpriteIcon);
+        CleanSprite(ref _freezeSprite, ref _freezeSpriteIcon);
     }
 
     private SpriteRuntime GetIconSprite(PowerUpButtonState state, float xCor, float yCor)
@@ -279,6 +251,46 @@ public class LoadButton : AnimatedButton
         sprite.Y = yCor;
         visual.Background.AddChild(sprite);
         return collState;
+    }
+
+    private void UpdateSpriteIcon(ref SpriteRuntime sprite, ref SpriteRuntime spriteIcon, ShopItems shopItem)
+    {
+        // Access the visual
+        ButtonVisual visual = (ButtonVisual)this.Visual;
+
+        PowerUpButtonState state;
+        (sprite.Color, state) = PlayerStatsManager.GetPowerUpStatus(shopItem);
+
+        if(spriteIcon != null && state > PowerUpButtonState.Level0 && state < PowerUpButtonState.Level3)
+        {
+            visual.Background.RemoveChild(spriteIcon);
+            spriteIcon = null;
+        }
+        else if(spriteIcon == null && state == PowerUpButtonState.Level3)
+        {
+            float spriteIconX = sprite.X + 2.0f;
+            float spriteIconY = sprite.Y + 3.0f;
+            spriteIcon = GetIconSprite(state, spriteIconX, spriteIconY);
+            if (spriteIcon != null)
+            {
+                visual.Background.AddChild(spriteIcon);
+            }
+        }
+    }
+
+    private void CleanSprite(ref SpriteRuntime sprite, ref SpriteRuntime spriteIcon)
+    {
+        // Access the visual
+        ButtonVisual visual = (ButtonVisual)this.Visual;
+
+        visual.Background.RemoveChild(sprite);
+        sprite = null;
+
+        if(spriteIcon != null)
+        {
+            visual.Background.RemoveChild(spriteIcon);
+            spriteIcon = null;
+        }
     }
 
 }
