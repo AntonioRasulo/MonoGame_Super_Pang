@@ -156,70 +156,37 @@ public class LoadButton : AnimatedButton
             CreateChestAnimation();
         }
 
-        (_harpoonSprite, _) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.HARPOON, pStats);
-        _harpoonSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        _harpoonSprite.X = 65.0f;
-        _harpoonSprite.Y = 3.5f;
-        visual.Background.AddChild(_harpoonSprite);
+        AddPowerUpSprite(ref _harpoonSprite, ShopItems.HARPOON, pStats, 65.0f, 3.5f);
+        AddPowerUpSprite(ref _speedSprite, ShopItems.SPEED, pStats, 85.0f, 5.0f, 0.02f);
+        AddPowerUpSprite(ref _livesSprite, ShopItems.LIVES, pStats, 105.0f, 3.5f);
 
-        (_speedSprite, _) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.SPEED, pStats, 0.02f);
-        _speedSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        _speedSprite.X = 85.0f;
-        _speedSprite.Y = 5.0f;
-        visual.Background.AddChild(_speedSprite);
-
-        (_livesSprite, _) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.LIVES, pStats);
-        _livesSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        _livesSprite.X = 105.0f;
-        _livesSprite.Y = 3.5f;
-        visual.Background.AddChild(_livesSprite);
-
-        PowerUpButtonState collState;
-        (_collLivesSprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.COLL_LIVES, pStats);
-        _collLivesSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        _collLivesSprite.X = 65.0f;
-        _collLivesSprite.Y = 27.0f;
-        visual.Background.AddChild(_collLivesSprite);
+        PowerUpButtonState collState = AddPowerUpSprite(ref _collLivesSprite, ShopItems.COLL_LIVES, pStats, 65.0f, 27.0f);
         _collLivesSpriteIcon = GetIconSprite(collState, 67.0f, 30.0f);
         if(_collLivesSpriteIcon != null)
         {
             visual.Background.AddChild(_collLivesSpriteIcon);
         }
 
-        (_invincibilitySprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.INVINCIBILITY, pStats, 0.4f);
-        _invincibilitySprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        _invincibilitySprite.X = 85.0f;
-        _invincibilitySprite.Y = 27.0f;
-        visual.Background.AddChild(_invincibilitySprite);
+        collState = AddPowerUpSprite(ref _invincibilitySprite, ShopItems.INVINCIBILITY, pStats, 85.0f, 27.0f, 0.4f);
         _invincibilitySpriteIcon = GetIconSprite(collState, 87.0f, 30.0f);
         if(_invincibilitySpriteIcon != null)
         {
             visual.Background.AddChild(_invincibilitySpriteIcon);
         }
 
-        (_bombSprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.BOMB, pStats);
-        _bombSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        _bombSprite.X = 105.0f;
-        _bombSprite.Y = 27.0f;
-        visual.Background.AddChild(_bombSprite);
+        collState = AddPowerUpSprite(ref _bombSprite, ShopItems.BOMB, pStats, 105.0f, 27.0f);
         _bombSpriteIcon = GetIconSprite(collState, 107.0f, 30.0f);
         if(_bombSpriteIcon != null)
         {
             visual.Background.AddChild(_bombSpriteIcon);
         }
 
-        (_freezeSprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.CLOCK, pStats);
-        _freezeSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        _freezeSprite.X = 125.0f;
-        _freezeSprite.Y = 27.0f;
-        visual.Background.AddChild(_freezeSprite);
-        //AddPowerUpSprite(_freezeSprite, ShopItems.CLOCK, pStats, 125.0f, 27.0f);
+        collState = AddPowerUpSprite(ref _freezeSprite, ShopItems.CLOCK, pStats, 125.0f, 27.0f);
         _freezeSpriteIcon = GetIconSprite(collState, 127.0f, 30.0f);
         if(_freezeSpriteIcon != null)
         {
             visual.Background.AddChild(_freezeSpriteIcon);
         }
-
     }
 
     public void CleanButton()
@@ -259,7 +226,6 @@ public class LoadButton : AnimatedButton
             visual.Background.RemoveChild(_invincibilitySpriteIcon);
             _invincibilitySpriteIcon = null;
         }
-
 
         visual.Background.RemoveChild(_bombSprite);
         _bombSprite = null;
@@ -301,22 +267,18 @@ public class LoadButton : AnimatedButton
         return returnSprite;
     }
 
-    private void AddPowerUpSprite(SpriteRuntime sprite, ShopItems shopItem, PlayerStats pStats, float xCor, float yCor)
+    private PowerUpButtonState AddPowerUpSprite(ref SpriteRuntime sprite, ShopItems shopItem, PlayerStats pStats, float xCor, float yCor, float scale = 1.0f)
     {
         // Access the visual
         ButtonVisual visual = (ButtonVisual)this.Visual;
 
         PowerUpButtonState collState;
-        (sprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(shopItem, pStats);
+        (sprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(shopItem, pStats, scale);
         sprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
         sprite.X = xCor;
         sprite.Y = yCor;
         visual.Background.AddChild(sprite);
-        // _freezeSpriteIcon = GetIconSprite(collState, xCor * 2.0f, 30.0f);
-        // if(_freezeSpriteIcon != null)
-        // {
-        //     visual.Background.AddChild(_freezeSpriteIcon);
-        // }
+        return collState;
     }
 
 }
