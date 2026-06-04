@@ -32,6 +32,9 @@ public class LoadButton : AnimatedButton
     private SpriteRuntime _bombSpriteIcon;
     private SpriteRuntime _bombSprite;
 
+    private SpriteRuntime _freezeSpriteIcon;
+    private SpriteRuntime _freezeSprite;
+
     public LoadButton(TextureAtlas atlas) : base(atlas)
     {
         _deleteButton = new DeleteButton();
@@ -204,6 +207,19 @@ public class LoadButton : AnimatedButton
         {
             visual.Background.AddChild(_bombSpriteIcon);
         }
+
+        (_freezeSprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(ShopItems.CLOCK, pStats);
+        _freezeSprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        _freezeSprite.X = 125.0f;
+        _freezeSprite.Y = 27.0f;
+        visual.Background.AddChild(_freezeSprite);
+        //AddPowerUpSprite(_freezeSprite, ShopItems.CLOCK, pStats, 125.0f, 27.0f);
+        _freezeSpriteIcon = GetIconSprite(collState, 127.0f, 30.0f);
+        if(_freezeSpriteIcon != null)
+        {
+            visual.Background.AddChild(_freezeSpriteIcon);
+        }
+
     }
 
     public void CleanButton()
@@ -253,6 +269,14 @@ public class LoadButton : AnimatedButton
             visual.Background.RemoveChild(_bombSpriteIcon);
             _bombSpriteIcon = null;
         }
+
+        visual.Background.RemoveChild(_freezeSprite);
+        _freezeSprite = null;
+        if(_freezeSpriteIcon != null)
+        {
+            visual.Background.RemoveChild(_freezeSpriteIcon);
+            _freezeSpriteIcon = null;
+        }
     }
 
     private SpriteRuntime GetIconSprite(PowerUpButtonState state, float xCor, float yCor)
@@ -275,6 +299,24 @@ public class LoadButton : AnimatedButton
         }
 
         return returnSprite;
+    }
+
+    private void AddPowerUpSprite(SpriteRuntime sprite, ShopItems shopItem, PlayerStats pStats, float xCor, float yCor)
+    {
+        // Access the visual
+        ButtonVisual visual = (ButtonVisual)this.Visual;
+
+        PowerUpButtonState collState;
+        (sprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(shopItem, pStats);
+        sprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        sprite.X = xCor;
+        sprite.Y = yCor;
+        visual.Background.AddChild(sprite);
+        // _freezeSpriteIcon = GetIconSprite(collState, xCor * 2.0f, 30.0f);
+        // if(_freezeSpriteIcon != null)
+        // {
+        //     visual.Background.AddChild(_freezeSpriteIcon);
+        // }
     }
 
 }

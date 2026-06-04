@@ -47,10 +47,6 @@ class ShopPanel : PangPanel
         _backButton.Click += GoToStartGamePanel;
         _panel.AddChild(_backButton);
 
-        _itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
-
-        TextureRegion clockRegion = _itemsAtlas.GetRegion("freezeSprite");
-
         harpoonButton = new PowerUpButton(_GUIatlas, ShopItems.HARPOON);
         harpoonButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         harpoonButton.X = BUTTONDISTANCE;
@@ -95,7 +91,7 @@ class ShopPanel : PangPanel
         bombButton.Click += ShowConfirmPanel;
         _panel.AddChild(bombButton);
 
-        clockButton = new PowerUpButton(clockRegion.Texture, clockRegion.SourceRectangle, _GUIatlas, ShopItems.CLOCK);
+        clockButton = new PowerUpButton(_GUIatlas, ShopItems.CLOCK);
         clockButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         clockButton.X = 4*BUTTONDISTANCE;
         clockButton.Y = 2*BUTTONDISTANCE;

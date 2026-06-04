@@ -43,6 +43,9 @@ public static class PowerUpSpritesHandler
 
         TextureRegion bombRegion = _itemsAtlas.GetRegion("bombSprite");
         _textureRegions.Add(ShopItems.BOMB, bombRegion);
+
+        TextureRegion clockRegion = _itemsAtlas.GetRegion("freezeSprite");
+        _textureRegions.Add(ShopItems.CLOCK, clockRegion);
     }
 
     public static TextureRegion GetTextureRegion(ShopItems shopItem)
