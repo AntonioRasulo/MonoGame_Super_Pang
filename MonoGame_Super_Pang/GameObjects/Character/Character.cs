@@ -22,6 +22,7 @@ public class Character
 {
     private CharacterState currentState = CharacterState.Idle;
     private KeyboardState previousKeyboardState;
+    private GamePadState previousGamePadState;
 
     // Tracks the position of the character.
     public static Vector2 _characterPosition { get; set; }
@@ -124,6 +125,7 @@ public class Character
     public void Update(GameTime gameTime)
     {
         KeyboardState currentKeyboardState = Keyboard.GetState();
+        GamePadState currentGamepadState = GamePad.GetState(PlayerIndex.One);
 
         // Handle shooting (highest priority - interrupts other actions)
         if (currentKeyboardState.IsKeyDown(Keys.Space) &&
@@ -193,6 +195,11 @@ public class Character
                 {
                     currentState = CharacterState.Walking;
                 }
+                else if(currentGamepadState.DPad.Right == ButtonState.Pressed ||
+                    currentGamepadState.DPad.Left == ButtonState.Pressed)
+                {
+                    currentState = CharacterState.Walking;
+                }
 
             break;
 
@@ -204,7 +211,8 @@ public class Character
 
                 // Check if still moving
                 if (currentKeyboardState.IsKeyDown(Keys.A) ||
-                    currentKeyboardState.IsKeyDown(Keys.Left))
+                    currentKeyboardState.IsKeyDown(Keys.Left) ||
+                    currentGamepadState.DPad.Left == ButtonState.Pressed)
                 {
                     currentState = CharacterState.Walking;
 
@@ -214,7 +222,8 @@ public class Character
                     _idleSprite.Effects = SpriteEffects.None;
 
                 }else if (  currentKeyboardState.IsKeyDown(Keys.D) ||
-                            currentKeyboardState.IsKeyDown(Keys.Right))
+                            currentKeyboardState.IsKeyDown(Keys.Right) ||
+                            currentGamepadState.DPad.Right == ButtonState.Pressed)
                 {
                     currentState = CharacterState.Walking;
 
@@ -232,6 +241,7 @@ public class Character
             break;
         }
         previousKeyboardState = currentKeyboardState;
+        //previousGamePadState = currentGamepadState;
 
         foreach(Harpoon bullet in _harpoons)
         {
