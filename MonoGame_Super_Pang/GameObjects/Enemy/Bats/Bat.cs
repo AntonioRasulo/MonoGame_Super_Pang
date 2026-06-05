@@ -31,12 +31,6 @@ abstract public class Bat : Enemy
 
     private float _deathTimer = 0f;
 
-    protected bool _isVisible = true;
-    protected bool _toggleVisibility = false;
-    protected const float BLINK_DURATION = 0.5f;
-    protected float _blinkDuration = BLINK_DURATION;
-    protected float _blinkTimer = 0f;
-
     public Bat(Vector2 position): base(position)
     {
         LoadContent();
@@ -253,7 +247,7 @@ abstract public class Bat : Enemy
         return score;
     }
 
-    public void CheckFreeze()
+    protected override void CheckFreeze()
     {
         if(FreezeHandler.freezeTimer > 0)
         {
@@ -263,25 +257,4 @@ abstract public class Bat : Enemy
         }
     }
 
-    protected void ToggleVisibility(GameTime gameTime)
-    {
-        float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-        if(_blinkDuration > 0)
-        {
-            _blinkDuration -= delta;
-            _blinkTimer += delta;
-            if (_blinkTimer >= 0.1)
-            {
-                _blinkTimer = 0;
-                _isVisible = !_isVisible;
-            }
-
-            if(_blinkDuration <= 0)
-            {
-                _blinkDuration = 0f;
-                _isVisible = true;
-            }
-        }
-    }
 }

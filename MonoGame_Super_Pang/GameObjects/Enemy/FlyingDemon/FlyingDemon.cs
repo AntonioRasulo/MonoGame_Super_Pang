@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 
@@ -12,7 +13,8 @@ public enum FlyingDemonState
     Idle,
     Hurt,
     Attack,
-    Death
+    Death,
+    Frozen
 }
 public class FlyingDemon : Enemy
 {
@@ -22,7 +24,8 @@ public class FlyingDemon : Enemy
     private AnimatedSprite _deathAnimation;
     private Animation _fireBallAnimation;
 
-    protected FlyingDemonState _state;
+    private FlyingDemonState _state;
+    private FlyingDemonState _stateBeforeFrozen;
 
     private Vector2 _target;
 
@@ -86,21 +89,26 @@ public class FlyingDemon : Enemy
                     _state = FlyingDemonState.Attack;
                     _idleAnimation.Reset();
                 }
+                CheckFreeze();
             break;
             case FlyingDemonState.Hurt:
                 _hurtAnimation.Update(gameTime);
                 UpdateFireBallTimer(gameTime);
                 UpdateFireballTimeVariable();
+                ToggleVisibility(gameTime);
                 if (_hurtAnimation.IsComplete)
                 {
                     _state = FlyingDemonState.Idle;
                     _hurtAnimation.Reset();
+                    _blinkTimer = 0;
+                    _isVisible = true;
                 }
                 if(_fireballTimer <= 0)
                 {
                     _state = FlyingDemonState.Attack;
                     _hurtAnimation.Reset();
                 }
+                CheckFreeze();
             break;
             case FlyingDemonState.Attack:
                 _attackAnimation.Update(gameTime);
@@ -120,6 +128,17 @@ public class FlyingDemon : Enemy
                     _deathAnimation.Reset();
                 }
             break;
+            case FlyingDemonState.Frozen:
+                if (_toggleVisibility)
+                {
+                    ToggleVisibility(gameTime);
+                }
+                if (FreezeHandler.freezeTimer <= 0)
+                {
+                    _state = _stateBeforeFrozen;
+                    _isVisible = true;
+                }
+                break;
         }
 
         foreach(Bullet fireball in _bullets)
@@ -140,6 +159,8 @@ public class FlyingDemon : Enemy
                 spriteToDraw = _idleAnimation;
                 break;
             case FlyingDemonState.Hurt:
+                if(!_isVisible)
+                    return;
                 spriteToDraw = _hurtAnimation;
                 break;
             case FlyingDemonState.Attack:
@@ -148,16 +169,18 @@ public class FlyingDemon : Enemy
             case FlyingDemonState.Death:
                 spriteToDraw = _deathAnimation;
                 break;
+            case FlyingDemonState.Frozen:
+                if(!_isVisible)
+                    return;
+                if (_stateBeforeFrozen == FlyingDemonState.Hurt)
+                    goto case FlyingDemonState.Hurt;
+                else if(_stateBeforeFrozen == FlyingDemonState.Idle)
+                    goto case FlyingDemonState.Idle;
+                else if(_stateBeforeFrozen == FlyingDemonState.Attack)
+                    goto case FlyingDemonState.Attack;
+                break;
         }
-
-        if(Character._characterPosition.X > _position.X)
-        {
-            spriteToDraw.Effects = SpriteEffects.FlipHorizontally;
-        }
-        else
-        {
-            spriteToDraw.Effects = SpriteEffects.None;
-        }
+        FlipSprite(ref spriteToDraw);
 
         spriteToDraw.Draw(Core.SpriteBatch, _position);
         foreach(Bullet fireball in _bullets)
@@ -187,6 +210,18 @@ public class FlyingDemon : Enemy
                 positionX = _position.X - width * 0.5f;
                 positionY = _position.Y - height * 0.5f;
             break;
+            case FlyingDemonState.Frozen:
+                {
+                    if (_stateBeforeFrozen == FlyingDemonState.Idle)
+                    {
+                        goto case FlyingDemonState.Idle;
+                    }
+                    else if (_stateBeforeFrozen == FlyingDemonState.Attack)
+                    {
+                        goto case FlyingDemonState.Attack;
+                    }
+                }
+                break;
         }
 
         // Creating a bounding rectangle for the enemy
@@ -246,6 +281,9 @@ public class FlyingDemon : Enemy
 
     private void UpdateFireBallTimer(GameTime gameTime)
     {
+        if (_state == FlyingDemonState.Frozen)
+            return;
+
         float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         if (_fireballTimer > 0f)
@@ -289,13 +327,47 @@ public class FlyingDemon : Enemy
 
     public override int TakeHit()
     {
-        int score = 0;
-        if(_state == FlyingDemonState.Idle || _state == FlyingDemonState.Attack)
+        int score = base.TakeHit();
+
+        if(_lives == 0)
         {
-            score = base.TakeHit();
-            _state = _lives == 0 ? FlyingDemonState.Death : FlyingDemonState.Hurt;
+            _state = FlyingDemonState.Death;
         }
+        else
+        {
+            if(_state == FlyingDemonState.Idle)
+            {
+                _state = FlyingDemonState.Hurt;
+            }
+        }
+        _toggleVisibility = true;
+        _blinkDuration = BLINK_DURATION;
         return score;
+    }
+
+    protected override void CheckFreeze()
+    {
+        if(FreezeHandler.freezeTimer > 0)
+        {
+            _stateBeforeFrozen = _state;
+            _state = FlyingDemonState.Frozen;
+            _toggleVisibility = false;
+        }
+    }
+
+    void FlipSprite(ref AnimatedSprite sprite)
+    {
+        if(_state == FlyingDemonState.Frozen)
+            return;
+
+        if(Character._characterPosition.X > _position.X)
+        {
+            sprite.Effects = SpriteEffects.FlipHorizontally;
+        }
+        else
+        {
+            sprite.Effects = SpriteEffects.None;
+        }
     }
 
 }

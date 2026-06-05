@@ -60,7 +60,7 @@ public static class LevelRegistry
             {
             }
         },
-        new LevelConfig // Level 4
+        new LevelConfig // Level 2
         {
             Balls = new List<BallSpawnConfig>
             {
@@ -88,7 +88,7 @@ public static class LevelRegistry
 
             }
         },
-        new LevelConfig // Level 5
+        new LevelConfig // Level 3
         {
             Balls = new List<BallSpawnConfig>
             {
@@ -119,7 +119,7 @@ public static class LevelRegistry
                 }
             }
         },
-        new LevelConfig // Level 6
+        new LevelConfig // Level 4
         {
             Balls = new List<BallSpawnConfig>
             {
@@ -162,7 +162,7 @@ public static class LevelRegistry
 
             }
         },
-        new LevelConfig // Level 7
+        new LevelConfig // Level 5
         {
             Balls = new List<BallSpawnConfig>
             {
@@ -204,7 +204,7 @@ public static class LevelRegistry
                 }
             }
         },
-        new LevelConfig // Level 8
+        new LevelConfig // Level 6
         {
             Balls = new List<BallSpawnConfig>
             {
@@ -244,7 +244,7 @@ public static class LevelRegistry
                 }
             }
         },
-        new LevelConfig
+        new LevelConfig // Level 7
         {
             Balls = new List<BallSpawnConfig>
             {
@@ -299,7 +299,7 @@ public static class LevelRegistry
                 
             }
         },
-        new LevelConfig // Level 9
+        new LevelConfig // Level 8
         {
             Balls = new List<BallSpawnConfig>
             {
