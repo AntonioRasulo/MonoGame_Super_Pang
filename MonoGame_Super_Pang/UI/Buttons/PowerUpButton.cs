@@ -34,15 +34,6 @@ public class PowerUpButton : AnimatedButton
     private SpriteRuntime _Xsprite;
     private SpriteRuntime _Vsprite;
 
-    public PowerUpButton(Texture2D texture, Rectangle sourceRectangle, TextureAtlas atlas, ShopItems item) : base(atlas)
-    {
-        CreateSprite(texture, sourceRectangle);
-        SetState(PowerUpButtonState.Level1);
-        Width = WIDTH;
-        Height = HEIGHT;
-        _item = item;
-    }
-
     public PowerUpButton(TextureAtlas atlas, ShopItems item) : base(atlas)
     {
         TextureRegion textureRegion = PowerUpSpritesHandler.GetTextureRegion(item);
@@ -183,6 +174,11 @@ public class PowerUpButton : AnimatedButton
     private void ChangeDescriptionText(object sender, EventArgs e)
     {
         DescriptionPowerPanel.SetText(_item);
+    }
+
+    public void SetSpriteYCor(float yCor)
+    {
+        _sprite.Y = yCor;
     }
 
 }

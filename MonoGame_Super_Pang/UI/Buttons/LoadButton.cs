@@ -159,7 +159,7 @@ public class LoadButton : AnimatedButton
         }
 
         AddPowerUpSprite(ref _harpoonSprite, ShopItems.HARPOON, pStats, 65.0f, 3.5f);
-        AddPowerUpSprite(ref _speedSprite, ShopItems.SPEED, pStats, 85.0f, 5.0f, 0.02f);
+        AddPowerUpSprite(ref _speedSprite, ShopItems.SPEED, pStats, 83.0f, 1.0f, 0.5f);
         AddPowerUpSprite(ref _livesSprite, ShopItems.LIVES, pStats, 105.0f, 3.5f);
 
         PowerUpButtonState collState = AddPowerUpSprite(ref _collLivesSprite, ShopItems.COLL_LIVES, pStats, 65.0f, 27.0f);

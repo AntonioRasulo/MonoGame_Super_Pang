@@ -29,7 +29,7 @@ public static class PowerUpSpritesHandler
 
         _textureRegions.Add(ShopItems.HARPOON, _harpoonRegion);
 
-        Texture2D speed2DTexture = Core.Content.Load<Texture2D>("images/UI/white_wings");
+        Texture2D speed2DTexture = Core.Content.Load<Texture2D>("images/UI/Bolt");
         TextureRegion speedRegion = new TextureRegion(speed2DTexture, 0, 0, speed2DTexture.Width, speed2DTexture.Height);
 
         _textureRegions.Add(ShopItems.SPEED, speedRegion);
