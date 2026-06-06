@@ -39,6 +39,8 @@ public class GameSceneUI : ContainerRuntime
     // focus can be set when the pause panel is shown.
     private AnimatedButton _resumeButton;
 
+    private AnimatedButton _quitButton;
+
     // The game over panel.
     private Panel _gameOverPanel;
 
@@ -213,16 +215,16 @@ public class GameSceneUI : ContainerRuntime
 
         panel.AddChild(_resumeButton);
 
-        AnimatedButton quitButton = new AnimatedButton(atlas);
-        quitButton.Text = "QUIT";
-        quitButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
-        quitButton.X = -9.0f;
-        quitButton.Y = -9.0f;
+        _quitButton = new AnimatedButton(atlas);
+        _quitButton.Text = "QUIT";
+        _quitButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
+        _quitButton.X = -9.0f;
+        _quitButton.Y = -9.0f;
 
-        quitButton.Click += OnQuitButtonClicked;
-        quitButton.GotFocus += OnElementGotFocus;
+        _quitButton.Click += OnQuitButtonClicked;
+        _quitButton.GotFocus += OnElementGotFocus;
 
-        panel.AddChild(quitButton);
+        panel.AddChild(_quitButton);
 
         var screenWidth = GumService.Default.CanvasWidth;
         _moneyText = new TextRuntime();
@@ -432,6 +434,11 @@ public class GameSceneUI : ContainerRuntime
     /// </summary>
     public void HidePausePanel()
     {
+        // Give the resume button focus for keyboard/gamepad input.
+        _resumeButton.IsFocused = false;
+
+        _quitButton.IsFocused = false;
+
         _pausePanel.IsVisible = false;
     }
 

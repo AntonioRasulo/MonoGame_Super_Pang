@@ -175,6 +175,7 @@ public class PlayerStatsManager
             ShopItems.COLL_LIVES => pPowerStats.collLivesLevel,
             ShopItems.CLOCK => pPowerStats.clockLevel,
             ShopItems.INVINCIBILITY => pPowerStats.invincibilityLevel,
+            _ => throw new NotImplementedException()
         };
 
         Color returnColor = Color.SandyBrown;

@@ -188,11 +188,7 @@ public class GameScene : Scene
         }
 
         // If the pause button is pressed, toggle the pause state. TODO implement GameController
-        // if (GameController.Pause())
-        // {
-        //     TogglePause();
-        // }
-        if(Core.Input.Keyboard.WasKeyJustPressed(Keys.Escape))
+        if(Core.Input.Keyboard.WasKeyJustPressed(Keys.Escape) || Core.Input.GamePads[(int)PlayerIndex.One].WasButtonJustPressed(Buttons.Start))
         {
             TogglePause();
         }
