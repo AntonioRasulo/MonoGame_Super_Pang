@@ -67,7 +67,7 @@ public class Character
             windowHeight-_idleSprite.Height * 0.5f);
 
         previousKeyboardState = Keyboard.GetState();
-
+        previousGamePadState = GamePad.GetState(PlayerIndex.One);
     }
 
     private void LoadContent()
@@ -128,10 +128,7 @@ public class Character
         GamePadState currentGamepadState = GamePad.GetState(PlayerIndex.One);
 
         // Handle shooting (highest priority - interrupts other actions)
-        if (currentKeyboardState.IsKeyDown(Keys.Space) &&
-            previousKeyboardState.IsKeyUp(Keys.Space) &&
-            currentState != CharacterState.Shooting &&
-            _harpoons.Count < PlayerStatsManager.currentStats.HarpoonNum)
+        if (IsShootingPressed(currentKeyboardState, currentGamepadState))
         {
             currentState = CharacterState.Shooting;
             _shootAnimation.Reset();
@@ -169,10 +166,7 @@ public class Character
                     shootBullet();
 
                     // After shooting, check if moving
-                    if (currentKeyboardState.IsKeyDown(Keys.A) ||
-                        currentKeyboardState.IsKeyDown(Keys.D) ||
-                        currentKeyboardState.IsKeyDown(Keys.Left) ||
-                        currentKeyboardState.IsKeyDown(Keys.Right))
+                    if (IsCharacterWalking(currentKeyboardState, currentGamepadState))
                     {
                         currentState = CharacterState.Walking;
                     }
@@ -241,7 +235,7 @@ public class Character
             break;
         }
         previousKeyboardState = currentKeyboardState;
-        //previousGamePadState = currentGamepadState;
+        previousGamePadState = currentGamepadState;
 
         foreach(Harpoon bullet in _harpoons)
         {
@@ -373,6 +367,30 @@ public class Character
     public int getLives()
     {
         return _lives;
+    }
+
+    private bool IsShootingPressed(KeyboardState currentKeyboardState, GamePadState currentGamePadstate)
+    {
+        bool isButtonPressedKeyBoard = currentKeyboardState.IsKeyDown(Keys.Space) && previousKeyboardState.IsKeyUp(Keys.Space);
+        bool isButtonPressedGamePad = currentGamePadstate.IsButtonDown(Buttons.A) && previousGamePadState.IsButtonUp(Buttons.A);
+        bool isButtonPressed = isButtonPressedKeyBoard || isButtonPressedGamePad;
+
+        return isButtonPressed &&
+            currentState != CharacterState.Shooting &&
+            _harpoons.Count < PlayerStatsManager.currentStats.HarpoonNum;
+    }
+
+    private bool IsCharacterWalking(KeyboardState currentKeyboardState, GamePadState currentGamePadState)
+    {
+        bool IsWalkingKeyBoard = currentKeyboardState.IsKeyDown(Keys.A) ||
+                        currentKeyboardState.IsKeyDown(Keys.D) ||
+                        currentKeyboardState.IsKeyDown(Keys.Left) ||
+                        currentKeyboardState.IsKeyDown(Keys.Right);
+
+        bool IsWalkingGamePad = currentGamePadState.DPad.Left == ButtonState.Pressed ||
+                                currentGamePadState.DPad.Right == ButtonState.Pressed;
+
+        return IsWalkingKeyBoard || IsWalkingGamePad;
     }
 
 }
