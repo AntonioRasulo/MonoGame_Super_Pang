@@ -18,6 +18,13 @@ public enum CharacterState
     Shooting
 }
 
+public enum WalkingDir
+{
+    IDLE,
+    LEFT,
+    RIGHT
+}
+
 public class Character
 {
     private CharacterState currentState = CharacterState.Idle;
@@ -38,6 +45,8 @@ public class Character
     private readonly Vector2 SCALE = new Vector2(4.0f, 4.0f);
 
     private const int HARPOON_DELAY = 5;
+
+    private const float THUMBSTICK_DEADZONE = 0.2f;
 
     private float _immunityDuration = 3.0f; // seconds of immunity
     private float _immunityTimer = 0f;
@@ -166,14 +175,7 @@ public class Character
                     shootBullet();
 
                     // After shooting, check if moving
-                    if (IsCharacterWalking(currentKeyboardState, currentGamepadState))
-                    {
-                        currentState = CharacterState.Walking;
-                    }
-                    else
-                    {
-                        currentState = CharacterState.Idle;
-                    }
+                    currentState = GetWalkingState(currentKeyboardState, currentGamepadState);
 
                 }
 
@@ -182,18 +184,7 @@ public class Character
 
                 // In case there's an animation for Idle, call update for the nimation here
 
-                if (currentKeyboardState.IsKeyDown(Keys.A) ||
-                        currentKeyboardState.IsKeyDown(Keys.D) ||
-                        currentKeyboardState.IsKeyDown(Keys.Left) ||
-                        currentKeyboardState.IsKeyDown(Keys.Right))
-                {
-                    currentState = CharacterState.Walking;
-                }
-                else if(currentGamepadState.DPad.Right == ButtonState.Pressed ||
-                    currentGamepadState.DPad.Left == ButtonState.Pressed)
-                {
-                    currentState = CharacterState.Walking;
-                }
+                currentState = GetWalkingState(currentKeyboardState, currentGamepadState);
 
             break;
 
@@ -203,33 +194,25 @@ public class Character
 
                 Vector2 newPosition = _characterPosition;
 
-                // Check if still moving
-                if (currentKeyboardState.IsKeyDown(Keys.A) ||
-                    currentKeyboardState.IsKeyDown(Keys.Left) ||
-                    currentGamepadState.DPad.Left == ButtonState.Pressed)
+                switch(IsCharacterWalking(currentKeyboardState, currentGamepadState))
                 {
-                    currentState = CharacterState.Walking;
-
-                    newPosition.X -= PlayerStatsManager.currentStats.Speed;
-                    _characterPosition = newPosition;
-                    _walkAnimation.Effects = SpriteEffects.None;
-                    _idleSprite.Effects = SpriteEffects.None;
-
-                }else if (  currentKeyboardState.IsKeyDown(Keys.D) ||
-                            currentKeyboardState.IsKeyDown(Keys.Right) ||
-                            currentGamepadState.DPad.Right == ButtonState.Pressed)
-                {
-                    currentState = CharacterState.Walking;
-
-                    newPosition.X += PlayerStatsManager.currentStats.Speed;
-                    _characterPosition = newPosition;
-                    _walkAnimation.Effects = SpriteEffects.FlipHorizontally;
-                    _idleSprite.Effects = SpriteEffects.FlipHorizontally;
-
-                }
-                else
-                {
-                    currentState = CharacterState.Idle;
+                    case WalkingDir.LEFT:
+                        currentState = CharacterState.Walking;
+                        newPosition.X -= PlayerStatsManager.currentStats.Speed;
+                        _characterPosition = newPosition;
+                        _walkAnimation.Effects = SpriteEffects.None;
+                        _idleSprite.Effects = SpriteEffects.None;
+                        break;
+                    case WalkingDir.RIGHT:
+                        currentState = CharacterState.Walking;
+                        newPosition.X += PlayerStatsManager.currentStats.Speed;
+                        _characterPosition = newPosition;
+                        _walkAnimation.Effects = SpriteEffects.FlipHorizontally;
+                        _idleSprite.Effects = SpriteEffects.FlipHorizontally;
+                        break;
+                    case WalkingDir.IDLE:
+                        currentState = CharacterState.Idle;
+                        break;
                 }
 
             break;
@@ -380,17 +363,38 @@ public class Character
             _harpoons.Count < PlayerStatsManager.currentStats.HarpoonNum;
     }
 
-    private bool IsCharacterWalking(KeyboardState currentKeyboardState, GamePadState currentGamePadState)
+    private WalkingDir IsCharacterWalking(KeyboardState currentKeyboardState, GamePadState currentGamepadState)
     {
-        bool IsWalkingKeyBoard = currentKeyboardState.IsKeyDown(Keys.A) ||
-                        currentKeyboardState.IsKeyDown(Keys.D) ||
-                        currentKeyboardState.IsKeyDown(Keys.Left) ||
-                        currentKeyboardState.IsKeyDown(Keys.Right);
+        bool IsWalkingLeft = currentKeyboardState.IsKeyDown(Keys.A) ||
+                             currentKeyboardState.IsKeyDown(Keys.Left) ||
+                             currentGamepadState.DPad.Left == ButtonState.Pressed ||
+                             currentGamepadState.ThumbSticks.Left.X < -THUMBSTICK_DEADZONE;
 
-        bool IsWalkingGamePad = currentGamePadState.DPad.Left == ButtonState.Pressed ||
-                                currentGamePadState.DPad.Right == ButtonState.Pressed;
+        if(IsWalkingLeft)
+            return WalkingDir.LEFT;
 
-        return IsWalkingKeyBoard || IsWalkingGamePad;
+        bool IsWalkingRight = currentKeyboardState.IsKeyDown(Keys.D) ||
+                              currentKeyboardState.IsKeyDown(Keys.Right) ||
+                              currentGamepadState.DPad.Right == ButtonState.Pressed ||
+                              currentGamepadState.ThumbSticks.Left.X > THUMBSTICK_DEADZONE;
+
+        if(IsWalkingRight)
+            return WalkingDir.RIGHT;
+
+        return WalkingDir.IDLE;
+    }
+
+    private CharacterState GetWalkingState(KeyboardState currentKeyboardState, GamePadState currentGamepadState)
+    {
+        switch (IsCharacterWalking(currentKeyboardState, currentGamepadState))
+        {
+            case WalkingDir.LEFT:
+            case WalkingDir.RIGHT:
+                return CharacterState.Walking;
+            case WalkingDir.IDLE:
+                break;
+        }
+        return CharacterState.Idle;
     }
 
 }
