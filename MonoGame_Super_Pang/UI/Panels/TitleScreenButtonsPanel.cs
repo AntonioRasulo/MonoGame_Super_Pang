@@ -130,6 +130,9 @@ public class TitleScreenButtonsPanel : PangPanel
     public new void SetIsVisible(bool isVisible)
     {
         base.SetIsVisible(isVisible);
+
+        _creditsButton.IsFocused = !isVisible;
+        _optionsButton.IsFocused = !isVisible;
         _startButton.IsFocused = isVisible;
     }
 

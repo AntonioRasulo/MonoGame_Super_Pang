@@ -103,6 +103,8 @@ public class StartGamePanel : PangPanel
     public new void SetIsVisible(bool isVisible)
     {
         base.SetIsVisible(isVisible);
+        _startGameButton.IsFocused = !isVisible;
+        _backButton.IsFocused = !isVisible;
         _shopButton.IsFocused = isVisible;
     }
 }

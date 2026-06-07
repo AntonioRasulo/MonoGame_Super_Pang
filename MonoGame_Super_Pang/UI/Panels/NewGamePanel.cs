@@ -15,7 +15,7 @@ public class NewGamePanel : PangPanel
     private Panel _newGameNamePanel;
     private TextRuntime _nameText;
     private AnimatedButton _newGameBackButton;
-    private AnimatedButton confirmButton;
+    private AnimatedButton _confirmButton;
     private SpriteButton _backSpace;
     private const int MAX_TEXT_SIZE = 7;
 
@@ -30,14 +30,14 @@ public class NewGamePanel : PangPanel
 
         AddLetterButtons();
 
-        confirmButton = new AnimatedButton(_GUIatlas);
-        confirmButton.Text = "CONFIRM";
-        confirmButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
-        confirmButton.X = 70;
-        confirmButton.Y = 130f;
-        confirmButton.Click += TitlePanelManager.handleConfirmNameClicked;
-        ((ButtonVisual)confirmButton.Visual).Height = 18f;
-        _panel.AddChild(confirmButton);
+        _confirmButton = new AnimatedButton(_GUIatlas);
+        _confirmButton.Text = "CONFIRM";
+        _confirmButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
+        _confirmButton.X = 70;
+        _confirmButton.Y = 130f;
+        _confirmButton.Click += TitlePanelManager.handleConfirmNameClicked;
+        ((ButtonVisual)_confirmButton.Visual).Height = 18f;
+        _panel.AddChild(_confirmButton);
 
         _newGameNamePanel = CreateTextPanel();
         _panel.AddChild(_newGameNamePanel);
@@ -152,6 +152,7 @@ public class NewGamePanel : PangPanel
     public new void SetIsVisible(bool isVisible)
     {
         base.SetIsVisible(isVisible);
+        _confirmButton.IsFocused = !isVisible;
         _newGameBackButton.IsFocused = isVisible;
     }
 

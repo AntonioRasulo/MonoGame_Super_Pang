@@ -150,4 +150,23 @@ public class AnimatedButton : Button
         Core.Audio.PlaySoundEffect(TitlePanelManager.uiSoundEffect);
     }
 
+    public new bool IsFocused
+    {
+        get => base.IsFocused;
+        set
+        {
+            base.IsFocused = value;
+            if (!value)
+            {
+                GoToUnfocusedAnimation();
+            }
+        }
+    }
+
+    public void GoToUnfocusedAnimation()
+    {
+        ButtonVisual buttonVisual = (ButtonVisual)Visual;
+        buttonVisual.States.Enabled.Apply();
+    }
+
 }

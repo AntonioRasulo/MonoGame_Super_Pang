@@ -9,7 +9,7 @@ namespace MonoGame_Super_Pang.UI;
 
 public class ShopFailedBuyPanel: PangPanel
 {
-    AnimatedButton okButton;
+    private AnimatedButton _okButton;
     public TextRuntime _text;
 
     public ShopFailedBuyPanel()
@@ -42,15 +42,15 @@ public class ShopFailedBuyPanel: PangPanel
         _text.Y = 10.0f;
         _panel.AddChild(_text);
 
-        okButton = new AnimatedButton(_GUIatlas);
-        okButton.Text = "OK";
-        okButton.Anchor(Gum.Wireframe.Anchor.Bottom);
-        okButton.X = 0f;
-        okButton.Y = -9.0f;
+        _okButton = new AnimatedButton(_GUIatlas);
+        _okButton.Text = "OK";
+        _okButton.Anchor(Gum.Wireframe.Anchor.Bottom);
+        _okButton.X = 0f;
+        _okButton.Y = -9.0f;
 
-        okButton.Click += OkButtonClicked;
+        _okButton.Click += OkButtonClicked;
 
-        _panel.AddChild(okButton);
+        _panel.AddChild(_okButton);
 
     }
 
@@ -76,7 +76,7 @@ public class ShopFailedBuyPanel: PangPanel
     public new void SetIsVisible(bool isVisible)
     {
         base.SetIsVisible(isVisible);
-        okButton.IsFocused = isVisible;
+        _okButton.IsFocused = isVisible;
     }
 
 }

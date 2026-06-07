@@ -85,6 +85,7 @@ public class ConfirmUpgradeItemPanel : PangPanel
     public new void SetIsVisible(bool isVisible)
     {
         base.SetIsVisible(isVisible);
+        confirmButton.IsFocused = !isVisible;
         cancelButton.IsFocused = isVisible;
     }
 }

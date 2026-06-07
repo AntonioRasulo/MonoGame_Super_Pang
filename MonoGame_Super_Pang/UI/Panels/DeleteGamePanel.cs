@@ -9,8 +9,8 @@ namespace MonoGame_Super_Pang.UI;
 
 public class DeleteGamePanel : PangPanel
 {
-    AnimatedButton confirmButton;
-    AnimatedButton cancelButton;
+    AnimatedButton _confirmButton;
+    AnimatedButton _cancelButton;
     public DeleteGamePanel()
     {
         _panel.Anchor(Gum.Wireframe.Anchor.Center);
@@ -43,21 +43,21 @@ public class DeleteGamePanel : PangPanel
         text.Y = 5f;
         _panel.AddChild(text);
 
-        confirmButton = new AnimatedButton(_GUIatlas);
-        confirmButton.Text = "CONFIRM";
-        confirmButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
-        confirmButton.X = 9f;
-        confirmButton.Y = -9f;
-        confirmButton.Click += handleConfirmDeleteGameClicked;
-        _panel.AddChild(confirmButton);
+        _confirmButton = new AnimatedButton(_GUIatlas);
+        _confirmButton.Text = "CONFIRM";
+        _confirmButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
+        _confirmButton.X = 9f;
+        _confirmButton.Y = -9f;
+        _confirmButton.Click += handleConfirmDeleteGameClicked;
+        _panel.AddChild(_confirmButton);
 
-        cancelButton = new AnimatedButton(_GUIatlas);
-        cancelButton.Text = "CANCEL";
-        cancelButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
-        cancelButton.X = -9f;
-        cancelButton.Y = -9f;
-        cancelButton.Click += TitlePanelManager.HandleStartClicked;
-        _panel.AddChild(cancelButton);
+        _cancelButton = new AnimatedButton(_GUIatlas);
+        _cancelButton.Text = "CANCEL";
+        _cancelButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
+        _cancelButton.X = -9f;
+        _cancelButton.Y = -9f;
+        _cancelButton.Click += TitlePanelManager.HandleStartClicked;
+        _panel.AddChild(_cancelButton);
     }
 
     private void handleConfirmDeleteGameClicked(object sender, EventArgs e)
@@ -68,7 +68,8 @@ public class DeleteGamePanel : PangPanel
     public new void SetIsVisible(bool isVisible)
     {
         base.SetIsVisible(isVisible);
-        cancelButton.IsFocused = isVisible;
+        _confirmButton.IsFocused = !isVisible;
+        _cancelButton.IsFocused = isVisible;
     }
 
 }
