@@ -20,7 +20,7 @@ class LinkButton : Button
         AddSprite(texture, sourceRectangle, spriteScale);
 
         GotFocus += MoveFocus;
-
+        this.GamepadTabbingFocusBehavior = TabbingFocusBehavior.SkipOnTab;
     }
 
     private void Initialize(string link)

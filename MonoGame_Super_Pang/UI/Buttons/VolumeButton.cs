@@ -1,9 +1,11 @@
 using Gum.Forms.Controls;
 using Gum.Forms.DefaultVisuals.V3;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using MonoGameGum.GueDeriving;
+using MonoGameGum.Input;
 using System;
 
 namespace MonoGame_Super_Pang.UI;
@@ -21,6 +23,8 @@ public class VolumeButton : Button
     private static float _sfxVolumeToRestore;
 
     private static bool _contentLoaded = false;
+
+    //public override bool IsFocusable => false;
 
     public VolumeButton()
     {
@@ -52,6 +56,7 @@ public class VolumeButton : Button
         Click += ChangeVolume;
         
         GotFocus += MoveFocus;
+        this.GamepadTabbingFocusBehavior = TabbingFocusBehavior.SkipOnTab;
     }
 
     public static void LoadContent()

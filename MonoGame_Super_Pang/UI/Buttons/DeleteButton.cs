@@ -19,8 +19,8 @@ public class DeleteButton : Button
 
         Click += PlaySound;
 
-        GotFocus += PlaySound;
         GotFocus += MoveFocus;
+        this.GamepadTabbingFocusBehavior = TabbingFocusBehavior.SkipOnTab;
     }
 
     private void CreateSprite()
