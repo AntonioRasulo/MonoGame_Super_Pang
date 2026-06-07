@@ -17,7 +17,7 @@ public class GameOver : Scene
 
     private string SCORE_TEXT = "Score: ";
 
-    private const string PRESS_ENTER_TEXT = "Press Enter To Continue";
+    private const string PRESS_ENTER_TEXT = "Press Confirm To Continue";
 
     // The font to use to render normal text.
     private SpriteFont _font;
@@ -109,7 +109,8 @@ public class GameOver : Scene
     public override void Update(GameTime gameTime)
     {
         // If the user presses enter, switch to the game scene.
-        if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Enter))
+        if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Enter) ||
+            Core.Input.GamePads[(int)PlayerIndex.One].WasButtonJustPressed(Buttons.A))
         {
             Core.ChangeScene(new TitleScene());
         }
