@@ -97,4 +97,9 @@ abstract public class Platform
 
     protected abstract void LoadSprite();
 
+    public Vector2 GetPosition()
+    {
+        return _position;
+    }
+
 }

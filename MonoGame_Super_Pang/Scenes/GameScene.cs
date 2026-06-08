@@ -461,6 +461,7 @@ public class GameScene : Scene
                         ((BreakablePlatform)platform).hitPlatform();
                         if(((BreakablePlatform)platform).getState() == PlatformState.Delete)
                         {
+                            _collectibleHandler.GenerateCollectible(platform.GetPosition());
                             toRemovePlatform.Add(platform);
                         }
                     }
