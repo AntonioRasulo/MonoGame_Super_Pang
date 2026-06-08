@@ -81,6 +81,7 @@ public class OptionsPanel: PangPanel
         Core.Audio.SongVolume = (float)slider.Value;
 
         VolumeButton.Unmute(true);
+        _volumeButton.UpdateSprite();
     }
 
     private void HandleMusicSliderValueChangeCompleted(object sender, EventArgs args)
@@ -102,6 +103,7 @@ public class OptionsPanel: PangPanel
         Core.Audio.SoundEffectVolume = (float)slider.Value;
 
         VolumeButton.Unmute(false);
+        _volumeButton.UpdateSprite();
     }
 
     private void HandleSfxSliderChangeCompleted(object sender, EventArgs e)

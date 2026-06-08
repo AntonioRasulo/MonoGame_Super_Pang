@@ -24,8 +24,6 @@ public class VolumeButton : Button
 
     private static bool _contentLoaded = false;
 
-    //public override bool IsFocusable => false;
-
     public VolumeButton()
     {
         // Access the visual
@@ -115,15 +113,18 @@ public class VolumeButton : Button
 
     public static void Unmute(bool isMusic)
     {
+        if(muted)
+        {
+            if (isMusic)
+            {
+                Core.Audio.SoundEffectVolume = _sfxVolumeToRestore;
+            }
+            else
+            {
+                Core.Audio.SongVolume = _musicVolumeToRestore;
+            }
+        }
         muted = false;
-        if (isMusic)
-        {
-            Core.Audio.SoundEffectVolume = _sfxVolumeToRestore;
-        }
-        else
-        {
-            Core.Audio.SongVolume = _musicVolumeToRestore;
-        }
     }
 
     private void MoveFocus(object sender, EventArgs args)
