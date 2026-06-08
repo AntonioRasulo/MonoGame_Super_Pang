@@ -1,5 +1,7 @@
+using Gum.Forms.Controls;
 using Gum.DataTypes;
 using Gum.Managers;
+using Microsoft.Xna.Framework;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
@@ -7,6 +9,7 @@ using MonoGameLibrary.Graphics;
 using MonoGame_Super_Pang.Scenes;
 using MonoGame_Super_Pang.Config;
 using System;
+using System.Drawing;
 
 namespace MonoGame_Super_Pang.UI;
 
@@ -15,7 +18,10 @@ public class StartGamePanel : PangPanel
     private AnimatedButton _startGameButton;
     private AnimatedButton _shopButton;
     private AnimatedButton _backButton;
-    TextRuntime _text;
+    private AnimatedButton _deleteButton;
+    private TextRuntime _text;
+
+    private bool _focusDelete;
 
     public StartGamePanel()
     {
@@ -57,6 +63,7 @@ public class StartGamePanel : PangPanel
         _startGameButton.Click += StartGame;
         _startGameButton.GotFocus += SetText;
         _panel.AddChild(_startGameButton);
+        _startGameButton.KeyDown += FocusDelete;
 
         _shopButton = new AnimatedButton(_GUIatlas);
         _shopButton.Text = "SHOP";
@@ -74,7 +81,20 @@ public class StartGamePanel : PangPanel
         _backButton.Y = -9f;
         _backButton.Click += TitlePanelManager.HandleBackStartGameClicked;
         _backButton.GotFocus += SetText;
+        _backButton.GotFocus += CheckFocus;
         _panel.AddChild(_backButton);
+
+        _deleteButton = new AnimatedButton(_GUIatlas);
+        _deleteButton.Text = "DELETE";
+        _deleteButton.ChangeTextColor(Microsoft.Xna.Framework.Color.Red);
+        _deleteButton.Anchor(Gum.Wireframe.Anchor.Bottom);
+        _deleteButton.X = -100f;
+        //_deleteButton.Y = 50f;
+        //_panel.AddChild(_deleteButton);
+        _deleteButton.IsVisible = false;
+        _deleteButton.IsEnabled = false;
+        _deleteButton.AddToRoot();
+        _focusDelete = false;
     }
 
     private void StartGame(object sender, EventArgs e)
@@ -100,11 +120,48 @@ public class StartGamePanel : PangPanel
         }
     }
 
+    private void CheckFocus(object sender, EventArgs e)
+    {
+        if(sender == _backButton)
+        {
+            if(_focusDelete)
+            {
+                _backButton.IsFocused = false;
+                _deleteButton.IsFocused = true;
+                _focusDelete = false;
+            }
+        }
+    }
+
     public new void SetIsVisible(bool isVisible)
     {
         base.SetIsVisible(isVisible);
         _startGameButton.IsFocused = !isVisible;
         _backButton.IsFocused = !isVisible;
+        _deleteButton.IsFocused = !isVisible;
+        _deleteButton.IsVisible = isVisible;
+        _deleteButton.IsEnabled = isVisible;
         _shopButton.IsFocused = isVisible;
     }
+
+    private void FocusDelete(object sender, KeyEventArgs e)
+    {
+        if(sender == _startGameButton)
+        {
+            if(e.Key == Microsoft.Xna.Framework.Input.Keys.Up)
+            {   
+                _focusDelete = true;
+            }
+        }
+        else if(sender == _deleteButton)
+        {
+            if(e.Key == Microsoft.Xna.Framework.Input.Keys.Up ||
+            e.Key == Microsoft.Xna.Framework.Input.Keys.Down)
+            {
+                _focusDelete = false;
+                _deleteButton.IsFocused = false;
+            }
+        }
+    }
+
 }

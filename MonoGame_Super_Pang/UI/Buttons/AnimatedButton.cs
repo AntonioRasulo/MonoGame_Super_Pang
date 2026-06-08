@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using Gum.DataTypes;
 using Gum.DataTypes.Variables;
 using Gum.Forms.Controls;
@@ -167,6 +168,13 @@ public class AnimatedButton : Button
     {
         ButtonVisual buttonVisual = (ButtonVisual)Visual;
         buttonVisual.States.Enabled.Apply();
+    }
+
+    public void ChangeTextColor(Microsoft.Xna.Framework.Color color)
+    {
+        ButtonVisual buttonVisual = (ButtonVisual)Visual;
+        TextRuntime textInstance = buttonVisual.TextInstance;
+        textInstance.Color = color;
     }
 
 }
