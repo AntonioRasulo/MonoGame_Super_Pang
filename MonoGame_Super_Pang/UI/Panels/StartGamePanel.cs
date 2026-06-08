@@ -1,7 +1,6 @@
 using Gum.Forms.Controls;
 using Gum.DataTypes;
 using Gum.Managers;
-using Microsoft.Xna.Framework;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
@@ -9,7 +8,8 @@ using MonoGameLibrary.Graphics;
 using MonoGame_Super_Pang.Scenes;
 using MonoGame_Super_Pang.Config;
 using System;
-using System.Drawing;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace MonoGame_Super_Pang.UI;
 
@@ -62,8 +62,10 @@ public class StartGamePanel : PangPanel
         _startGameButton.Y = -9f;
         _startGameButton.Click += StartGame;
         _startGameButton.GotFocus += SetText;
-        _panel.AddChild(_startGameButton);
         _startGameButton.KeyDown += FocusDelete;
+        _startGameButton.LostFocus += LostFocus;
+        _startGameButton.IsUsingLeftAndRightGamepadDirectionsForNavigation = false;
+        _panel.AddChild(_startGameButton);
 
         _shopButton = new AnimatedButton(_GUIatlas);
         _shopButton.Text = "SHOP";
@@ -72,6 +74,7 @@ public class StartGamePanel : PangPanel
         _shopButton.Y = -9f;
         _shopButton.Click += TitlePanelManager.GoToShopPanel;
         _shopButton.GotFocus += SetText;
+        _shopButton.IsUsingLeftAndRightGamepadDirectionsForNavigation = false;
         _panel.AddChild(_shopButton);
 
         _backButton = new AnimatedButton(_GUIatlas);
@@ -82,6 +85,7 @@ public class StartGamePanel : PangPanel
         _backButton.Click += TitlePanelManager.HandleBackStartGameClicked;
         _backButton.GotFocus += SetText;
         _backButton.GotFocus += CheckFocus;
+        _backButton.IsUsingLeftAndRightGamepadDirectionsForNavigation = false;
         _panel.AddChild(_backButton);
 
         _deleteButton = new AnimatedButton(_GUIatlas);
@@ -89,11 +93,11 @@ public class StartGamePanel : PangPanel
         _deleteButton.ChangeTextColor(Microsoft.Xna.Framework.Color.Red);
         _deleteButton.Anchor(Gum.Wireframe.Anchor.Bottom);
         _deleteButton.X = -100f;
-        //_deleteButton.Y = 50f;
-        //_panel.AddChild(_deleteButton);
         _deleteButton.IsVisible = false;
         _deleteButton.IsEnabled = false;
         _deleteButton.AddToRoot();
+        _deleteButton.LostFocus += LostFocus;
+        _deleteButton.IsUsingLeftAndRightGamepadDirectionsForNavigation = false;
         _focusDelete = false;
     }
 
@@ -155,12 +159,25 @@ public class StartGamePanel : PangPanel
         }
         else if(sender == _deleteButton)
         {
-            if(e.Key == Microsoft.Xna.Framework.Input.Keys.Up ||
-            e.Key == Microsoft.Xna.Framework.Input.Keys.Down)
-            {
                 _focusDelete = false;
                 _deleteButton.IsFocused = false;
+        }
+    }
+
+    private void LostFocus(object sender, EventArgs e)
+    {
+        if(sender == _startGameButton)
+        {
+            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
+            if(gamePadState.IsButtonDown(Buttons.DPadUp) || gamePadState.ThumbSticks.Left.Y > 0)
+            {
+                _focusDelete = true;
             }
+        }
+        else if(sender == _deleteButton)
+        {
+            _focusDelete = false;
+            _deleteButton.IsFocused = false;
         }
     }
 
