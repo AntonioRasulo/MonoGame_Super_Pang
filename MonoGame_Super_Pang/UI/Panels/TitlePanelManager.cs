@@ -48,7 +48,6 @@ public class TitlePanelManager
 
         _newGamePanel.ClearNewGameTextBox();
 
-        _loadGamePanel.setButtonsIsEnabled(true);
         _loadGamePanel.SetIsVisible(true);
 
     }

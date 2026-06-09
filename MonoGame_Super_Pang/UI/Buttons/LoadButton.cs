@@ -14,8 +14,6 @@ public class LoadButton : AnimatedButton
 
     public bool isNewGame{get;set;}
 
-    public DeleteButton _deleteButton;
-
     private AnimatedSprite _chestAnimation;
     private SpriteRuntime _chestSprite;
 
@@ -37,7 +35,6 @@ public class LoadButton : AnimatedButton
 
     public LoadButton(TextureAtlas atlas) : base(atlas)
     {
-        _deleteButton = new DeleteButton();
         InitializeButton();
     }
 
@@ -149,10 +146,7 @@ public class LoadButton : AnimatedButton
         textInstance.Y = 5.0f;
         setTextMoney(pStats.Money.ToString());
         isNewGame = false;
-        _deleteButton.Anchor(anchor);
-        _deleteButton.Text = "";
-        _deleteButton.Y = deleteY;
-        _deleteButton.X = deleteX;
+
         if(_chestSprite == null)
         {
             CreateChestAnimation();
@@ -193,12 +187,15 @@ public class LoadButton : AnimatedButton
 
     public void CleanButton()
     {
-        Text = "NewGame";
+        // Access the visual
+        ButtonVisual visual = (ButtonVisual)this.Visual;
+        TextRuntime textInstance = visual.TextInstance;
+        textInstance.Text = "NewGame";
+        textInstance.Anchor(Gum.Wireframe.Anchor.Top);
+        textInstance.Y = 10;
         setTextMoney("");
         isNewGame = true;
-        _deleteButton.Visual.Parent=null;
 
-        ButtonVisual visual = (ButtonVisual)this.Visual;
         visual.Background.RemoveChild(_chestSprite);
         _chestSprite = null;
 

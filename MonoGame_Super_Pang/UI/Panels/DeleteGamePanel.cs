@@ -56,13 +56,18 @@ public class DeleteGamePanel : PangPanel
         _cancelButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
         _cancelButton.X = -9f;
         _cancelButton.Y = -9f;
-        _cancelButton.Click += TitlePanelManager.HandleStartClicked;
+        _cancelButton.Click += GoToStartGamePanel;
         _panel.AddChild(_cancelButton);
     }
 
     private void handleConfirmDeleteGameClicked(object sender, EventArgs e)
     {
         TitlePanelManager.handleConfirmDeleteGameClicked(sender);
+    }
+
+    private void GoToStartGamePanel(object sender, EventArgs e)
+    {
+        TitlePanelManager.GoToStartGamePanel();
     }
 
     public new void SetIsVisible(bool isVisible)

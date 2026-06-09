@@ -95,9 +95,12 @@ public class StartGamePanel : PangPanel
         _deleteButton.X = -100f;
         _deleteButton.IsVisible = false;
         _deleteButton.IsEnabled = false;
-        _deleteButton.AddToRoot();
         _deleteButton.LostFocus += LostFocus;
         _deleteButton.IsUsingLeftAndRightGamepadDirectionsForNavigation = false;
+        _deleteButton.Click += DeleteSaving;
+        _deleteButton.GotFocus += SetText;
+        _deleteButton.AddToRoot();
+
         _focusDelete = false;
     }
 
@@ -111,16 +114,24 @@ public class StartGamePanel : PangPanel
     {
         if(sender == _startGameButton)
         {
+            _text.Color = Color.White;
             _text.Text = "Ready to start?";
         }
         else if(sender == _shopButton)
         {
+            _text.Color = Color.White;
             _text.Text = "You can find some interesting\n";
             _text.Text += "power up in the shop";
         }
         else if(sender == _backButton)
         {
+            _text.Color = Color.White;
             _text.Text = "Go back to load another saving!";
+        }
+        else if(sender == _deleteButton)
+        {
+            _text.Color = Color.Red;
+            _text.Text = "DANGER ZONE: Delete saving?";
         }
     }
 
@@ -179,6 +190,15 @@ public class StartGamePanel : PangPanel
             _focusDelete = false;
             _deleteButton.IsFocused = false;
         }
+    }
+
+    private void DeleteSaving(object sender, EventArgs e)
+    {
+        // A UI interaction occurred, play the sound effect
+        Core.Audio.PlaySoundEffect(TitlePanelManager.uiSoundEffect);
+
+        SetIsVisible(false);
+        TitlePanelManager.HandleDeleteGameClicked();
     }
 
 }

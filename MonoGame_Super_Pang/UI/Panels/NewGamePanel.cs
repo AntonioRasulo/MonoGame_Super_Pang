@@ -7,6 +7,7 @@ using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace MonoGame_Super_Pang.UI;
 
@@ -16,6 +17,7 @@ public class NewGamePanel : PangPanel
     private TextRuntime _nameText;
     private AnimatedButton _newGameBackButton;
     private AnimatedButton _confirmButton;
+    private List<AnimatedButton> _lettersBtn;
     private SpriteButton _backSpace;
     private const int MAX_TEXT_SIZE = 7;
 
@@ -77,6 +79,7 @@ public class NewGamePanel : PangPanel
 
     private void AddLetterButtons()
     {
+        _lettersBtn = new List<AnimatedButton>();
         string[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "Y", "Z" };
         float yIndex = 0;
         float xIndex = 0;
@@ -96,6 +99,7 @@ public class NewGamePanel : PangPanel
             btn.Y = 10.0f + yIndex * 30.0f;
             btn.Click += AddChar;
             _panel.AddChild(btn);
+            _lettersBtn.Add(btn);
         }
     }
 
@@ -154,6 +158,7 @@ public class NewGamePanel : PangPanel
         base.SetIsVisible(isVisible);
         _confirmButton.IsFocused = !isVisible;
         _newGameBackButton.IsFocused = isVisible;
+        _lettersBtn.ForEach(btn => btn.IsFocused = !isVisible);
     }
 
 }
