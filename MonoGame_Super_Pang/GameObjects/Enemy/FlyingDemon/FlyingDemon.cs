@@ -332,6 +332,7 @@ public class FlyingDemon : Enemy
         if(_lives == 0)
         {
             _state = FlyingDemonState.Death;
+            Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(1f, TimeSpan.FromMilliseconds(600));
         }
         else
         {
@@ -340,6 +341,9 @@ public class FlyingDemon : Enemy
                 _state = FlyingDemonState.Hurt;
             }
         }
+
+        HandleHitVibration();
+
         _toggleVisibility = true;
         _blinkDuration = BLINK_DURATION;
         return score;
@@ -355,7 +359,7 @@ public class FlyingDemon : Enemy
         }
     }
 
-    void FlipSprite(ref AnimatedSprite sprite)
+    private void FlipSprite(ref AnimatedSprite sprite)
     {
         if(_state == FlyingDemonState.Frozen)
             return;
@@ -367,6 +371,22 @@ public class FlyingDemon : Enemy
         else
         {
             sprite.Effects = SpriteEffects.None;
+        }
+    }
+
+    private void HandleHitVibration()
+    {
+        if(_lives == 15)
+        {
+            Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.4f, TimeSpan.FromMilliseconds(300));
+        }
+        else if(_lives == 10)
+        {
+            Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.6f, TimeSpan.FromMilliseconds(300));
+        }
+        else if(_lives == 5)
+        {
+            Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.8f, TimeSpan.FromMilliseconds(300));
         }
     }
 

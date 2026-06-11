@@ -134,6 +134,7 @@ public class CollectibleHandler
 
             if (collectibleBounds.Intersects(charBounds))
             {
+                Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.1f, TimeSpan.FromMilliseconds(100));
                 Core.Audio.PlaySoundEffect(_collectSound);
                 _collectibles.Remove(collectible);
                 return collectible.GetCollectibleType();

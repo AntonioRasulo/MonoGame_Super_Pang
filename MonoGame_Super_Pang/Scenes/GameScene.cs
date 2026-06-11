@@ -544,6 +544,7 @@ public class GameScene : Scene
 
     private void handleBallHit(Ball ball, ref List<Ball> toAddBall, ref List<Ball> toRemoveBall)
     {
+        Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(1f, TimeSpan.FromMilliseconds(100));
         _score += ball.getScore();
         _ui.UpdateScoreText(_score);
         toAddBall.AddRange(splitBall(ball));

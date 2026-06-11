@@ -2,6 +2,7 @@
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace MonoGame_Super_Pang.GameObjects;
@@ -129,18 +130,23 @@ public class BreakablePlatform : Platform
         {
             case PlatformState.Stage1:
                 _platformState = PlatformState.Stage2;
+                Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.1f, TimeSpan.FromMilliseconds(100));
             break;
             case PlatformState.Stage2:
                 _platformState = PlatformState.Stage3;
+                Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.2f, TimeSpan.FromMilliseconds(100));
             break;
             case PlatformState.Stage3:
                 _platformState = PlatformState.Stage4;
+                Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.3f, TimeSpan.FromMilliseconds(100));
             break;
             case PlatformState.Stage4:
                 _platformState = PlatformState.Stage5;
+                Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.4f, TimeSpan.FromMilliseconds(100));
             break;
             case PlatformState.Stage5:
                 _platformState = PlatformState.Delete;
+                Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.5f, TimeSpan.FromMilliseconds(100));
             break;
             case PlatformState.Delete:
             default:

@@ -1,5 +1,7 @@
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using MonoGameLibrary;
+using System;
+using System.Collections.Generic;
 
 namespace MonoGame_Super_Pang.GameObjects;
 
@@ -73,6 +75,7 @@ abstract public class Enemy
         if(_lives == 0)
         {
             _isDead = true;
+            Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.7f, TimeSpan.FromMilliseconds(300));
             return _score;
         }
         return 0;

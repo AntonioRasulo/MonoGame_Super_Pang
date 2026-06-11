@@ -141,6 +141,7 @@ public class Character
         {
             currentState = CharacterState.Shooting;
             _shootAnimation.Reset();
+            Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.3f, TimeSpan.FromMilliseconds(250));
         }
 
         float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -323,6 +324,7 @@ public class Character
             _lives--;
             Core.Audio.PlaySoundEffect(_hitSoundEffect);
         }
+        Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(1.0f, TimeSpan.FromMilliseconds(500));
         _blinkTimer = 0f;
         _isVisible = true;
     }
