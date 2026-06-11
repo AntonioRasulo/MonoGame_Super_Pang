@@ -36,7 +36,8 @@ public class BigBat : Bat
         maxPosX = Core.GraphicsDevice.PresentationParameters.BackBufferWidth - (int)(_idleAnimation.Width * 0.5f);
         maxPosY = Core.GraphicsDevice.PresentationParameters.BackBufferHeight - (int)(_idleAnimation.Height * 0.5f);
 
-        UpdateTargetPosition();
+        int targetX = _positionRand.Next(minPosX, maxPosX);
+        _target = new Vector2(targetX, minPosY);
 
     }
 

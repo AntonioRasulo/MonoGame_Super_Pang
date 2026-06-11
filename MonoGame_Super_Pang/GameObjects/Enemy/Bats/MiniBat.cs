@@ -24,7 +24,7 @@ public class MiniBat : Bat
     /// <summary>
     /// Randomizes the velocity of the bat.
     /// </summary>
-    public void RandomizeVelocity()
+    private void RandomizeVelocity()
     {
         // Generate a random angle
         float angle = (float)(Random.Shared.NextDouble() * MathHelper.TwoPi);
