@@ -71,7 +71,7 @@ abstract public class Platform
         _caramelPlatform = platformAtlas.GetRegion("CaramelPlatform");
 
         _horizontalBreakableBlueSprites = new List<TextureRegion>();
-        for(int indexPlatform = 1; indexPlatform<=5; indexPlatform++)
+        for(int indexPlatform = 1; indexPlatform<=3; indexPlatform++)
         {
             String spriteName = "largeBreakableBluePlatform"+indexPlatform;
             _horizontalBreakableBlueSprites.Add(itemsAtlas.GetRegion(spriteName));

@@ -12,8 +12,6 @@ public enum PlatformState
     Stage1,
     Stage2,
     Stage3,
-    Stage4,
-    Stage5,
     Delete
 }
 
@@ -52,12 +50,6 @@ public class BreakablePlatform : Platform
             case PlatformState.Stage3:
             _sprites[2].Draw(Core.SpriteBatch, _position);
             break;
-            case PlatformState.Stage4:
-            _sprites[3].Draw(Core.SpriteBatch, _position);
-            break;
-            case PlatformState.Stage5:
-            _sprites[4].Draw(Core.SpriteBatch, _position);
-            break;
             case PlatformState.Delete:
             default:
             break;
@@ -93,22 +85,6 @@ public class BreakablePlatform : Platform
                 (int)_sprites[2].Height
                 );
                 break;
-            case PlatformState.Stage4:
-            platformBounds = new Rectangle(
-                (int)(_position.X - _sprites[3].Width * 0.5f),
-                (int)(_position.Y - _sprites[3].Height * 0.5f),
-                (int)_sprites[3].Width,
-                (int)_sprites[3].Height
-                );
-                break;
-            case PlatformState.Stage5:
-            platformBounds = new Rectangle(
-                (int)(_position.X - _sprites[4].Width * 0.5f),
-                (int)(_position.Y - _sprites[4].Height * 0.5f),
-                (int)_sprites[4].Width,
-                (int)_sprites[4].Height
-                );
-                break;
             case PlatformState.Delete:
             default:
                 platformBounds = new Rectangle(0,0,0,0);
@@ -137,16 +113,8 @@ public class BreakablePlatform : Platform
                 Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.2f, TimeSpan.FromMilliseconds(100));
             break;
             case PlatformState.Stage3:
-                _platformState = PlatformState.Stage4;
-                Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.3f, TimeSpan.FromMilliseconds(100));
-            break;
-            case PlatformState.Stage4:
-                _platformState = PlatformState.Stage5;
-                Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.4f, TimeSpan.FromMilliseconds(100));
-            break;
-            case PlatformState.Stage5:
                 _platformState = PlatformState.Delete;
-                Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.5f, TimeSpan.FromMilliseconds(100));
+                Core.Input.GamePads[(int)PlayerIndex.One].SetVibration(0.3f, TimeSpan.FromMilliseconds(100));
             break;
             case PlatformState.Delete:
             default:
