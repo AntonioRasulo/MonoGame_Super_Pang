@@ -98,8 +98,8 @@ public class TitleScene : Scene
 
         _3dMaterial.Update();
 
-        var spinAmount = Core.Input.Mouse.X / (float)Core.GraphicsDevice.Viewport.Width;
-        spinAmount = MathHelper.SmoothStep(-.1f, .1f, spinAmount);
+        double totalSeconds = gameTime.TotalGameTime.TotalSeconds;
+        float spinAmount = (float)Math.Sin(totalSeconds * 0.8) * 0.1f;
         _3dMaterial.SetParameter("SpinAmount", spinAmount);
 
         TitlePanelManager.Update(gameTime);
