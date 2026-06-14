@@ -303,6 +303,87 @@ public static class LevelRegistry
         {
             Balls = new List<BallSpawnConfig>
             {
+                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = 1f, BallType = BallType.RED_ROUND, Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.5f) },
+                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = -1f, BallType = BallType.GREEN_SQUARED, Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f) }
+            },
+            Platforms = new List<PlatformConfig>
+            {
+
+            },
+            backgroundStr = new List<string>
+            {
+                "images/backgrounds/clouds9/1",
+                "images/backgrounds/clouds9/2",
+                "images/backgrounds/clouds9/3",
+                "images/backgrounds/clouds9/4",
+                "images/backgrounds/clouds9/5"
+            },
+            Enemies = new List<EnemyConfig>
+            {
+            }
+        },
+        new LevelConfig // Level 9
+        {
+            Balls = new List<BallSpawnConfig>
+            {
+                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = 1f, BallType = BallType.RED_ROUND, Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.5f) },
+                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = -1f, BallType = BallType.GREEN_ROUND, Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f) },
+                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = 1f, BallType = BallType.BLUE_ROUND, Position = new Vector2(screenWidth * 0.5f, screenHeight * 0.5f) }
+            },
+            Platforms = new List<PlatformConfig>
+            {
+
+            },
+            backgroundStr = new List<string>
+            {
+                "images/backgrounds/clouds10/1",
+                "images/backgrounds/clouds10/2",
+                "images/backgrounds/clouds10/3",
+                "images/backgrounds/clouds10/4"
+            },
+            Enemies = new List<EnemyConfig>
+            {
+            }
+        },
+        new LevelConfig // Level 10
+        {
+            Balls = new List<BallSpawnConfig>
+            {
+                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = 1f, BallType = BallType.RED_ROUND, Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.25f) },
+                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = -1f, BallType = BallType.GREEN_ROUND, Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.25f) },
+            },
+            Platforms = new List<PlatformConfig>
+            {
+                new PlatformConfig
+                {
+                    Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f),
+                    Rotation = PlatformRotation.HORIZONTAL,
+                    platformType = PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE,
+                    platformState = PlatformState.Stage1
+                },
+                new PlatformConfig
+                {
+                    Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.5f),
+                    Rotation = PlatformRotation.HORIZONTAL,
+                    platformType = PlatformType.BREAKABLE_LARGE_HORIZONTAL_BLUE,
+                    platformState = PlatformState.Stage1
+                }
+            },
+            backgroundStr = new List<string>
+            {
+                "images/backgrounds/clouds11/1",
+                "images/backgrounds/clouds11/2",
+                "images/backgrounds/clouds11/3",
+                "images/backgrounds/clouds11/4"
+            },
+            Enemies = new List<EnemyConfig>
+            {
+            }
+        },
+        new LevelConfig // Level 11
+        {
+            Balls = new List<BallSpawnConfig>
+            {
             },
 
             Platforms = new List<PlatformConfig>
