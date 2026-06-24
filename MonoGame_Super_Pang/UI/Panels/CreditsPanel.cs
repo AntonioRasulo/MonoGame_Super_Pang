@@ -86,11 +86,6 @@ public class CreditsPanel : PangPanel
         AddDescriptionText("UI: ", 105.0f, -146.0f);
         AddContributorText("Sr.Toasty", 105.0f, 0.0f);
         AddButton("https://srtoasty.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 106.0f, 41.0f);
-
-        /* UI white wings */
-        AddDescriptionText("Wings to remove: ", 115.0f, -110.0f);
-        AddContributorText("GameDeveloperStudio", 115.0f, 0.0f);
-        AddButton("https://gamedeveloperstudio.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 116.0f, 41.0f);
     }
 
     public new void SetIsVisible(bool isVisible)
