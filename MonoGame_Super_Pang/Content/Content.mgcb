@@ -717,6 +717,21 @@
 /processorParam:TextureFormat=Color
 /build:images/balls/HexagonGreenBall.png
 
+#begin images/Character/char_atlas.xml
+/copy:images/Character/char_atlas.xml
+
+#begin images/Character/Char.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=49,255,0,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/Character/Char.png
+
 #begin images/Character/character_atlas.xml
 /copy:images/Character/character_atlas.xml
 

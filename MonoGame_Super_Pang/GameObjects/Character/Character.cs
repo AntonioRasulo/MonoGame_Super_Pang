@@ -82,13 +82,14 @@ public class Character
     private void LoadContent()
     {
         TextureAtlas characterAtlas = TextureAtlas.FromFile(Core.Content, "images/Character/character_atlas.xml");
+        TextureAtlas movementAtlas = TextureAtlas.FromFile(Core.Content, "images/Character/char_atlas.xml");
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
 
-        _idleSprite = characterAtlas.CreateSprite("characterStanding");
+        _idleSprite = movementAtlas.CreateSprite("char1");
         _idleSprite.Scale = SCALE;
         _idleSprite.CenterOrigin();
 
-        _walkAnimation = characterAtlas.CreateAnimatedSprite("walk-animation");
+        _walkAnimation = movementAtlas.CreateAnimatedSprite("walk-animation");
         _walkAnimation.Scale = SCALE;
         _walkAnimation.CenterOrigin();
 
