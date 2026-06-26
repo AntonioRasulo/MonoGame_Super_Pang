@@ -747,6 +747,21 @@
 /processorParam:TextureFormat=Color
 /build:images/Character/character.png
 
+#begin images/Character/shooting_atlas.xml
+/copy:images/Character/shooting_atlas.xml
+
+#begin images/Character/Shooting.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=49,255,0,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/Character/Shooting.png
+
 #begin images/Coins/chest_atlas.xml
 /copy:images/Coins/chest_atlas.xml
 

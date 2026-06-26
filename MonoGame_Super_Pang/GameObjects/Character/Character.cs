@@ -81,15 +81,15 @@ public class Character
 
     private void LoadContent()
     {
-        TextureAtlas characterAtlas = TextureAtlas.FromFile(Core.Content, "images/Character/character_atlas.xml");
-        TextureAtlas movementAtlas = TextureAtlas.FromFile(Core.Content, "images/Character/char_atlas.xml");
+        TextureAtlas characterAtlas = TextureAtlas.FromFile(Core.Content, "images/Character/char_atlas.xml");
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
+        TextureAtlas shootingAtlas = TextureAtlas.FromFile(Core.Content, "images/Character/shooting_atlas.xml");
 
-        _idleSprite = movementAtlas.CreateSprite("char1");
+        _idleSprite = characterAtlas.CreateSprite("char1");
         _idleSprite.Scale = SCALE;
         _idleSprite.CenterOrigin();
 
-        _walkAnimation = movementAtlas.CreateAnimatedSprite("walk-animation");
+        _walkAnimation = characterAtlas.CreateAnimatedSprite("walk-animation");
         _walkAnimation.Scale = SCALE;
         _walkAnimation.CenterOrigin();
 
@@ -110,7 +110,7 @@ public class Character
 
         _walkAnimation.SetDelay(speed);
 
-        _shootAnimation = characterAtlas.CreateAnimatedSprite("shooting-animation");
+        _shootAnimation = shootingAtlas.CreateAnimatedSprite("shooting-animation");
         _shootAnimation.Scale = SCALE;
         _shootAnimation.CenterOrigin();
 
@@ -283,7 +283,13 @@ public class Character
 
         if (currentAnimation != null)
         {
-            currentAnimation.Draw(spriteBatch, _characterPosition);
+            Vector2 drawingPosition = _characterPosition;
+            if(currentAnimation == _shootAnimation)
+            {
+                drawingPosition += new Vector2(0, 5);
+            }
+
+            currentAnimation.Draw(spriteBatch, drawingPosition);
         }
 
     }
