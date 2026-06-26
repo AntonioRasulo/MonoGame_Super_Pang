@@ -34,7 +34,9 @@ public static class PowerUpSpritesHandler
 
         _textureRegions.Add(ShopItems.SPEED, speedRegion);
 
-        TextureRegion livesRegion = _itemsAtlas.GetRegion("livesSprite");
+        Texture2D texture2DLives = Core.Content.Load<Texture2D>("images/PowerUps/lives");
+        TextureRegion livesRegion = new TextureRegion(texture2DLives, 0, 0, texture2DLives.Width, texture2DLives.Height);
+
         _textureRegions.Add(ShopItems.LIVES, livesRegion);
         _textureRegions.Add(ShopItems.COLL_LIVES, livesRegion);
 
@@ -53,7 +55,7 @@ public static class PowerUpSpritesHandler
         return _textureRegions[shopItem];
     }
 
-    public static (SpriteRuntime, PowerUpButtonState) GetSpriteRuntime(ShopItems shopItem, PlayerStats pStats = null, float scale = 1.0f)
+    public static (SpriteRuntime, PowerUpButtonState) GetSpriteRuntime(ShopItems shopItem, PlayerStats pStats = null, float scaleWidth = 1.0f, float scaleHeight = 1.0f)
     {
         PowerUpButtonState iconState;
         SpriteRuntime spriteReturn = new SpriteRuntime
@@ -62,8 +64,8 @@ public static class PowerUpSpritesHandler
             SourceRectangle = _textureRegions[shopItem].SourceRectangle,
             WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute,
             HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute,
-            Width = _textureRegions[shopItem].SourceRectangle.Width * scale,
-            Height = _textureRegions[shopItem].SourceRectangle.Height * scale,
+            Width = _textureRegions[shopItem].SourceRectangle.Width * scaleWidth,
+            Height = _textureRegions[shopItem].SourceRectangle.Height * scaleHeight,
             TextureAddress = Gum.Managers.TextureAddress.Custom,
         };
         (spriteReturn.Color, iconState )= PlayerStatsManager.GetPowerUpStatus(shopItem, pStats);

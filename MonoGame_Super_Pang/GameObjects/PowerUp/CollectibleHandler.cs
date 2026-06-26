@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using MonoGame_Super_Pang.Config;
 
@@ -49,8 +50,8 @@ public class CollectibleHandler
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
         TextureAtlas coinsAtlas = TextureAtlas.FromFile(Core.Content, "images/Coins/coins_atlas.xml");
 
-        _livesSprite = itemsAtlas.CreateSprite("livesSprite");
-        _livesSprite.Scale = SCALE;
+        _livesSprite = new Sprite(Core.Content.Load<Texture2D>("images/PowerUps/lives"));
+        _livesSprite.Scale = new Vector2(3.0f, 1.5f);
 
         _freezeSprite = itemsAtlas.CreateSprite("freezeSprite");
         _freezeSprite.Scale = SCALE;
@@ -86,8 +87,8 @@ public class CollectibleHandler
             collectible.Draw();
         }
 
-        float distanceFromTopWall = 2.0f;
-        float livesIndex = 2.5f;
+        float distanceFromTopWall = 17.0f;
+        float livesIndex = 3.2f;
         int roomWidth = Core.GraphicsDevice.PresentationParameters.BackBufferWidth;
         Vector2 livesSpritePosition = new Vector2(roomWidth - _livesSprite.Width * livesIndex, distanceFromTopWall);
         _livesSprite.Draw(Core.SpriteBatch, livesSpritePosition);

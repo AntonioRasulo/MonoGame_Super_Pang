@@ -66,6 +66,7 @@ class ShopPanel : PangPanel
         livesButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         livesButton.X = 3*BUTTONDISTANCE;
         livesButton.Y = BUTTONDISTANCE;
+        livesButton.SetScale(1f, 0.6f);
         livesButton.Click += ShowConfirmPanel;
         _panel.AddChild(livesButton);
 
@@ -73,6 +74,7 @@ class ShopPanel : PangPanel
         collLivesButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         collLivesButton.X = BUTTONDISTANCE;
         collLivesButton.Y = 2*BUTTONDISTANCE;
+        collLivesButton.SetScale(1f, 0.6f);
         collLivesButton.Click += ShowConfirmPanel;
         _panel.AddChild(collLivesButton);
 

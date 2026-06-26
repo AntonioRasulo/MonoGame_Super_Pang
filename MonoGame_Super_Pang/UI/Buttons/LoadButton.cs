@@ -153,17 +153,17 @@ public class LoadButton : AnimatedButton
         }
 
         AddPowerUpSprite(ref _harpoonSprite, ShopItems.HARPOON, pStats, 65.0f, 3.5f);
-        AddPowerUpSprite(ref _speedSprite, ShopItems.SPEED, pStats, 83.0f, 1.0f, 0.5f);
-        AddPowerUpSprite(ref _livesSprite, ShopItems.LIVES, pStats, 105.0f, 3.5f);
+        AddPowerUpSprite(ref _speedSprite, ShopItems.SPEED, pStats, 83.0f, 1.0f, 0.5f, 0.5f);
+        AddPowerUpSprite(ref _livesSprite, ShopItems.LIVES, pStats, 105.0f, 4.5f, 1f, 0.6f);
 
-        PowerUpButtonState collState = AddPowerUpSprite(ref _collLivesSprite, ShopItems.COLL_LIVES, pStats, 65.0f, 27.0f);
+        PowerUpButtonState collState = AddPowerUpSprite(ref _collLivesSprite, ShopItems.COLL_LIVES, pStats, 65.0f, 28.0f, 1f, 0.6f);
         _collLivesSpriteIcon = GetIconSprite(collState, 67.0f, 30.0f);
         if(_collLivesSpriteIcon != null)
         {
             visual.Background.AddChild(_collLivesSpriteIcon);
         }
 
-        collState = AddPowerUpSprite(ref _invincibilitySprite, ShopItems.INVINCIBILITY, pStats, 85.0f, 27.0f, 0.4f);
+        collState = AddPowerUpSprite(ref _invincibilitySprite, ShopItems.INVINCIBILITY, pStats, 85.0f, 27.0f, 0.4f, 0.4f);
         _invincibilitySpriteIcon = GetIconSprite(collState, 87.0f, 30.0f);
         if(_invincibilitySpriteIcon != null)
         {
@@ -236,13 +236,13 @@ public class LoadButton : AnimatedButton
         return returnSprite;
     }
 
-    private PowerUpButtonState AddPowerUpSprite(ref SpriteRuntime sprite, ShopItems shopItem, PlayerStats pStats, float xCor, float yCor, float scale = 1.0f)
+    private PowerUpButtonState AddPowerUpSprite(ref SpriteRuntime sprite, ShopItems shopItem, PlayerStats pStats, float xCor, float yCor, float scaleWidth = 1.0f, float scaleHeight = 1.0f)
     {
         // Access the visual
         ButtonVisual visual = (ButtonVisual)this.Visual;
 
         PowerUpButtonState collState;
-        (sprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(shopItem, pStats, scale);
+        (sprite, collState) = PowerUpSpritesHandler.GetSpriteRuntime(shopItem, pStats, scaleWidth, scaleHeight);
         sprite.Anchor(Gum.Wireframe.Anchor.TopLeft);
         sprite.X = xCor;
         sprite.Y = yCor;

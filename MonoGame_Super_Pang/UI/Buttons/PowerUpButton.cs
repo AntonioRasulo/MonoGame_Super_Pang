@@ -22,8 +22,6 @@ public class PowerUpButton : AnimatedButton
 {
     private SpriteRuntime _sprite;
 
-    private float _scale;
-
     private PowerUpButtonState _state;
 
     private ShopItems _item;
@@ -87,7 +85,17 @@ public class PowerUpButton : AnimatedButton
         _sprite.Width = rect.Width * scale;
         _sprite.Height = rect.Height * scale;
 
-        _scale = scale;
+    }
+
+    public void SetScale(float scaleWidth, float scaleHeight)
+    {
+        var rect = _sprite.SourceRectangle;
+
+        // Scale sprite (visual)
+        _sprite.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+        _sprite.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+        _sprite.Width = rect.Width * scaleWidth;
+        _sprite.Height = rect.Height * scaleHeight;
     }
 
     public void LevelUp()
