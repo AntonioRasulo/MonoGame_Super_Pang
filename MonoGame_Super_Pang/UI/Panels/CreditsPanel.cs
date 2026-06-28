@@ -28,12 +28,14 @@ public class CreditsPanel : PangPanel
 
         Texture2D itchLogo = Core.Content.Load<Texture2D>("images/general/itch_logo");
         Texture2D linkedinLogo = Core.Content.Load<Texture2D>("images/general/linkedin_logo");
+        Texture2D wwwLogo = Core.Content.Load<Texture2D>("images/general/www");
 
         /* Development */
         AddDescriptionText("Development: ", 5.0f, -110.0f);
         AddContributorText("MischievousCats", 5.0f);
         AddButton("https://mischievouscats.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 6.0f, 63.0f);
         AddButton("https://www.linkedin.com/in/antonio-rasulo-698513142/", linkedinLogo, linkedinLogo.Bounds, 0.0045f, 5.0f, 75.0f);
+        AddButton("https://antoniorasulo.github.io/my_portfolio/", wwwLogo, wwwLogo.Bounds, 0.015f, 6.0f, 87.0f);
 
         /* Framework */
         Texture2D _monogameLogo = Core.Content.Load<Texture2D>("images/general/logo");
