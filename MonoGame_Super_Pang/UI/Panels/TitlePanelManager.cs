@@ -16,6 +16,7 @@ public class TitlePanelManager
     private static StartGamePanel _startGamePanel;
     private static ShopPanel _shopPanel;
     private static CreditsPanel _creditsPanel;
+    private static ControlPanel _controlPanel;
 
     public static SoundEffect uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Sound effects/Confirm 1");
 
@@ -31,6 +32,7 @@ public class TitlePanelManager
         _startGamePanel = new StartGamePanel();
         _shopPanel = new ShopPanel();
         _creditsPanel = new CreditsPanel();
+        _controlPanel = new ControlPanel();
         _titleScreenButtonsPanel.SetStartButtonFocus(true);
     }
 
@@ -65,6 +67,8 @@ public class TitlePanelManager
         _newGamePanel.SetIsVisible(false);
 
         _deleteGamePanel.SetIsVisible(false);
+
+        _controlPanel.SetIsVisible(false);
 
         // Set the options panel to be visible.
         _optionsPanel.SetIsVisible(true);
@@ -164,6 +168,12 @@ public class TitlePanelManager
     {
         _titleScreenButtonsPanel.SetIsVisible(false);
         _creditsPanel.SetIsVisible(true);
+    }
+
+    public static void HandleControl(object sender, EventArgs e)
+    {
+        _optionsPanel.SetIsVisible(false);
+        _controlPanel.SetIsVisible(true);
     }
 
     public static void Draw()
