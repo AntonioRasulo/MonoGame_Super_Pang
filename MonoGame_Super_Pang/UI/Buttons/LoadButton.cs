@@ -177,7 +177,7 @@ public class LoadButton : AnimatedButton
             visual.Background.AddChild(_bombSpriteIcon);
         }
 
-        collState = AddPowerUpSprite(ref _freezeSprite, ShopItems.CLOCK, pStats, 125.0f, 27.0f);
+        collState = AddPowerUpSprite(ref _freezeSprite, ShopItems.CLOCK, pStats, 124.0f, 26.0f, 0.017f, 0.017f);
         _freezeSpriteIcon = GetIconSprite(collState, 127.0f, 30.0f);
         if(_freezeSpriteIcon != null)
         {

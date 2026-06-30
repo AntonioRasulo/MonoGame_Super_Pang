@@ -80,19 +80,24 @@ public class CreditsPanel : PangPanel
         AddButton("https://pixelfrog-assets.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 86.0f, 55.0f);
 
         /* UI arrow */
-        AddDescriptionText("UI: ", 95.0f, -146.0f);
+        AddDescriptionText("UI Pixel Art: ", 95.0f, -108.0f);
         AddContributorText("Ibin Games", 95.0f, 0.0f);
         AddButton("https://ibingames.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 96.0f, 41.0f);
 
         /* UI x and v buttons */
-        AddDescriptionText("UI: ", 105.0f, -146.0f);
+        AddDescriptionText("UI Pixel Art: ", 105.0f, -108.0f);
         AddContributorText("Sr.Toasty", 105.0f, 0.0f);
         AddButton("https://srtoasty.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 106.0f, 41.0f);
 
         /* UI Controls */
-        AddDescriptionText("UI: ", 115.0f, -146.0f);
-        AddContributorText("AdamGDA", 115.0f, 0.0f);
-        AddButton("https://adamgamer1111.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 116.0f, 41.0f);
+        AddDescriptionText("Controls Pixel Art: ", 115.0f, -84.0f);
+        AddContributorText("AdamGDA", 115.0f, 20.0f);
+        AddButton("https://adamgamer1111.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 116.0f, 55.0f);
+
+        /* Pixel Art Clock */
+        AddDescriptionText("Clock Pixel Art: ", 125.0f, -96.0f);
+        AddContributorText("Bont", 125.0f, 0.0f);
+        AddButton("https://bontt.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 126.0f, 20.0f);
     }
 
     public new void SetIsVisible(bool isVisible)

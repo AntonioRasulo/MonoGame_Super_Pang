@@ -97,6 +97,7 @@ class ShopPanel : PangPanel
         clockButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
         clockButton.X = 4*BUTTONDISTANCE;
         clockButton.Y = 2*BUTTONDISTANCE;
+        clockButton.SetScale(0.02f);
         clockButton.Click += ShowConfirmPanel;
         _panel.AddChild(clockButton);
 

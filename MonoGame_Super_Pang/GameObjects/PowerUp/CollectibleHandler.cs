@@ -53,8 +53,8 @@ public class CollectibleHandler
         _livesSprite = new Sprite(Core.Content.Load<Texture2D>("images/PowerUps/lives"));
         _livesSprite.Scale = new Vector2(3.0f, 1.5f);
 
-        _freezeSprite = itemsAtlas.CreateSprite("freezeSprite");
-        _freezeSprite.Scale = SCALE;
+        _freezeSprite = new Sprite(Core.Content.Load<Texture2D>("images/PowerUps/Clock"));
+        _freezeSprite.Scale = new Vector2(0.07f, 0.07f);
 
         _invincibilitySprite = itemsAtlas.CreateSprite("invincibilitySprite");
         _invincibilitySprite.Scale = INV_SCALE;
