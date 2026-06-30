@@ -17,6 +17,7 @@ public class TitlePanelManager
     private static ShopPanel _shopPanel;
     private static CreditsPanel _creditsPanel;
     private static ControlPanel _controlPanel;
+    private static LeaderboardPanel _leaderboardPanel;
 
     public static SoundEffect uiSoundEffect = Core.Content.Load<SoundEffect>("audio/Sound effects/Confirm 1");
 
@@ -33,6 +34,7 @@ public class TitlePanelManager
         _shopPanel = new ShopPanel();
         _creditsPanel = new CreditsPanel();
         _controlPanel = new ControlPanel();
+        _leaderboardPanel = new LeaderboardPanel();
         _titleScreenButtonsPanel.SetStartButtonFocus(true);
     }
 
@@ -90,6 +92,8 @@ public class TitlePanelManager
         _deleteGamePanel.SetIsVisible(false);
 
         _creditsPanel.SetIsVisible(false);
+
+        _leaderboardPanel.SetIsVisible(false);
 
         // Set the title panel to be visible.
         _titleScreenButtonsPanel.SetIsVisible(true);
@@ -164,6 +168,12 @@ public class TitlePanelManager
         _shopPanel.SetIsVisible(true);
     }
 
+    public static void GoToLeaderboard(object sender, EventArgs e)
+    {
+        _optionsPanel.SetIsVisible(false);
+        _leaderboardPanel.SetIsVisible(true);
+    }
+
     public static void HandleCreditsClicked(object sender, EventArgs e)
     {
         _titleScreenButtonsPanel.SetIsVisible(false);
@@ -184,6 +194,11 @@ public class TitlePanelManager
     public static void Update(GameTime gametime)
     {
         _loadGamePanel.Update(gametime);
+    }
+
+    public static void AddScore(string player, string score)
+    {
+        _leaderboardPanel.AddScore(player, score);
     }
 
 }

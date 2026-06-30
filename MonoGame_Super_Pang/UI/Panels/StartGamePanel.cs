@@ -90,12 +90,13 @@ public class StartGamePanel : PangPanel
 
         _deleteButton = new AnimatedButton(_GUIatlas);
         _deleteButton.Text = "DELETE";
-        _deleteButton.ChangeTextColor(Microsoft.Xna.Framework.Color.Red);
+        _deleteButton.ChangeTextColor(Color.Red);
         _deleteButton.Anchor(Gum.Wireframe.Anchor.Bottom);
         _deleteButton.X = -100f;
         _deleteButton.IsVisible = false;
         _deleteButton.IsEnabled = false;
         _deleteButton.LostFocus += LostFocus;
+        _deleteButton.KeyDown += FocusDelete;
         _deleteButton.IsUsingLeftAndRightGamepadDirectionsForNavigation = false;
         _deleteButton.Click += DeleteSaving;
         _deleteButton.GotFocus += SetText;
@@ -163,7 +164,7 @@ public class StartGamePanel : PangPanel
     {
         if(sender == _startGameButton)
         {
-            if(e.Key == Microsoft.Xna.Framework.Input.Keys.Up)
+            if(e.Key == Keys.Up)
             {   
                 _focusDelete = true;
             }

@@ -12,6 +12,7 @@ public class OptionsPanel: PangPanel
     private OptionsSlider musicSlider;
     private AnimatedButton _optionsBackButton;
     private AnimatedButton _controlButton;
+    private AnimatedButton _leaderButton;
 
     public OptionsPanel()
     {
@@ -67,6 +68,14 @@ public class OptionsPanel: PangPanel
         _optionsBackButton.Y = -10f;
         _optionsBackButton.Click += TitlePanelManager.HandleOptionsButtonBack;
         _panel.AddChild(_optionsBackButton);
+
+        _leaderButton = new AnimatedButton(_GUIatlas);
+        _leaderButton.Text = "LEADERBOARD";
+        _leaderButton.Anchor(Gum.Wireframe.Anchor.Bottom);
+        _leaderButton.Y = -10.0f;
+        _leaderButton.X = 10.0f;
+        _leaderButton.Click += TitlePanelManager.GoToLeaderboard;
+        _panel.AddChild(_leaderButton);
 
         _controlButton = new AnimatedButton(_GUIatlas);
         _controlButton.Text = "CONTROLS";
@@ -126,6 +135,7 @@ public class OptionsPanel: PangPanel
         base.SetIsVisible(isVisible);
         _optionsBackButton.IsFocused = isVisible;
         _controlButton.IsFocused = !isVisible;
+        _leaderButton.IsFocused = !isVisible;
     }
 
 }

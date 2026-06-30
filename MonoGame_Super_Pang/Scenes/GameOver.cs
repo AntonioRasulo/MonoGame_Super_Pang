@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 using MonoGame_Super_Pang.Config;
 using MonoGame_Super_Pang.Backgrounds;
+using MonoGame_Super_Pang.UI;
 
 namespace MonoGame_Super_Pang.Scenes;
 
@@ -44,6 +45,7 @@ public class GameOver : Scene
     public GameOver(int score)
     {
         SCORE_TEXT += score.ToString();
+        TitlePanelManager.AddScore(PlayerStatsManager.currentStats.Name, score.ToString());
     }
 
     public override void Initialize()
@@ -109,8 +111,8 @@ public class GameOver : Scene
     public override void Update(GameTime gameTime)
     {
         // If the user presses enter, switch to the game scene.
-        if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Enter) ||
-            Core.Input.GamePads[(int)PlayerIndex.One].WasButtonJustPressed(Buttons.A))
+        if (Core.Input.Keyboard.WasKeyJustReleased(Keys.Enter) ||
+            Core.Input.GamePads[(int)PlayerIndex.One].WasButtonJustReleased(Buttons.A))
         {
             Core.ChangeScene(new TitleScene());
         }

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
-using MonoGameLibrary.Graphics;
 
 namespace MonoGame_Super_Pang.UI;
 
