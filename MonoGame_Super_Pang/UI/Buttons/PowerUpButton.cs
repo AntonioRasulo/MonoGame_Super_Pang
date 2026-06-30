@@ -36,7 +36,7 @@ public class PowerUpButton : AnimatedButton
     {
         TextureRegion textureRegion = PowerUpSpritesHandler.GetTextureRegion(item);
         CreateSprite(textureRegion.Texture, textureRegion.SourceRectangle);
-        SetState(PowerUpButtonState.Level1);
+        SetSpriteColor();
         Width = WIDTH;
         Height = HEIGHT;
         _item = item;
@@ -104,7 +104,8 @@ public class PowerUpButton : AnimatedButton
         {
             case PowerUpButtonState.Level0:
                 _state++;
-                _Xsprite.Parent = null;
+                ButtonVisual visual = (ButtonVisual)this.Visual;
+                visual.Background.RemoveChild(_Xsprite);
                 break;
             case PowerUpButtonState.Level1:
                 _state++;
@@ -128,7 +129,7 @@ public class PowerUpButton : AnimatedButton
 
     private void SetSpriteColor()
     {
-        (_sprite.Color, _) = PlayerStatsManager.GetPowerUpStatus(_item);
+        (_sprite.Color, _state) = PlayerStatsManager.GetPowerUpStatus(_item);
         switch (_state)
         {
             case PowerUpButtonState.Level0:
@@ -161,6 +162,9 @@ public class PowerUpButton : AnimatedButton
     {
         ButtonVisual visual = (ButtonVisual)this.Visual;
 
+        if(visual.Background.Children.Contains(_Xsprite))
+            return;
+
         // Create sprite
         _Xsprite = PowerUpSpritesHandler.GetXSprite();
 
@@ -171,6 +175,9 @@ public class PowerUpButton : AnimatedButton
     private void CreateVSprite()
     {
         ButtonVisual visual = (ButtonVisual)this.Visual;
+
+        if(visual.Background.Children.Contains(_Vsprite))
+            return;
 
         // Create sprite
         _Vsprite = PowerUpSpritesHandler.GetVSprite();
