@@ -732,9 +732,6 @@
 /processorParam:TextureFormat=Color
 /build:images/Character/Char.png
 
-#begin images/Character/character_atlas.xml
-/copy:images/Character/character_atlas.xml
-
 #begin images/Character/character.png
 /importer:TextureImporter
 /processor:TextureProcessor
