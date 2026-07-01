@@ -43,8 +43,9 @@ public static class PowerUpSpritesHandler
         TextureRegion invincibilityRegion = _itemsAtlas.GetRegion("invincibilitySprite");
         _textureRegions.Add(ShopItems.INVINCIBILITY, invincibilityRegion);
 
-        TextureRegion bombRegion = _itemsAtlas.GetRegion("bombSprite");
-        _textureRegions.Add(ShopItems.BOMB, bombRegion);
+        Texture2D bombTexture2D = Core.Content.Load<Texture2D>("images/PowerUps/dynamite-pack");
+        TextureRegion bombTexture = new TextureRegion(bombTexture2D, 5, 2, 21, 27);
+        _textureRegions.Add(ShopItems.BOMB, bombTexture);
 
         Texture2D texture2DClock = Core.Content.Load<Texture2D>("images/PowerUps/Clock");
         TextureRegion clockRegion = new TextureRegion(texture2DClock, 0, 0, texture2DClock.Width, texture2DClock.Height);

@@ -91,6 +91,7 @@ class ShopPanel : PangPanel
         bombButton.X = 3*BUTTONDISTANCE;
         bombButton.Y = 2*BUTTONDISTANCE;
         bombButton.Click += ShowConfirmPanel;
+        bombButton.SetScale(0.6f);
         _panel.AddChild(bombButton);
 
         clockButton = new PowerUpButton(_GUIatlas, ShopItems.CLOCK);

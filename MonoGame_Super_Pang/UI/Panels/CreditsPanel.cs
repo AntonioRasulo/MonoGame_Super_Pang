@@ -98,6 +98,11 @@ public class CreditsPanel : PangPanel
         AddDescriptionText("Clock Pixel Art: ", 125.0f, -96.0f);
         AddContributorText("Bont", 125.0f, 0.0f);
         AddButton("https://bontt.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 126.0f, 20.0f);
+
+        /* Pixel Art Dynamite */
+        AddDescriptionText("Dynamite Pixel Art: ", 135.0f, -85.0f);
+        AddContributorText("tumas81", 135.0f, 11.0f);
+        AddButton("https://tumas81.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 136.0f, 43.0f);
     }
 
     public new void SetIsVisible(bool isVisible)

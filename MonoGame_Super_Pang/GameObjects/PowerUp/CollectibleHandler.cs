@@ -59,8 +59,10 @@ public class CollectibleHandler
         _invincibilitySprite = itemsAtlas.CreateSprite("invincibilitySprite");
         _invincibilitySprite.Scale = INV_SCALE;
 
-        _bombSprite = itemsAtlas.CreateSprite("bombSprite");
-        _bombSprite.Scale = SCALE;
+        Texture2D bombTexture2D = Core.Content.Load<Texture2D>("images/PowerUps/dynamite-pack");
+        TextureRegion bombTexture = new TextureRegion(bombTexture2D, 5, 2, 21, 27);
+        _bombSprite = new Sprite(bombTexture);
+        _bombSprite.Scale = new Vector2(2.5f, 2.5f);
 
         _collectSound = Core.Content.Load<SoundEffect>("audio/Sound effects/Fruit collect 1");
 

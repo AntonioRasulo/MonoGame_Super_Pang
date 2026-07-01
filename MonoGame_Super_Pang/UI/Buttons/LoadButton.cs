@@ -170,7 +170,7 @@ public class LoadButton : AnimatedButton
             visual.Background.AddChild(_invincibilitySpriteIcon);
         }
 
-        collState = AddPowerUpSprite(ref _bombSprite, ShopItems.BOMB, pStats, 105.0f, 27.0f);
+        collState = AddPowerUpSprite(ref _bombSprite, ShopItems.BOMB, pStats, 106.0f, 27.0f, 0.6f, 0.6f);
         _bombSpriteIcon = GetIconSprite(collState, 107.0f, 30.0f);
         if(_bombSpriteIcon != null)
         {
