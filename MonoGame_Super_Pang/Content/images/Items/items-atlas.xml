@@ -9,7 +9,6 @@
         <Region name="largeBreakableBluePlatform1" x="8" y="618" width="32" height="9" />
         <Region name="largeBreakableBluePlatform2" x="48" y="618" width="32" height="9" />
         <Region name="largeBreakableBluePlatform3" x="88" y="618" width="32" height="9" />
-        <Region name="harpoonTexture" x="7" y="62" width="16" height="16" />
         <Region name="Explosion1" x="72" y="682" width="16" height="17" />
         <Region name="Explosion2" x="49" y="683" width="15" height="15" />
         <Region name="Explosion3" x="32" y="687" width="9" height="8" />

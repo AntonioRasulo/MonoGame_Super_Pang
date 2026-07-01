@@ -25,7 +25,8 @@ public static class PowerUpSpritesHandler
 
         TextureAtlas _itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
 
-        TextureRegion _harpoonRegion = _itemsAtlas.GetRegion("harpoonTexture");
+        Texture2D harpoonTexture = Core.Content.Load<Texture2D>("images/PowerUps/Harpoon");
+        TextureRegion _harpoonRegion = new TextureRegion(harpoonTexture, 0, 0, harpoonTexture.Width, harpoonTexture.Height);
 
         _textureRegions.Add(ShopItems.HARPOON, _harpoonRegion);
 
