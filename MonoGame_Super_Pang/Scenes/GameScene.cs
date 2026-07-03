@@ -60,6 +60,7 @@ public class GameScene : Scene
     private const float FADE_SPEED = 0.02f;
 
     private const int PLATF_DESTR_SCORE = 10;
+    private const int SCORE_LEVEL = 20;
 
     private Background _levelBackground;
 
@@ -521,6 +522,8 @@ public class GameScene : Scene
     private bool HandleCharHit()
     {
         _score--;
+        if(_score < 0)
+            _score = 0;
         _character.activateImmunity();
         _ui.UpdateLivesText(_character.getLives());
         // Update the score display on the UI.
@@ -535,6 +538,7 @@ public class GameScene : Scene
             _score -= _ui.getTimer();
             if(_score < 0)
                 _score = 0;
+            _score += SCORE_LEVEL;
             _ui.UpdateScoreText(_score);
             _currentLevelIndex++;
             if(_currentLevelIndex >= LevelRegistry.AllLevels.Count)
