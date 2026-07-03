@@ -11,6 +11,7 @@ using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using MonoGame_Super_Pang.Config;
+using MonoGame_Super_Pang.GameObjects;
 
 namespace MonoGame_Super_Pang.UI;
 
@@ -378,7 +379,7 @@ public class GameSceneUI : ContainerRuntime
     /// <param name="gametime">A snapshot of the timing values for the current update cycle.</param>
     private void UpdateTimerText(GameTime gameTime)
     {
-        if(_pausePanel.IsVisible == false)
+        if((_pausePanel.IsVisible == false) && (FreezeHandler.freezeTimer == 0))
         {
             _timer += gameTime.ElapsedGameTime.TotalSeconds;
             _timerText.Text = string.Format(s_timeFormat, (int)_timer);
