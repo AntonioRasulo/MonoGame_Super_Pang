@@ -59,6 +59,8 @@ public class GameScene : Scene
     // The speed of the fade to grayscale effect.
     private const float FADE_SPEED = 0.02f;
 
+    private const int PLATF_DESTR_SCORE = 10;
+
     private Background _levelBackground;
 
     public GameScene(int startingLevel)
@@ -462,6 +464,8 @@ public class GameScene : Scene
                         if(((BreakablePlatform)platform).getState() == PlatformState.Delete)
                         {
                             _collectibleHandler.GenerateCollectible(platform.GetPosition());
+                            _score += PLATF_DESTR_SCORE;
+                            _ui.UpdateScoreText(_score);
                             toRemovePlatform.Add(platform);
                         }
                     }
