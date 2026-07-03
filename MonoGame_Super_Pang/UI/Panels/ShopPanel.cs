@@ -83,7 +83,7 @@ class ShopPanel : PangPanel
         invincibilityButton.X = 2*BUTTONDISTANCE;
         invincibilityButton.Y = 2*BUTTONDISTANCE;
         invincibilityButton.Click += ShowConfirmPanel;
-        invincibilityButton.SetScale(0.4f);
+        invincibilityButton.SetScale(0.05f);
         _panel.AddChild(invincibilityButton);
 
         bombButton = new PowerUpButton(_GUIatlas, ShopItems.BOMB);

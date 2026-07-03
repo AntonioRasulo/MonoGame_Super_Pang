@@ -41,7 +41,8 @@ public static class PowerUpSpritesHandler
         _textureRegions.Add(ShopItems.LIVES, livesRegion);
         _textureRegions.Add(ShopItems.COLL_LIVES, livesRegion);
 
-        TextureRegion invincibilityRegion = _itemsAtlas.GetRegion("invincibilitySprite");
+        Texture2D texture2DShield = Core.Content.Load<Texture2D>("images/PowerUps/shield");
+        TextureRegion invincibilityRegion = new TextureRegion(texture2DShield, 0, 0, texture2DShield.Width, texture2DShield.Height);
         _textureRegions.Add(ShopItems.INVINCIBILITY, invincibilityRegion);
 
         Texture2D bombTexture2D = Core.Content.Load<Texture2D>("images/PowerUps/dynamite-pack");

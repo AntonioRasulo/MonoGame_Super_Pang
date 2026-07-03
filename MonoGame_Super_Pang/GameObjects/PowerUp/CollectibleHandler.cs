@@ -16,7 +16,7 @@ public class CollectibleHandler
     private Random _collectibleRand;
 
     public static readonly Vector2 SCALE = new(4.0f, 4.0f);
-    private readonly Vector2 INV_SCALE = new(1.5f, 1.5f);
+    private readonly Vector2 INV_SCALE = new(0.2f, 0.2f);
 
     public static Sprite _livesSprite;
     public static Sprite _freezeSprite;
@@ -47,7 +47,7 @@ public class CollectibleHandler
 
     private void LoadContent()
     {
-        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
+        //TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
         TextureAtlas coinsAtlas = TextureAtlas.FromFile(Core.Content, "images/Coins/coins_atlas.xml");
 
         _livesSprite = new Sprite(Core.Content.Load<Texture2D>("images/PowerUps/lives"));
@@ -56,7 +56,7 @@ public class CollectibleHandler
         _freezeSprite = new Sprite(Core.Content.Load<Texture2D>("images/PowerUps/Clock"));
         _freezeSprite.Scale = new Vector2(0.07f, 0.07f);
 
-        _invincibilitySprite = itemsAtlas.CreateSprite("invincibilitySprite");
+        _invincibilitySprite = new Sprite(Core.Content.Load<Texture2D>("images/PowerUps/shield"));
         _invincibilitySprite.Scale = INV_SCALE;
 
         Texture2D bombTexture2D = Core.Content.Load<Texture2D>("images/PowerUps/dynamite-pack");

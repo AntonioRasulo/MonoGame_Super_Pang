@@ -54,8 +54,6 @@ public class Character
     private float _blinkTimer = 0f;
     private bool _isVisible = true;
 
-    private Invicible _invinciblePowerUp;
-
     public bool IsImmune => _immunityTimer > 0f;
 
     private SoundEffect _hitSoundEffect;
@@ -126,8 +124,6 @@ public class Character
 
         _harpoonAnimation = new Animation(harpoonFrames, TimeSpan.FromMilliseconds(HARPOON_DELAY));
 
-        _invinciblePowerUp = new Invicible(itemsAtlas.GetRegion("invincibilitySprite"));
-
         _hitSoundEffect = Core.Content.Load<SoundEffect>("audio/Sound effects/Boss hit 1");
 
     }
@@ -162,7 +158,6 @@ public class Character
             {
                 _immunityTimer = 0f;
                 _isVisible = true; // ensure visible when immunity ends
-                _invinciblePowerUp.isActive = false;
             }
         }
 
@@ -265,13 +260,7 @@ public class Character
             bullet.Draw();
         }
 
-        if (!_isVisible && !_invinciblePowerUp.isActive) return;
-
-        if(_invinciblePowerUp.isActive && _isVisible)
-        {
-            Vector2 invinciblePowerUpPos = new Vector2(_characterPosition.X, _characterPosition.Y);
-            _invinciblePowerUp.Draw(Core.SpriteBatch, invinciblePowerUpPos);
-        }
+        if(!_isVisible) return;
 
         Sprite currentAnimation = currentState switch
         {
@@ -322,11 +311,7 @@ public class Character
     public void activateImmunity(bool fromPowerUp = false)
     {
         _immunityTimer = _immunityDuration;
-        if (fromPowerUp)
-        {
-            _invinciblePowerUp.isActive = true;
-        }
-        else
+        if (!fromPowerUp)
         {
             _lives--;
             Core.Audio.PlaySoundEffect(_hitSoundEffect);

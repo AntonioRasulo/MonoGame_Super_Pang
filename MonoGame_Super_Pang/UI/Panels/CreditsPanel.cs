@@ -108,6 +108,11 @@ public class CreditsPanel : PangPanel
         AddDescriptionText("Sphere Design: ", 145.0f, -104.0f);
         AddContributorText("GameSupplyGuy", 145.0f, 0.0f);
         AddButton("https://gamesupply.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 146.0f, 57.0f);
+
+        /* Pixel Art Shield */
+        AddDescriptionText("Shield Pixel Art: ", 155.0f, -94.0f);
+        AddContributorText("havran", 155.0f, 11.0f);
+        AddButton("https://havran.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 156.0f, 43.0f);
     }
 
     public new void SetIsVisible(bool isVisible)
