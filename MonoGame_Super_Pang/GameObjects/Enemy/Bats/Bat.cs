@@ -140,7 +140,7 @@ abstract public class Bat : Enemy
         float height;
         float positionX;
         float positionY;
-        AnimatedSprite currentSprite = new AnimatedSprite();
+        Sprite currentSprite = new Sprite();
 
         switch (_state)
         {
@@ -173,9 +173,11 @@ abstract public class Bat : Enemy
                     }
                 }
                 break;
+            case BatState.Death:
+                currentSprite = _deathSprite;
+                break;
             case BatState.Fall:
             case BatState.Land:
-            case BatState.Death:
             return new Rectangle(0, 0, 0, 0);
         }
 

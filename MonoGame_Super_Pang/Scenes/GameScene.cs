@@ -472,6 +472,19 @@ public class GameScene : Scene
         _platforms.RemoveAll(platform => toRemovePlatform.Contains(platform));
         _character.removeHarpoons(toRemoveHarpoon);
 
+        /* Character - Dead Enemies collision */
+        foreach(Enemy enemy in _deadEnemies)
+        {
+            Rectangle deadEnemyRect = enemy.GetBounds();
+            if(characterBounds.Intersects(deadEnemyRect))
+            {
+                _score += enemy.GetScore();
+                _ui.UpdateScoreText(_score);
+                enemy.RemoveEnemy();
+                CollectibleHandler.PlayCollectibleSound();
+            }
+        }
+
         // Finally, check if the ball is colliding with a wall by validating if
         // it is within the bounds of the room.  If it is outside the room
         // bounds, then it collided with a wall, and the ball should bounce

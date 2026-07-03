@@ -119,4 +119,14 @@ abstract public class Enemy
         }
     }
 
+    public void RemoveEnemy()
+    {
+        _toRemove = true;
+    }
+
+    public int GetScore()
+    {
+        return _score;
+    }
+
 }

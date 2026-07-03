@@ -27,7 +27,7 @@ public class CollectibleHandler
     public static Animation _silverCoinAnimation;
     public static Animation _bronzeCoinAnimation;
 
-    private SoundEffect _collectSound;
+    private static SoundEffect _collectSound;
 
     private const int LIVES_MAX_PROB = 5; // 5%
     private const int FREEZE_MAX_PROB = 10; // 5%
@@ -147,6 +147,11 @@ public class CollectibleHandler
 
         return collectibleType.NONE;
 
+    }
+
+    public static void PlayCollectibleSound()
+    {
+        Core.Audio.PlaySoundEffect(_collectSound);
     }
 
 }
