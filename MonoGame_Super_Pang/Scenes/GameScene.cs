@@ -559,6 +559,8 @@ public class GameScene : Scene
                 BallType.RED_ROUND => Color.Red,
                 BallType.BLUE_ROUND => Color.Blue,
                 BallType.GREEN_SQUARED => Color.LightGreen,
+                BallType.LBLUE_SQUARED => Color.LightBlue,
+                BallType.DBLUE_SQUARED => Color.DarkBlue,
                 _ => Color.Red
             };
             _explosionAnimation.Add(new BallExplosion(color, ball.Position));
@@ -670,6 +672,8 @@ public class GameScene : Scene
                 case BallType.BLUE_ROUND:
                     _balls.Add(new BouncingBall(spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
                 break;
+                case BallType.LBLUE_SQUARED:
+                case BallType.DBLUE_SQUARED:
                 case BallType.GREEN_SQUARED:
                     _balls.Add(new ReflectiveBall(spawnConfig.Size, spawnConfig.DirectionX, ballType, spawnConfig.Position));
                 break;
@@ -744,6 +748,8 @@ public class GameScene : Scene
                     toAddBall.Add(leftBall);
                 }
                 break;
+                case BallType.LBLUE_SQUARED:
+                case BallType.DBLUE_SQUARED:
                 case BallType.GREEN_SQUARED:
                 {
                     Ball leftBall = new ReflectiveBall(ballSize-1, -1f, ballType);

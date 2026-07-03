@@ -85,10 +85,10 @@ public class BouncingBall : Ball
     {
         _ballSprite = _ballType switch
         {
-            BallType.RED_ROUND => new Sprite(_redBallRoundRegion),
-            BallType.GREEN_ROUND => new Sprite(_greenBallRoundRegion),
-            BallType.BLUE_ROUND => new Sprite(_blueBallRoundRegion),
-            _ => new Sprite(_blueBallRoundRegion)
+            BallType.RED_ROUND => new Sprite(_redBallRoundTexture),
+            BallType.GREEN_ROUND => new Sprite(_greenBallRoundTexture),
+            BallType.BLUE_ROUND => new Sprite(_blueBallRoundTexture),
+            _ => new Sprite(_blueBallRoundTexture)
         };
     }
 

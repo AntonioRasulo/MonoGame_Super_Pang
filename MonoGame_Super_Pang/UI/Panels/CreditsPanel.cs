@@ -103,6 +103,11 @@ public class CreditsPanel : PangPanel
         AddDescriptionText("Dynamite Pixel Art: ", 135.0f, -85.0f);
         AddContributorText("tumas81", 135.0f, 11.0f);
         AddButton("https://tumas81.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 136.0f, 43.0f);
+
+        /* Balls Design */
+        AddDescriptionText("Sphere Design: ", 145.0f, -104.0f);
+        AddContributorText("GameSupplyGuy", 145.0f, 0.0f);
+        AddButton("https://gamesupply.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 146.0f, 57.0f);
     }
 
     public new void SetIsVisible(bool isVisible)

@@ -68,7 +68,7 @@ public static class LevelRegistry
                 {
                     Size = BallSize.LARGE,
                     DirectionX = -1f,
-                    BallType = BallType.GREEN_SQUARED,
+                    BallType = BallType.LBLUE_SQUARED,
                     Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f - 30f)
                 }
             },
@@ -304,7 +304,7 @@ public static class LevelRegistry
             Balls = new List<BallSpawnConfig>
             {
                 new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = 1f, BallType = BallType.RED_ROUND, Position = new Vector2(screenWidth * 0.75f, screenHeight * 0.5f) },
-                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = -1f, BallType = BallType.GREEN_SQUARED, Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f) }
+                new BallSpawnConfig { Size = BallSize.LARGE, DirectionX = -1f, BallType = BallType.DBLUE_SQUARED, Position = new Vector2(screenWidth * 0.25f, screenHeight * 0.5f) }
             },
             Platforms = new List<PlatformConfig>
             {

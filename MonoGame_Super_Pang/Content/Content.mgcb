@@ -690,32 +690,77 @@
 /processorParam:TextureFormat=Color
 /build:images/backgrounds/clouds9/5.png
 
-#begin images/balls/baloons_atlas.xml
-/copy:images/balls/baloons_atlas.xml
-
-#begin images/balls/baloons.png
+#begin images/balls/Bouncing/BlueBounceBall.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=128,0,255,255
+/processorParam:ColorKeyColor=255,0,255,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/balls/baloons.png
+/build:images/balls/Bouncing/BlueBounceBall.png
 
-#begin images/balls/HexagonGreenBall.png
+#begin images/balls/Bouncing/GreenBounceBall.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=128,0,255,255
+/processorParam:ColorKeyColor=255,0,255,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/balls/HexagonGreenBall.png
+/build:images/balls/Bouncing/GreenBounceBall.png
+
+#begin images/balls/Bouncing/RedBounceBall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/balls/Bouncing/RedBounceBall.png
+
+#begin images/balls/Reflective/DarkBlueReflBall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/balls/Reflective/DarkBlueReflBall.png
+
+#begin images/balls/Reflective/GreenReflBall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/balls/Reflective/GreenReflBall.png
+
+#begin images/balls/Reflective/LightBlueReflBall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/balls/Reflective/LightBlueReflBall.png
 
 #begin images/Character/char_atlas.xml
 /copy:images/Character/char_atlas.xml

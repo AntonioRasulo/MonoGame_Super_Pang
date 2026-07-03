@@ -18,7 +18,9 @@ public enum BallType
     GREEN_ROUND,
     RED_ROUND,
     BLUE_ROUND,
-    GREEN_SQUARED
+    GREEN_SQUARED,
+    LBLUE_SQUARED,
+    DBLUE_SQUARED
 }
 
 abstract public class Ball
@@ -43,11 +45,12 @@ abstract public class Ball
     private static SoundEffect _bounceSoundEffect;
     private static SoundEffect _popSoundEffect;
 
-    protected static TextureRegion _redBallRoundRegion;
-    protected static TextureRegion _blueBallRoundRegion;
-    protected static TextureRegion _greenBallRoundRegion;
-
-    protected static TextureRegion _greenBallSquaredRegion;
+    protected static Texture2D _redBallRoundTexture;
+    protected static Texture2D _blueBallRoundTexture;
+    protected static Texture2D _greenBallRoundTexture;
+    protected static Texture2D _greenBallSquaredTexture;
+    protected static Texture2D _lBlueBallSquaredTexture;
+    protected static Texture2D _dBlueBallSquaredTexture;
 
     public static Animation _explosionAnimation;
 
@@ -61,9 +64,9 @@ abstract public class Ball
 
         _scale = _ballSize switch
         {
-            BallSize.LARGE => 4.0f,
-            BallSize.MEDIUM => 2.0f,
-            BallSize.SMALL => 1.0f,
+            BallSize.LARGE => 1.0f,
+            BallSize.MEDIUM => 0.5f,
+            BallSize.SMALL => 0.25f,
             _ => 1.0f
         };
 
@@ -161,13 +164,12 @@ abstract public class Ball
     {
         TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
 
-        _redBallRoundRegion = itemsAtlas.GetRegion("redBall");
-        _blueBallRoundRegion = itemsAtlas.GetRegion("blueBall");
-        _greenBallRoundRegion = itemsAtlas.GetRegion("greenBall");
-
-        Texture2D greenSquaredTexture = Core.Content.Load<Texture2D>("images/balls/HexagonGreenBall");
-
-        _greenBallSquaredRegion = new TextureRegion(greenSquaredTexture, 0, 0, greenSquaredTexture.Width, greenSquaredTexture.Height);
+        _redBallRoundTexture = Core.Content.Load<Texture2D>("images/balls/Bouncing/RedBounceBall");
+        _blueBallRoundTexture = Core.Content.Load<Texture2D>("images/balls/Bouncing/BlueBounceBall");
+        _greenBallRoundTexture = Core.Content.Load<Texture2D>("images/balls/Bouncing/GreenBounceBall");
+        _greenBallSquaredTexture = Core.Content.Load<Texture2D>("images/balls/Reflective/GreenReflBall");
+        _dBlueBallSquaredTexture = Core.Content.Load<Texture2D>("images/balls/Reflective/DarkBlueReflBall");
+        _lBlueBallSquaredTexture = Core.Content.Load<Texture2D>("images/balls/Reflective/LightBlueReflBall");
 
         _popSoundEffect = Core.Content.Load<SoundEffect>("audio/Sound effects/Balloon Pop 1");
         _bounceSoundEffect = Core.Content.Load<SoundEffect>("audio/Sound effects/bounce");

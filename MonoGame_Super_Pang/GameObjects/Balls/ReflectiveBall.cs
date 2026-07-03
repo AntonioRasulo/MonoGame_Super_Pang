@@ -67,8 +67,10 @@ public class ReflectiveBall : Ball
     {
         _ballSprite = _ballType switch
         {
-            BallType.GREEN_SQUARED => new Sprite(_greenBallSquaredRegion),
-            _ => new Sprite(_greenBallSquaredRegion)
+            BallType.GREEN_SQUARED => new Sprite(_greenBallSquaredTexture),
+            BallType.DBLUE_SQUARED => new Sprite(_dBlueBallSquaredTexture),
+            BallType.LBLUE_SQUARED => new Sprite(_lBlueBallSquaredTexture),
+            _ => new Sprite(_greenBallSquaredTexture)
         };
     }
 
