@@ -358,6 +358,11 @@ public class GameScene : Scene
                 }
             }
         }
+        if(_enemies.Count == 1 && _enemies[0]._isDead)
+        {
+            _score += _enemies[0].GetScore();
+            _ui.UpdateScoreText(_score);
+        }
         _enemies.RemoveAll(enemy => enemy._isDead);
         _character.removeHarpoons(toRemoveHarpoon);
 
