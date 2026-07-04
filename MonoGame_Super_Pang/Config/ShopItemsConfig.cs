@@ -93,9 +93,9 @@ public class ShopItemsConfig
 
     public static readonly Dictionary<ShopItems, string> itemsDescriptions = new()
     {
-        {ShopItems.HARPOON, "Increase the number of harpoon that the\nchracter can shoot simultaneously."},
-        {ShopItems.SPEED, "Increase the speed of the character."},
-        {ShopItems.LIVES, "Increase the number of initial lives."},
+        {ShopItems.HARPOON, "Increases the number of harpoons that the\ncharacter can shoot simultaneously."},
+        {ShopItems.SPEED, "Increases the speed of the character."},
+        {ShopItems.LIVES, "Increases the number of initial lives."},
         {ShopItems.COLL_LIVES, "Probability that balloons and monsters drop\nlive power up when get shot."},
         {ShopItems.INVINCIBILITY, "Probability that balloons and monsters drop\ninvincibility power up when get shot.\nThis power up makes the character\ninvincible for 3 seconds."},
         {ShopItems.BOMB, "Probability that balloons and monsters drop\nbomb power up when get shot.\nThis power up hits all the balloons and monsters\non the fields."},
