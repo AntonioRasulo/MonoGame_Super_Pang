@@ -80,7 +80,6 @@ public class Character
     private void LoadContent()
     {
         TextureAtlas characterAtlas = TextureAtlas.FromFile(Core.Content, "images/Character/char_atlas.xml");
-        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
         TextureAtlas shootingAtlas = TextureAtlas.FromFile(Core.Content, "images/Character/shooting_atlas.xml");
 
         _idleSprite = characterAtlas.CreateSprite("char1");

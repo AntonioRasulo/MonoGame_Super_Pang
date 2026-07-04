@@ -1887,6 +1887,21 @@
 /processorParam:TextureFormat=Color
 /build:images/Items/items.png
 
+#begin images/platforms/platform_atlas.xml
+/copy:images/platforms/platform_atlas.xml
+
+#begin images/platforms/Platform.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=31,201,58,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/platforms/Platform.png
+
 #begin images/platforms/Terrain (16x16).png
 /importer:TextureImporter
 /processor:TextureProcessor

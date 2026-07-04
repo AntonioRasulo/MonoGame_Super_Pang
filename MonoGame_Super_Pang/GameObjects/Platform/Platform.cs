@@ -62,19 +62,19 @@ abstract public class Platform
 
     public static void LoadContent()
     {
-        TextureAtlas platformAtlas = TextureAtlas.FromFile(Core.Content, "images/platforms/terrain_atlas.xml");
-        TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
+        TextureAtlas terrainAtlas = TextureAtlas.FromFile(Core.Content, "images/platforms/terrain_atlas.xml");
+        TextureAtlas platformAtlas = TextureAtlas.FromFile(Core.Content, "images/platforms/platform_atlas.xml");
 
-        _grayPlatform = platformAtlas.GetRegion("GrayPlatform");
-        _goldPlatform = platformAtlas.GetRegion("GoldPlatform");
-        _brownPlatform = platformAtlas.GetRegion("BrownPlatform");
-        _caramelPlatform = platformAtlas.GetRegion("CaramelPlatform");
+        _grayPlatform = terrainAtlas.GetRegion("GrayPlatform");
+        _goldPlatform = terrainAtlas.GetRegion("GoldPlatform");
+        _brownPlatform = terrainAtlas.GetRegion("BrownPlatform");
+        _caramelPlatform = terrainAtlas.GetRegion("CaramelPlatform");
 
         _horizontalBreakableBlueSprites = new List<TextureRegion>();
         for(int indexPlatform = 1; indexPlatform<=3; indexPlatform++)
         {
-            String spriteName = "largeBreakableBluePlatform"+indexPlatform;
-            _horizontalBreakableBlueSprites.Add(itemsAtlas.GetRegion(spriteName));
+            String spriteName = "Breakable"+indexPlatform;
+            _horizontalBreakableBlueSprites.Add(platformAtlas.GetRegion(spriteName));
         }
 
         _breakPlatformEffect = Core.Content.Load<SoundEffect>("audio/Sound Effects/Block Break 1");

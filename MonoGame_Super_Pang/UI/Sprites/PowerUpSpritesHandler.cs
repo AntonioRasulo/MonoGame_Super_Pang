@@ -23,8 +23,6 @@ public static class PowerUpSpritesHandler
         _Xicon = book2Atlas.GetRegion("x-icon");
         _Vicon = book2Atlas.GetRegion("v-icon");
 
-        TextureAtlas _itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
-
         Texture2D harpoonTexture = Core.Content.Load<Texture2D>("images/PowerUps/Harpoon");
         TextureRegion _harpoonRegion = new TextureRegion(harpoonTexture, 0, 0, harpoonTexture.Width, harpoonTexture.Height);
 

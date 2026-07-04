@@ -22,7 +22,7 @@ public class CreditsPanel : PangPanel
         _backButton.Text = "BACK";
         _backButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
         _backButton.X = -28f;
-        _backButton.Y = -10f;
+        _backButton.Y = -20f;
         _backButton.Click += TitlePanelManager.HandleOptionsButtonBack;
         _panel.AddChild(_backButton);
 
@@ -113,6 +113,10 @@ public class CreditsPanel : PangPanel
         AddDescriptionText("Shield Pixel Art: ", 155.0f, -94.0f);
         AddContributorText("havran", 155.0f, 11.0f);
         AddButton("https://havran.itch.io/", itchLogo, itchLogo.Bounds, 0.015f, 156.0f, 43.0f);
+
+        /* Character Pixel Art */
+        AddDescriptionText("Character Pixel Art: ", 165.0f, -80.0f);
+        AddContributorText("Abby Sheehan", 165.0f, 45.0f);
     }
 
     public new void SetIsVisible(bool isVisible)

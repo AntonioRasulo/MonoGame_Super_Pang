@@ -47,7 +47,6 @@ public class CollectibleHandler
 
     private void LoadContent()
     {
-        //TextureAtlas itemsAtlas = TextureAtlas.FromFile(Core.Content, "images/Items/items-atlas.xml");
         TextureAtlas coinsAtlas = TextureAtlas.FromFile(Core.Content, "images/Coins/coins_atlas.xml");
 
         _livesSprite = new Sprite(Core.Content.Load<Texture2D>("images/PowerUps/lives"));
